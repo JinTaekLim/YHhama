@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:8
+    container_name: YHhama-db
+    environment:
+      - "MYSQL_RANDOM_ROOT_PASSWORD=true"
+      - "MYSQL_DATABASE=YHhama"
+      - "MYSQL_USER=adminYH"
+      - "MYSQL_PASSWORD=adminYH"
+    ports:
+      - "3320:3306"
