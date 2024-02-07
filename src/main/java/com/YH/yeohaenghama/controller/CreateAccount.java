@@ -30,7 +30,7 @@ public class CreateAccount {
 
         accountService.createAccount(account);
 
-        System.out.println("로그인 성공");
+        System.out.println("회원가입 성공");
         return "/login";
     }
 }
