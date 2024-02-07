@@ -8,16 +8,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 
 public class Account {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Getter @Setter
-    private Long accountNum;
-    @Getter @Setter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String email;
-    @Getter @Setter
     private String pw;
-    @Getter @Setter
     private String photoUrl;
-    @Getter @Setter
     private String nickname;
+
+    private AccountRole role = AccountRole.ACCOUNT;
 }
