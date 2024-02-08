@@ -33,6 +33,7 @@ public class LoginAccount {
             // 로그인 성공 시 세션에 사용자 정보를 저장합니다.
             httpSession.setAttribute("loggedInUser", account);
             httpSession.setAttribute("nickname", account.getNickname()); // 닉네임 저장
+
             return "redirect:/home"; // 로그인 성공 시 홈페이지로 리다이렉트
         } else {
             model.addAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
