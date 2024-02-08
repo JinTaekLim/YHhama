@@ -6,6 +6,7 @@ import com.YH.yeohaenghama.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,7 @@ public class AccountService {
     public Account login(LoginRequest req) {
         Optional<Account> optionalUser = accountRepository.findByEmail(req.getEmail());
 
+
         // loginId와 일치하는 User가 없으면 null return
         if(optionalUser.isEmpty()) {
             return null;
@@ -37,21 +39,14 @@ public class AccountService {
         return account;
     }
 
-    public Account getLoginUserById(Long userId) {
-        if(userId == null) return null;
 
-        Optional<Account> optionalUser = accountRepository.findById(userId);
-        if(optionalUser.isEmpty()) return null;
+//    public Account getLoginUserById(Long userId) {
+//        if(userId == null) return null;
+//
+//        Optional<Account> optionalUser = accountRepository.findById(userId);
+//        if(optionalUser.isEmpty()) return null;
+//
+//        return optionalUser.get();
+//    }
 
-        return optionalUser.get();
-    }
-
-    public Account getLoginUserByLoginId(String loginId) {
-        if(loginId == null) return null;
-
-        Optional<Account> optionalUser = accountRepository.findByEmail(loginId);
-        if(optionalUser.isEmpty()) return null;
-
-        return optionalUser.get();
-    }
 }
