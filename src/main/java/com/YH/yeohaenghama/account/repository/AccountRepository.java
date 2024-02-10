@@ -1,6 +1,6 @@
-package com.YH.yeohaenghama.repository;
+package com.YH.yeohaenghama.account.repository;
 
-import com.YH.yeohaenghama.entity.Account;
+import com.YH.yeohaenghama.account.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

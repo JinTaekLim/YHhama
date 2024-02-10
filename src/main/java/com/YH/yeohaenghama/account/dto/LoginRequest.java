@@ -1,4 +1,4 @@
-package com.YH.yeohaenghama.dto;
+package com.YH.yeohaenghama.account.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

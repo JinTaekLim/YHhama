@@ -1,7 +1,7 @@
-package com.YH.yeohaenghama.controller;
+package com.YH.yeohaenghama.account.controller;
 
-import com.YH.yeohaenghama.entity.Account;
-import com.YH.yeohaenghama.service.AccountService;
+import com.YH.yeohaenghama.account.entity.Account;
+import com.YH.yeohaenghama.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,12 +1,11 @@
-package com.YH.yeohaenghama.service;
+package com.YH.yeohaenghama.account.service;
 
-import com.YH.yeohaenghama.dto.LoginRequest;
-import com.YH.yeohaenghama.entity.Account;
-import com.YH.yeohaenghama.repository.AccountRepository;
+import com.YH.yeohaenghama.account.entity.Account;
+import com.YH.yeohaenghama.account.dto.LoginRequest;
+import com.YH.yeohaenghama.account.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,7 +20,7 @@ public class AccountService {
 
 
     public Account login(LoginRequest req) {
-        Optional<Account> optionalUser = accountRepository.findByEmail(req.getEmail());
+        Optional<Account> optionalUser = accountRepository. findByEmail(req.getEmail());
 
 
         // loginId와 일치하는 User가 없으면 null return

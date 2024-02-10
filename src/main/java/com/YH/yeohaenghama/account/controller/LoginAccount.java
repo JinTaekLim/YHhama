@@ -1,8 +1,8 @@
-package com.YH.yeohaenghama.controller;
+package com.YH.yeohaenghama.account.controller;
 
-import com.YH.yeohaenghama.dto.LoginRequest;
-import com.YH.yeohaenghama.entity.Account;
-import com.YH.yeohaenghama.service.AccountService;
+import com.YH.yeohaenghama.account.dto.LoginRequest;
+import com.YH.yeohaenghama.account.entity.Account;
+import com.YH.yeohaenghama.account.service.AccountService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
