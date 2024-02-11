@@ -11,5 +11,7 @@ public class LoginRequest {
 
     private String email;
     private String pw;
+    private String photoUrl;
+    private String nickname;
 
 }
