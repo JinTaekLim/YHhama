@@ -1,4 +1,4 @@
-package com.YH.yeohaenghama.account.entity;
+package com.YH.yeohaenghama.domain.account.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
