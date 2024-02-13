@@ -1,4 +1,4 @@
-package com.YH.yeohaenghama.domain.test.dto;
+package com.YH.yeohaenghama.domain.openApi.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-    package com.YH.yeohaenghama.domain.test.controller;
+    package com.YH.yeohaenghama.domain.openApi.controller;
 
-    import com.YH.yeohaenghama.domain.test.dto.OpenApiDto;
+    import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDto;
     import lombok.extern.slf4j.Slf4j;
     import org.springframework.web.bind.annotation.PostMapping;
     import org.springframework.web.bind.annotation.RequestBody;
@@ -11,8 +11,6 @@
     import java.net.HttpURLConnection;
     import java.net.URL;
     import java.net.URLEncoder;
-
-    import static org.hibernate.query.sqm.tree.SqmNode.log;
 
     @Slf4j
     @RestController

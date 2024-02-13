@@ -1,4 +1,4 @@
-package com.YH.yeohaenghama.domain.test;
+package com.YH.yeohaenghama.domain.openApi;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
