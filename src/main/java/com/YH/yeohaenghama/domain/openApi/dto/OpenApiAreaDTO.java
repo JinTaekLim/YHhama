@@ -6,11 +6,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class OpenApiDto {
+public class OpenApiAreaDTO {
 
     @Schema(description = "가져올 결과 수")
     private String numOfRows;
-    @Schema(description = "페이지 번호")
+    @Schema(description = "페이지 번호" , defaultValue = "1")
     private String page;
     @Schema(description = "OS 구분 : IOS (아이폰), AND (안드로이드), WIN (윈도우폰), ETC(기타)")
     private String MobileOS;
