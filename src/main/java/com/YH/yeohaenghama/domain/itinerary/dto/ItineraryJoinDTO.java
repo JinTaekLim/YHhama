@@ -12,8 +12,7 @@ public class ItineraryJoinDTO {
         private String name;
         private String account;
         private String transportation;
-        private String startPlace;
-        private String endPlace;
+        private String areae;
         private String startDate;
         private String endDate;
         private String expense;
@@ -24,8 +23,7 @@ public class ItineraryJoinDTO {
         private String name;
         private String account;
         private String transportation;
-        private String startPlace;
-        private String endPlace;
+        private String area;
         private String startDate;
         private String endDate;
         private String expense;
@@ -35,8 +33,7 @@ public class ItineraryJoinDTO {
             response.setName(itinerary.getName());
             response.setAccount(itinerary.getAccount());
             response.setTransportation(itinerary.getTransportation());
-            response.setStartPlace(itinerary.getStartPlace());
-            response.setEndPlace(itinerary.getEndPlace());
+            response.setArea(itinerary.getArea());
             response.setStartDate(itinerary.getStartDate());
             response.setEndDate(itinerary.getEndDate());
             response.setExpense(itinerary.getExpense());
@@ -60,8 +57,7 @@ public class ItineraryJoinDTO {
                 .name(request.getName())
                 .account(request.getAccount())
                 .transportation(request.getTransportation())
-                .startPlace(request.getStartPlace())
-                .endPlace(request.getEndPlace())
+                .area(request.getAreae())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .expense(request.getExpense())

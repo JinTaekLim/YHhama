@@ -14,18 +14,15 @@ public class Itinerary {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String name;    // 일정 제목
 
     @Column(nullable = false)
-    private String account;
+    private String account;     // 일정 제작한 유저 계정
 
-    private String transportation = "bus";
-
-    @Column(nullable = false)
-    private String startPlace;
+    private String transportation = "bus";      // 교통 수단
 
     @Column(nullable = false)
-    private String endPlace;
+    private String area;      // 출발지
 
     @Column(nullable = false)
     private String startDate;
@@ -37,13 +34,12 @@ public class Itinerary {
 
 
     @Builder
-    public Itinerary(String name, Long id, String account, String transportation, String startPlace, String endPlace, String startDate, String endDate, String expense) {
+    public Itinerary(String name, Long id, String account, String transportation, String area, String startDate, String endDate, String expense) {
         this.name = name;
         this.id = id;
         this.account = account;
         this.transportation = (transportation != null && !transportation.isEmpty()) ? transportation : "1";;
-        this.startPlace = startPlace;
-        this.endPlace = endPlace;
+        this.area = area;
         this.startDate = startDate;
         this.endDate = endDate;
         this.expense = expense;
