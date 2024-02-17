@@ -1,7 +1,11 @@
 package com.YH.yeohaenghama.domain.itinerary.dto;
 
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
+import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class ItineraryJoinDTO {
@@ -12,7 +16,7 @@ public class ItineraryJoinDTO {
         private String name;
         private String account;
         private String transportation;
-        private String areae;
+        private String area;
         private String startDate;
         private String endDate;
         private String expense;
@@ -57,7 +61,7 @@ public class ItineraryJoinDTO {
                 .name(request.getName())
                 .account(request.getAccount())
                 .transportation(request.getTransportation())
-                .area(request.getAreae())
+                .area(request.getArea())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .expense(request.getExpense())

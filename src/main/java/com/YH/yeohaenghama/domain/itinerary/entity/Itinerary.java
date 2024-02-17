@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -31,7 +33,6 @@ public class Itinerary {
     private String endDate;
 
     private String expense = "null";
-
 
     @Builder
     public Itinerary(String name, Long id, String account, String transportation, String area, String startDate, String endDate, String expense) {
