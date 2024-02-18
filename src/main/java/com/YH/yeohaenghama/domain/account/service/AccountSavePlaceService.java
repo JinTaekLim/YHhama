@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -20,15 +21,10 @@ public class AccountSavePlaceService {
     private final AccountRepository accountRepository;
 
     public void SavePlace(AccountSavePlaceDTO req, Long accountId){
-        Account account = accountRepository.findById(accountId)
-                .orElse(null);
 
-        if (account == null) {
-            log.info("해당 id 값을 가진 유저가 존재하지 않습니다. : ");
-            throw new RuntimeException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + account);
-        }
+        Account account = findAccountById(accountId);
 
-        log.info("유저 조회 성공");
+        log.info("[SavePlace] 유저 조회 성공");
 
         List<AccountSavePlace> accountData = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_Id(req.getContentTypeId(), req.getPlaceNum(), accountId);
 
@@ -44,5 +40,37 @@ public class AccountSavePlaceService {
         }
     }
 
+
+    public List<AccountSavePlaceDTO> ViewSavePlace(Long accountId) {
+        Account account = findAccountById(accountId);
+        log.info("[ViewSavePlace] 유저 조회 성공");
+
+        List<AccountSavePlace> accountData = accountSavePlaceRepository.findByAccountId(accountId);
+
+        // accountId와 일치하는 데이터만 필터링하여 AccountSavePlaceDTO로 매핑
+        List<AccountSavePlaceDTO> filteredAccountData = accountData.stream()
+                .filter(place -> place.getAccount().getId().equals(accountId))
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+
+        return filteredAccountData;
+    }
+
     public void DeletePlace(Long accountId){}
+
+    private Account findAccountById(Long accountId) {
+        return accountRepository.findById(accountId)
+                .orElseThrow(() -> {
+                    log.info("해당 id 값을 가진 유저가 존재하지 않습니다. : ");
+                    return new RuntimeException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId);
+                });
+    }
+
+    private AccountSavePlaceDTO mapToDto(AccountSavePlace place) {
+        AccountSavePlaceDTO dto = new AccountSavePlaceDTO();
+        dto.setPlaceNum(place.getPlaceNum());
+        dto.setContentTypeId(place.getContentTypeId());
+        return dto;
+    }
+
 }

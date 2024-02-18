@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface AccountSavePlaceRepository extends JpaRepository<AccountSavePlace,Long> {
     List<AccountSavePlace> findByContentTypeIdAndPlaceNumAndAccount_Id(String contentTypeId, String placeNum, Long accountId);
+
+    List<AccountSavePlace> findByAccountId(Long accountId);
 }
