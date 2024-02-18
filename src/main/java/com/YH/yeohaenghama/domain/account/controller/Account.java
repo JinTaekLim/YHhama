@@ -2,9 +2,13 @@ package com.YH.yeohaenghama.domain.account.controller;
 
 import com.YH.yeohaenghama.domain.account.dto.AccountJoinDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
+import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
+import com.YH.yeohaenghama.domain.account.entity.AccountSavePlace;
+import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class Account {
 
     private final AccountService accountService;
+    private final AccountSavePlaceService accountSavePlaceService;
     private final HttpSession httpSession;
 
     @PostMapping("/join")
@@ -52,6 +57,16 @@ public class Account {
             return ResponseEntity.ok("로그인 되어 있지 않음");
         } else {
             return ResponseEntity.ok("로그인 되어 있음");
+        }
+    }
+
+    @PostMapping("/savePlace")
+    public ResponseEntity<String> savePlaceForAccount(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId) {
+        try {
+            accountSavePlaceService.SavePlace(requestDto, accountId);
+            return ResponseEntity.ok("장소 저장 완료");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장소 저장 실패: " + e.getMessage());
         }
     }
 }
