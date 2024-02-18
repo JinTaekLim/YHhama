@@ -63,7 +63,7 @@ public class Account {
     }
 
     @PostMapping("/savePlace")
-    public ResponseEntity<String> savePlaceForAccount(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId) {
+    public ResponseEntity<String> savePlace(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId) {
         try {
             accountSavePlaceService.SavePlace(requestDto, accountId);
             return ResponseEntity.ok("장소 저장 완료");
@@ -75,5 +75,15 @@ public class Account {
     @GetMapping("/{accountId}")
     public List<AccountSavePlaceDTO> viewSavePlaces(@PathVariable Long accountId) {
         return accountSavePlaceService.ViewSavePlace(accountId);
+    }
+
+    @PostMapping("/deletePlace")
+    public ResponseEntity<String> deletePlace(@RequestParam Long accountId, @RequestParam Long placeId){
+        try {
+            accountSavePlaceService.DeletePlace(accountId,placeId);
+            return ResponseEntity.ok("저장된 장소 삭제 완료");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("저장된 장소 삭제 실패: " + e.getMessage());
+        }
     }
 }

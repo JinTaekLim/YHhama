@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +43,7 @@ public class AccountSavePlaceService {
 
 
     public List<AccountSavePlaceDTO> ViewSavePlace(Long accountId) {
-        Account account = findAccountById(accountId);
+        findAccountById(accountId);
         log.info("[ViewSavePlace] 유저 조회 성공");
 
         List<AccountSavePlace> accountData = accountSavePlaceRepository.findByAccountId(accountId);
@@ -56,7 +57,20 @@ public class AccountSavePlaceService {
         return filteredAccountData;
     }
 
-    public void DeletePlace(Long accountId){}
+    public void DeletePlace(Long accountId, Long savePlaceId) {
+        findAccountById(accountId);
+        log.info("[DeletePlace] 유저 조회 성공");
+
+        Optional<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findById(savePlaceId);
+
+        if (placeToDelete.isPresent() && placeToDelete.get().getAccount().getId().equals(accountId)) {
+            accountSavePlaceRepository.deleteById(savePlaceId);
+            log.info("[DeletePlace] 해당 장소 저장 정보 삭제 완료");
+        } else {
+            log.info("[DeletePlace] 해당하는 장소 저장 정보가 없거나 유저에게 속하지 않습니다.");
+        }
+    }
+
 
     private Account findAccountById(Long accountId) {
         return accountRepository.findById(accountId)
