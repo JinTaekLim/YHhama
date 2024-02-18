@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.*;
+
 
 @RestController
 @RequestMapping("/api/account")
@@ -24,6 +26,8 @@ public class Account {
     private final AccountSavePlaceService accountSavePlaceService;
     private final HttpSession httpSession;
 
+
+    @Operation(summary = "회원가입")
     @PostMapping("/join")
     public ResponseEntity<String> createAccount(@RequestBody AccountJoinDTO request) {
         com.YH.yeohaenghama.domain.account.entity.Account account = new com.YH.yeohaenghama.domain.account.entity.Account();
@@ -35,6 +39,7 @@ public class Account {
         return ResponseEntity.ok("회원가입 성공");
     }
 
+    @Operation(summary = "로그인")
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AccountLoginDTO req) {
         com.YH.yeohaenghama.domain.account.entity.Account account = accountService.login(req);
@@ -47,12 +52,14 @@ public class Account {
         }
     }
 
+    @Operation(summary = "로그아웃")
     @GetMapping("/logout")
     public ResponseEntity<String> logout() {
         httpSession.removeAttribute("loggedInUser");
         return ResponseEntity.ok("로그아웃 성공");
     }
 
+    @Operation(summary = "로그인 상태 확인")
     @GetMapping("/home")
     public ResponseEntity<String> home() {
         if (httpSession.getAttribute("loggedInUser") == null) {
@@ -62,6 +69,7 @@ public class Account {
         }
     }
 
+    @Operation(summary = "장소 저장")
     @PostMapping("/savePlace")
     public ResponseEntity<String> savePlace(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId) {
         try {
@@ -72,11 +80,13 @@ public class Account {
         }
     }
 
+    @Operation(summary = "저장한 장소 조회")
     @GetMapping("/{accountId}")
     public List<AccountSavePlaceDTO> viewSavePlaces(@PathVariable Long accountId) {
         return accountSavePlaceService.ViewSavePlace(accountId);
     }
 
+    @Operation(summary = "저장한 장소 삭제")
     @PostMapping("/deletePlace")
     public ResponseEntity<String> deletePlace(@RequestParam Long accountId, @RequestParam Long placeId){
         try {

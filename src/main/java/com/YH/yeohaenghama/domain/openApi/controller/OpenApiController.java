@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.openApi.controller;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDetailDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiImageDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ public class OpenApiController {
             @ApiResponse(responseCode = "500", description = "서버 에러")
     })
 
+    @Operation(summary = "관광지/음식점 키워드 검색")
     @PostMapping("/searchArea")
     public String searchArea(@RequestBody OpenApiAreaDTO req) {
         StringBuffer result = new StringBuffer();
@@ -60,6 +62,7 @@ public class OpenApiController {
     }
 
 
+    @Operation(summary = "관광지/음식점 상세 조회 ")
     @PostMapping("/searchDetail")
     public String searchDetail(@RequestBody OpenApiDetailDTO req) {
         StringBuffer result = new StringBuffer();
@@ -92,6 +95,7 @@ public class OpenApiController {
         return result.toString();
     }
 
+    @Operation(summary = "관광지/음식점 사진 조회")
     @PostMapping("/searchImage")
     public String searchImage(@RequestBody OpenApiImageDTO req) {
         StringBuffer result = new StringBuffer();

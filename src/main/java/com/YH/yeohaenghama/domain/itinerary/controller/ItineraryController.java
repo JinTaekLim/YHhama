@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class ItineraryController {
     private final ItineraryService itineraryService;
     private final PlaceService placeService;
 
+    @Operation(summary = "일정 생성")
     @PostMapping("/join")
     public ResponseEntity<ItineraryJoinDTO.Response> createItinerary(@RequestBody ItineraryJoinDTO.Request req){
         log.info("itineraryJoinDTO 확인 ========> {}", req);
@@ -29,6 +31,7 @@ public class ItineraryController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "일정의 장소 추가")
     @PostMapping("/{itineraryId}")
     public ResponseEntity<String> createPlaces(@RequestBody List<PlaceJoinDTO> placeDTOs, @PathVariable Long itineraryId) {
         placeService.createPlaces(placeDTOs, itineraryId);
