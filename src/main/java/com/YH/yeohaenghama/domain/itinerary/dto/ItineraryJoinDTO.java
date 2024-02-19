@@ -14,7 +14,6 @@ public class ItineraryJoinDTO {
 
     @Schema(description = "장소 번호(코드)")
     private String name;
-    private String account;
     private String transportation;
     private String area;
     private String startDate;
@@ -27,8 +26,6 @@ public class ItineraryJoinDTO {
     public static class Request {
         @Schema(description = "일정 이름")
         private String name;
-        @Schema(description = "일정 제작한 계정")
-        private String account;
         @Schema(description = "교통 수단")
         private String transportation;
         @Schema(description = "여행 지역")
@@ -46,8 +43,6 @@ public class ItineraryJoinDTO {
     public static class Response {
         @Schema(description = "일정 이름")
         private String name;
-        @Schema(description = "일정 제작한 계정")
-        private String account;
         @Schema(description = "교통 수단")
         private String transportation;
         @Schema(description = "여행 지역")
@@ -62,7 +57,6 @@ public class ItineraryJoinDTO {
         public static Response fromEntity(Itinerary itinerary) {
             Response response = new Response();
             response.setName(itinerary.getName());
-            response.setAccount(itinerary.getAccount());
             response.setTransportation(itinerary.getTransportation());
             response.setArea(itinerary.getArea());
             response.setStartDate(itinerary.getStartDate());
@@ -86,7 +80,6 @@ public class ItineraryJoinDTO {
     public Itinerary toEntity() {
         Itinerary itinerary = Itinerary.builder()
                 .name(request.getName())
-                .account(request.getAccount())
                 .transportation(request.getTransportation())
                 .area(request.getArea())
                 .startDate(request.getStartDate())

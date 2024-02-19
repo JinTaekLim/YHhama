@@ -23,11 +23,9 @@ public class ItineraryController {
     private final PlaceService placeService;
 
     @Operation(summary = "일정 생성")
-    @PostMapping("/join")
-    public ResponseEntity<ItineraryJoinDTO.Response> createItinerary(@RequestBody ItineraryJoinDTO.Request req){
-        log.info("itineraryJoinDTO 확인 ========> {}", req);
-        itineraryService.save(req);
-        ItineraryJoinDTO.Response response = new ItineraryJoinDTO.Response();
+    @PostMapping("/join/{accountId}") //
+    public ResponseEntity<ItineraryJoinDTO.Response> saveItinerary(@RequestBody ItineraryJoinDTO.Request reqDTO, @PathVariable Long accountId) {
+        ItineraryJoinDTO.Response response = itineraryService.save(reqDTO, accountId);
         return ResponseEntity.ok(response);
     }
 
