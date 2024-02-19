@@ -13,6 +13,7 @@ public class Place {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int day;
     private String placeNum;
     private String placeName;
 

@@ -48,6 +48,7 @@ public class PlaceService {
 
         for (PlaceJoinDTO placeDTO : placeDTOs) {
             Place place = new Place();
+            place.setDay(placeDTO.getDay());
             place.setPlaceName(placeDTO.getPlaceName());
             place.setPlaceNum(placeDTO.getPlaceNum());
             place.setItinerary(itinerary);
