@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.itinerary.entity;
 
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -19,8 +20,9 @@ public class Itinerary {
     @Column(nullable = false)
     private String name;    // 일정 제목
 
-    @Column(nullable = false)
-    private String account;     // 일정 제작한 유저 계정
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account; // 일정을 제작한 유저 번호
 
     private String transportation = "bus";      // 교통 수단
 
@@ -35,11 +37,16 @@ public class Itinerary {
 
     private String expense = "null";
 
+
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Builder
-    public Itinerary(String name, Long id, String account, String transportation, String area, String startDate, String endDate, String expense) {
+    public Itinerary(String name, Long id, String transportation, String area, String startDate, String endDate, String expense) {
         this.name = name;
         this.id = id;
-        this.account = account;
         this.transportation = (transportation != null && !transportation.isEmpty()) ? transportation : "1";;
         this.area = area;
         this.startDate = startDate;

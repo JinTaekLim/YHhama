@@ -18,13 +18,28 @@ import java.util.Optional;
 
 public class ItineraryService {
     private final ItineraryRepository itineraryRepository;
+    private final AccountRepository accountRepository;
 
-    public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO) {
+    public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO, Long accountId) {
+
+
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new RuntimeException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId));
+
+
         ItineraryJoinDTO itineraryJoinDTO = new ItineraryJoinDTO(reqDTO);
-        Itinerary itinerary = itineraryRepository.save(itineraryJoinDTO.toEntity());
+        Itinerary itinerary = itineraryJoinDTO.toEntity();
+
+
+        itinerary.setAccount(account);
+        itinerary = itineraryRepository.save(itinerary);
+
+        log.info("일정 저장 완료");
+
         return ItineraryJoinDTO.Response.fromEntity(itinerary);
+
     }
 
 
-
 }
+
