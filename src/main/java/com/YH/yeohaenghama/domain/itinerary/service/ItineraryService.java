@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,16 @@ public class ItineraryService {
 
     }
 
+    public Itinerary show(Long itineraryId){
+        Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
+
+        if (optionalItinerary.isPresent()) {
+            return optionalItinerary.get();
+        } else {
+            // 조회된 일정이 없을 경우에는 RuntimeException을 던집니다.
+            throw new RuntimeException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+        }
+    }
 
 }
 

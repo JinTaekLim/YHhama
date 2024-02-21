@@ -36,5 +36,11 @@ public class ItineraryController {
         return ResponseEntity.status(HttpStatus.CREATED).body("[일정]장소 추가 성공");
     }
 
+    @Operation(summary = "제작된 일정 확인")
+    @GetMapping("/show/{itineraryId}")
+    public ResponseEntity<Itinerary> showItinerary(@PathVariable Long itineraryId){
+        return ResponseEntity.ok(itineraryService.show(itineraryId));
+
+    }
 
 }

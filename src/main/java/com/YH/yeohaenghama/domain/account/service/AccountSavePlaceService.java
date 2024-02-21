@@ -48,7 +48,7 @@ public class AccountSavePlaceService {
 
         List<AccountSavePlace> accountData = accountSavePlaceRepository.findByAccountId(accountId);
 
-        // accountId와 일치하는 데이터만 필터링하여 AccountSavePlaceDTO로 매핑
+
         List<AccountSavePlaceDTO> filteredAccountData = accountData.stream()
                 .filter(place -> place.getAccount().getId().equals(accountId))
                 .map(this::mapToDto)
