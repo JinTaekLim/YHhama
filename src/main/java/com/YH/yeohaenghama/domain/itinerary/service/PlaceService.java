@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -57,4 +58,16 @@ public class PlaceService {
         log.info("새로운 장소 추가 성공");
     }
 
+
+
+    public Place show(Long placeId){
+        Optional<Place> optionalPlace = placeRepository.findById(placeId);
+
+        if (optionalPlace.isPresent()) {
+            return optionalPlace.get();
+        } else {
+            // 조회된 일정이 없을 경우에는 RuntimeException을 던집니다.
+            throw new RuntimeException("해당 id 값을 가진 일정 장소가 존재하지 않습니다. : " + placeId);
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.itinerary.controller;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
+import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,4 +44,11 @@ public class ItineraryController {
 
     }
 
+
+    @Operation(summary = "제작된 일정 장소 확인")
+    @GetMapping("/show/{placeId}")
+    public ResponseEntity<Place> showPlace(@PathVariable Long placeId){
+        return ResponseEntity.ok(placeService.show(placeId));
+
+    }
 }
