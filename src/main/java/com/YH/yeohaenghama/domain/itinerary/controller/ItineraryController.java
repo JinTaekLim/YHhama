@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.itinerary.controller;
 
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
+import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,9 +49,24 @@ public class ItineraryController {
 
 
     @Operation(summary = "제작된 일정 장소 확인")
-    @GetMapping("/showPlace /{placeId}")
-    public ResponseEntity<Place> showPlace(@PathVariable Long placeId){
-        return ResponseEntity.ok(placeService.show(placeId));
-
+    @GetMapping("/showPlace/{itineraryId}")
+    public ResponseEntity<List<PlaceShowDTO>> showPlace(@PathVariable Long itineraryId) {
+        if (itineraryId == null) {
+            throw new IllegalArgumentException("itineraryId를 제공해야 합니다.");
+        }
+        List<Place> places = placeService.show(itineraryId);
+        // Place 엔티티를 PlaceDTO로 변환
+        List<PlaceShowDTO> placeDTOs = places.stream()
+                .map(place -> {
+                    PlaceShowDTO dto = new PlaceShowDTO();
+                    dto.setDay(place.getDay());
+                    dto.setPlaceNum(place.getPlaceNum());
+                    dto.setPlaceName(place.getPlaceName());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(placeDTOs);
     }
+
+
 }

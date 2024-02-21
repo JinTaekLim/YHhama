@@ -60,14 +60,11 @@ public class PlaceService {
 
 
 
-    public Place show(Long placeId){
-        Optional<Place> optionalPlace = placeRepository.findById(placeId);
-
-        if (optionalPlace.isPresent()) {
-            return optionalPlace.get();
-        } else {
-            // 조회된 일정이 없을 경우에는 RuntimeException을 던집니다.
-            throw new RuntimeException("해당 id 값을 가진 일정 장소가 존재하지 않습니다. : " + placeId);
+    public List<Place> show(Long itineraryId) {
+        List<Place> places = placeRepository.findByItineraryId(itineraryId);
+        if (places.isEmpty()) {
+            log.warn("해당 itineraryId를 가진 장소가 존재하지 않습니다. Itinerary ID: {}", itineraryId);
         }
+        return places;
     }
 }
