@@ -38,7 +38,7 @@ public class ItineraryController {
     }
 
     @Operation(summary = "제작된 일정 확인")
-    @GetMapping("/show/{itineraryId}")
+    @GetMapping("/showItinerary/{itineraryId}")
     public ResponseEntity<Itinerary> showItinerary(@PathVariable Long itineraryId){
         return ResponseEntity.ok(itineraryService.show(itineraryId));
 
@@ -46,7 +46,7 @@ public class ItineraryController {
 
 
     @Operation(summary = "제작된 일정 장소 확인")
-    @GetMapping("/show/{placeId}")
+    @GetMapping("/showPlace /{placeId}")
     public ResponseEntity<Place> showPlace(@PathVariable Long placeId){
         return ResponseEntity.ok(placeService.show(placeId));
 
