@@ -1,0 +1,79 @@
+//package com.YH.yeohaenghama.domain.test.controller;
+//
+//import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
+//import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDetailDTO;
+//import com.YH.yeohaenghama.domain.openApi.dto.OpenApiImageDTO;
+//import io.swagger.v3.oas.annotations.Operation;
+//import io.swagger.v3.oas.annotations.responses.ApiResponse;
+//import lombok.extern.slf4j.Slf4j;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+//
+//import java.io.BufferedReader;
+//import java.io.InputStreamReader;
+//import java.net.HttpURLConnection;
+//import java.net.URL;
+//import java.net.URLEncoder;
+//
+//import io.swagger.v3.oas.annotations.responses.ApiResponse;
+//import io.swagger.v3.oas.annotations.responses.ApiResponses;
+//@Slf4j
+//@RestController
+//@RequestMapping("/test/openApi")
+//public class TestOpenAPi {
+//
+//    String serviceKey = "%2B1I%2BbTxxqsKlIjXBgNQX38e6gZOJnlCyPLnkFQUQFrpoCl9tEcII2L%2BvUeJuiaAFf3bN1wly8A6VzOw%2FGz9v7w%3D%3D";
+//
+//
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "성공"),
+//            @ApiResponse(responseCode = "400", description = "잘못된 접근"),
+//            @ApiResponse(responseCode = "500", description = "서버 에러")
+//    })
+//
+//    @Operation(summary = "관광지/음식점 키워드 검색")
+//    @PostMapping("/searchArea")
+//    public String searchArea(@RequestBody OpenApiAreaDTO req) {
+//        StringBuffer result = new StringBuffer();
+//        try {
+//            String encodedKeyword = URLEncoder.encode(req.getKeyword(), "UTF-8");
+//            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
+//                    "searchKeyword1?" +
+//                    "serviceKey=" + serviceKey +
+//                    "&numOfRows=1 " +
+//                    "&pageNo=1"  +
+//                    "&MobileOS= ETC" +
+//                    "&MobileApp=AppTest" +
+//                    "&_type=json" +
+//                    "&listYN=Y" +
+//                    "&arrange=A" +
+//                    "&keyword=" + encodedKeyword +
+//                    "&contentTypeId=" + req.getContentTypeId();
+//
+//
+//            String response = sendHttpRequest(apiUrl);
+//            result.append("<xmp>").append(response).append("</xmp>");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return result.toString();
+//    }
+//
+//
+//    private String sendHttpRequest(String apiUrl) throws Exception {
+//        URL url = new URL(apiUrl);
+//        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//        urlConnection.setRequestMethod("GET");
+//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+//        StringBuilder response = new StringBuilder();
+//        String returnLine;
+//        while ((returnLine = bufferedReader.readLine()) != null) {
+//            response.append(returnLine).append("\n");
+//        }
+//        urlConnection.disconnect();
+//        return response.toString();
+//    }
+//}
+//

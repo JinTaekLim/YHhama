@@ -20,7 +20,7 @@ public class Itinerary {
     @Column(nullable = false)
     private String name;    // 일정 제목
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account; // 일정을 제작한 유저 번호
 

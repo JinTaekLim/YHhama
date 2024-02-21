@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -57,4 +58,13 @@ public class PlaceService {
         log.info("새로운 장소 추가 성공");
     }
 
+
+
+    public List<Place> show(Long itineraryId) {
+        List<Place> places = placeRepository.findByItineraryId(itineraryId);
+        if (places.isEmpty()) {
+            log.warn("해당 itineraryId를 가진 장소가 존재하지 않습니다. Itinerary ID: {}", itineraryId);
+        }
+        return places;
+    }
 }
