@@ -40,13 +40,16 @@ public class Account {
     @Operation(summary = "회원가입")
     @PostMapping("/join")
     public ResponseEntity<String> createAccount(@RequestBody AccountJoinDTO request) {
-        com.YH.yeohaenghama.domain.account.entity.Account account = new com.YH.yeohaenghama.domain.account.entity.Account();
-        account.setEmail(request.getEmail());
-        account.setPw(request.getPw());
-        account.setPhotoUrl(request.getPhotoUrl());
-        account.setNickname(request.getNickname());
-        accountService.createAccount(account);
-        return ResponseEntity.ok("회원가입 성공");
+        if (accountService.emailDuplicateCheck(request.getEmail()) == false) {
+            com.YH.yeohaenghama.domain.account.entity.Account account = new com.YH.yeohaenghama.domain.account.entity.Account();
+            account.setEmail(request.getEmail());
+            account.setPw(request.getPw());
+            account.setPhotoUrl(request.getPhotoUrl());
+            account.setNickname(request.getNickname());
+            accountService.createAccount(account);
+            return ResponseEntity.ok("회원가입 성공");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 이메일 주소 입니다.");
     }
 
     @Operation(summary = "로그인")
