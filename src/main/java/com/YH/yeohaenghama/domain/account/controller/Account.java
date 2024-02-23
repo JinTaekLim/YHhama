@@ -6,6 +6,8 @@ import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
 import com.YH.yeohaenghama.domain.account.entity.AccountSavePlace;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import io.swagger.v3.oas.annotations.*;
 
@@ -89,7 +92,8 @@ public class Account {
         try {
             accountSavePlaceService.SavePlace(requestDto, accountId);
             return ResponseEntity.ok("장소 저장 완료");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장소 저장 실패: " + e.getMessage());
         }
     }

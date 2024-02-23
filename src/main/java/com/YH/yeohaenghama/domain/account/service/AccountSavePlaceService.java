@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -72,11 +73,11 @@ public class AccountSavePlaceService {
     }
 
 
-    private Account findAccountById(Long accountId) {
+    public Account findAccountById(Long accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> {
                     log.info("해당 id 값을 가진 유저가 존재하지 않습니다. : ");
-                    return new RuntimeException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId);
+                    throw new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다.");
                 });
     }
 
