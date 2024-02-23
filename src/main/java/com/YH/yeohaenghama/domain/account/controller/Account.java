@@ -57,11 +57,12 @@ public class Account {
     public ResponseEntity<String> login(@RequestBody AccountLoginDTO req) {
         com.YH.yeohaenghama.domain.account.entity.Account account = accountService.login(req);
         if (account != null) {
-            httpSession.setAttribute("loggedInUser", account);
+            httpSession.setAttribute("loggedInId", account);
             httpSession.setAttribute("nickname", account.getNickname());
-            return ResponseEntity.ok("로그인 성공");
+            httpSession.setAttribute("AccountId", account.getId());
+            return ResponseEntity.ok("로그인 성공 (ID = " + account.getId() + ")");
         } else {
-            return ResponseEntity.badRequest().body("아이디 또는 비밀번호가 올바르지 않습니다.");
+            return ResponseEntity.badRequest().body("이메일 또는 비밀번호가 올바르지 않습니다.");
         }
     }
 
