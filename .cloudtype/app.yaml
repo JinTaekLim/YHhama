@@ -1,0 +1,8 @@
+name: yeohaenghama-backend
+app: java@17
+options:
+  ports: 8080
+context:
+  git:
+    url: git@github.com:YeohaengHama/YeohaengHama-backend.git
+    ref: refs/heads/main

@@ -27,6 +27,16 @@ public class Account {
     private final HttpSession httpSession;
 
 
+    @Operation(summary = "아이디 중복 체크")
+    @PostMapping("/emailDuplicateCheck")
+    public ResponseEntity<String> emailDuplicateCheck(@RequestParam String email){
+        if(accountService.emailDuplicateCheck(email) == false){
+            return ResponseEntity.ok("사용 가능한 이메일 입니다.");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 이메일 주소 입니다.");
+    }
+
+
     @Operation(summary = "회원가입")
     @PostMapping("/join")
     public ResponseEntity<String> createAccount(@RequestBody AccountJoinDTO request) {

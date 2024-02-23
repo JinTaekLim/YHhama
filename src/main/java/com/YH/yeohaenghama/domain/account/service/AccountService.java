@@ -19,6 +19,12 @@ public class AccountService {
     }
 
 
+    public boolean emailDuplicateCheck(String email){
+        Optional<Account> accountOptional = accountRepository.findByEmail(email);
+        return accountOptional.isPresent();
+    }
+
+
     public Account login(AccountLoginDTO req) {
         Optional<Account> optionalUser = accountRepository. findByEmail(req.getEmail());
 
