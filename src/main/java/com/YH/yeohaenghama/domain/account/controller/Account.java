@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -101,7 +102,12 @@ public class Account {
     @Operation(summary = "저장한 장소 조회")
     @GetMapping("/{accountId}")
     public List<AccountSavePlaceDTO> viewSavePlaces(@PathVariable Long accountId) {
-        return accountSavePlaceService.ViewSavePlace(accountId);
+        try{
+            return accountSavePlaceService.ViewSavePlace(accountId);
+        }
+        catch (Exception e){
+            return Collections.emptyList();
+        }
     }
 
     @Operation(summary = "저장한 장소 삭제")

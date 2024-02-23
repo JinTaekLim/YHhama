@@ -69,6 +69,7 @@ public class AccountSavePlaceService {
             log.info("[DeletePlace] 해당 장소 저장 정보 삭제 완료");
         } else {
             log.info("[DeletePlace] 해당하는 장소 저장 정보가 없거나 유저에게 속하지 않습니다.");
+            throw new NoSuchElementException("[DeletePlace] 해당하는 장소 저장 정보가 없거나 유저에게 속하지 않습니다.");
         }
     }
 
@@ -83,6 +84,7 @@ public class AccountSavePlaceService {
 
     private AccountSavePlaceDTO mapToDto(AccountSavePlace place) {
         AccountSavePlaceDTO dto = new AccountSavePlaceDTO();
+        dto.setId(place.getId());
         dto.setPlaceNum(place.getPlaceNum());
         dto.setContentTypeId(place.getContentTypeId());
         return dto;
