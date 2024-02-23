@@ -6,13 +6,17 @@ import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
 import com.YH.yeohaenghama.domain.account.entity.AccountSavePlace;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import io.swagger.v3.oas.annotations.*;
 
@@ -40,13 +44,16 @@ public class Account {
     @Operation(summary = "회원가입")
     @PostMapping("/join")
     public ResponseEntity<String> createAccount(@RequestBody AccountJoinDTO request) {
-        com.YH.yeohaenghama.domain.account.entity.Account account = new com.YH.yeohaenghama.domain.account.entity.Account();
-        account.setEmail(request.getEmail());
-        account.setPw(request.getPw());
-        account.setPhotoUrl(request.getPhotoUrl());
-        account.setNickname(request.getNickname());
-        accountService.createAccount(account);
-        return ResponseEntity.ok("회원가입 성공");
+        if (accountService.emailDuplicateCheck(request.getEmail()) == false) {
+            com.YH.yeohaenghama.domain.account.entity.Account account = new com.YH.yeohaenghama.domain.account.entity.Account();
+            account.setEmail(request.getEmail());
+            account.setPw(request.getPw());
+            account.setPhotoUrl(request.getPhotoUrl());
+            account.setNickname(request.getNickname());
+            accountService.createAccount(account);
+            return ResponseEntity.ok("회원가입 성공");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 이메일 주소 입니다.");
     }
 
     @Operation(summary = "로그인")
@@ -54,11 +61,12 @@ public class Account {
     public ResponseEntity<String> login(@RequestBody AccountLoginDTO req) {
         com.YH.yeohaenghama.domain.account.entity.Account account = accountService.login(req);
         if (account != null) {
-            httpSession.setAttribute("loggedInUser", account);
+            httpSession.setAttribute("loggedInId", account);
             httpSession.setAttribute("nickname", account.getNickname());
-            return ResponseEntity.ok("로그인 성공");
+            httpSession.setAttribute("AccountId", account.getId());
+            return ResponseEntity.ok("로그인 성공 (ID = " + account.getId() + ")");
         } else {
-            return ResponseEntity.badRequest().body("아이디 또는 비밀번호가 올바르지 않습니다.");
+            return ResponseEntity.badRequest().body("이메일 또는 비밀번호가 올바르지 않습니다.");
         }
     }
 
@@ -85,7 +93,8 @@ public class Account {
         try {
             accountSavePlaceService.SavePlace(requestDto, accountId);
             return ResponseEntity.ok("장소 저장 완료");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장소 저장 실패: " + e.getMessage());
         }
     }
@@ -93,7 +102,12 @@ public class Account {
     @Operation(summary = "저장한 장소 조회")
     @GetMapping("/{accountId}")
     public List<AccountSavePlaceDTO> viewSavePlaces(@PathVariable Long accountId) {
-        return accountSavePlaceService.ViewSavePlace(accountId);
+        try{
+            return accountSavePlaceService.ViewSavePlace(accountId);
+        }
+        catch (Exception e){
+            return Collections.emptyList();
+        }
     }
 
     @Operation(summary = "저장한 장소 삭제")

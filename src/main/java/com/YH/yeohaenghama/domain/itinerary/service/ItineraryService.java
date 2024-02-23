@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -25,7 +26,7 @@ public class ItineraryService {
 
 
         Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new RuntimeException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId));
+                .orElseThrow(() -> new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId));
 
 
         ItineraryJoinDTO itineraryJoinDTO = new ItineraryJoinDTO(reqDTO);
@@ -47,8 +48,7 @@ public class ItineraryService {
         if (optionalItinerary.isPresent()) {
             return optionalItinerary.get();
         } else {
-            // 조회된 일정이 없을 경우에는 RuntimeException을 던집니다.
-            throw new RuntimeException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
         }
     }
 

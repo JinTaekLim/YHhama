@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -68,20 +69,22 @@ public class AccountSavePlaceService {
             log.info("[DeletePlace] 해당 장소 저장 정보 삭제 완료");
         } else {
             log.info("[DeletePlace] 해당하는 장소 저장 정보가 없거나 유저에게 속하지 않습니다.");
+            throw new NoSuchElementException("[DeletePlace] 해당하는 장소 저장 정보가 없거나 유저에게 속하지 않습니다.");
         }
     }
 
 
-    private Account findAccountById(Long accountId) {
+    public Account findAccountById(Long accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> {
                     log.info("해당 id 값을 가진 유저가 존재하지 않습니다. : ");
-                    return new RuntimeException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId);
+                    throw new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다.");
                 });
     }
 
     private AccountSavePlaceDTO mapToDto(AccountSavePlace place) {
         AccountSavePlaceDTO dto = new AccountSavePlaceDTO();
+        dto.setId(place.getId());
         dto.setPlaceNum(place.getPlaceNum());
         dto.setContentTypeId(place.getContentTypeId());
         return dto;
