@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.openApi.controller;
 
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDetailDTO;
+import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDirectionsDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiImageDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -117,6 +119,32 @@ public class OpenApiController {
             e.printStackTrace();
         }
         return result.toString();
+    }
+
+
+    @Operation(summary = "대중교통")
+    @PostMapping("/testTran")
+    public String searchArea(@RequestBody OpenApiDirectionsDTO req) throws IOException {
+        StringBuffer result = new StringBuffer();
+        try {
+            String apiKey = "/l8EmJ0xgdxUdyZT74sfz8sg9y9K9f3Yy8r3SbZYtFc";
+
+            String apiUrl = "https://api.odsay.com/v1/api/searchPubTransPathT?" +
+                    "SX=" + req.getSx() +
+                    "&SY=" + req.getSy() +
+                    "&EX=" + req.getEx() +
+                    "&EY=" + req.getEy() +
+                    "&SearchPathType=" + req.getSearchPathType() +
+                    "&apiKey=" + URLEncoder.encode(apiKey, "UTF-8");
+
+            String response = sendHttpRequest(apiUrl);
+            result.append("<xmp>").append(response).append("</xmp>");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return result.toString();
+
     }
 
 
