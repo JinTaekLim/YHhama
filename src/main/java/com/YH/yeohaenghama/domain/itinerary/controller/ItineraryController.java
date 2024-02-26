@@ -1,9 +1,11 @@
 package com.YH.yeohaenghama.domain.itinerary.controller;
 
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
+import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryTypeJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
+import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
@@ -25,6 +27,20 @@ import java.util.stream.Collectors;
 public class ItineraryController {
     private final ItineraryService itineraryService;
     private final PlaceService placeService;
+
+    @Operation(summary = "일정 타입 지정")
+    @PostMapping("/join/type/{itineraryId}")
+    public ResponseEntity<ItineraryTypeJoinDTO> saveItineraryType(@RequestBody List<ItineraryTypeJoinDTO> req, @PathVariable Long itineraryId){
+        try {
+            itineraryService.saveType(req, itineraryId);
+            log.info("여행타입 저장 컨트롤");
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("일정 타입 지정 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 오류 응답 반환
+        }
+    }
+
 
     @Operation(summary = "일정 생성")
     @PostMapping("/join/{accountId}") //

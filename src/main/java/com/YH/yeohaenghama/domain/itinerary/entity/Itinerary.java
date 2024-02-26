@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.itinerary.entity;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Builder;
