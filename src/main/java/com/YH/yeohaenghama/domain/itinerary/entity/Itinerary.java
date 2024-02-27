@@ -43,6 +43,9 @@ public class Itinerary {
     @Column(nullable = false)
     private String endDate;
 
+    @OneToMany
+    @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
+    private List<Place> places;
 
     private String expense = "null";
 
@@ -53,7 +56,7 @@ public class Itinerary {
     }
 
     @Builder
-    public Itinerary(String name, String type, List<String> itineraryStyle, Long id, String transportation, String area, String startDate, String endDate, String expense) {
+    public Itinerary(String name, String type, List<String> itineraryStyle, Long id, String transportation, String area, String startDate, String endDate, String expense, List<Place> places) {
         this.name = name;
         this.type = type;
         this.itineraryStyle = itineraryStyle;
@@ -62,6 +65,7 @@ public class Itinerary {
         this.area = area;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.places = places;
         this.expense = expense;
     }
 
