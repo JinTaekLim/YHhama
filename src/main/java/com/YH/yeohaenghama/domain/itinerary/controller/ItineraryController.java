@@ -5,19 +5,21 @@ import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryTypeJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
-import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
+//import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,19 +29,19 @@ import java.util.stream.Collectors;
 public class ItineraryController {
     private final ItineraryService itineraryService;
     private final PlaceService placeService;
-
-    @Operation(summary = "일정 타입 지정")
-    @PostMapping("/join/type/{itineraryId}")
-    public ResponseEntity<ItineraryTypeJoinDTO> saveItineraryType(@RequestBody List<ItineraryTypeJoinDTO> req, @PathVariable Long itineraryId){
-        try {
-            itineraryService.saveType(req, itineraryId);
-            log.info("여행타입 저장 컨트롤");
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            log.error("일정 타입 지정 중 오류 발생", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 오류 응답 반환
-        }
-    }
+//
+//    @Operation(summary = "일정 타입 지정")
+//    @PostMapping("/join/type/{itineraryId}")
+//    public ResponseEntity<ItineraryTypeJoinDTO> saveItineraryType(@RequestBody List<ItineraryTypeJoinDTO> req, @PathVariable Long itineraryId){
+//        try {
+//            itineraryService.saveType(req, itineraryId);
+//            log.info("여행타입 저장 컨트롤");
+//            return ResponseEntity.ok().build();
+//        } catch (Exception e) {
+//            log.error("일정 타입 지정 중 오류 발생", e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 오류 응답 반환
+//        }
+//    }
 
 
     @Operation(summary = "일정 생성")
@@ -98,6 +100,27 @@ public class ItineraryController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(placeDTOs);
     }
+//
+//    @Operation(summary = "일정 정보 상세 보기")
+//    @GetMapping("/showItineraryDeteil")
+//    public ResponseEntity<Objects[]> ShowItineraryDeteil(@PathVariable Long itineraryId){
+//        try{
+//
+//        } catch (Exception e){
+//
+//        }
+//        return null;
+//    }
 
+//
+//    @GetMapping("/itinerary/{itineraryId}/withItineraryTypes")
+//    public ResponseEntity<List<Itinerary>> getItineraryWithItineraryTypes(@PathVariable Long itineraryId) {
+//        List<Itinerary> result = itineraryService.getItineraryWithItineraryTypes(itineraryId);
+//        if (!result.isEmpty()) {
+//            return ResponseEntity.ok(result);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        }
+//    }
 
 }
