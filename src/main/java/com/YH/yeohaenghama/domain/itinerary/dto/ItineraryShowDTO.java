@@ -17,7 +17,7 @@ public class ItineraryShowDTO {
     private String endDate;
     private String expense;
     private AccountShowDTO account;
-    private List<PlaceShowDTO> placeShowDTOs;
+    private List<PlaceShowDTO> place;
 
     public ItineraryShowDTO(Itinerary itinerary, AccountShowDTO account, List<PlaceShowDTO> placeShowDTOs) {
         this.itineraryId = itinerary.getId();
@@ -29,7 +29,7 @@ public class ItineraryShowDTO {
         this.endDate = itinerary.getEndDate();
         this.expense = itinerary.getExpense();
         this.account = account;
-        this.placeShowDTOs = placeShowDTOs;
+        this.place = placeShowDTOs;
     }
 
 }
