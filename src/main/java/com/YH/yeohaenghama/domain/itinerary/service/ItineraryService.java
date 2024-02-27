@@ -1,10 +1,9 @@
 package com.YH.yeohaenghama.domain.itinerary.service;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
-import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
-import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryTypeJoinDTO;
-import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
+import com.YH.yeohaenghama.domain.itinerary.dto.*;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 //import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
@@ -18,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -89,6 +89,28 @@ public class ItineraryService {
         }
     }
 
+    public ItineraryShowDTO getItineraryInfo(Long itineraryId) {
+        Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
+        if (optionalItinerary.isPresent()) {
+            Itinerary itinerary = optionalItinerary.get();
+            Account account = itinerary.getAccount();
+            AccountShowDTO accountShowDTO = new AccountShowDTO(account.getId(), account.getNickname());
+
+            List<Place> places = itinerary.getPlaces();
+            List<PlaceShowDTO> placeShowDTOs = new ArrayList<>();
+            for (Place place : places) {
+                PlaceShowDTO placeShowDTO = new PlaceShowDTO();
+                placeShowDTO.setPlaceNum(place.getPlaceNum());
+                placeShowDTO.setDay(place.getDay());
+                placeShowDTO.setPlaceName(place.getPlaceName());
+                placeShowDTOs.add(placeShowDTO);
+            }
+
+            return new ItineraryShowDTO(itinerary, accountShowDTO, placeShowDTOs);
+        } else {
+            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+        }
+    }
 
 
 

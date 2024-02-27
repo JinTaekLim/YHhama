@@ -1,9 +1,7 @@
 package com.YH.yeohaenghama.domain.itinerary.controller;
 
-import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
-import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryTypeJoinDTO;
-import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
-import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowDTO;
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.itinerary.dto.*;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 //import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
@@ -12,14 +10,12 @@ import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -123,4 +119,13 @@ public class ItineraryController {
 //        }
 //    }
 
+    @GetMapping("/{itineraryId}")
+    public ResponseEntity<ItineraryShowDTO> getItineraryInfo(@PathVariable Long itineraryId) {
+        try {
+            ItineraryShowDTO itineraryInfo = itineraryService.getItineraryInfo(itineraryId);
+            return ResponseEntity.ok(itineraryInfo);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
