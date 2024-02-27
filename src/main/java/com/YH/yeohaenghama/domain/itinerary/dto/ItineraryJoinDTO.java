@@ -12,14 +12,22 @@ import java.util.List;
 @Data
 public class ItineraryJoinDTO {
 
-    @Schema(description = "장소 번호(코드)")
+    @Schema(description = "일정 이름")
     private String name;
+    @Schema(description = "누구와 함께하는지")
+    private String type;
+    @Schema(description = "교통 수단")
     private String transportation;
+    @Schema(description = "여행 지역")
     private String area;
+    @Schema(description = "일정 시작 일시")
     private String startDate;
+    @Schema(description = "일정 종료 일시")
     private String endDate;
+    @Schema(description = "경비 관리")
     private String expense;
-
+    @Schema(description = "일정 타입들")
+    private List<String> itineraryStyle;  // 이 부분이 수정된 부분입니다.
 
     @Data
     @Schema(name = "ItineraryRequestDTO")
@@ -38,6 +46,8 @@ public class ItineraryJoinDTO {
         private String endDate;
         @Schema(description = "경비 관리")
         private String expense;
+        @Schema(description = "일정 타입들")
+        private List<String> itineraryStyle;
     }
 
     @Data
@@ -57,6 +67,8 @@ public class ItineraryJoinDTO {
         private String endDate;
         @Schema(description = "경비 관리")
         private String expense;
+        @Schema(description = "일정 타입들")
+        private List<String> itineraryStyle;
 
         public static Response fromEntity(Itinerary itinerary) {
             Response response = new Response();
@@ -67,6 +79,7 @@ public class ItineraryJoinDTO {
             response.setStartDate(itinerary.getStartDate());
             response.setEndDate(itinerary.getEndDate());
             response.setExpense(itinerary.getExpense());
+            response.setItineraryStyle(itinerary.getItineraryStyle());
             return response;
         }
     }
@@ -91,8 +104,8 @@ public class ItineraryJoinDTO {
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .expense(request.getExpense())
+                .itineraryStyle(request.getItineraryStyle())
                 .build();
         return itinerary;
     }
-
 }

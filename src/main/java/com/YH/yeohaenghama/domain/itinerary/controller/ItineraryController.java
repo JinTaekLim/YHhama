@@ -5,7 +5,7 @@ import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryTypeJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
-import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
+//import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;

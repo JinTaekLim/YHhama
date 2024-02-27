@@ -6,10 +6,10 @@ import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryTypeJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
-import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
+//import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
-import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryTypeRepository;
+//import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryTypeRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -29,7 +29,7 @@ import java.util.Optional;
 public class ItineraryService {
     private final ItineraryRepository itineraryRepository;
     private final AccountRepository accountRepository;
-    private final ItineraryTypeRepository itineraryTypeRepository;
+//    private final ItineraryTypeRepository itineraryTypeRepository;
 
 
 //    @Transactional

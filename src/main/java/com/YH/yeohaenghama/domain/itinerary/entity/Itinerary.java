@@ -1,7 +1,6 @@
 package com.YH.yeohaenghama.domain.itinerary.entity;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
-import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -24,6 +23,10 @@ public class Itinerary {
 
     @Column(nullable = false)
     private String type;    // 누구와 여행하는지
+
+    @Column(nullable = false)
+    @ElementCollection
+    private List<String> itineraryStyle;
 
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
@@ -50,9 +53,10 @@ public class Itinerary {
     }
 
     @Builder
-    public Itinerary(String name,String type, Long id, String transportation, String area, String startDate, String endDate, String expense) {
+    public Itinerary(String name, String type, List<String> itineraryStyle, Long id, String transportation, String area, String startDate, String endDate, String expense) {
         this.name = name;
         this.type = type;
+        this.itineraryStyle = itineraryStyle;
         this.id = id;
         this.transportation = (transportation != null && !transportation.isEmpty()) ? transportation : "1";;
         this.area = area;
