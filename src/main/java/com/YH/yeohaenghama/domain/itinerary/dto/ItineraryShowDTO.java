@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class ItineraryShowDTO {
@@ -31,9 +32,9 @@ public class ItineraryShowDTO {
     @Schema(description = "일정을 제작한 회원 정보")
     private AccountShowDTO account;
     @Schema(description = "일정의 여행지 정보")
-    private List<PlaceShowDTO> place;
+    private Map<String, List<PlaceShowDTO>> placesByDay; // 날짜별 장소를 저장할 Map
 
-    public ItineraryShowDTO(Itinerary itinerary, AccountShowDTO account, List<PlaceShowDTO> placeShowDTOs) {
+    public ItineraryShowDTO(Itinerary itinerary, AccountShowDTO account, Map<String, List<PlaceShowDTO>> placesByDay) {
         this.itineraryId = itinerary.getId();
         this.type = itinerary.getType();
         this.style = itinerary.getItineraryStyle();
@@ -44,7 +45,6 @@ public class ItineraryShowDTO {
         this.endDate = itinerary.getEndDate();
         this.expense = itinerary.getExpense();
         this.account = account;
-        this.place = placeShowDTOs;
+        this.placesByDay = placesByDay;
     }
-
 }
