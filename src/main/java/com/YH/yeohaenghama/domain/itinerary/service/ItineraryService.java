@@ -17,10 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -68,20 +65,24 @@ public class ItineraryService {
             AccountShowDTO accountShowDTO = new AccountShowDTO(account.getId(), account.getNickname());
 
             List<Place> places = itinerary.getPlaces();
-            List<PlaceShowDTO> placeShowDTOs = new ArrayList<>();
+            Map<String, List<PlaceShowDTO>> placesByDay = new HashMap<>();
+
             for (Place place : places) {
                 PlaceShowDTO placeShowDTO = new PlaceShowDTO();
                 placeShowDTO.setPlaceNum(place.getPlaceNum());
-                placeShowDTO.setDay(place.getDay());
+
+                String dayKey = "Day-" + place.getDay();
                 placeShowDTO.setPlaceName(place.getPlaceName());
-                placeShowDTOs.add(placeShowDTO);
+
+                placesByDay.computeIfAbsent(dayKey, k -> new ArrayList<>()).add(placeShowDTO);
             }
 
-            return new ItineraryShowDTO(itinerary, accountShowDTO, placeShowDTOs);
+            return new ItineraryShowDTO(itinerary, accountShowDTO, placesByDay);
         } else {
             throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
         }
     }
+
 
 
 

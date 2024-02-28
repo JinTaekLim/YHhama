@@ -74,7 +74,7 @@ public class ItineraryController {
         List<PlaceShowDTO> placeDTOs = places.stream()
                 .map(place -> {
                     PlaceShowDTO dto = new PlaceShowDTO();
-                    dto.setDay(place.getDay());
+                    //dto.setDay(place.getDay());
                     dto.setPlaceNum(place.getPlaceNum());
                     dto.setPlaceName(place.getPlaceName());
                     return dto;

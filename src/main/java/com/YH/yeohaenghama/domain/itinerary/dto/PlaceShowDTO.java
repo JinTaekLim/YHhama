@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PlaceShowDTO {
-    @Schema(description = "지정 날짜")
-    private int day;
+//    @Schema(description = "지정 날짜")
+//    private int day;
     @Schema(description = "장소 번호(코드)")
     private String placeNum;
     @Schema(description = "장소 이름")
