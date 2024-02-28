@@ -22,11 +22,12 @@ public class Itinerary {
     private String name;    // 일정 제목
 
     @Column(nullable = false)
-    private String type;    // 누구와 여행하는지
+    @ElementCollection
+    private List<String> type;    // 누구와 여행하는지
 
     @Column(nullable = false)
     @ElementCollection
-    private List<String> itineraryStyle;
+    private List<String> itineraryStyle;    // 여행 스타일
 
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
@@ -56,7 +57,7 @@ public class Itinerary {
     }
 
     @Builder
-    public Itinerary(String name, String type, List<String> itineraryStyle, Long id, String transportation, String area, String startDate, String endDate, String expense, List<Place> places) {
+    public Itinerary(String name, List<String> type, List<String> itineraryStyle, Long id, String transportation, String area, String startDate, String endDate, String expense, List<Place> places) {
         this.name = name;
         this.type = type;
         this.itineraryStyle = itineraryStyle;
