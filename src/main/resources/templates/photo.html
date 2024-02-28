@@ -9,6 +9,7 @@
 <h2>이미지 업로드</h2>
 <form action="/api/gcs/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="file" accept="image/*">
+    <input type="text" name="fileName" placeholder="파일명을 입력하세요">
     <button type="submit">업로드</button>
 </form>
 </body>

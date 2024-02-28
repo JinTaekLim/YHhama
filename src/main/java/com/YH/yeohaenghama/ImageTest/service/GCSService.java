@@ -5,35 +5,42 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+@Slf4j
 @Service
 public class GCSService {
 
-    @Value("${spring.cloud.gcp.storage.bucket}")
-    private String bucketName;
+    private final String bucketName;
+    private final GoogleCredentials credentials;
 
-    public void uploadObject(MultipartFile file) throws IOException {
+    public GCSService(@Value("${spring.cloud.gcp.storage.bucket}") String bucketName,
+                      @Value("${spring.cloud.gcp.storage.credentials.location}") Resource credentialsResource) throws IOException {
+        this.bucketName = bucketName;
+        this.credentials = GoogleCredentials.fromStream(credentialsResource.getInputStream());
+    }
 
-        String keyFileName = "yhhama-ba3603d5782e.json";
-        InputStream keyFile = ResourceUtils.getURL("classpath:" + keyFileName).openStream();
+    public String uploadObjectAndGetUrl(MultipartFile file, String fileName) throws IOException {
+        String filePath = "Profile_Image/" + fileName;
 
         Storage storage = StorageOptions.newBuilder()
-                .setCredentials(GoogleCredentials.fromStream(keyFile))
+                .setCredentials(credentials)
                 .build()
                 .getService();
 
-        BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, file.getOriginalFilename())
+        BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, filePath)
                 .setContentType(file.getContentType()).build();
 
         Blob blob = storage.create(blobInfo, file.getInputStream());
 
+        log.info(blob.getMediaLink());
+        return blob.getMediaLink();
     }
-
 }

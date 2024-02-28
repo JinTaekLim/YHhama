@@ -20,8 +20,8 @@ public class GCSController {
     private final GCSService gcsService;
 
     @PostMapping("/api/gcs/upload")
-    public ResponseEntity<Void> objectUpload(@RequestParam("file") MultipartFile file) throws IOException {
-        gcsService.uploadObject(file); // 수정된 부분
+    public ResponseEntity<Void> objectUpload(@RequestParam("file") MultipartFile file,String fileName) throws IOException {
+        gcsService.uploadObjectAndGetUrl(file,fileName);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
