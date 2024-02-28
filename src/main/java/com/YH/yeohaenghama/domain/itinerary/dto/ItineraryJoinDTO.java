@@ -15,7 +15,9 @@ public class ItineraryJoinDTO {
     @Schema(description = "일정 이름")
     private String name;
     @Schema(description = "누구와 함께하는지")
-    private String type;
+    private List<String> type;
+    @Schema(description = "일정 타입")
+    private List<String> style;
     @Schema(description = "교통 수단")
     private String transportation;
     @Schema(description = "여행 지역")
@@ -26,8 +28,7 @@ public class ItineraryJoinDTO {
     private String endDate;
     @Schema(description = "경비 관리")
     private String expense;
-    @Schema(description = "일정 타입들")
-    private List<String> itineraryStyle;  // 이 부분이 수정된 부분입니다.
+
 
     @Data
     @Schema(name = "ItineraryRequestDTO")
@@ -35,7 +36,7 @@ public class ItineraryJoinDTO {
         @Schema(description = "일정 이름")
         private String name;
         @Schema(description = "누구와 함께하는지")
-        private String type;
+        private List<String> type;
         @Schema(description = "교통 수단")
         private String transportation;
         @Schema(description = "여행 지역")
@@ -47,7 +48,7 @@ public class ItineraryJoinDTO {
         @Schema(description = "경비 관리")
         private String expense;
         @Schema(description = "일정 타입들")
-        private List<String> itineraryStyle;
+        private List<String> style;
     }
 
     @Data
@@ -56,7 +57,7 @@ public class ItineraryJoinDTO {
         @Schema(description = "일정 이름")
         private String name;
         @Schema(description = "누구와 함께하는지")
-        private String type;
+        private List<String> type;
         @Schema(description = "교통 수단")
         private String transportation;
         @Schema(description = "여행 지역")
@@ -68,7 +69,7 @@ public class ItineraryJoinDTO {
         @Schema(description = "경비 관리")
         private String expense;
         @Schema(description = "일정 타입들")
-        private List<String> itineraryStyle;
+        private List<String> style;
 
         public static Response fromEntity(Itinerary itinerary) {
             Response response = new Response();
@@ -79,7 +80,7 @@ public class ItineraryJoinDTO {
             response.setStartDate(itinerary.getStartDate());
             response.setEndDate(itinerary.getEndDate());
             response.setExpense(itinerary.getExpense());
-            response.setItineraryStyle(itinerary.getItineraryStyle());
+            response.setStyle(itinerary.getItineraryStyle());
             return response;
         }
     }
@@ -104,7 +105,7 @@ public class ItineraryJoinDTO {
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .expense(request.getExpense())
-                .itineraryStyle(request.getItineraryStyle())
+                .itineraryStyle(request.getStyle())
                 .build();
         return itinerary;
     }
