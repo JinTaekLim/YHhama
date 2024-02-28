@@ -18,7 +18,7 @@ public class ItineraryShowDTO {
 
     @Schema(description = "일정 이름")
     private String name;
-    @Schema(description = "교통 수단")
+    @Schema(description = "교통 수단(0:자동차, 1:지하철, 2:버스)")
     private String transportation;
     @Schema(description = "지역")
     private String area;
