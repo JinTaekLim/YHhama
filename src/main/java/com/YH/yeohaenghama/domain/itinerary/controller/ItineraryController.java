@@ -25,20 +25,6 @@ import java.util.stream.Collectors;
 public class ItineraryController {
     private final ItineraryService itineraryService;
     private final PlaceService placeService;
-//
-//    @Operation(summary = "일정 타입 지정")
-//    @PostMapping("/join/type/{itineraryId}")
-//    public ResponseEntity<ItineraryTypeJoinDTO> saveItineraryType(@RequestBody List<ItineraryTypeJoinDTO> req, @PathVariable Long itineraryId){
-//        try {
-//            itineraryService.saveType(req, itineraryId);
-//            log.info("여행타입 저장 컨트롤");
-//            return ResponseEntity.ok().build();
-//        } catch (Exception e) {
-//            log.error("일정 타입 지정 중 오류 발생", e);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 오류 응답 반환
-//        }
-//    }
-
 
     @Operation(summary = "일정 생성")
     @PostMapping("/join/{accountId}") //
@@ -63,18 +49,18 @@ public class ItineraryController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("[일정]장소 추가 실패 : " + e.getMessage());
         }
     }
-
-    @Operation(summary = "제작된 일정 확인")
-    @GetMapping("/showItinerary/{itineraryId}")
-    public ResponseEntity<Itinerary> showItinerary(@PathVariable Long itineraryId){
-        try {
-            return ResponseEntity.ok(itineraryService.show(itineraryId));
-        }
-        catch (Exception e){
-            e.getMessage();
-            return null;
-        }
-    }
+//
+//    @Operation(summary = "제작된 일정 확인")
+//    @GetMapping("/showItinerary/{itineraryId}")
+//    public ResponseEntity<Itinerary> showItinerary(@PathVariable Long itineraryId){
+//        try {
+//            return ResponseEntity.ok(itineraryService.show(itineraryId));
+//        }
+//        catch (Exception e){
+//            e.getMessage();
+//            return null;
+//        }
+//    }
 
 
     @Operation(summary = "제작된 일정 장소 확인")
@@ -96,29 +82,8 @@ public class ItineraryController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(placeDTOs);
     }
-//
-//    @Operation(summary = "일정 정보 상세 보기")
-//    @GetMapping("/showItineraryDeteil")
-//    public ResponseEntity<Objects[]> ShowItineraryDeteil(@PathVariable Long itineraryId){
-//        try{
-//
-//        } catch (Exception e){
-//
-//        }
-//        return null;
-//    }
 
-//
-//    @GetMapping("/itinerary/{itineraryId}/withItineraryTypes")
-//    public ResponseEntity<List<Itinerary>> getItineraryWithItineraryTypes(@PathVariable Long itineraryId) {
-//        List<Itinerary> result = itineraryService.getItineraryWithItineraryTypes(itineraryId);
-//        if (!result.isEmpty()) {
-//            return ResponseEntity.ok(result);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        }
-//    }
-
+    @Operation(summary = "제작된 일정 확인")
     @GetMapping("/{itineraryId}")
     public ResponseEntity<ItineraryShowDTO> getItineraryInfo(@PathVariable Long itineraryId) {
         try {
