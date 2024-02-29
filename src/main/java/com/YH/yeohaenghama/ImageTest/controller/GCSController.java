@@ -21,7 +21,7 @@ public class GCSController {
 
     @PostMapping("/api/gcs/upload")
     public ResponseEntity<Void> objectUpload(@RequestParam("file") MultipartFile file,String fileName) throws IOException {
-        gcsService.uploadObjectAndGetUrl(file,fileName);
+        gcsService.uploadPhoto(file,fileName,"Profile_Image");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

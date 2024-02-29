@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
-
 @Slf4j
 @Service
 public class GCSService {
@@ -27,8 +25,16 @@ public class GCSService {
         this.credentials = GoogleCredentials.fromStream(credentialsResource.getInputStream());
     }
 
-    public String uploadObjectAndGetUrl(MultipartFile file, String fileName) throws IOException {
-        String filePath = "Profile_Image/" + fileName;
+
+    public String uploadPhoto(MultipartFile file, String fileName,String folder) throws IOException {
+        if (file == null || file.isEmpty()) {
+            log.error("No file received for upload.");
+            return null;
+        }
+
+        log.info("Received file: {}", fileName);
+
+        String filePath = folder + "/" + fileName;
 
         Storage storage = StorageOptions.newBuilder()
                 .setCredentials(credentials)
@@ -36,11 +42,26 @@ public class GCSService {
                 .getService();
 
         BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, filePath)
-                .setContentType(file.getContentType()).build();
+                .setContentType(file.getContentType())
+                .build();
 
-        Blob blob = storage.create(blobInfo, file.getInputStream());
+        // 파일 업로드
+        storage.create(blobInfo, file.getInputStream());
 
-        log.info(blob.getMediaLink());
-        return blob.getMediaLink();
+        //공개 링크 생성
+        String publicUrl = showURL(bucketName, filePath);
+
+        log.info("File uploaded successfully. Public URL: {}", publicUrl);
+        return publicUrl;
     }
+
+    private String showURL(String bucketName, String objectName) {
+        try {
+            return "https://storage.googleapis.com/" + bucketName + "/" + objectName;
+        } catch (Exception e) {
+            log.error("Error generating public URL for object {}: {}", objectName, e.getMessage());
+            return null;
+        }
+    }
+
 }

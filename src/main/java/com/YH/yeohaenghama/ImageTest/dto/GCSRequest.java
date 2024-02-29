@@ -9,5 +9,4 @@ public class GCSRequest {
     private String name;
     private MultipartFile file;
 
-
 }
