@@ -47,7 +47,7 @@ public class ItineraryService {
 
     }
 
-    public Itinerary show(Long itineraryId){
+    public Itinerary show(Long itineraryId) {
         Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
 
         if (optionalItinerary.isPresent()) {
@@ -83,14 +83,11 @@ public class ItineraryService {
         }
     }
 
-
-
-
-
-
-
-
-
-
+    public List<ItineraryRepository.ItineraryProjection> getItinerariesByAccountId(Long accountId) {
+        return itineraryRepository.findByAccountId(accountId);
+    }
 }
+
+
+
 

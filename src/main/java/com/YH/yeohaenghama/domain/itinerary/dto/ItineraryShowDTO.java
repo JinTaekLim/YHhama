@@ -47,4 +47,24 @@ public class ItineraryShowDTO {
         this.account = account;
         this.placesByDay = placesByDay;
     }
+
+    public class AccountItineraryListDTO{
+        @Schema(description = "일정 ID")
+        private Long itineraryId;
+        @Schema(description = "일정 이름")
+        private String name;
+        @Schema(description = "지역")
+        private String area;
+        @Schema(description = "시작 일시")
+        private String startDate;
+        @Schema(description = "종료 일시")
+        private String endDate;
+    }
+
+    public class ItineraryToAccount{
+        @Schema(description = "일정 ID")
+        private Long itineraryId;
+        @Schema(description = "일정을 제작한 회원 정보")
+        private AccountShowDTO account;
+    }
 }
