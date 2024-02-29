@@ -10,17 +10,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import io.swagger.v3.oas.annotations.*;
-
-
+import com.YH.yeohaenghama.uploadImage.service.GCSService;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.MultipartFile;
+@Slf4j
 @RestController
 @RequestMapping("/api/account")
 @RequiredArgsConstructor
@@ -29,6 +33,7 @@ public class Account {
     private final AccountService accountService;
     private final AccountSavePlaceService accountSavePlaceService;
     private final HttpSession httpSession;
+    private final GCSService gcsService;
 
 
     @Operation(summary = "아이디 중복 체크")
@@ -40,21 +45,38 @@ public class Account {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 이메일 주소 입니다.");
     }
 
-
     @Operation(summary = "회원가입")
     @PostMapping("/join")
-    public ResponseEntity<String> createAccount(@RequestBody AccountJoinDTO request) {
-        if (accountService.emailDuplicateCheck(request.getEmail()) == false) {
+    public ResponseEntity<String> createAccount(@RequestParam("email") String email,
+                                                @RequestParam("pw") String pw,
+                                                @RequestParam("nickname") String nickname,
+                                                @RequestParam("file") MultipartFile file) {
+
+        try {
+            if (email.isEmpty() || pw.isEmpty() || nickname.isEmpty() || file.isEmpty()) {
+                return ResponseEntity.badRequest().body("누락된 데이터가 존재합니다.");
+            }
+
             com.YH.yeohaenghama.domain.account.entity.Account account = new com.YH.yeohaenghama.domain.account.entity.Account();
-            account.setEmail(request.getEmail());
-            account.setPw(request.getPw());
-            account.setPhotoUrl(request.getPhotoUrl());
-            account.setNickname(request.getNickname());
+
+            String photoUrl = gcsService.uploadPhoto(file, email, "Profile_Image");
+            account.setEmail(email);
+            account.setPw(pw);
+            account.setNickname(nickname);
+            account.setPhotoUrl(photoUrl);
             accountService.createAccount(account);
+
             return ResponseEntity.ok("회원가입 성공");
+        } catch (MultipartException e) {
+            return ResponseEntity.badRequest().body("파일 형식이 잘못되었습니다.");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 가입 실패: " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 이메일 주소 입니다.");
     }
+
+
 
     @Operation(summary = "로그인")
     @PostMapping("/login")

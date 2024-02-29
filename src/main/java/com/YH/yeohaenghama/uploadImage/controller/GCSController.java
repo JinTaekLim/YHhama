@@ -1,7 +1,6 @@
-package com.YH.yeohaenghama.ImageTest.controller;
+package com.YH.yeohaenghama.uploadImage.controller;
 
-import com.YH.yeohaenghama.ImageTest.dto.GCSRequest;
-import com.YH.yeohaenghama.ImageTest.service.GCSService;
+import com.YH.yeohaenghama.uploadImage.service.GCSService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
