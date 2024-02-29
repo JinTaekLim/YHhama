@@ -6,4 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
+
+    List<ItineraryProjection> findByAccountId(Long accountId);
+
+    interface ItineraryProjection {
+        Long getId();
+        String getName();
+        String getStartDate();
+        String getEndDate();
+    }
 }

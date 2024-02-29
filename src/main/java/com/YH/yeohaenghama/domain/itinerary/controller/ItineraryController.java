@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.itinerary.dto.*;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 //import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
+import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -32,8 +35,7 @@ public class ItineraryController {
         try {
             ItineraryJoinDTO.Response response = itineraryService.save(reqDTO, accountId);
             return ResponseEntity.ok(response);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -44,8 +46,7 @@ public class ItineraryController {
         try {
             placeService.createPlaces(placeDTOs, itineraryId);
             return ResponseEntity.status(HttpStatus.CREATED).body("[일정]장소 추가 성공");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("[일정]장소 추가 실패 : " + e.getMessage());
         }
     }
@@ -93,4 +94,25 @@ public class ItineraryController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Operation(summary = "유저의 모든 일정 조회")
+    @GetMapping("/itineraryShow/{accountId}")
+    public ResponseEntity<List<Map<String, Object>>> getItinerariesByAccountId(@PathVariable Long accountId) {
+        List<ItineraryRepository.ItineraryProjection> itineraries = itineraryService.getItinerariesByAccountId(accountId);
+
+        List<Map<String, Object>> itineraryData = itineraries.stream()
+                .map(itineraryProjection -> {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("itineraryId", itineraryProjection.getId());
+                    data.put("name", itineraryProjection.getName());
+                    data.put("startDate", itineraryProjection.getStartDate());
+                    data.put("endDate", itineraryProjection.getEndDate());
+                    data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
+                    return data;
+                })
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(itineraryData, HttpStatus.OK);
+    }
+
 }
