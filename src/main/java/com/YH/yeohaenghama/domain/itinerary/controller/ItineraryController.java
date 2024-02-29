@@ -95,16 +95,19 @@ public class ItineraryController {
         }
     }
 
-    @GetMapping("/account/{accountId}")
+    @Operation(summary = "유저의 모든 일정 조회")
+    @GetMapping("/itineraryShow/{accountId}")
     public ResponseEntity<List<Map<String, Object>>> getItinerariesByAccountId(@PathVariable Long accountId) {
         List<ItineraryRepository.ItineraryProjection> itineraries = itineraryService.getItinerariesByAccountId(accountId);
 
         List<Map<String, Object>> itineraryData = itineraries.stream()
                 .map(itineraryProjection -> {
                     Map<String, Object> data = new HashMap<>();
+                    data.put("itineraryId", itineraryProjection.getId());
                     data.put("name", itineraryProjection.getName());
                     data.put("startDate", itineraryProjection.getStartDate());
                     data.put("endDate", itineraryProjection.getEndDate());
+                    data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
                     return data;
                 })
                 .collect(Collectors.toList());

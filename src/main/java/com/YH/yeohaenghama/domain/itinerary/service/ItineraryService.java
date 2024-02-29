@@ -9,6 +9,7 @@ import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 //import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryTypeRepository;
+import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -85,6 +86,13 @@ public class ItineraryService {
 
     public List<ItineraryRepository.ItineraryProjection> getItinerariesByAccountId(Long accountId) {
         return itineraryRepository.findByAccountId(accountId);
+    }
+
+    public final PlaceRepository placeRepository;
+
+    public int getPlaceLength(Long ItineraryId){
+        log.info(String.valueOf(placeRepository.findByItineraryId(ItineraryId).size()));
+        return placeRepository.findByItineraryId(ItineraryId).size();
     }
 }
 
