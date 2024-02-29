@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+</head>
+<body>
+<h2>회원가입</h2>
+<form id="joinForm" action="/api/account/join" method="post" enctype="multipart/form-data">
+    <label for="email">이메일:</label><br>
+    <input type="email" id="email" name="email" ><br><br>
+
+    <label for="pw">비밀번호:</label><br>
+    <input type="password" id="pw" name="pw" ><br><br>
+
+    <label for="nickname">닉네임:</label><br>
+    <input type="text" id="nickname" name="nickname" ><br><br>
+
+    <label for="file">프로필 사진:</label><br>
+    <input type="file" id="file" name="file" accept="image/*"><br><br> <!-- required 제거 -->
+
+    <button type="submit">가입하기</button>
+</form>
+</body>
+</html>
