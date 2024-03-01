@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class OpenApiDirectionsDTO {
+
     @Schema(description = "출발지 X 좌표" , defaultValue = "126.6206396146")
     private String sx;
     @Schema(description = "출발지 Y 좌표" , defaultValue = "37.4728532152")
@@ -15,4 +16,17 @@ public class OpenApiDirectionsDTO {
     private String ey;
     @Schema(description = "이동 수단( 0: 모두 , 1: 지하철 , 2: 버스 )" , defaultValue = "0")
     private String searchPathType;
+
+
+    @Data
+    public static class Car{
+        @Schema(description = "출발지 X 좌표", defaultValue = "126.844856")
+        String startX;
+        @Schema(description = "출발지 Y 좌표", defaultValue = "37.5407361")
+        String startY;
+        @Schema(description = "목적지 X 좌표", defaultValue = "126.8980711")
+        String goalX;
+        @Schema(description = "목적지 Y 좌표", defaultValue = "37.5763214")
+        String goalY;
+    }
 }

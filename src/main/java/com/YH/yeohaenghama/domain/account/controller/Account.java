@@ -1,13 +1,9 @@
 package com.YH.yeohaenghama.domain.account.controller;
 
-import com.YH.yeohaenghama.domain.account.dto.AccountJoinDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
-import com.YH.yeohaenghama.domain.account.entity.AccountSavePlace;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import io.swagger.v3.oas.annotations.*;
-import com.YH.yeohaenghama.uploadImage.service.GCSService;
+import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 @Slf4j
