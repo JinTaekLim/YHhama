@@ -16,6 +16,8 @@ public class Place {
     private Long id;
 
     private int day;
+    private String startTime;
+    private String endTime;
     private String placeType;
     private String placeNum;
     private String placeName;

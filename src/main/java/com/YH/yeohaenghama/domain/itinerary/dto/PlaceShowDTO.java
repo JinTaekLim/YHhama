@@ -9,6 +9,10 @@ import lombok.Setter;
 public class PlaceShowDTO {
 //    @Schema(description = "지정 날짜")
 //    private int day;
+    @Schema(description = "시작 시간")
+    private String startTime;
+    @Schema(description = "종료 시간")
+    private String endTime;
     @Schema(description = "장소 타입 번호")
     private String placeType;
     @Schema(description = "장소 번호(코드)")
@@ -17,5 +21,6 @@ public class PlaceShowDTO {
     private String placeName;
     @Schema(description = "메모")
     private String memo;
+
 
 }
