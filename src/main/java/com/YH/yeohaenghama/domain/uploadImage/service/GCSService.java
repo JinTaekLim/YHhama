@@ -1,4 +1,4 @@
-package com.YH.yeohaenghama.uploadImage.service;
+package com.YH.yeohaenghama.domain.uploadImage.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.BlobInfo;

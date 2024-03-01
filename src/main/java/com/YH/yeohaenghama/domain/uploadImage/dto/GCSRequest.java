@@ -1,4 +1,4 @@
-package com.YH.yeohaenghama.uploadImage.dto;
+package com.YH.yeohaenghama.domain.uploadImage.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

@@ -21,6 +21,9 @@ import java.net.URLEncoder;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/openApi")
@@ -87,8 +90,6 @@ public class OpenApiController {
                     "&pageNo=" + req.getPageNo();
 
 
-
-
             String response = sendHttpRequest(apiUrl);
             result.append("<xmp>").append(response).append("</xmp>");
         } catch (Exception e) {
@@ -123,8 +124,8 @@ public class OpenApiController {
 
 
     @Operation(summary = "대중교통")
-    @PostMapping("/testTran")
-    public String searchArea(@RequestBody OpenApiDirectionsDTO req) throws IOException {
+    @PostMapping("getDirections/transport")
+    public String getDirectionsTransporrt(@RequestBody OpenApiDirectionsDTO req) throws IOException {
         StringBuffer result = new StringBuffer();
         try {
             String apiKey = "/l8EmJ0xgdxUdyZT74sfz8sg9y9K9f3Yy8r3SbZYtFc";
@@ -139,8 +140,7 @@ public class OpenApiController {
 
             String response = sendHttpRequest(apiUrl);
             result.append("<xmp>").append(response).append("</xmp>");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result.toString();
@@ -148,7 +148,36 @@ public class OpenApiController {
     }
 
 
+    @Operation(summary = "자동차")
+    @PostMapping("getDirections/car")
+    public String getDirectionsCar(@RequestBody OpenApiDirectionsDTO.Car req) {
+        String uriPath = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving";
+        String start = req.getStartX() + "," + req.getStartY();
+        String goal = req.getGoalX() + "," + req.getGoalY();
+        String option = "trafast";
+        String clientId = "vc01qvu4yb";
+        String clientSecret = "pVNU6Mh1UIC1Sq0EEm805k5EHLV1GtPKne2or3A1";
 
+        String apiUrl = UriComponentsBuilder.fromHttpUrl(uriPath)
+                .queryParam("start", start)
+                .queryParam("goal", goal)
+                .queryParam("option", option)
+                .toUriString();
+
+        WebClient webClient = WebClient.builder()
+                .baseUrl(apiUrl)
+                .defaultHeader("X-NCP-APIGW-API-KEY-ID", clientId)
+                .defaultHeader("X-NCP-APIGW-API-KEY", clientSecret)
+                .build();
+
+        String response = webClient.get()
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        System.out.println(" response : " + response);
+        return response;
+    }
 
 
     private String sendHttpRequest(String apiUrl) throws Exception {
