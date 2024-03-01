@@ -16,8 +16,10 @@ public class Place {
     private Long id;
 
     private int day;
+    private String placeType;
     private String placeNum;
     private String placeName;
+    private String memo = null;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "itinerary_id")

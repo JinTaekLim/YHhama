@@ -82,10 +82,11 @@ public class ItineraryService {
 
             for (Place place : places) {
                 PlaceShowDTO placeShowDTO = new PlaceShowDTO();
+                placeShowDTO.setPlaceType(place.getPlaceType());
                 placeShowDTO.setPlaceNum(place.getPlaceNum());
-
                 String dayKey = "Day-" + place.getDay();
                 placeShowDTO.setPlaceName(place.getPlaceName());
+                placeShowDTO.setMemo(place.getMemo());
 
                 placesByDay.computeIfAbsent(dayKey, k -> new ArrayList<>()).add(placeShowDTO);
             }
