@@ -32,7 +32,7 @@ public class ItineraryShowDTO {
     @Schema(description = "일정을 제작한 회원 정보")
     private AccountShowDTO account;
     @Schema(description = "일정의 여행지 정보")
-    private Map<String, List<PlaceShowDTO>> placesByDay; // 날짜별 장소를 저장할 Map
+    private Map<String, List<PlaceShowDTO>> placesByDay;
 
     public ItineraryShowDTO(Itinerary itinerary, AccountShowDTO account, Map<String, List<PlaceShowDTO>> placesByDay) {
         this.itineraryId = itinerary.getId();
