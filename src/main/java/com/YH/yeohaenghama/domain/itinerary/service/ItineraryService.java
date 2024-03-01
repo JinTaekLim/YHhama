@@ -84,6 +84,17 @@ public class ItineraryService {
         }
     }
 
+    public void deleteItinerary(Long itineraryId){
+        Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
+
+        if (optionalItinerary.isPresent()) {
+            log.info(String.valueOf("deleteItinerary : " + itineraryId));
+            itineraryRepository.deleteById(itineraryId);
+        } else {
+            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+        }
+    }
+
     public List<ItineraryRepository.ItineraryProjection> getItinerariesByAccountId(Long accountId) {
         return itineraryRepository.findByAccountId(accountId);
     }
