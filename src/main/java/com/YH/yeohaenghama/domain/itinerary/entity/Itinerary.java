@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.itinerary.entity;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -52,6 +53,18 @@ public class Itinerary {
 
 
 
+    public void update(ItineraryJoinDTO.Request reqDTO) {
+
+        this.name = reqDTO.getName();
+        this.type = reqDTO.getType();
+        this.itineraryStyle = reqDTO.getStyle();
+        this.transportation = reqDTO.getTransportation();
+        this.area = reqDTO.getArea();
+        this.startDate = reqDTO.getStartDate();
+        this.endDate = reqDTO.getEndDate();
+        this.expense = reqDTO.getExpense();
+
+    }
     public void setAccount(Account account) {
         this.account = account;
     }

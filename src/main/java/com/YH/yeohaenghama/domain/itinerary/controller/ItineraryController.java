@@ -127,4 +127,19 @@ public class ItineraryController {
     }
 
 
+    @Operation(summary = "일정 수정")
+    @PostMapping("/itinerary/update")
+    public ResponseEntity itineraryUpdate(@RequestBody ItineraryJoinDTO.Request req, @RequestParam Long accountId, @RequestParam Long itineraryId) {
+        try {
+            ItineraryJoinDTO.Response response = itineraryService.update(itineraryId, req, accountId);
+            return ResponseEntity.ok("[일정]수정 성공\n" + response);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("[일정]수정 실패: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("[일정]수정 실패: " + e.getMessage());
+        }
+    }
+
+
+
 }

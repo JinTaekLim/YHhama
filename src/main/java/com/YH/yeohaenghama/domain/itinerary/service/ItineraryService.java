@@ -48,15 +48,27 @@ public class ItineraryService {
 
     }
 
-    public Itinerary show(Long itineraryId) {
-        Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
+    public ItineraryJoinDTO.Response update(Long itineraryId, ItineraryJoinDTO.Request reqDTO, Long accountId) {
 
-        if (optionalItinerary.isPresent()) {
-            return optionalItinerary.get();
-        } else {
-            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId));
+
+        Itinerary itinerary = itineraryRepository.findById(itineraryId)
+                .orElseThrow(() -> new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId));
+
+        if (!itinerary.getAccount().getId().equals(account.getId())) {
+            throw new IllegalArgumentException("해당 계정에 속한 일정이 아닙니다.");
         }
+
+        itinerary.update(reqDTO);
+
+        itinerary = itineraryRepository.save(itinerary);
+
+        log.info("일정 업데이트 완료");
+
+        return ItineraryJoinDTO.Response.fromEntity(itinerary);
     }
+
 
     public ItineraryShowDTO getItineraryInfo(Long itineraryId) {
         Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
