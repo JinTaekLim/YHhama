@@ -18,4 +18,5 @@ public class Account {
     private String nickname;
 
     private AccountRole role = AccountRole.ACCOUNT;
+
 }

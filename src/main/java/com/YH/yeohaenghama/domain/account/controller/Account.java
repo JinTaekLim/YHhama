@@ -142,4 +142,17 @@ public class Account {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("저장된 장소 삭제 실패: " + e.getMessage());
         }
     }
+
+    @Operation(summary = "비밀번호 무작위 변경")
+    @PostMapping("/ChangePw")
+    public ResponseEntity changePw(@RequestParam String email){
+        try{
+            return ResponseEntity.ok("[성공] 새 비밀번호 : " + accountService.changePw(email));
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 실패 : " + e.getMessage());
+        }
+
+    }
+
 }
