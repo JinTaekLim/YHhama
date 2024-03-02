@@ -25,6 +25,8 @@ public class DiaryDetailDTO {
         private String day;
         @Schema(description = "일기 내용")
         private String content;
+        @Schema(description = "일기 사진 URL")
+        private List<String> photoURL;
 
         public static Response fromEntity(DiaryDetail diaryDetail) {
             Response response = new Response();

@@ -43,4 +43,10 @@ public class DiaryService {
     }
 
 
+    public boolean checkItinerary(Long itineraryId) {
+        return itineraryRepository.findById(itineraryId).isPresent();
+    }
+
+
+
 }

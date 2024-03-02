@@ -49,6 +49,12 @@ public class DiaryController {
                                                   @RequestParam("content") String content,
                                                   @RequestParam("photos") List<MultipartFile> photos) {
         try {
+
+            if(diaryService.checkItinerary(itinerary) == false){
+                log.info("해당 ID를 가진 일정이 존재하지 않습니다. : " + itinerary);
+                throw new NoSuchElementException("해당 ID를 가진 일정이 존재하지 않습니다. : " + itinerary);
+            }
+
             DiaryDTO.Request req = new DiaryDTO.Request();
             req.setItinerary(itinerary);
             req.setDate(date);
@@ -92,6 +98,11 @@ public class DiaryController {
                                                         @RequestParam("content") String content,
                                                         @RequestParam("photos") List<MultipartFile> photos) {
         try {
+
+            if(diaryDetailService.checkDiary(diary) == false){
+                log.info("해당 ID를 가진 일정이 존재하지 않습니다. : " + diary);
+                throw new NoSuchElementException("해당 ID를 가진 일정이 존재하지 않습니다. : " + diary);
+            }
             DiaryDetailDTO.Request req = new DiaryDetailDTO.Request();
             req.setDiaryId(diary);
             req.setDay(day);

@@ -41,4 +41,9 @@ public class DiaryDetailService {
         return DiaryDetailDTO.Response.fromEntity(diaryDetail);
     }
 
+
+    public boolean checkDiary(Long diaryId) {
+        return diaryRepository.findById(diaryId).isPresent();
+    }
+
 }
