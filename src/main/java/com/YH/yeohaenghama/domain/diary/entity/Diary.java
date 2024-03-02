@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,18 +28,19 @@ public class Diary {
     @Column(nullable = false)
     private String content;
 
-    @ElementCollection
-    @CollectionTable(name = "diary_photo_url", joinColumns = @JoinColumn(name = "diary_id"))
-    @Column(name = "photo_url", nullable = false)
-    private List<String> photoURL;
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiaryPhotoUrl> diaryPhotoUrls;
+
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiaryDetail> diaryDetails = new ArrayList<>();
 
     @Builder
-    public Diary(String date, String title, String content, List<String> photoURL, Long itinerary) {
+    public Diary(String date, String title, String content, Long itinerary,List<DiaryPhotoUrl> diaryPhotoUrls) {
         this.date = date;
         this.title = title;
         this.content = content;
-        this.photoURL = photoURL;
         this.itinerary = itinerary;
+        this.diaryPhotoUrls = diaryPhotoUrls;
     }
 
 }

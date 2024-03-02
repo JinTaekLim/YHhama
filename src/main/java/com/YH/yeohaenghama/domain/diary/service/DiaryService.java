@@ -2,12 +2,15 @@ package com.YH.yeohaenghama.domain.diary.service;
 
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
+import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
+import com.YH.yeohaenghama.domain.diary.repository.DiaryPhotoUrlRepository;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -16,6 +19,7 @@ import java.util.NoSuchElementException;
 public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final ItineraryRepository itineraryRepository;
+    private final DiaryPhotoUrlRepository diaryPhotoUrlRepository;
 
     public DiaryDTO.Response save(DiaryDTO.Request req) {
         log.info("DiaryDTO　확인 : " + req);
@@ -27,7 +31,19 @@ public class DiaryService {
         DiaryDTO diaryDTO = new DiaryDTO(req);
         Diary diary = diaryRepository.save(diaryDTO.toEntity());
 
-        return DiaryDTO.Response.fromEntity(diary);
+        for (String photoUrl : req.getPhotoURL()) {
+            DiaryPhotoUrl diaryPhotoUrl = DiaryPhotoUrl.builder()
+                    .diary(diary)
+                    .photoUrl(photoUrl)
+                    .build();
+            diaryPhotoUrlRepository.save(diaryPhotoUrl);
+        }
 
+        return DiaryDTO.Response.fromEntity(diary);
     }
+
+
+
+
+
 }

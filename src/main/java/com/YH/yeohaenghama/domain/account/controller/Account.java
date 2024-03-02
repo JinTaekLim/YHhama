@@ -48,7 +48,7 @@ public class Account {
                                                 @RequestParam("file") MultipartFile file) {
 
         try {
-            if (email.isEmpty() || pw.isEmpty() || nickname.isEmpty() || file.isEmpty()) {
+            if (email.isEmpty() || pw.isEmpty() || nickname.isEmpty() ) {
                 return ResponseEntity.badRequest().body("누락된 데이터가 존재합니다.");
             }
 

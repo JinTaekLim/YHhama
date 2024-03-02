@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다이어리 작성 폼</title>
+</head>
+<body>
+<h2>다이어리 작성</h2>
+<form action="/api/Diary/save" method="post" enctype="multipart/form-data">
+    <label for="itinerary">일정 ID:</label>
+    <input type="text" id="itinerary" name="itinerary"><br><br>
+
+    <label for="date">날짜:</label>
+    <input type="text" id="date" name="date"><br><br>
+
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title"><br><br>
+
+    <label for="content">내용:</label><br>
+    <textarea id="content" name="content" rows="4" cols="50"></textarea><br><br>
+
+    <label for="photos">사진 선택:</label>
+    <input type="file" id="photos" name="photos" multiple><br><br>
+
+    <button type="submit">작성 완료</button>
+</form>
+</body>
+</html>

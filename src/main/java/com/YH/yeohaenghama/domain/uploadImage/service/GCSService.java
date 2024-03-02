@@ -30,7 +30,7 @@ public class GCSService {
     public String uploadPhoto(MultipartFile file, String fileName,String folder) throws IOException {
         if (file == null || file.isEmpty()) {
             log.error("사진 데이터를 전달 받지 못 했습니다.");
-            throw new NoSuchElementException("[uploadPhoto] 사진 데이터를 전달 받지 못 했습니다.");
+            return null;
         }
 
         log.info("파일명 : {}", fileName);

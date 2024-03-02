@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.diary.dto;
 
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
+import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,7 +11,9 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.JoinColumn;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class DiaryDTO {
@@ -38,8 +41,6 @@ public class DiaryDTO {
         private String title;
         @Schema(description = "일기 내용")
         private String content;
-        @Schema(description = "일기 사진 URL")
-        private List<String> photoURL;
 
         public static Response fromEntity(Diary diary) {
             Response response = new Response();
@@ -47,7 +48,7 @@ public class DiaryDTO {
             response.setDate(diary.getDate());
             response.setTitle(diary.getTitle());
             response.setContent(diary.getContent());
-            response.setPhotoURL(diary.getPhotoURL());
+
             return response;
         }
 
@@ -65,7 +66,6 @@ public class DiaryDTO {
                 .date(request.getDate())
                 .title(request.getTitle())
                 .content(request.getContent())
-                .photoURL(request.getPhotoURL())
                 .itinerary(request.getItinerary())
                 .build();
     }
