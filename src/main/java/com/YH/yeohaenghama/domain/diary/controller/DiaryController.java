@@ -3,6 +3,9 @@ package com.YH.yeohaenghama.domain.diary.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.common.apiResult.CommonResult;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
+import com.YH.yeohaenghama.domain.diary.dto.DiaryDetailDTO;
+import com.YH.yeohaenghama.domain.diary.entity.DiaryDetail;
+import com.YH.yeohaenghama.domain.diary.service.DiaryDetailService;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +25,11 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/Diary")
 public class DiaryController {
     private final DiaryService diaryService;
+    private final DiaryDetailService diaryDetailService;
     private final GCSService gcsService;
 
 
-//    @PostMapping("/save")
+    //    @PostMapping("/save")
 //    public ApiResult<DiaryDTO.Response> diarySave(@RequestBody DiaryDTO.Request req)   {
 //        try {
 //            DiaryDTO.Response response = diaryService.save(req);
@@ -38,60 +42,85 @@ public class DiaryController {
 //            return ApiResult.fail("");
 //        }
 //    }
-@PostMapping("/save")
-public ApiResult<DiaryDTO.Response> diarySave(@RequestParam("itinerary") Long itinerary,
-                                              @RequestParam("date") String date,
-                                              @RequestParam("title") String title,
-                                              @RequestParam("content") String content,
-                                              @RequestParam("photos") List<MultipartFile> photos) {
-    try {
-        DiaryDTO.Request req = new DiaryDTO.Request();
-        req.setItinerary(itinerary);
-        req.setDate(date);
-        req.setTitle(title);
-        req.setContent(content);
+    @PostMapping("/save")
+    public ApiResult<DiaryDTO.Response> diarySave(@RequestParam("itinerary") Long itinerary,
+                                                  @RequestParam("date") String date,
+                                                  @RequestParam("title") String title,
+                                                  @RequestParam("content") String content,
+                                                  @RequestParam("photos") List<MultipartFile> photos) {
+        try {
+            DiaryDTO.Request req = new DiaryDTO.Request();
+            req.setItinerary(itinerary);
+            req.setDate(date);
+            req.setTitle(title);
+            req.setContent(content);
 
-        List<String> photoURLs = new ArrayList<>();
+            List<String> photoURLs = new ArrayList<>();
 
-        int photoName = 1;
+            int photoName = 1;
 
-        for (MultipartFile photo : photos) {
-            String photoUrl = gcsService.uploadPhoto(photo, "Diary" + photoName , "Diary/" + String.valueOf(req.getItinerary()));
-            if(photoUrl != null){
-                log.info("업로드 사진명 : " + photo.getOriginalFilename());
-                photoURLs.add(photoUrl);
-                photoName += 1;
-            }
-        }
-
-        req.setPhotoURL(photoURLs);
-
-        DiaryDTO.Response response = diaryService.save(req);
-        return ApiResult.success(response);
-    } catch (NoSuchElementException e) {
-        return ApiResult.notFound(e.getMessage());
-    } catch (Exception e) {
-        log.info(e.getMessage());
-        return ApiResult.fail("");
-    }
-}
-
-
-
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("photos") List<MultipartFile> photos,
-                                   @RequestParam("title") String foloder) throws IOException {
-
-        for (MultipartFile photo : photos) {
-
-            String photoUrl = gcsService.uploadPhoto(photo, photo.getOriginalFilename(), foloder);
-            if(photoUrl != null){
-                log.info("업로드 사진명 : " + photo.getOriginalFilename());
-
+            for (MultipartFile photo : photos) {
+                String photoUrl = gcsService.uploadPhoto(photo, "Diary" + photoName, "Diary/" + String.valueOf(req.getItinerary()));
+                if (photoUrl != null) {
+                    log.info("업로드 사진명 : " + photo.getOriginalFilename());
+                    photoURLs.add(photoUrl);
+                    photoName += 1;
+                }
             }
 
-        }
+            req.setPhotoURL(photoURLs);
 
-        return "파일 업로드 완료";
+            DiaryDTO.Response response = diaryService.save(req);
+            return ApiResult.success(response);
+        } catch (NoSuchElementException e) {
+            return ApiResult.notFound(e.getMessage());
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return ApiResult.fail("");
+        }
     }
+
+
+
+
+
+
+
+    @PostMapping("/Detailsave")
+    public ApiResult<DiaryDetailDTO.Response> diarySave(@RequestParam("diary") Long diary,
+                                                        @RequestParam("day") String day,
+                                                        @RequestParam("content") String content,
+                                                        @RequestParam("photos") List<MultipartFile> photos) {
+        try {
+            DiaryDetailDTO.Request req = new DiaryDetailDTO.Request();
+            req.setDiaryId(diary);
+            req.setDay(day);
+            req.setContent(content);
+
+            List<String> photoURLs = new ArrayList<>();
+
+            int photoName = 1;
+
+            for (MultipartFile photo : photos) {
+                String photoUrl = gcsService.uploadPhoto(photo, "Diary" + photoName, "Diary/" + req.getDiaryId() + "/Day" + req.getDay());
+                if (photoUrl != null) {
+                    log.info("업로드 사진명 : " + photo.getOriginalFilename());
+                    photoURLs.add(photoUrl);
+                    photoName += 1;
+                }
+            }
+
+            req.setPhotoURL(photoURLs);
+
+            DiaryDetailDTO.Response response = diaryDetailService.detailSave(req);
+            return ApiResult.success(response);
+        } catch (NoSuchElementException e) {
+            return ApiResult.notFound(e.getMessage());
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return ApiResult.fail("");
+        }
+    }
+
+
 }

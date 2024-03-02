@@ -16,4 +16,9 @@ public class html {
         return "test"; // photo.html 템플릿을 반환
     }
 
+    @GetMapping("/detail")
+    public String detail() {
+        return "detail"; // photo.html 템플릿을 반환
+    }
+
 }
