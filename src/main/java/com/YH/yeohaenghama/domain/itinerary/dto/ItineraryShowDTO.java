@@ -47,4 +47,8 @@ public class ItineraryShowDTO {
         this.account = account;
         this.placesByDay = placesByDay;
     }
+
+    public Long getId() {
+        return this.itineraryId;
+    }
 }
