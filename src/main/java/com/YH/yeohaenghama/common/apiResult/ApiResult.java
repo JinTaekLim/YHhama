@@ -21,6 +21,23 @@ public class ApiResult<T> extends CommonResult {
         return result;
     }
 
+    public static <T> ApiResult<T> notFound(String msg) {
+        ApiResult<T> result = new ApiResult();
+        result.setSuccess(true);
+        result.setCode(CommonResult.notFound().getCode());
+        result.setMsg(msg);
+        return result;
+    }
+
+    public static <T> ApiResult<T> fail(String msg) {
+        ApiResult<T> result = new ApiResult();
+        result.setSuccess(true);
+        result.setCode(CommonResult.fail().getCode());
+        result.setMsg(CommonResult.fail().getMessage()+msg);
+        return result;
+    }
+
+
     public ApiResult() {
     }
 

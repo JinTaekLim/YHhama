@@ -18,7 +18,7 @@ public class DiaryService {
     private final ItineraryRepository itineraryRepository;
 
     public DiaryDTO.Response save(DiaryDTO.Request req) {
-
+        log.info("DiaryDTO　확인 : " + req);
         if(itineraryRepository.findById(req.getItinerary()).isEmpty()){
             log.info("해당 ID를 가진 일정이 존재하지 않습니다. : " + req.getItinerary());
             throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + req.getItinerary());
