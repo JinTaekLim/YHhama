@@ -53,11 +53,14 @@ public ApiResult<DiaryDTO.Response> diarySave(@RequestParam("itinerary") Long it
 
         List<String> photoURLs = new ArrayList<>();
 
+        int photoName = 1;
+
         for (MultipartFile photo : photos) {
-            String photoUrl = gcsService.uploadPhoto(photo, photo.getOriginalFilename(), String.valueOf(req.getItinerary()));
+            String photoUrl = gcsService.uploadPhoto(photo, "Diary" + photoName , "Diary/" + String.valueOf(req.getItinerary()));
             if(photoUrl != null){
                 log.info("업로드 사진명 : " + photo.getOriginalFilename());
                 photoURLs.add(photoUrl);
+                photoName += 1;
             }
         }
 
