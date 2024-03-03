@@ -19,12 +19,11 @@ public class DiaryDetail {
     @OneToMany(mappedBy = "diaryDetail", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DiaryDetailPhotoURL> diaryDetailPhotoURLS;
 
-    @ManyToOne
     @JoinColumn(name = "diary_id")
-    private Diary diary;
+    private Long diary;
 
     @Builder
-    public DiaryDetail(String day, String content, List<DiaryDetailPhotoURL> diaryDetailPhotoURLS, Diary diary) {
+    public DiaryDetail(String day, String content, List<DiaryDetailPhotoURL> diaryDetailPhotoURLS, Long diary) {
         this.day = day;
         this.content = content;
         this.diaryDetailPhotoURLS = diaryDetailPhotoURLS;
