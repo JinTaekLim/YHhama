@@ -1,10 +1,8 @@
 package com.YH.yeohaenghama.domain.diary.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
-import com.YH.yeohaenghama.common.apiResult.CommonResult;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDetailDTO;
-import com.YH.yeohaenghama.domain.diary.entity.DiaryDetail;
 import com.YH.yeohaenghama.domain.diary.service.DiaryDetailService;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
@@ -14,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -65,6 +60,30 @@ public class DiaryController {
             return ApiResult.fail("");
         }
     }
+
+    @PostMapping("/deleteDiary")
+    public ApiResult<DiaryDTO.Response> deleteDiary(@RequestParam("diaryId") Long diraryId){
+        try{
+            DiaryDTO.Response diary = diaryService.checkDiary(diraryId);
+            diaryService.delete(diraryId);
+            log.info(String.valueOf(diary));
+            return ApiResult.success(diary);
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        } catch (Exception e){
+            e.getMessage();
+            return ApiResult.fail("");
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     private void checkItineraryExistence(Long itinerary) {
         if (!diaryService.checkItinerary(itinerary)) {

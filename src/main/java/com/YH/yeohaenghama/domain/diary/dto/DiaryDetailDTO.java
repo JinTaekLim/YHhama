@@ -47,6 +47,7 @@ public class DiaryDetailDTO {
 
     public DiaryDetail toEntity() {
         return DiaryDetail.builder()
+                .diary(request.getDiaryId())
                 .day(request.getDay())
                 .content(request.getContent())
                 .build();

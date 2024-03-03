@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,10 +23,7 @@ public class DiaryService {
 
     public DiaryDTO.Response save(DiaryDTO.Request req) {
         log.info("DiaryDTO　확인 : " + req);
-        if(itineraryRepository.findById(req.getItinerary()).isEmpty()){
-            log.info("해당 ID를 가진 일정이 존재하지 않습니다. : " + req.getItinerary());
-            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + req.getItinerary());
-        };
+        checkItinerary(req.getItinerary());
 
         DiaryDTO diaryDTO = new DiaryDTO(req);
         Diary diary = diaryRepository.save(diaryDTO.toEntity());
@@ -42,6 +39,32 @@ public class DiaryService {
         return DiaryDTO.Response.fromEntity(diary);
     }
 
+    public void delete(Long diaryId){
+        log.info("Diary Id : " + diaryId);
+        log.info(String.valueOf(" 확인 : " +checkDiary(diaryId)));
+        diaryRepository.deleteById(diaryId);
+    }
+
+    public DiaryDTO.Response checkDiary(Long diaryId){
+        Optional<Diary> diaryOptional = diaryRepository.findById(diaryId);
+
+        if(diaryOptional.isEmpty()){
+            log.info("해당 ID를 가진 일기가 존재하지 않습니다. : " + diaryId);
+            throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다. : " + diaryId);
+        }
+
+        Diary diary = diaryOptional.get();
+
+        return DiaryDTO.Response.fromEntity(diary);
+    }
+
+
+//    public void checkItineraryId(DiaryDTO.Request req){
+//        if(itineraryRepository.findById(req.getItinerary()).isEmpty()){
+//            log.info("해당 ID를 가진 일정이 존재하지 않습니다. : " + req.getItinerary());
+//            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + req.getItinerary());
+//        };
+//    }
 
     public boolean checkItinerary(Long itineraryId) {
         return itineraryRepository.findById(itineraryId).isPresent();
