@@ -45,7 +45,7 @@ public class Account {
     public ResponseEntity<String> createAccount(@RequestParam("email") String email,
                                                 @RequestParam("pw") String pw,
                                                 @RequestParam("nickname") String nickname,
-                                                @RequestParam("file") MultipartFile file) {
+                                                @RequestParam(value = "file",required = false) MultipartFile file) {
 
         try {
             if (email.isEmpty() || pw.isEmpty() || nickname.isEmpty() ) {
