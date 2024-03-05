@@ -101,9 +101,9 @@ public class Account {
 
     @Operation(summary = "로그아웃")
     @GetMapping("/logout")
-    public ResponseEntity<String> logout() {
+    public ApiResult logout() {
         httpSession.removeAttribute("loggedInUser");
-        return ResponseEntity.ok("로그아웃 성공");
+        return ApiResult.success("로그아웃 성공");
     }
 
     @Operation(summary = "로그인 상태 확인")
