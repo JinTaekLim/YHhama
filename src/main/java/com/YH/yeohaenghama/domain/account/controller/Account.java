@@ -9,6 +9,7 @@ import com.google.protobuf.Api;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import io.swagger.v3.oas.annotations.*;
 import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
@@ -78,15 +80,22 @@ public class Account {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AccountLoginDTO req) {
-        com.YH.yeohaenghama.domain.account.entity.Account account = accountService.login(req);
-        if (account != null) {
+    public ApiResult<AccountLoginDTO> login(@RequestBody AccountLoginDTO req) {
+        try{
+            if(req.getEmail()==null || req.getPw()==null){
+                return ApiResult.badRequest("누락된 데이터가 존재합니다.");
+            }
+            com.YH.yeohaenghama.domain.account.entity.Account account = accountService.login(req);
             httpSession.setAttribute("loggedInId", account);
             httpSession.setAttribute("nickname", account.getNickname());
             httpSession.setAttribute("AccountId", account.getId());
-            return ResponseEntity.ok("로그인 성공 (ID = " + account.getId() + ")");
-        } else {
-            return ResponseEntity.badRequest().body("이메일 또는 비밀번호가 올바르지 않습니다.");
+            return ApiResult.success(req);
+        }
+        catch (NoSuchElementException e){
+            return ApiResult.success( req,"로그인 실패 : " + e.getMessage());
+        }
+        catch (Exception e) {
+            return ApiResult.fail("");
         }
     }
 
