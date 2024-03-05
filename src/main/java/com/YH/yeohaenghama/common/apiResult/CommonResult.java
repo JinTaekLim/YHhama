@@ -16,6 +16,19 @@ public class CommonResult {
         return result;
     }
 
+
+    public static CommonResult badRequest() {
+        return badRequest(new CommonResult());
+    }
+
+
+    protected static CommonResult badRequest(CommonResult result) {
+        result.setSuccess(false);
+        result.setCode(CommonResponse.BAD_REQUEST.getCode());
+        result.setMsg(CommonResponse.BAD_REQUEST.getMessage());
+        return result;
+    }
+
     public static CommonResult notFound() {
         return notFound(new CommonResult());
     }

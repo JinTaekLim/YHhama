@@ -1,9 +1,11 @@
 package com.YH.yeohaenghama.domain.account.controller;
 
+import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
+import com.google.protobuf.Api;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,23 +35,23 @@ public class Account {
 
     @Operation(summary = "아이디 중복 체크")
     @PostMapping("/emailDuplicateCheck")
-    public ResponseEntity<String> emailDuplicateCheck(@RequestParam String email){
+    public ApiResult emailDuplicateCheck(@RequestParam String email){
         if(accountService.emailDuplicateCheck(email) == false){
-            return ResponseEntity.ok("사용 가능한 이메일 입니다.");
+            return ApiResult.success(email,"사용 가능한 이메일 주소 입니다.");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 이메일 주소 입니다.");
+        return ApiResult.fail("중복되는 이메일 주소가 있습니다.");
     }
 
     @Operation(summary = "회원가입")
     @PostMapping("/join")
-    public ResponseEntity<String> createAccount(@RequestParam("email") String email,
-                                                @RequestParam("pw") String pw,
-                                                @RequestParam("nickname") String nickname,
-                                                @RequestParam(value = "file",required = false) MultipartFile file) {
+    public ApiResult createAccount(@RequestParam("email") String email,
+                                     @RequestParam("pw") String pw,
+                                     @RequestParam("nickname") String nickname,
+                                     @RequestParam(value = "file",required = false) MultipartFile file) {
 
         try {
             if (email.isEmpty() || pw.isEmpty() || nickname.isEmpty() ) {
-                return ResponseEntity.badRequest().body("누락된 데이터가 존재합니다.");
+                return ApiResult.badRequest("누락된 데이터가 존재합니다.");
             }
 
             com.YH.yeohaenghama.domain.account.entity.Account account = new com.YH.yeohaenghama.domain.account.entity.Account();
@@ -61,13 +63,14 @@ public class Account {
             account.setPhotoUrl(photoUrl);
             accountService.createAccount(account);
 
-            return ResponseEntity.ok("회원가입 성공");
+            log.info(email);
+            return ApiResult.success(email,"회원 가입 성공");
         } catch (MultipartException e) {
-            return ResponseEntity.badRequest().body("파일 형식이 잘못되었습니다.");
+            return ApiResult.badRequest("파일 형식이 잘못되었습니다.");
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
+            return ApiResult.fail("파일 업로드 중 오류가 발생했습니다");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 가입 실패: " + e.getMessage());
+            return ApiResult.fail("회원 가입 실패");
         }
     }
 

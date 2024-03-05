@@ -8,17 +8,24 @@ public class html {
 
     @GetMapping("/upload-form")
     public String showUploadForm() {
-        return "photo"; // photo.html 템플릿을 반환
+        return "photo";
     }
 
     @GetMapping("/test")
     public String test() {
-        return "test"; // photo.html 템플릿을 반환
+        return "test";
     }
 
     @GetMapping("/detail")
     public String detail() {
-        return "detail"; // photo.html 템플릿을 반환
+        return "detail";}
+
+    @GetMapping("/mt")
+    public String mt() {
+        return "mt";
     }
 
+
+    @GetMapping("imgDTO")
+    public String imgDTO() {return "imgDTO";}
 }

@@ -68,7 +68,7 @@ public class ItineraryController {
     @GetMapping("/showPlace/{itineraryId}")
     public ResponseEntity<List<PlaceShowDTO>> showPlace(@PathVariable Long itineraryId) {
         if (itineraryId == null) {
-            throw new IllegalArgumentException("itineraryId를 제공해야 합니다.");
+            throw new IllegalArgumentException("itineraryId를 입력해주세요.");
         }
         List<Place> places = placeService.show(itineraryId);
         // Place 엔티티를 PlaceDTO로 변환

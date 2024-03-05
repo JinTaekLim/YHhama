@@ -6,6 +6,8 @@ import com.YH.yeohaenghama.domain.diary.dto.DiaryDetailDTO;
 import com.YH.yeohaenghama.domain.diary.service.DiaryDetailService;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
+import com.google.protobuf.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,8 @@ public class DiaryController {
     private final DiaryService diaryService;
     private final DiaryDetailService diaryDetailService;
     private final GCSService gcsService;
+
+    @Operation(summary = "일기 저장")
     @PostMapping("/save")
     public ApiResult<DiaryDTO.Response> diarySave(@RequestParam("itinerary") Long itinerary,
                                                   @RequestParam("date") String date,
@@ -42,6 +46,7 @@ public class DiaryController {
         }
     }
 
+    @Operation(summary = "일정 별 일기 저장")
     @PostMapping("/Detailsave")
     public ApiResult<DiaryDetailDTO.Response> diaryDetailSave(@RequestParam("diary") Long diary,
                                                               @RequestParam("day") String day,
@@ -61,6 +66,7 @@ public class DiaryController {
         }
     }
 
+    @Operation(summary = "일기 삭제")
     @PostMapping("/deleteDiary")
     public ApiResult<DiaryDTO.Response> deleteDiary(@RequestParam("diaryId") Long diraryId){
         try{
@@ -72,6 +78,20 @@ public class DiaryController {
             return ApiResult.notFound(e.getMessage());
         } catch (Exception e){
             e.getMessage();
+            return ApiResult.fail("");
+        }
+    }
+
+    @Operation(summary = "일기 조회")
+    @PostMapping("/showDiary")
+    public ApiResult<DiaryDTO.Response> showDiary(@RequestParam("diaryId") Long diaryId){
+        try {
+            diaryService.getDiary(diaryId);
+            DiaryDTO.Response diaryDTO = diaryService.checkDiary(diaryId);
+            return ApiResult.success(diaryDTO);
+        } catch (NoSuchElementException e) {
+            return ApiResult.notFound(e.getMessage());
+        } catch (Exception e){
             return ApiResult.fail("");
         }
     }

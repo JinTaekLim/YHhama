@@ -12,12 +12,29 @@ public class ApiResult<T> extends CommonResult {
         return result;
     }
 
+    public static <T> ApiResult<T> success(T data,String msg) {
+        ApiResult<T> result = new ApiResult();
+        result.setSuccess(true);
+        result.setCode(CommonResponse.SUCCESS.getCode());
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
+
     public static <T> ApiResult<T> notFound(T data) {
         ApiResult<T> result = new ApiResult();
         result.setSuccess(true);
         result.setCode(CommonResult.notFound().getCode());
         result.setMsg(CommonResult.notFound().getMessage());
         result.setData(data);
+        return result;
+    }
+
+    public static <T> ApiResult<T> badRequest(String msg) {
+        ApiResult<T> result = new ApiResult();
+        result.setSuccess(false);
+        result.setCode(CommonResult.badRequest().getCode());
+        result.setMsg(CommonResult.badRequest().getMessage()+ " : "+msg);
         return result;
     }
 
