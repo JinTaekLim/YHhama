@@ -9,6 +9,7 @@ import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
+import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -99,12 +100,14 @@ public class ItineraryController {
 
     @Operation(summary = "제작된 일정 확인")
     @GetMapping("/{itineraryId}")
-    public ResponseEntity<ItineraryShowDTO> getItineraryInfo(@PathVariable Long itineraryId) {
+    public ApiResult getItineraryInfo(@PathVariable Long itineraryId) {
         try {
             ItineraryShowDTO itineraryInfo = itineraryService.getItineraryInfo(itineraryId);
-            return ResponseEntity.ok(itineraryInfo);
+            return ApiResult.success(itineraryInfo);
         } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
+            return ApiResult.success(e.getMessage());
+        } catch (Exception e){
+            return ApiResult.fail(e.getMessage());
         }
     }
 
