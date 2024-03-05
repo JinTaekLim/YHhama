@@ -69,6 +69,7 @@ public class PlaceService {
         List<Place> places = placeRepository.findByItineraryId(itineraryId);
         if (places.isEmpty()) {
             log.warn("해당 itineraryId를 가진 장소가 존재하지 않습니다. Itinerary ID: {}", itineraryId);
+            throw new NoSuchElementException("해당 itineraryId를 가진 장소가 존재하지 않습니다. Itinerary ID : " + itineraryId);
         }
         return places;
     }

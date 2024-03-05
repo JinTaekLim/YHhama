@@ -73,22 +73,28 @@ public class ItineraryController {
 
     @Operation(summary = "제작된 일정 장소 확인")
     @GetMapping("/showPlace/{itineraryId}")
-    public ResponseEntity<List<PlaceShowDTO>> showPlace(@PathVariable Long itineraryId) {
-        if (itineraryId == null) {
-            throw new IllegalArgumentException("itineraryId를 입력해주세요.");
+    public ApiResult<List<PlaceShowDTO>> showPlace(@PathVariable Long itineraryId) {
+        try {
+            List<Place> places = placeService.show(itineraryId);
+            List<PlaceShowDTO> placeDTOs = places.stream()
+                    .map(place -> {
+                        PlaceShowDTO dto = new PlaceShowDTO();
+                        dto.setStartTime(place.getStartTime());
+                        dto.setEndTime(place.getEndTime());
+                        dto.setPlaceType(place.getPlaceType());
+                        dto.setPlaceNum(place.getPlaceNum());
+                        dto.setPlaceName(place.getPlaceName());
+                        dto.setMemo(place.getMemo());
+                        return dto;
+                    })
+                    .collect(Collectors.toList());
+            return ApiResult.success(placeDTOs);
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
         }
-        List<Place> places = placeService.show(itineraryId);
-        // Place 엔티티를 PlaceDTO로 변환
-        List<PlaceShowDTO> placeDTOs = places.stream()
-                .map(place -> {
-                    PlaceShowDTO dto = new PlaceShowDTO();
-                    //dto.setDay(place.getDay());
-                    dto.setPlaceNum(place.getPlaceNum());
-                    dto.setPlaceName(place.getPlaceName());
-                    return dto;
-                })
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(placeDTOs);
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
     }
 
     @Operation(summary = "제작된 일정 확인")
