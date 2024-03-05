@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.NoSuchElementException;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +26,10 @@ public class RatingController {
         try{
             RatingDTO.Response response = ratingService.join(dto);
             return ApiResult.success(response);
-        }catch (Exception e){
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
             log.info(e.getMessage());
             return ApiResult.fail(e.getMessage());
         }
