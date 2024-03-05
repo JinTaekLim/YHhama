@@ -46,12 +46,15 @@ public class ItineraryController {
 
     @Operation(summary = "일정의 장소 추가")
     @PostMapping("/{itineraryId}")
-    public ResponseEntity<String> createPlaces(@RequestBody List<PlaceJoinDTO> placeDTOs, @PathVariable Long itineraryId) {
+    public ApiResult<List<PlaceJoinDTO>> createPlaces(@RequestBody List<PlaceJoinDTO> placeDTOs, @PathVariable Long itineraryId) {
         try {
             placeService.createPlaces(placeDTOs, itineraryId);
-            return ResponseEntity.status(HttpStatus.CREATED).body("[일정]장소 추가 성공");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("[일정]장소 추가 실패 : " + e.getMessage());
+            return ApiResult.success(placeDTOs,"장소 추가 성공");
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e) {
+            return ApiResult.fail("[일정]장소 추가 실패 : " + e.getMessage());
         }
     }
 //
