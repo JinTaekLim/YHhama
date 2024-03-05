@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.rating.service;
 
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.rating.dto.RatingDTO;
+import com.YH.yeohaenghama.domain.rating.dto.RatingDeleteDTO;
 import com.YH.yeohaenghama.domain.rating.dto.RatingShowDTO;
 import com.YH.yeohaenghama.domain.rating.entity.Rating;
 import com.YH.yeohaenghama.domain.rating.repository.RatingRepository;
@@ -61,5 +62,18 @@ public class RatingService {
         log.info(String.valueOf(response));
         return response;
 
+    }
+
+    public RatingDeleteDTO.Request delete(RatingDeleteDTO.Request dto){
+        List<Rating> ratings = ratingRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId());
+
+        log.info(ratings.toString());
+        if(!ratings.isEmpty()){
+            ratingRepository.deleteById(ratings.getFirst().getId());
+            return dto;
+        }
+        else {
+            throw new NoSuchElementException("해당 장소에 저장된 평점이 존재하지 않습니다. : " + dto);
+        }
     }
 }

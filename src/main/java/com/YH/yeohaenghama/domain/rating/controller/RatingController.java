@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.rating.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.rating.dto.RatingDTO;
+import com.YH.yeohaenghama.domain.rating.dto.RatingDeleteDTO;
 import com.YH.yeohaenghama.domain.rating.dto.RatingShowDTO;
 import com.YH.yeohaenghama.domain.rating.service.RatingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,6 +45,21 @@ public class RatingController {
         try{
             return ApiResult.success(ratingService.show(dto));
         }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+    @Operation(summary = "평점 삭제")
+    @PostMapping("/delete")
+    public ApiResult<RatingDeleteDTO.Request> show(@RequestBody RatingDeleteDTO.Request dto){
+        try{
+            ratingService.delete(dto);
+            return ApiResult.success(dto);
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
     }
