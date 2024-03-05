@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -26,6 +27,9 @@ public class RatingController {
             RatingDTO.Response response = ratingService.join(dto);
             return ApiResult.success(response);
         }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (DataIntegrityViolationException e){
             return ApiResult.success(null,e.getMessage());
         }
         catch (Exception e){

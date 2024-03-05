@@ -8,6 +8,7 @@ public class RatingShowDTO {
     public static class Request{
         private Long contentTypeId;
         private Long contentId;
+        private Long accountId;
     }
     @Data
     public static class Response{

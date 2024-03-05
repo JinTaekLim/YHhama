@@ -7,6 +7,8 @@ import com.YH.yeohaenghama.domain.rating.entity.Rating;
 import com.YH.yeohaenghama.domain.rating.repository.RatingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,9 @@ public class RatingService {
     public RatingDTO.Response join(RatingDTO.Request dto){
         if(accountRepository.findById(Long.valueOf(dto.getAccountId())).isEmpty()){
             throw new NoSuchElementException("해당 ID값을 가진 유저가 존재하지 않습니다. : " + dto.getAccountId());
+        }
+        if(!ratingRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(),dto.getContentId(), dto.getAccountId()).isEmpty()){
+            throw new DataIntegrityViolationException("이미 해당 장소의 등록된 평점이 존재합니다. ");
         }
 
         RatingDTO ratingDTO = new RatingDTO(dto);
