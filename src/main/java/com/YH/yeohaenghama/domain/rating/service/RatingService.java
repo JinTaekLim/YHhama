@@ -69,7 +69,7 @@ public class RatingService {
 
         log.info(ratings.toString());
         if(!ratings.isEmpty()){
-            ratingRepository.deleteById(ratings.getFirst().getId());
+            ratingRepository.deleteById(ratings.get(0).getId());
             return dto;
         }
         else {
