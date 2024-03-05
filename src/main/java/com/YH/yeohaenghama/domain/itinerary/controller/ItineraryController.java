@@ -141,12 +141,15 @@ public class ItineraryController {
 
     @Operation(summary = "일정 삭제")
     @GetMapping("/itinerary/delete/{itineraryId}")
-    public ResponseEntity itineraryDelete(@RequestParam Long itineraryId) {
+    public ApiResult itineraryDelete(@RequestParam Long itineraryId) {
         try {
             itineraryService.deleteItinerary(itineraryId);
-            return ResponseEntity.ok("일정 삭제 성공");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("[일정]장소 삭제 실패 : " + e.getMessage());
+            return ApiResult.success("일정 삭제 성공");
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e) {
+            return ApiResult.fail("[일정]장소 삭제 실패 : " + e.getMessage());
         }
     }
 
