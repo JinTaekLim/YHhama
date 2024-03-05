@@ -155,12 +155,17 @@ public class Account {
 
     @Operation(summary = "저장한 장소 삭제")
     @PostMapping("/deletePlace")
-    public ResponseEntity<String> deletePlace(@RequestParam Long accountId, @RequestParam Long placeId){
+    public ApiResult deletePlace(@RequestParam Long accountId, @RequestParam Long placeId){
         try {
             accountSavePlaceService.DeletePlace(accountId,placeId);
-            return ResponseEntity.ok("저장된 장소 삭제 완료");
+            return ApiResult.success("저장된 장소 삭제 완료");
+        } catch (IllegalArgumentException e){
+            return ApiResult.success(accountId,e.getMessage());
+        }
+        catch (NoSuchElementException e) {
+            return ApiResult.success(null, e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("저장된 장소 삭제 실패: " + e.getMessage());
+            return ApiResult.fail("저장된 장소 삭제 실패: " + e.getMessage());
         }
     }
 
