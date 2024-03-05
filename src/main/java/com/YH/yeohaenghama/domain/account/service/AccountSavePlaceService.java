@@ -22,7 +22,7 @@ public class AccountSavePlaceService {
     private final AccountSavePlaceRepository accountSavePlaceRepository;
     private final AccountRepository accountRepository;
 
-    public void SavePlace(AccountSavePlaceDTO req, Long accountId){
+    public boolean SavePlace(AccountSavePlaceDTO req, Long accountId){
 
         Account account = findAccountById(accountId);
 
@@ -38,8 +38,10 @@ public class AccountSavePlaceService {
         } else {
             for (AccountSavePlace accountSavePlace : accountData) {
                 log.info("이미 저장되어 있는 장소입니다. : " + accountSavePlace);
+                return false;
             }
         }
+        return true;
     }
 
 
@@ -84,7 +86,6 @@ public class AccountSavePlaceService {
 
     private AccountSavePlaceDTO mapToDto(AccountSavePlace place) {
         AccountSavePlaceDTO dto = new AccountSavePlaceDTO();
-        dto.setId(place.getId());
         dto.setPlaceNum(place.getPlaceNum());
         dto.setContentTypeId(place.getContentTypeId());
         return dto;

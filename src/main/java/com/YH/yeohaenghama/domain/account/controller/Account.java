@@ -102,29 +102,40 @@ public class Account {
     @Operation(summary = "로그아웃")
     @GetMapping("/logout")
     public ApiResult logout() {
-        httpSession.removeAttribute("loggedInUser");
-        return ApiResult.success("로그아웃 성공");
+        try{
+            httpSession.removeAttribute("loggedInUser");
+            return ApiResult.success("로그아웃 성공");
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
     }
 
     @Operation(summary = "로그인 상태 확인")
     @GetMapping("/home")
-    public ResponseEntity<String> home() {
-        if (httpSession.getAttribute("loggedInUser") == null) {
-            return ResponseEntity.ok("로그인 되어 있지 않음");
-        } else {
-            return ResponseEntity.ok("로그인 되어 있음");
+    public ApiResult home() {
+        try {
+            if (httpSession.getAttribute("loggedInUser") == null) {
+                return ApiResult.success("로그인 되어 있지 않음");
+            } else {
+                return ApiResult.success("로그인 되어 있음");
+            }
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
         }
     }
 
     @Operation(summary = "장소 저장")
     @PostMapping("/savePlace")
-    public ResponseEntity<String> savePlace(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId) {
+    public ApiResult<AccountSavePlaceDTO> savePlace(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId) {
         try {
-            accountSavePlaceService.SavePlace(requestDto, accountId);
-            return ResponseEntity.ok("장소 저장 완료");
+            boolean place = accountSavePlaceService.SavePlace(requestDto, accountId);
+            if(place == false){
+                return ApiResult.success(requestDto,"이미 저장되어 있는 장소입니다.");
+            }
+            return ApiResult.success(requestDto,"장소 저장 완료");
         }
         catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장소 저장 실패: " + e.getMessage());
+            return ApiResult.fail("장소 저장 실패: " + e.getMessage());
         }
     }
 
