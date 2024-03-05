@@ -141,12 +141,15 @@ public class Account {
 
     @Operation(summary = "저장한 장소 조회")
     @GetMapping("/{accountId}")
-    public List<AccountSavePlaceDTO> viewSavePlaces(@PathVariable Long accountId) {
+    public ApiResult<List<AccountSavePlaceDTO>> viewSavePlaces(@PathVariable Long accountId) {
         try{
-            return accountSavePlaceService.ViewSavePlace(accountId);
+            return ApiResult.success(accountSavePlaceService.ViewSavePlace(accountId));
+        }
+        catch (IllegalArgumentException e){
+            return ApiResult.success(null,e.getMessage());
         }
         catch (Exception e){
-            return Collections.emptyList();
+            return ApiResult.fail(e.getMessage());
         }
     }
 

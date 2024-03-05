@@ -45,8 +45,9 @@ public class AccountSavePlaceService {
     }
 
 
-    public List<AccountSavePlaceDTO> ViewSavePlace(Long accountId) {
+    public List<AccountSavePlaceDTO> ViewSavePlace(Long accountId){
         findAccountById(accountId);
+
         log.info("[ViewSavePlace] 유저 조회 성공");
 
         List<AccountSavePlace> accountData = accountSavePlaceRepository.findByAccountId(accountId);
@@ -80,7 +81,7 @@ public class AccountSavePlaceService {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> {
                     log.info("해당 id 값을 가진 유저가 존재하지 않습니다. : ");
-                    throw new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다.");
+                    return new IllegalArgumentException("해당 id 값을 가진 유저가 존재하지 않습니다. : ");
                 });
     }
 
