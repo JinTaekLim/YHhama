@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.itinerary.controller;
 
+import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.*;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
@@ -31,12 +32,15 @@ public class ItineraryController {
 
     @Operation(summary = "일정 생성")
     @PostMapping("/join/{accountId}") //
-    public ResponseEntity<ItineraryJoinDTO.Response> saveItinerary(@RequestBody ItineraryJoinDTO.Request reqDTO, @PathVariable Long accountId) {
+    public ApiResult<ItineraryJoinDTO.Response> saveItinerary(@RequestBody ItineraryJoinDTO.Request reqDTO, @PathVariable Long accountId) {
         try {
             ItineraryJoinDTO.Response response = itineraryService.save(reqDTO, accountId);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return null;
+            return ApiResult.success(response);
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e) {
+            return ApiResult.fail(e.getMessage());
         }
     }
 
