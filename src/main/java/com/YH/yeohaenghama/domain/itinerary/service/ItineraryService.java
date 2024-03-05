@@ -111,6 +111,8 @@ public class ItineraryService {
     }
 
     public List<ItineraryRepository.ItineraryProjection> getItinerariesByAccountId(Long accountId) {
+        accountRepository.findById(accountId)
+                .orElseThrow(() -> new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId));
         return itineraryRepository.findByAccountId(accountId);
     }
 

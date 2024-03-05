@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -32,7 +33,7 @@ public class PlaceService {
                 .orElse(null);
 
         if (itinerary == null) {
-            throw new RuntimeException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
         }
 
 
@@ -68,6 +69,7 @@ public class PlaceService {
         List<Place> places = placeRepository.findByItineraryId(itineraryId);
         if (places.isEmpty()) {
             log.warn("해당 itineraryId를 가진 장소가 존재하지 않습니다. Itinerary ID: {}", itineraryId);
+            throw new NoSuchElementException("해당 itineraryId를 가진 장소가 존재하지 않습니다. Itinerary ID : " + itineraryId);
         }
         return places;
     }
