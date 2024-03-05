@@ -113,22 +113,30 @@ public class ItineraryController {
 
     @Operation(summary = "유저의 모든 일정 조회")
     @GetMapping("/itineraryShow/{accountId}")
-    public ResponseEntity<List<Map<String, Object>>> getItinerariesByAccountId(@PathVariable Long accountId) {
-        List<ItineraryRepository.ItineraryProjection> itineraries = itineraryService.getItinerariesByAccountId(accountId);
+    public ApiResult<List<Map<String, Object>>> getItinerariesByAccountId(@PathVariable Long accountId) {
+        try {
+            List<ItineraryRepository.ItineraryProjection> itineraries = itineraryService.getItinerariesByAccountId(accountId);
 
-        List<Map<String, Object>> itineraryData = itineraries.stream()
-                .map(itineraryProjection -> {
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("itineraryId", itineraryProjection.getId());
-                    data.put("name", itineraryProjection.getName());
-                    data.put("startDate", itineraryProjection.getStartDate());
-                    data.put("endDate", itineraryProjection.getEndDate());
-                    data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
-                    return data;
-                })
-                .collect(Collectors.toList());
+            List<Map<String, Object>> itineraryData = itineraries.stream()
+                    .map(itineraryProjection -> {
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("itineraryId", itineraryProjection.getId());
+                        data.put("name", itineraryProjection.getName());
+                        data.put("startDate", itineraryProjection.getStartDate());
+                        data.put("endDate", itineraryProjection.getEndDate());
+                        data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
+                        return data;
+                    })
+                    .collect(Collectors.toList());
 
-        return new ResponseEntity<>(itineraryData, HttpStatus.OK);
+            return ApiResult.success(itineraryData);
+        }
+        catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail("");
+        }
     }
 
     @Operation(summary = "일정 삭제")
