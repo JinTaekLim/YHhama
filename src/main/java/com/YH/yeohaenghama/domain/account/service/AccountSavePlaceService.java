@@ -22,7 +22,7 @@ public class AccountSavePlaceService {
     private final AccountSavePlaceRepository accountSavePlaceRepository;
     private final AccountRepository accountRepository;
 
-    public void SavePlace(AccountSavePlaceDTO req, Long accountId){
+    public boolean SavePlace(AccountSavePlaceDTO req, Long accountId){
 
         Account account = findAccountById(accountId);
 
@@ -38,13 +38,16 @@ public class AccountSavePlaceService {
         } else {
             for (AccountSavePlace accountSavePlace : accountData) {
                 log.info("이미 저장되어 있는 장소입니다. : " + accountSavePlace);
+                return false;
             }
         }
+        return true;
     }
 
 
-    public List<AccountSavePlaceDTO> ViewSavePlace(Long accountId) {
+    public List<AccountSavePlaceDTO> ViewSavePlace(Long accountId){
         findAccountById(accountId);
+
         log.info("[ViewSavePlace] 유저 조회 성공");
 
         List<AccountSavePlace> accountData = accountSavePlaceRepository.findByAccountId(accountId);
@@ -78,13 +81,12 @@ public class AccountSavePlaceService {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> {
                     log.info("해당 id 값을 가진 유저가 존재하지 않습니다. : ");
-                    throw new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다.");
+                    return new IllegalArgumentException("해당 id 값을 가진 유저가 존재하지 않습니다. : ");
                 });
     }
 
     private AccountSavePlaceDTO mapToDto(AccountSavePlace place) {
         AccountSavePlaceDTO dto = new AccountSavePlaceDTO();
-        dto.setId(place.getId());
         dto.setPlaceNum(place.getPlaceNum());
         dto.setContentTypeId(place.getContentTypeId());
         return dto;

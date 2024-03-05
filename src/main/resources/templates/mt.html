@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Diary Form</title>
+</head>
+<body>
+<h1>Multi Diary Form</h1>
+<form id="multiDiaryForm" action="/api/Diary/saveMultiple" method="POST" enctype="multipart/form-data">
+    <div id="diaries">
+        <!-- 여러 개의 일기 입력 폼 -->
+        <div class="diary">
+            <label for="date1">Date:</label>
+            <input type="text" id="date1" name="date1" required>
+            <br>
+            <label for="title1">Title:</label>
+            <input type="text" id="title1" name="title1" required>
+            <br>
+            <label for="content1">Content:</label>
+            <textarea id="content1" name="content1" required></textarea>
+            <br>
+            <label for="photos1">Photos:</label>
+            <input type="file" id="photos1" name="photos1" multiple>
+            <br><br>
+        </div>
+    </div>
+    <button type="button" id="addDiary">Add Diary</button>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById("addDiary").addEventListener("click", function() {
+        // 새로운 일기 입력 폼 추가
+        const diariesDiv = document.getElementById("diaries");
+        const numDiaries = diariesDiv.getElementsByClassName("diary").length;
+        const newDiaryDiv = document.createElement("div");
+        newDiaryDiv.classList.add("diary");
+        newDiaryDiv.innerHTML = `
+                <label for="date${numDiaries + 1}">Date:</label>
+                <input type="text" id="date${numDiaries + 1}" name="date${numDiaries + 1}" required>
+                <br>
+                <label for="title${numDiaries + 1}">Title:</label>
+                <input type="text" id="title${numDiaries + 1}" name="title${numDiaries + 1}" required>
+                <br>
+                <label for="content${numDiaries + 1}">Content:</label>
+                <textarea id="content${numDiaries + 1}" name="content${numDiaries + 1}" required></textarea>
+                <br>
+                <label for="photos${numDiaries + 1}">Photos:</label>
+                <input type="file" id="photos${numDiaries + 1}" name="photos${numDiaries + 1}" multiple>
+                <br><br>
+            `;
+        diariesDiv.appendChild(newDiaryDiv);
+    });
+</script>
+</body>
+</html>

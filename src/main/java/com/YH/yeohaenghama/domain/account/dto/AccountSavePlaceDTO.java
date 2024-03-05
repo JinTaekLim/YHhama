@@ -7,8 +7,6 @@ import lombok.Data;
 
 @Data
 public class AccountSavePlaceDTO {
-    @Schema(description = "저장된 장소 ID")
-    private Long id;
     @Schema(description = "장소 번호(코드)")
     private String placeNum;
     @Schema(description = "관광 타입 번호(코드)")

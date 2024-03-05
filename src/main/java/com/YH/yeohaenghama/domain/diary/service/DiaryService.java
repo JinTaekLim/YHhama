@@ -58,6 +58,14 @@ public class DiaryService {
         return DiaryDTO.Response.fromEntity(diary);
     }
 
+    public void getDiary(Long diaryId){
+
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다. : " + diaryId));
+
+        log.info(String.valueOf(diary));
+    }
+
 
 //    public void checkItineraryId(DiaryDTO.Request req){
 //        if(itineraryRepository.findById(req.getItinerary()).isEmpty()){
