@@ -56,7 +56,7 @@ public class ReviewController {
 
     @Operation(summary = "평점 삭제")
     @PostMapping("/delete")
-    public ApiResult<ReviewDeleteDTO.Request> show(@RequestBody ReviewDeleteDTO.Request dto){
+    public ApiResult<ReviewDeleteDTO.Request> delete(@RequestBody ReviewDeleteDTO.Request dto){
         try{
             reviewService.delete(dto);
             return ApiResult.success(dto);

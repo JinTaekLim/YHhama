@@ -73,12 +73,14 @@ public class ReviewService {
 
     public ReviewShowDTO.Response show(ReviewShowDTO.Request dto){
 
+        log.info("DTO확인 :" + dto);
         Long totalRating = Long.valueOf(0);
 
         List<Review> reviews = reviewRepository.findByContentTypeIdAndContentId(dto.getContentTypeId(), dto.getContentId());
         ReviewShowDTO.Response response = new ReviewShowDTO.Response();
 
         if(reviews.isEmpty()){      // 작성된 평점이 없을 때 반환 값들
+            log.info("작성된 값이 없음");
             response.setTotalRating(Long.valueOf(0));
             response.setRatingNum(Long.valueOf(0));
             return response;
@@ -105,7 +107,7 @@ public class ReviewService {
             return dto;
         }
         else {
-            throw new NoSuchElementException("해당 장소에 저장된 평점이 존재하지 않습니다. : " + dto);
+            throw new NoSuchElementException(" 해당 유저가 작성한 장소의 저장된 평점이 존재하지 않습니다. : " + dto);
         }
     }
 }
