@@ -1,31 +1,35 @@
-package com.YH.yeohaenghama.domain.rating.controller;
+package com.YH.yeohaenghama.domain.review.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
-import com.YH.yeohaenghama.domain.rating.dto.RatingDTO;
-import com.YH.yeohaenghama.domain.rating.dto.RatingDeleteDTO;
-import com.YH.yeohaenghama.domain.rating.dto.RatingShowDTO;
-import com.YH.yeohaenghama.domain.rating.service.RatingService;
+import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
+import com.YH.yeohaenghama.domain.review.dto.ReviewDeleteDTO;
+import com.YH.yeohaenghama.domain.review.dto.ReviewShowDTO;
+import com.YH.yeohaenghama.domain.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/rating")
-public class RatingController {
+public class ReviewController {
 
-    private final RatingService ratingService;
+    private final ReviewService reviewService;
     @Operation(summary = "평점 등록")
     @PostMapping("/join")
-    public ApiResult<RatingDTO.Response> join(RatingDTO.Request dto){
+    public ApiResult<ReviewDTO.Response> join(ReviewDTO.Request dto, @RequestParam("photos") List<MultipartFile> photos){
         try{
-            RatingDTO.Response response = ratingService.join(dto);
+            log.info(String.valueOf(dto));
+
+
+            ReviewDTO.Response response = reviewService.join(dto,photos);
             return ApiResult.success(response);
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
@@ -41,9 +45,9 @@ public class RatingController {
 
     @Operation(summary = "평점 확인")
     @PostMapping("/show")
-    public ApiResult show(@RequestBody RatingShowDTO.Request dto){
+    public ApiResult show(@RequestBody ReviewShowDTO.Request dto){
         try{
-            return ApiResult.success(ratingService.show(dto));
+            return ApiResult.success(reviewService.show(dto));
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
@@ -52,9 +56,9 @@ public class RatingController {
 
     @Operation(summary = "평점 삭제")
     @PostMapping("/delete")
-    public ApiResult<RatingDeleteDTO.Request> show(@RequestBody RatingDeleteDTO.Request dto){
+    public ApiResult<ReviewDeleteDTO.Request> show(@RequestBody ReviewDeleteDTO.Request dto){
         try{
-            ratingService.delete(dto);
+            reviewService.delete(dto);
             return ApiResult.success(dto);
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());

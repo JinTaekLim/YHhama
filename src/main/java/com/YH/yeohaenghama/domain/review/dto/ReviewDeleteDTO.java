@@ -1,9 +1,9 @@
-package com.YH.yeohaenghama.domain.rating.dto;
+package com.YH.yeohaenghama.domain.review.dto;
 
 import lombok.Data;
 
 @Data
-public class RatingDeleteDTO {
+public class ReviewDeleteDTO {
     @Data
     public static class Request{
         private Long contentTypeId;
