@@ -32,7 +32,7 @@ public class DiaryService {
     private final DiaryDetailPhotoUrlRepository diaryDetailPhotoUrlRepository;
     private final GCSService gcsService;
 
-    public void save(DiaryDTO.Request req) {
+    public DiaryDTO.Response save(DiaryDTO.Request req) {
         log.info("DiaryDTO 확인 : " + req);
 
         if (itineraryRepository.findById(req.getItinerary()).isEmpty()) {
@@ -81,6 +81,16 @@ public class DiaryService {
 
         }
 
+        return DiaryDTO.Response.fromEntity(diary);
+
+    }
+
+
+    public void delete(Long diaryId){
+        if(diaryRepository.findById(diaryId).isEmpty()){
+            throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다.");
+        }
+        diaryRepository.deleteById(diaryId);
 
     }
 }

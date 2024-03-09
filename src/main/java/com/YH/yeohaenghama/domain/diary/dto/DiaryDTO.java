@@ -44,8 +44,8 @@ public class DiaryDTO {
         private String title;
         @Schema(description = "일기 내용")
         private String content;
-        @Schema(description = "날짜 별 일기")
-        private List<DiaryDetailDTO.Request> detail;
+//        @Schema(description = "날짜 별 일기")
+//        private List<DiaryDetailDTO.Request> detail;
 
         public static Response fromEntity(Diary diary) {
             Response response = new Response();
