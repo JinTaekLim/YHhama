@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.diary.service;
 
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDetailDTO;
+import com.YH.yeohaenghama.domain.diary.dto.DiaryShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryDetail;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryDetailPhotoURL;
@@ -18,8 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -93,4 +97,51 @@ public class DiaryService {
         diaryRepository.deleteById(diaryId);
 
     }
+
+
+    public DiaryShowDTO show(Long diaryId){
+        Optional<Diary> diaryOpt = diaryRepository.findById(diaryId);
+        DiaryShowDTO showDTO = new DiaryShowDTO();
+
+        diaryOpt.ifPresent(diary -> {
+            log.info("Diary found - Title: " + diary.getTitle() + ", Content: " + diary.getContent());
+
+
+            showDTO.setItinerary(diary.getItinerary());
+            showDTO.setTitle(diary.getTitle());
+            showDTO.setDate(diary.getDate());
+            showDTO.setContent(diary.getContent());
+
+
+            List<DiaryPhotoUrl> photoUrls = diaryPhotoUrlRepository.findByDiaryId(diaryId);     // DiaryPhoto 정보 중 Id값을 제외
+            List<String> photoURLs = photoUrls.stream()
+                    .map(DiaryPhotoUrl::getPhotoURL)
+                    .collect(Collectors.toList());
+
+
+            showDTO.setPhotos(photoURLs);
+
+
+            List<DiaryDetail> diaryDetails = diaryDetailRespository.findByDiaryId(diaryId);
+
+            List<DiaryDetailDTO.Response> diaryDetailDTOs = new ArrayList<>();
+            for (DiaryDetail detail : diaryDetails) {
+                DiaryDetailDTO.Response response = DiaryDetailDTO.Response.fromEntity(detail);
+                diaryDetailDTOs.add(response);
+            }
+
+            showDTO.setDiaryDetailDTO(diaryDetailDTOs);
+
+
+        });
+        return showDTO;
+    }
+
+
+
+
+
+
+
+
 }

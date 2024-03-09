@@ -3,7 +3,6 @@ package com.YH.yeohaenghama.domain.diary.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDetailDTO;
-import com.YH.yeohaenghama.domain.diary.service.DiaryDetailService;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
 import com.google.protobuf.Api;
@@ -22,7 +21,6 @@ import java.util.*;
 @RequestMapping("/api/Diary")
 public class DiaryController {
     private final DiaryService diaryService;
-    private final DiaryDetailService diaryDetailService;
     private final GCSService gcsService;
 
 
@@ -45,6 +43,19 @@ public class DiaryController {
         try{
             diaryService.delete(diaryId);
             return ApiResult.success("일기 삭제 성공");
+        }catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+    @Operation(summary = "일기 조회")
+    @PostMapping("/show")
+    public ApiResult diaryShow(Long diaryId){
+        try{
+            return ApiResult.success(diaryService.show(diaryId));
         }catch (NoSuchElementException e){
             return ApiResult.success(e.getMessage());
         }catch (Exception e){

@@ -2,10 +2,12 @@ package com.YH.yeohaenghama.domain.diary.dto;
 
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryDetail;
+import com.YH.yeohaenghama.domain.diary.entity.DiaryDetailPhotoURL;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiaryDetailDTO {
@@ -34,6 +36,13 @@ public class DiaryDetailDTO {
             Response response = new Response();
             response.setDay(diaryDetail.getDay());
             response.setContent(diaryDetail.getContent());
+
+            List<String> photoURLs = new ArrayList<>();
+            for (DiaryDetailPhotoURL photoURL : diaryDetail.getDiaryDetailPhotoURLS()) {
+                photoURLs.add(photoURL.getPhotoURL());
+            }
+            response.setPhotoURL(photoURLs);
+
 
             return response;
         }
