@@ -122,7 +122,7 @@ public class DiaryService {
             showDTO.setPhotos(photoURLs);
 
 
-            List<DiaryDetail> diaryDetails = diaryDetailRespository.findByDiaryId(diaryId);
+            List<DiaryDetail> diaryDetails = diaryDetailRespository.findByDiaryId(diaryId);     // DairyDetailDTO 값
 
             List<DiaryDetailDTO.Response> diaryDetailDTOs = new ArrayList<>();
             for (DiaryDetail detail : diaryDetails) {
