@@ -1,13 +1,15 @@
-package com.YH.yeohaenghama.domain.rating.dto;
+package com.YH.yeohaenghama.domain.review.dto;
 
-import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
-import com.YH.yeohaenghama.domain.diary.entity.Diary;
-import com.YH.yeohaenghama.domain.rating.entity.Rating;
+import com.YH.yeohaenghama.domain.review.entity.Review;
+import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
-public class RatingDTO {
+public class ReviewDTO {
     @Data
     public static class Request{
         @Schema(description = "장소 번호")
@@ -16,8 +18,12 @@ public class RatingDTO {
         private Long contentTypeId; // 관광 타입 번호
         @Schema(description = "평점")
         private Long rating;    // 평점
+        @Schema(description = "리뷰 내용")
+        private String content; // 리뷰 내용
         @Schema(description = "유저 Id")
         private Long accountId; //　유저 ID
+        @Schema(description = "사진 URL")
+        private List<String> reviewPhotoURLList;
     }
     @Data
     public static class Response{
@@ -27,15 +33,21 @@ public class RatingDTO {
         private Long contentTypeId; // 관광 타입 번호
         @Schema(description = "평점")
         private Long rating;    // 평점
+        @Schema(description = "리뷰 내용")
+        private String content; // 리뷰 내용
+//        @Schema(description = "사진 URL")
+//        private List<String> reviewPhotoURLList;    // 리뷰 사진 URL
         @Schema(description = "유저 ID")
         private Long accountId;
 
-        public static RatingDTO.Response fromEntity(Rating rating) {
-            RatingDTO.Response response = new RatingDTO.Response();
-            response.setContentId(rating.getContentId());
-            response.setContentTypeId(rating.getContentTypeId());
-            response.setRating(rating.getRating());
-            response.setAccountId(rating.getAccountId());
+        public static ReviewDTO.Response fromEntity(Review review) {
+            ReviewDTO.Response response = new ReviewDTO.Response();
+            response.setContentId(review.getContentId());
+            response.setContentTypeId(review.getContentTypeId());
+            response.setRating(review.getRating());
+            response.setContent(review.getContent());
+
+            response.setAccountId(review.getAccountId());
 
             return response;
         }
@@ -44,14 +56,15 @@ public class RatingDTO {
     private Request request;
     private Response response;
 
-    public RatingDTO(RatingDTO.Request request) { this.request = request; }
+    public ReviewDTO(ReviewDTO.Request request) { this.request = request; }
 
 
-    public Rating toEntity() {
-        return Rating.builder()
+    public Review toEntity() {
+        return Review.builder()
                 .contentId(request.getContentId())
                 .contentTypeId(request.getContentTypeId())
                 .rating(request.getRating())
+                .content(request.getContent())
                 .accountId(request.getAccountId())
                 .build();
     }
