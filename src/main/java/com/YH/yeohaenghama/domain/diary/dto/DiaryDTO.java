@@ -10,6 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.JoinColumn;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,9 @@ public class DiaryDTO {
         @Schema(description = "일기 내용")
         private String content;
         @Schema(description = "일기 사진 URL")
-        private List<String> photoURL;
+        private List<MultipartFile> photos;
+        @Schema(description = "날짜 별 일기")
+        private List<DiaryDetailDTO.Request> detail;
     }
 
     @Data
@@ -41,6 +44,8 @@ public class DiaryDTO {
         private String title;
         @Schema(description = "일기 내용")
         private String content;
+        @Schema(description = "날짜 별 일기")
+        private List<DiaryDetailDTO.Request> detail;
 
         public static Response fromEntity(Diary diary) {
             Response response = new Response();

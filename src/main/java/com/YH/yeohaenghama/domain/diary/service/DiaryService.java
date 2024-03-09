@@ -1,15 +1,23 @@
 package com.YH.yeohaenghama.domain.diary.service;
 
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
+import com.YH.yeohaenghama.domain.diary.dto.DiaryDetailDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
+import com.YH.yeohaenghama.domain.diary.entity.DiaryDetail;
+import com.YH.yeohaenghama.domain.diary.entity.DiaryDetailPhotoURL;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
+import com.YH.yeohaenghama.domain.diary.repository.DiaryDetailPhotoUrlRepository;
+import com.YH.yeohaenghama.domain.diary.repository.DiaryDetailRespository;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryPhotoUrlRepository;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
+import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -18,66 +26,61 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DiaryService {
     private final DiaryRepository diaryRepository;
+    private final DiaryDetailRespository diaryDetailRespository;
     private final ItineraryRepository itineraryRepository;
     private final DiaryPhotoUrlRepository diaryPhotoUrlRepository;
+    private final DiaryDetailPhotoUrlRepository diaryDetailPhotoUrlRepository;
+    private final GCSService gcsService;
 
-    public DiaryDTO.Response save(DiaryDTO.Request req) {
-        log.info("DiaryDTO　확인 : " + req);
-        checkItinerary(req.getItinerary());
+    public void save(DiaryDTO.Request req) {
+        log.info("DiaryDTO 확인 : " + req);
+
+        if (itineraryRepository.findById(req.getItinerary()).isEmpty()) {
+            throw new NoSuchElementException("해당 ID를 가진 일정이 존재하지 않습니다. ");
+        }
 
         DiaryDTO diaryDTO = new DiaryDTO(req);
-        Diary diary = diaryRepository.save(diaryDTO.toEntity());
+        Diary diary = diaryRepository.save(diaryDTO.toEntity());        // 일기 생성
 
-        for (String photoUrl : req.getPhotoURL()) {
-            DiaryPhotoUrl diaryPhotoUrl = DiaryPhotoUrl.builder()
-                    .diary(diary)
-                    .photoUrl(photoUrl)
-                    .build();
-            diaryPhotoUrlRepository.save(diaryPhotoUrl);
+        Long DiaryID = diary.getId();
+
+
+        if (req.getPhotos() != null) {
+            for (MultipartFile photo : req.getPhotos()) {                   // 일기 사진 저장
+                try {
+                    String photoURL = gcsService.uploadPhoto(photo, photo.getOriginalFilename(), "Diary/" + DiaryID);
+                    DiaryPhotoUrl diaryPhotoUrl = new DiaryPhotoUrl(diary, photoURL);
+                    diaryPhotoUrlRepository.save(diaryPhotoUrl);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
-        return DiaryDTO.Response.fromEntity(diary);
-    }
+        if (req.getDetail() != null) {
 
-    public void delete(Long diaryId){
-        log.info("Diary Id : " + diaryId);
-        log.info(String.valueOf(" 확인 : " +checkDiary(diaryId)));
-        diaryRepository.deleteById(diaryId);
-    }
+            for (DiaryDetailDTO.Request detail : req.getDetail()) {             // 일정 별 일기 저장
+                detail.setDiary(diary);
+                DiaryDetailDTO diaryDetailDTO = new DiaryDetailDTO(detail);
+                DiaryDetail diaryDetail = diaryDetailRespository.save(diaryDetailDTO.toEntity());
 
-    public DiaryDTO.Response checkDiary(Long diaryId){
-        Optional<Diary> diaryOptional = diaryRepository.findById(diaryId);
 
-        if(diaryOptional.isEmpty()){
-            log.info("해당 ID를 가진 일기가 존재하지 않습니다. : " + diaryId);
-            throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다. : " + diaryId);
+                if (detail.getPhotos() != null) {
+                    for (MultipartFile photo : detail.getPhotos()) {                   // 일기 일정 별 사진 저장
+                        try {
+                            String photoURL = gcsService.uploadPhoto(photo, photo.getOriginalFilename(), "Diary/" + DiaryID + "/" + detail.getDay());
+                            DiaryDetailPhotoURL diaryDetailPhotoURL = new DiaryDetailPhotoURL(diaryDetail, photoURL);
+                            diaryDetailPhotoUrlRepository.save(diaryDetailPhotoURL);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+            }
+
         }
 
-        Diary diary = diaryOptional.get();
 
-        return DiaryDTO.Response.fromEntity(diary);
     }
-
-    public void getDiary(Long diaryId){
-
-        Diary diary = diaryRepository.findById(diaryId)
-                .orElseThrow(() -> new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다. : " + diaryId));
-
-        log.info(String.valueOf(diary));
-    }
-
-
-//    public void checkItineraryId(DiaryDTO.Request req){
-//        if(itineraryRepository.findById(req.getItinerary()).isEmpty()){
-//            log.info("해당 ID를 가진 일정이 존재하지 않습니다. : " + req.getItinerary());
-//            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + req.getItinerary());
-//        };
-//    }
-
-    public boolean checkItinerary(Long itineraryId) {
-        return itineraryRepository.findById(itineraryId).isPresent();
-    }
-
-
-
 }

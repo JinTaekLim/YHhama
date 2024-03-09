@@ -1,22 +1,24 @@
 package com.YH.yeohaenghama.domain.diary.dto;
 
+import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryDetail;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public class DiaryDetailDTO {
     @Data
     public static class Request{
-        @Schema(description = "다이어리 ID")
-        private Long diaryId;
         @Schema(description = "일기 날짜")
         private String day;
         @Schema(description = "일기 내용")
         private String content;
         @Schema(description = "일기 사진 URL")
-        private List<String> photoURL;
+        private List<MultipartFile> photos;
+        @Schema(description = "일기 ID")
+        private Diary diary;
     }
 
     @Data
@@ -42,14 +44,14 @@ public class DiaryDetailDTO {
     private Response response;
 
     public DiaryDetailDTO(Request request) { this.request = request; }
-    public DiaryDetailDTO(Response response) { this.response = response; }
+    public DiaryDetailDTO() { this.response = response; }
 
 
     public DiaryDetail toEntity() {
         return DiaryDetail.builder()
-                .diary(request.getDiaryId())
                 .day(request.getDay())
                 .content(request.getContent())
+                .diary(request.getDiary())
                 .build();
     }
 }
