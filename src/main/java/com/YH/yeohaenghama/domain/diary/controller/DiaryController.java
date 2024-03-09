@@ -3,7 +3,6 @@ package com.YH.yeohaenghama.domain.diary.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDetailDTO;
-import com.YH.yeohaenghama.domain.diary.service.DiaryDetailService;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
 import com.google.protobuf.Api;
@@ -22,135 +21,46 @@ import java.util.*;
 @RequestMapping("/api/Diary")
 public class DiaryController {
     private final DiaryService diaryService;
-    private final DiaryDetailService diaryDetailService;
     private final GCSService gcsService;
+
 
     @Operation(summary = "일기 저장")
     @PostMapping("/save")
-    public ApiResult<DiaryDTO.Response> diarySave(@RequestParam("itinerary") Long itinerary,
-                                                  @RequestParam("date") String date,
-                                                  @RequestParam("title") String title,
-                                                  @RequestParam("content") String content,
-                                                  @RequestParam("photos") List<MultipartFile> photos) {
-        try {
-            checkItineraryExistence(itinerary);
+    public ApiResult diarySave(@ModelAttribute DiaryDTO.Request diaryDTO){
+        try{
+            return ApiResult.success(diaryService.save(diaryDTO));
 
-            DiaryDTO.Request req = createDiaryRequest(itinerary, date, title, content, photos);
-            DiaryDTO.Response response = diaryService.save(req);
-            return ApiResult.success(response);
-        } catch (NoSuchElementException e) {
-            return ApiResult.notFound(e.getMessage());
-        } catch (Exception e) {
-            log.info(e.getMessage());
-            return ApiResult.fail("");
-        }
-    }
-
-    @Operation(summary = "일정 별 일기 저장")
-    @PostMapping("/Detailsave")
-    public ApiResult<DiaryDetailDTO.Response> diaryDetailSave(@RequestParam("diary") Long diary,
-                                                              @RequestParam("day") String day,
-                                                              @RequestParam("content") String content,
-                                                              @RequestParam("photos") List<MultipartFile> photos) {
-        try {
-            checkDiaryExistence(diary);
-
-            DiaryDetailDTO.Request req = createDiaryDetailRequest(diary, day, content, photos);
-            DiaryDetailDTO.Response response = diaryDetailService.detailSave(req);
-            return ApiResult.success(response);
-        } catch (NoSuchElementException e) {
-            return ApiResult.notFound(e.getMessage());
-        } catch (Exception e) {
-            log.info(e.getMessage());
-            return ApiResult.fail("");
+        } catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        } catch (Exception e){
+            return ApiResult.fail(e.getMessage());
         }
     }
 
     @Operation(summary = "일기 삭제")
-    @PostMapping("/deleteDiary")
-    public ApiResult<DiaryDTO.Response> deleteDiary(@RequestParam("diaryId") Long diraryId){
+    @PostMapping("/delete")
+    public ApiResult diaryDelete(Long diaryId){
         try{
-            DiaryDTO.Response diary = diaryService.checkDiary(diraryId);
-            diaryService.delete(diraryId);
-            log.info(String.valueOf(diary));
-            return ApiResult.success(diary);
-        } catch (NoSuchElementException e){
-            return ApiResult.notFound(e.getMessage());
-        } catch (Exception e){
-            e.getMessage();
-            return ApiResult.fail("");
+            diaryService.delete(diaryId);
+            return ApiResult.success("일기 삭제 성공");
+        }catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
         }
     }
+
 
     @Operation(summary = "일기 조회")
-    @PostMapping("/showDiary")
-    public ApiResult<DiaryDTO.Response> showDiary(@RequestParam("diaryId") Long diaryId){
-        try {
-            diaryService.getDiary(diaryId);
-            DiaryDTO.Response diaryDTO = diaryService.checkDiary(diaryId);
-            return ApiResult.success(diaryDTO);
-        } catch (NoSuchElementException e) {
-            return ApiResult.notFound(e.getMessage());
-        } catch (Exception e){
-            return ApiResult.fail("");
+    @PostMapping("/show")
+    public ApiResult diaryShow(Long diaryId){
+        try{
+            return ApiResult.success(diaryService.show(diaryId));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
         }
     }
-
-
-
-
-
-
-
-
-
-
-    private void checkItineraryExistence(Long itinerary) {
-        if (!diaryService.checkItinerary(itinerary)) {
-            log.info("해당 ID를 가진 일정이 존재하지 않습니다. : " + itinerary);
-            throw new NoSuchElementException("해당 ID를 가진 일정이 존재하지 않습니다. : " + itinerary);
-        }
-    }
-
-    private void checkDiaryExistence(Long diary) {
-        if (!diaryDetailService.checkDiary(diary)) {
-            log.info("해당 ID를 가진 일기가 존재하지 않습니다. : " + diary);
-            throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다. : " + diary);
-        }
-    }
-
-    private DiaryDTO.Request createDiaryRequest(Long itinerary, String date, String title, String content, List<MultipartFile> photos) throws IOException {
-        DiaryDTO.Request req = new DiaryDTO.Request();
-        req.setItinerary(itinerary);
-        req.setDate(date);
-        req.setTitle(title);
-        req.setContent(content);
-        req.setPhotoURL(uploadPhotosAndGetUrls(photos, "","Diary"));
-        return req;
-    }
-
-    private DiaryDetailDTO.Request createDiaryDetailRequest(Long diary, String day, String content, List<MultipartFile> photos) throws IOException {
-        DiaryDetailDTO.Request req = new DiaryDetailDTO.Request();
-        req.setDiaryId(diary);
-        req.setDay(day);
-        req.setContent(content);
-        req.setPhotoURL(uploadPhotosAndGetUrls(photos, "Day","Diary/Day" + day));
-        return req;
-    }
-
-    private List<String> uploadPhotosAndGetUrls(List<MultipartFile> photos,String fileName, String Folder) throws IOException {
-        List<String> photoURLs = new ArrayList<>();
-        int photoName = 1;
-        for (MultipartFile photo : photos) {
-            String photoUrl = gcsService.uploadPhoto(photo, "Diary" + fileName + photoName, Folder);
-            if (photoUrl != null) {
-                log.info("업로드 사진명 : " + photo.getOriginalFilename());
-                photoURLs.add(photoUrl);
-                photoName++;
-            }
-        }
-        return photoURLs;
-    }
-
 
 }
