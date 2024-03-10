@@ -45,16 +45,16 @@ public class DiaryController {
     }
 
 
-//    @Operation(summary = "일기 조회")
-//    @PostMapping("/show")
-//    public ApiResult diaryShow(Long diaryId){
-//        try{
-//            return ApiResult.success(diaryService.show(diaryId));
-//        }catch (NoSuchElementException e){
-//            return ApiResult.success(e.getMessage());
-//        }catch (Exception e){
-//            return ApiResult.fail(e.getMessage());
-//        }
-//    }
+    @Operation(summary = "일기 조회")
+    @PostMapping("/show")
+    public ApiResult diaryShow(Long diaryId){
+        try{
+            return ApiResult.success(diaryService.show(diaryId));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 
 }
