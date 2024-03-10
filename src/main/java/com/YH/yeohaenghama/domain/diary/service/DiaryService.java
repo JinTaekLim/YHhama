@@ -7,7 +7,9 @@ import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
+import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
+import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
@@ -17,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -29,6 +28,7 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final ItineraryRepository itineraryRepository;
     private final ReviewRepository reviewRepository;
+    private final PlaceRepository placeRepository;
     private final GCSService gcsService;
 
     public DiaryDTO.Response save(DiaryDTO.Request diaryDTO) throws IOException {
@@ -80,46 +80,44 @@ public class DiaryService {
         Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
         Itinerary itinerary = itineraryOpt.get();
 
-
-
-
-        List<ReviewDTO.Response> reviews = new ArrayList<>();
-
-      for(int i=0; i<itinerary.getPlaces().size(); i++) {
-
-          Long PlaceType = Long.parseLong(itinerary.getPlaces().get(i).getPlaceType());
-          Long PlaceNum = Long.parseLong(itinerary.getPlaces().get(i).getPlaceNum());
-
-          log.info("PlaceType = " + PlaceType + "  PlaceNum = " + PlaceNum + "  Id = " + itinerary.getAccount().getId());
-
-
-          List<Review> reviewOpt = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(PlaceType, PlaceNum, itinerary.getAccount().getId());
-//        List<Review> reviewOpt = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(Long.valueOf(11),Long.valueOf(111),Long.valueOf(1));
-          if (reviewOpt.get(0) != null) {
-              Review review = reviewOpt.get(0);
-              reviews.add(ReviewDTO.Response.fromEntity(review));
-              log.info("리뷰 ID = " + review.getId());
-          } else {
-              log.info("리뷰가 없습니다.");
-          }
-      }
-
-
-      log.info("총 리뷰 = " + reviews);
+        List<Place> placeOpt = placeRepository.findByItineraryId(itinerary.getId());
 
 
 
 
+        Map<String, List<ReviewDTO.Response>> reviewsByDate = new HashMap<>();
+
+        for (int i = 0; i < itinerary.getPlaces().size(); i++) {
+            Long PlaceType = Long.parseLong(itinerary.getPlaces().get(i).getPlaceType());
+            Long PlaceNum = Long.parseLong(itinerary.getPlaces().get(i).getPlaceNum());
+
+            log.info("PlaceType = " + PlaceType + "  PlaceNum = " + PlaceNum + "  Id = " + itinerary.getAccount().getId());
+
+            List<Review> reviewOpt = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(PlaceType, PlaceNum, itinerary.getAccount().getId());
+
+            String reviewDate = String.valueOf(placeOpt.get(i).getDay());
+
+            if (!reviewsByDate.containsKey(reviewDate)) {
+                reviewsByDate.put(reviewDate, new ArrayList<>());
+            }
+
+            if (!reviewOpt.isEmpty()) {
+                Review review = reviewOpt.get(0);
+                ReviewDTO.Response reviewResponse = ReviewDTO.Response.fromEntity(review);
+                reviewsByDate.get(reviewDate).add(reviewResponse);
+                log.info("리뷰 ID = " + review.getId());
+            } else {
+
+                reviewsByDate.put(reviewDate, new ArrayList<>());
+                log.info("리뷰가 없습니다.");
+            }
+        }
 
 
+        log.info("총 리뷰 = " + reviewsByDate);
 
+        DiaryShowDTO.Response showDTO = DiaryShowDTO.Response.fromEntity(diary, reviewsByDate);
 
-
-
-
-
-
-        DiaryShowDTO.Response showDTO = DiaryShowDTO.Response.fromEntity(diary,reviews);
 
 
         return showDTO;

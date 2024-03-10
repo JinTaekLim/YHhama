@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class DiaryShowDTO {
@@ -25,9 +26,9 @@ public class DiaryShowDTO {
         private List<String> photos;
 
         @Schema(description = "리뷰")
-        private List<ReviewDTO.Response> reviews;
+        private Map<String, List<ReviewDTO.Response>> reviews;
 
-        public static Response fromEntity(Diary diary, List<ReviewDTO.Response> reviews) {
+        public static Response fromEntity(Diary diary, Map<String, List<ReviewDTO.Response>> reviews) {
             Response response = new Response();
             response.setItinerary(diary.getItinerary());
             response.setDate(diary.getDate());
