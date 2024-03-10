@@ -2,17 +2,12 @@ package com.YH.yeohaenghama.domain.diary.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
-import com.YH.yeohaenghama.domain.diary.dto.DiaryDetailDTO;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
-import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
-import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -21,7 +16,6 @@ import java.util.*;
 @RequestMapping("/api/Diary")
 public class DiaryController {
     private final DiaryService diaryService;
-    private final GCSService gcsService;
 
 
     @Operation(summary = "일기 저장")

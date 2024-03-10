@@ -1,19 +1,19 @@
 package com.YH.yeohaenghama.domain.diary.entity;
 
-import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class Diary {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
@@ -31,11 +31,9 @@ public class Diary {
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DiaryPhotoUrl> diaryPhotoUrls;
 
-    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DiaryDetail> diaryDetails = new ArrayList<>();
 
     @Builder
-    public Diary(String date, String title, String content, Long itinerary,List<DiaryPhotoUrl> diaryPhotoUrls) {
+    public Diary(String date, String title, String content, Long itinerary, List<DiaryPhotoUrl> diaryPhotoUrls) {
         this.date = date;
         this.title = title;
         this.content = content;
@@ -43,4 +41,11 @@ public class Diary {
         this.diaryPhotoUrls = diaryPhotoUrls;
     }
 
+    public void set(String date, String title, String content, Long itinerary, List<DiaryPhotoUrl> diaryPhotoUrls) {
+        this.date = date;
+        this.title = title;
+        this.content = content;
+        this.itinerary = itinerary;
+        this.diaryPhotoUrls = diaryPhotoUrls;
+    }
 }

@@ -18,11 +18,11 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/rating")
+@RequestMapping("/api/review")
 public class ReviewController {
 
     private final ReviewService reviewService;
-    @Operation(summary = "평점 등록")
+    @Operation(summary = "리뷰 등록")
     @PostMapping("/join")
     public ApiResult<ReviewDTO.Response> join(ReviewDTO.Request dto, @RequestParam("photos") List<MultipartFile> photos){
         try{
@@ -43,18 +43,35 @@ public class ReviewController {
         }
     }
 
-    @Operation(summary = "평점 확인")
+
+    @Operation(summary = "리뷰 확인")
     @PostMapping("/show")
-    public ApiResult show(@RequestBody ReviewShowDTO.Request dto){
+    public ApiResult reviewShow(@RequestBody ReviewDTO.Show dto){
         try{
-            return ApiResult.success(reviewService.show(dto));
+            return ApiResult.success(reviewService.reviewShow(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+
+
+    @Operation(summary = "평점 확인")
+    @PostMapping("/ratingShow")
+    public ApiResult ratingShow(@RequestBody ReviewShowDTO.Request dto){
+        try{
+            return ApiResult.success(reviewService.ratingShow(dto));
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
     }
 
 
-    @Operation(summary = "평점 삭제")
+    @Operation(summary = "리뷰 삭제")
     @PostMapping("/delete")
     public ApiResult<ReviewDeleteDTO.Request> delete(@RequestBody ReviewDeleteDTO.Request dto){
         try{

@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.review.dto;
 
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -10,6 +11,16 @@ import java.util.List;
 
 @Data
 public class ReviewDTO {
+
+    @Data
+    public static class Show{
+        @Schema(description = "유저 번호")
+        private Long accountId;
+        @Schema(description = "장소 번호")
+        private Long contentId;     // 장소 번호
+        @Schema(description = "관광 타입 번호")
+        private Long contentTypeId; // 관광 타입 번호
+    }
     @Data
     public static class Request{
         @Schema(description = "장소 번호")
@@ -35,8 +46,9 @@ public class ReviewDTO {
         private Long rating;    // 평점
         @Schema(description = "리뷰 내용")
         private String content; // 리뷰 내용
-//        @Schema(description = "사진 URL")
-//        private List<String> reviewPhotoURLList;    // 리뷰 사진 URL
+        @Schema(description = "사진 URL")
+        private List<String> reviewPhotoURLList;    // 리뷰 사진 URL
+        @JsonIgnore
         @Schema(description = "유저 ID")
         private Long accountId;
 
@@ -46,8 +58,17 @@ public class ReviewDTO {
             response.setContentTypeId(review.getContentTypeId());
             response.setRating(review.getRating());
             response.setContent(review.getContent());
-
             response.setAccountId(review.getAccountId());
+
+
+
+            List<String> photoURLs = new ArrayList<>();
+            List<ReviewPhotoURL> reviewPhotoURLs = review.getReviewPhotoURLS();
+            for (ReviewPhotoURL photoURL : reviewPhotoURLs) {
+                photoURLs.add(photoURL.getPhotoUrl());
+            }
+            response.setReviewPhotoURLList(photoURLs);
+
 
             return response;
         }

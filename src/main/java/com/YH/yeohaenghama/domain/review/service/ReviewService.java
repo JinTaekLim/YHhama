@@ -8,7 +8,7 @@ import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
 import com.YH.yeohaenghama.domain.review.repository.ReviewPhotoURLRepository;
 import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
-import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
+import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -71,7 +70,26 @@ public class ReviewService {
 
 
 
-    public ReviewShowDTO.Response show(ReviewShowDTO.Request dto){
+
+    public ReviewDTO.Response reviewShow(ReviewDTO.Show dto) {
+        log.info("DTO = " + dto);
+
+        List<Review> reviews = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId());
+        if (reviews.isEmpty()) {
+            throw new NoSuchElementException("해당 유저가 작성한 장소의 저장된 평점이 존재하지 않습니다. : " + dto);
+        }
+
+        ReviewDTO.Response response = ReviewDTO.Response.fromEntity(reviews.get(0));
+
+
+        return response;
+    }
+
+
+
+
+
+    public ReviewShowDTO.Response ratingShow(ReviewShowDTO.Request dto){
 
         log.info("DTO확인 :" + dto);
         Long totalRating = Long.valueOf(0);
