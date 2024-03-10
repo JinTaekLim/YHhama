@@ -1,6 +1,6 @@
-package com.YH.yeohaenghama.domain.uploadImage.controller;
+package com.YH.yeohaenghama.domain.GCDImage.controller;
 
-import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
+import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +28,19 @@ public class GCSController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사진 업로드 실패: " + e.getMessage());
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("사진 업로드 실패: " + e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/api/gcs/delete")
+    public ResponseEntity<String> objectDelte(String objectName) {
+        try {
+            gcsService.delete(objectName);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사진 업로드 실패: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

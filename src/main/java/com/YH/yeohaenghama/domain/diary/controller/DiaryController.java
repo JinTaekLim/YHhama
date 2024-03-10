@@ -31,18 +31,18 @@ public class DiaryController {
         }
     }
 
-//    @Operation(summary = "일기 삭제")
-//    @PostMapping("/delete")
-//    public ApiResult diaryDelete(Long diaryId){
-//        try{
-//            diaryService.delete(diaryId);
-//            return ApiResult.success("일기 삭제 성공");
-//        }catch (NoSuchElementException e){
-//            return ApiResult.success(e.getMessage());
-//        }catch (Exception e){
-//            return ApiResult.fail(e.getMessage());
-//        }
-//    }
+    @Operation(summary = "일기 삭제")
+    @PostMapping("/delete")
+    public ApiResult diaryDelete(Long diaryId){
+        try{
+            diaryService.delete(diaryId);
+            return ApiResult.success("일기 삭제 성공");
+        }catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 
 
 //    @Operation(summary = "일기 조회")

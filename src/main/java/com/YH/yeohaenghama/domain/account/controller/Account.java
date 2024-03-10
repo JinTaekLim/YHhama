@@ -5,22 +5,17 @@ import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
-import com.google.protobuf.Api;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.BadRequestException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import io.swagger.v3.oas.annotations.*;
-import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
+import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 @Slf4j

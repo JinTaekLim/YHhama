@@ -4,7 +4,7 @@ import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
-import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
+import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -42,6 +44,18 @@ public class DiaryService {
         diaryRepository.save(diary);
 
         return DiaryDTO.Response.fromEntity(diary);
+    }
+
+
+        public void delete(Long diaryId) throws IOException {
+        if(diaryRepository.findById(diaryId).isEmpty()){
+            throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다.");
+        }
+        Optional<Diary> optionalDiary = diaryRepository.findById(diaryId);
+
+        gcsService.delete("Diary/"+optionalDiary.get().getItinerary());
+        diaryRepository.deleteById(diaryId);
+
     }
 
 }

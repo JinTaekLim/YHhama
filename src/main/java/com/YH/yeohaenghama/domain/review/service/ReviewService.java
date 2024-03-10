@@ -8,7 +8,7 @@ import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
 import com.YH.yeohaenghama.domain.review.repository.ReviewPhotoURLRepository;
 import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
-import com.YH.yeohaenghama.domain.uploadImage.service.GCSService;
+import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
