@@ -45,7 +45,9 @@ public class DiaryService {
             DiaryPhotoUrl diaryPhotoUrl = new DiaryPhotoUrl(diary,PhotoURL);
             diaryPhotoUrls.add(diaryPhotoUrl);
             i++;
+            log.info("ggg : " + diaryPhotoUrls.toString());
         }
+
 
         diary.set(diaryDTO.getDate(), diaryDTO.getTitle(), diaryDTO.getContent(), diaryDTO.getItinerary(), diaryPhotoUrls);
 
@@ -122,6 +124,15 @@ public class DiaryService {
 
         return showDTO;
 
+    }
+
+
+
+
+
+
+    public List<Diary> findAll(){
+        return diaryRepository.findAll();
     }
 
 }

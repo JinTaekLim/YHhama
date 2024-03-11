@@ -24,12 +24,12 @@ public class ReviewController {
     private final ReviewService reviewService;
     @Operation(summary = "리뷰 등록")
     @PostMapping("/join")
-    public ApiResult<ReviewDTO.Response> join(ReviewDTO.Request dto, @RequestParam("photos") List<MultipartFile> photos){
+    public ApiResult<ReviewDTO.Response> join(ReviewDTO.Request dto){
         try{
             log.info(String.valueOf(dto));
 
 
-            ReviewDTO.Response response = reviewService.join(dto,photos);
+            ReviewDTO.Response response = reviewService.join(dto);
             return ApiResult.success(response);
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());

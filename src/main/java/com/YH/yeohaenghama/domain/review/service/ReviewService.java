@@ -30,7 +30,7 @@ public class ReviewService {
     private final AccountRepository accountRepository;
     private final GCSService gcsService;
 
-    public ReviewDTO.Response join(ReviewDTO.Request dto, List<MultipartFile> photos){
+    public ReviewDTO.Response join(ReviewDTO.Request dto){
         if(accountRepository.findById(Long.valueOf(dto.getAccountId())).isEmpty()){
             throw new NoSuchElementException("해당 ID값을 가진 유저가 존재하지 않습니다. : " + dto.getAccountId());
         }
@@ -38,8 +38,10 @@ public class ReviewService {
             throw new DataIntegrityViolationException("이미 해당 장소의 등록된 평점이 존재합니다. ");
         }
 
-        dto.setReviewPhotoURLList(Collections.singletonList(photos.toString()));
-        log.info("유알엘 : " + Collections.singletonList(photos.toString()).toString());
+        List<MultipartFile> photoList = dto.getPhotos();
+        if (photoList == null) {
+            photoList = Collections.emptyList();
+        }
 
         ReviewDTO ratingDTO = new ReviewDTO(dto);
 
@@ -50,7 +52,7 @@ public class ReviewService {
         String filename = dto.getContentId()+"_"+dto.getContentTypeId();
         int fileNum = 1;
 
-        for (MultipartFile photo : photos) {
+        for (MultipartFile photo : photoList ) {
             try {
                 String photoUrl = gcsService.uploadPhoto(photo, String.valueOf(fileNum), "Review/"+filename);
                 log.info("업로드 사진 위치 : " + photoUrl);
