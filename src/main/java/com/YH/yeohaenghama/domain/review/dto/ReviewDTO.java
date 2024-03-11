@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,8 @@ public class ReviewDTO {
         private String content; // 리뷰 내용
         @Schema(description = "유저 Id")
         private Long accountId; //　유저 ID
-        @Schema(description = "사진 URL")
-        private List<String> reviewPhotoURLList;
+        @Schema(description = "사진")
+        private List<MultipartFile> photos;
     }
     @Data
     public static class Response{
@@ -64,10 +65,13 @@ public class ReviewDTO {
 
             List<String> photoURLs = new ArrayList<>();
             List<ReviewPhotoURL> reviewPhotoURLs = review.getReviewPhotoURLS();
-            for (ReviewPhotoURL photoURL : reviewPhotoURLs) {
-                photoURLs.add(photoURL.getPhotoUrl());
+            if (reviewPhotoURLs != null) {
+                for (ReviewPhotoURL photoURL : reviewPhotoURLs) {
+                    photoURLs.add(photoURL.getPhotoUrl());
+                }
             }
             response.setReviewPhotoURLList(photoURLs);
+
 
 
             return response;

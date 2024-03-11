@@ -32,19 +32,19 @@ public class DiaryService {
     private final GCSService gcsService;
 
     public DiaryDTO.Response save(DiaryDTO.Request diaryDTO) throws IOException {
-
-
         Diary diary = new Diary();
 
         List<DiaryPhotoUrl> diaryPhotoUrls = new ArrayList<>();
         List<MultipartFile> photos = diaryDTO.getPhotos();
 
-        int i = 0;
-        for (MultipartFile photo : photos) {
-            String PhotoURL = gcsService.uploadPhoto(photo, String.valueOf(i),"Diary/"+diaryDTO.getItinerary());
-            DiaryPhotoUrl diaryPhotoUrl = new DiaryPhotoUrl(diary,PhotoURL);
-            diaryPhotoUrls.add(diaryPhotoUrl);
-            i++;
+        if (photos != null) {
+            int i = 0;
+            for (MultipartFile photo : photos) {
+                String photoUrl = gcsService.uploadPhoto(photo, String.valueOf(i), "Diary/" + diaryDTO.getItinerary());
+                DiaryPhotoUrl diaryPhotoUrl = new DiaryPhotoUrl(diary, photoUrl);
+                diaryPhotoUrls.add(diaryPhotoUrl);
+                i++;
+            }
         }
 
         diary.set(diaryDTO.getDate(), diaryDTO.getTitle(), diaryDTO.getContent(), diaryDTO.getItinerary(), diaryPhotoUrls);
@@ -53,6 +53,7 @@ public class DiaryService {
 
         return DiaryDTO.Response.fromEntity(diary);
     }
+
 
 
         public void delete(Long diaryId) throws IOException {
@@ -122,6 +123,15 @@ public class DiaryService {
 
         return showDTO;
 
+    }
+
+
+
+
+
+
+    public List<Diary> findAll(){
+        return diaryRepository.findAll();
     }
 
 }

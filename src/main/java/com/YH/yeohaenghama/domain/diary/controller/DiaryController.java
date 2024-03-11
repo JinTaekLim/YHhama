@@ -57,4 +57,19 @@ public class DiaryController {
         }
     }
 
+
+    @Operation(summary = "모든 일기 조회")
+    @PostMapping("/findAll")
+    public ApiResult findAll(){
+        try{
+            return ApiResult.success(diaryService.findAll());
+        }catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+
 }
