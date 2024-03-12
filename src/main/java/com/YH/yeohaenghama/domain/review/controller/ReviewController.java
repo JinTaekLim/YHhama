@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDeleteDTO;
 import com.YH.yeohaenghama.domain.review.dto.ReviewShowDTO;
 import com.YH.yeohaenghama.domain.review.service.ReviewService;
+import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -81,6 +82,18 @@ public class ReviewController {
             return ApiResult.success(null,e.getMessage());
         }
         catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "리뷰 수정")
+    @PostMapping("/update")
+    public ApiResult<ReviewDTO.Response> update(Long reviewId, ReviewDTO.Request dto){
+        try{
+            return ApiResult.success(reviewService.update(reviewId,dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
     }

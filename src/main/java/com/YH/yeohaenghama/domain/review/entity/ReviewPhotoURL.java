@@ -27,4 +27,11 @@ public class ReviewPhotoURL {
         this.photoUrl = photoUrl;
     }
 
+    public void setPhotoUrl(String photoUrl){
+        this.photoUrl = photoUrl;
+    }
+    public void setReview(Review review){
+        this.review = review;
+    }
+
 }
