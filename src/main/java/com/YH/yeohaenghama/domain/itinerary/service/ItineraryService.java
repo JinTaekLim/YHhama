@@ -81,7 +81,7 @@ public class ItineraryService {
         if (optionalItinerary.isPresent()) {
             Itinerary itinerary = optionalItinerary.get();
             Account account = itinerary.getAccount();
-            AccountShowDTO accountShowDTO = new AccountShowDTO(account.getId(), account.getNickname());
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(),null);
 
             List<Place> places = itinerary.getPlaces();
             Map<String, List<PlaceShowDTO>> placesByDay = new HashMap<>();

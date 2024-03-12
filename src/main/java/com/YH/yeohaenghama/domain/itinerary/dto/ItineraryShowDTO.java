@@ -30,11 +30,11 @@ public class ItineraryShowDTO {
     @Schema(description = "경비")
     private String expense;
     @Schema(description = "일정을 제작한 회원 정보")
-    private AccountShowDTO account;
+    private AccountShowDTO.Response account;
     @Schema(description = "일정의 여행지 정보")
     private Map<String, List<PlaceShowDTO>> placesByDay;
 
-    public ItineraryShowDTO(Itinerary itinerary, AccountShowDTO account, Map<String, List<PlaceShowDTO>> placesByDay) {
+    public ItineraryShowDTO(Itinerary itinerary, AccountShowDTO.Response account, Map<String, List<PlaceShowDTO>> placesByDay) {
         this.itineraryId = itinerary.getId();
         this.type = itinerary.getType();
         this.style = itinerary.getItineraryStyle();
