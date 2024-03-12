@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -143,4 +141,49 @@ public class ReviewService {
             throw new NoSuchElementException(" 해당 유저가 작성한 장소의 저장된 평점이 존재하지 않습니다. : " + dto);
         }
     }
+
+
+    public ReviewDTO.Response update(Long reviewId, ReviewDTO.Request dto) throws IOException {
+        Optional<Review> reviewOpt = reviewRepository.findById(reviewId);
+        if (reviewOpt.isEmpty()) {
+            throw new NoSuchElementException("해당 ID값을 가진 리뷰가 존재하지 않습니다. ");
+        }
+
+        Review review = reviewOpt.get();
+
+        gcsService.delete("Review/"+dto.getContentId() + "_" + dto.getContentTypeId() + "/" + dto.getAccountId());
+
+        List<ReviewPhotoURL> reviewPhotoURLs = new ArrayList<>();
+        List<MultipartFile> photoList = dto.getPhotos();
+        if (photoList != null && !photoList.isEmpty()) {
+            String filename = dto.getContentId() + "_" + dto.getContentTypeId() + "/" + dto.getAccountId();
+            int fileNum = 1;
+
+            for (MultipartFile photo : photoList) {
+                try {
+                    String photoUrl = gcsService.uploadPhoto(photo, String.valueOf(fileNum), "Review/" + filename);
+                    log.info("업로드 사진 위치: " + photoUrl);
+
+                    ReviewPhotoURL reviewPhotoURL = new ReviewPhotoURL(review, photoUrl);
+                    reviewPhotoURLs.add(reviewPhotoURL);
+                    fileNum++;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            review.update(dto.getContentId(),dto.getContentTypeId(),dto.getRating(),dto.getContent(),reviewPhotoURLs);
+
+        }
+
+
+        Review updatedReview = reviewRepository.save(review);
+
+
+
+        log.info("리뷰 수정완료");
+        return ReviewDTO.Response.fromEntity(updatedReview);
+    }
+
+
 }

@@ -13,6 +13,7 @@ import java.util.List;
 public class Review {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long contentId;     // 장소 번호
     private Long contentTypeId; // 관광 타입 번호
     private Long rating;    // 평점
@@ -38,5 +39,26 @@ public class Review {
         this.reviewPhotoURLS = reviewPhotoURLS;
         this.accountId = accountId;
     }
+
+
+    public void update(Long contentId, Long contentTypeId, Long rating, String content, List<ReviewPhotoURL> newReviewPhotoURLS) {
+        this.contentId = contentId;
+        this.contentTypeId = contentTypeId;
+        this.rating = rating;
+        this.content = content;
+
+        for (int i = 0; i < this.reviewPhotoURLS.size(); i++) {
+            if (i < newReviewPhotoURLS.size()) {
+                this.reviewPhotoURLS.get(i).setPhotoUrl(newReviewPhotoURLS.get(i).getPhotoUrl());
+            }
+        }
+
+        for (int i = this.reviewPhotoURLS.size(); i < newReviewPhotoURLS.size(); i++) {
+            newReviewPhotoURLS.get(i).setReview(this);
+            this.reviewPhotoURLS.add(newReviewPhotoURLS.get(i));
+        }
+    }
+
+
 }
 
