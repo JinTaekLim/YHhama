@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.diary.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
+import com.YH.yeohaenghama.domain.diary.dto.DiaryShowDTO;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,6 +75,16 @@ public class DiaryController {
         }
     }
 
+
+    @Operation(summary = "일기 수정")
+    @PostMapping("/update")
+    public ApiResult<DiaryDTO.Response> update(Long diaryId,DiaryDTO.Request dto){
+        try{
+            return ApiResult.success(diaryService.updatae(diaryId,dto));
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 
 
 }

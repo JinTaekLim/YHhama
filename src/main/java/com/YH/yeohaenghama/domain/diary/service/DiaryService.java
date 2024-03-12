@@ -62,7 +62,7 @@ public class DiaryService {
 
 
 
-        public void delete(Long diaryId) throws IOException {
+    public void delete(Long diaryId) throws IOException {
         if(diaryRepository.findById(diaryId).isEmpty()){
             throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다.");
         }
@@ -132,9 +132,31 @@ public class DiaryService {
     }
 
 
+    public DiaryDTO.Response updatae(Long diaryId, DiaryDTO.Request dto) throws IOException {
+        Optional<Diary> diaryOpt = diaryRepository.findById(diaryId);
+        Diary diary = diaryOpt.get();
 
 
+        gcsService.delete("Diary/" + dto.getItinerary());
 
+        List<DiaryPhotoUrl> diaryPhotoUrls = new ArrayList<>();
+        List<MultipartFile> photos = dto.getPhotos();
+
+        if (photos != null) {
+            int i = 0;
+            for (MultipartFile photo : photos) {
+                String photoUrl = gcsService.uploadPhoto(photo, String.valueOf(i), "Diary/" + dto.getItinerary());
+                DiaryPhotoUrl diaryPhotoUrl = new DiaryPhotoUrl(diary, photoUrl);
+                diaryPhotoUrls.add(diaryPhotoUrl);
+                i++;
+            }
+        }
+
+        diary.update(dto.getDate(), dto.getTitle(), dto.getContent(), diaryPhotoUrls);
+        diaryRepository.save(diary);
+
+        return DiaryDTO.Response.fromEntity(diary);
+    }
 
     public List<Diary> findAll(){
         return diaryRepository.findAll();

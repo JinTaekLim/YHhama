@@ -27,4 +27,12 @@ public class DiaryPhotoUrl {
         this.diary = diary;
         this.photoURL = photoUrl;
     }
+
+    public void setDiary(Diary diary){
+        this.diary = diary;
+    }
+
+    public void setPhotoURL(String photoURL){
+        this.photoURL = photoURL;
+    }
 }
