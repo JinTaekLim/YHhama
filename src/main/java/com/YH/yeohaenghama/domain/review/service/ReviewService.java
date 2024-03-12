@@ -49,7 +49,7 @@ public class ReviewService {
         log.info("id : " + review.getId());
 
 
-        String filename = dto.getContentId()+"_"+dto.getContentTypeId();
+        String filename = dto.getContentId()+"_"+dto.getContentTypeId()+"/"+dto.getAccountId();
         int fileNum = 1;
 
         for (MultipartFile photo : photoList ) {
@@ -118,9 +118,22 @@ public class ReviewService {
 
     }
 
-    public ReviewDeleteDTO.Request delete(ReviewDeleteDTO.Request dto){
+    public ReviewDeleteDTO.Request delete(ReviewDeleteDTO.Request dto) throws IOException {
         List<Review> reviews = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId());
 
+        log.info("사진 URL : " + reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl());   // 사진 URL
+
+        String fileUrl = reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl();
+        String fileName = "";
+        int startIndex = fileUrl.indexOf("Review");
+        if (startIndex != -1) {
+            int secondSlashIndex = fileUrl.indexOf('/', startIndex + 7);
+            if (secondSlashIndex != -1) {
+                fileName = fileUrl.substring(startIndex, secondSlashIndex);
+            }
+        }
+
+        gcsService.delete(fileName);
         log.info(reviews.toString());
         if(!reviews.isEmpty()){
             reviewRepository.deleteById(reviews.get(0).getId());
