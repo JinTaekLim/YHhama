@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.account.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
 import jakarta.servlet.http.HttpSession;
@@ -46,6 +47,7 @@ public class Account {
                                      @RequestParam("nickname") String nickname,
                                      @RequestParam(value = "file",required = false) MultipartFile file) {
 
+        log.info(String.valueOf(file));
         try {
             if (email.isEmpty() || pw.isEmpty() || nickname.isEmpty() ) {
                 return ApiResult.badRequest("누락된 데이터가 존재합니다.");
@@ -53,7 +55,7 @@ public class Account {
 
             com.YH.yeohaenghama.domain.account.entity.Account account = new com.YH.yeohaenghama.domain.account.entity.Account();
 
-            String photoUrl = gcsService.uploadPhoto(file, email, "Profile_Image");
+            String photoUrl = gcsService.uploadPhoto(file, email, "Profile_Image/"+email);
             account.setEmail(email);
             account.setPw(pw);
             account.setNickname(nickname);
@@ -179,4 +181,17 @@ public class Account {
 
     }
 
+
+
+    @Operation(summary = "프로필 편집")
+    @PostMapping("/update")
+    public ApiResult<AccountShowDTO.Response> update(AccountShowDTO.Request dto){
+        try{
+            return ApiResult.success(accountService.update(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 }
