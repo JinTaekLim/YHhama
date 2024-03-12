@@ -48,4 +48,20 @@ public class Diary {
         this.itinerary = itinerary;
         this.diaryPhotoUrls = diaryPhotoUrls;
     }
+
+    public void update(String date, String title, String content, List<DiaryPhotoUrl> diaryPhotoUrls) {
+        this.date = date;
+        this.title = title;
+        this.content = content;
+
+        this.diaryPhotoUrls.clear();
+
+        for (DiaryPhotoUrl newDiaryPhotoUrl : diaryPhotoUrls) {
+            newDiaryPhotoUrl.setDiary(this);
+            this.diaryPhotoUrls.add(newDiaryPhotoUrl);
+        }
+    }
+
+
+
 }
