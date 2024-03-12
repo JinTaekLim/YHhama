@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.diary.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
+import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,10 @@ public class DiaryController {
         try{
             return ApiResult.success(diaryService.save(diaryDTO));
 
-        } catch (NoSuchElementException e){
+        } catch (Error e){
+            return ApiResult.success(e.getMessage());
+        }
+        catch (NoSuchElementException e){
             return ApiResult.success(e.getMessage());
         } catch (Exception e){
             return ApiResult.fail(e.getMessage());
