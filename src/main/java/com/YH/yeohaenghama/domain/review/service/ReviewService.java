@@ -123,8 +123,17 @@ public class ReviewService {
 
         log.info("사진 URL : " + reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl());   // 사진 URL
 
-        // "https://storage.googleapis.com/yhhama_image/Review/1_1/1"
-//        gcsService.delete("Review/1_1/1");
+        String fileUrl = reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl();
+        String fileName = "";
+        int startIndex = fileUrl.indexOf("Review");
+        if (startIndex != -1) {
+            int secondSlashIndex = fileUrl.indexOf('/', startIndex + 7);
+            if (secondSlashIndex != -1) {
+                fileName = fileUrl.substring(startIndex, secondSlashIndex);
+            }
+        }
+
+        gcsService.delete(fileName);
         log.info(reviews.toString());
         if(!reviews.isEmpty()){
             reviewRepository.deleteById(reviews.get(0).getId());
