@@ -3,6 +3,9 @@ package com.YH.yeohaenghama.domain.itinerary.service;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
+import com.YH.yeohaenghama.domain.diary.entity.Diary;
+import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
+import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.YH.yeohaenghama.domain.itinerary.dto.*;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 //import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
@@ -18,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -27,6 +31,8 @@ import java.util.*;
 public class ItineraryService {
     private final ItineraryRepository itineraryRepository;
     private final AccountRepository accountRepository;
+    private final DiaryRepository diaryRepository;
+    private final DiaryService diaryService;
 
     public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO, Long accountId) {
 
@@ -99,11 +105,20 @@ public class ItineraryService {
         }
     }
 
-    public void deleteItinerary(Long itineraryId){
+    public void deleteItinerary(Long itineraryId) throws IOException {
         Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
 
         if (optionalItinerary.isPresent()) {
             log.info(String.valueOf("deleteItinerary : " + itineraryId));
+
+
+            Optional<Diary> diaryOptional = diaryRepository.findByItinerary(itineraryId);
+            if (diaryOptional.isPresent()) {
+                diaryService.delete(itineraryId);
+                log.info("일기 삭제 완");
+            }
+
+            log.info("일정 삭제 완");
             itineraryRepository.deleteById(itineraryId);
         } else {
             throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
