@@ -32,6 +32,9 @@ public class DiaryService {
     private final GCSService gcsService;
 
     public DiaryDTO.Response save(DiaryDTO.Request diaryDTO) throws IOException {
+        if(itineraryRepository.findById(diaryDTO.getItinerary()).isEmpty()){
+           throw new NoSuchElementException("해당 ID를 가진 일정이 존재하지 않습니다.");
+        }
         Diary diary = new Diary();
 
         List<DiaryPhotoUrl> diaryPhotoUrls = new ArrayList<>();
