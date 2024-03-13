@@ -22,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -136,6 +139,74 @@ public class ItineraryService {
     public int getPlaceLength(Long ItineraryId){
         log.info(String.valueOf(placeRepository.findByItineraryId(ItineraryId).size()));
         return placeRepository.findByItineraryId(ItineraryId).size();
+    }
+
+
+
+    public ItineraryShowMain.Response showMain(ItineraryShowMain.Request dto){
+        log.info(String.valueOf(dto));
+
+        Optional<Itinerary> itineraryOpt = itineraryRepository.findByIdAndAccountId(dto.getItineraryId(), dto.getAccountId());
+
+        if(itineraryOpt.isEmpty()){
+            throw new NoSuchElementException("유저가 해당 ID를 가진 일정을 가지고 있지 않습니다. ");
+        }
+        Itinerary itinerary = itineraryOpt.get();
+
+        ItineraryShowMain.Response response = new ItineraryShowMain.Response();
+        response.setItineraryId(itinerary.getId());
+
+
+        LocalDate currentDate = LocalDate.now();
+        LocalDate savedDate = LocalDate.parse(itinerary.getStartDate(), DateTimeFormatter.BASIC_ISO_DATE);
+        long daysDifference = ChronoUnit.DAYS.between(currentDate,savedDate);
+
+
+        response.setDDay(daysDifference);   // D-day
+
+
+
+        List<Place> places = placeRepository.findByItineraryId(itinerary.getId());
+        if(places.isEmpty()){
+            throw new NoSuchElementException("해당 일정에는 장소가 저장되어있지 않습니다. ");
+        }
+
+
+        Map<String, Map<String, Object>> placesMap = new HashMap<>();
+        for (Place place : places) {
+            String getDay = String.valueOf(place.getDay());
+
+            Map<String, Object> placeMap = new HashMap<>();
+            placeMap.put("name", place.getPlaceName());
+            placeMap.put("startTime",place.getStartTime());
+            placeMap.put("endTime",place.getEndTime());
+
+            Map<String, String> transport = new HashMap<>();
+            transport.put("startPlace", "출발장소");
+            transport.put("endPlace", "도착장소");
+            transport.put("time", "소요시간");
+
+            if (!placesMap.containsKey(getDay)) {
+                placesMap.put(getDay, new HashMap<>());
+                placesMap.get(getDay).put("tran", transport);
+            }
+
+            if (!placesMap.get(getDay).containsKey("places")) {
+                placesMap.get(getDay).put("places", new ArrayList<>());
+            }
+            ((List<Map<String, Object>>) placesMap.get(getDay).get("places")).add(placeMap);
+        }
+
+
+
+
+
+        response.setPlace(placesMap);
+
+
+
+
+        return response;
     }
 }
 
