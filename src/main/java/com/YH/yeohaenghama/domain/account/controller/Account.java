@@ -77,7 +77,7 @@ public class Account {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ApiResult<AccountLoginDTO> login(@RequestBody AccountLoginDTO req) {
+    public ApiResult<AccountShowDTO.Response> login(@RequestBody AccountLoginDTO req) {
         try{
             if(req.getEmail()==null || req.getPw()==null){
                 return ApiResult.badRequest("누락된 데이터가 존재합니다.");
@@ -86,10 +86,13 @@ public class Account {
             httpSession.setAttribute("loggedInId", account);
             httpSession.setAttribute("nickname", account.getNickname());
             httpSession.setAttribute("AccountId", account.getId());
-            return ApiResult.success(req);
+
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getEmail(), account.getPhotoUrl());
+
+            return ApiResult.success(accountShowDTO);
         }
         catch (NoSuchElementException e){
-            return ApiResult.success( req,"로그인 실패 : " + e.getMessage());
+            return ApiResult.success( null,"로그인 실패 : " + e.getMessage());
         }
         catch (Exception e) {
             return ApiResult.fail("");
