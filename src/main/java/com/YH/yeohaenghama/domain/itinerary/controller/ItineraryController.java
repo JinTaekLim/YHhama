@@ -175,7 +175,7 @@ public class ItineraryController {
         } catch (NoSuchElementException e) {
             return ApiResult.success("[일정]수정 실패: " + e.getMessage());
         } catch (Exception e) {
-            return ApiResult.fail("");
+            return ApiResult.fail(e.getMessage());
         }
     }
 

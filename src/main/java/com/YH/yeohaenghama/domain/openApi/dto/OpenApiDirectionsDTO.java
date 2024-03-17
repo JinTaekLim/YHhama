@@ -15,7 +15,7 @@ public class OpenApiDirectionsDTO {
     @Schema(description = "도착지 Y 좌표" , defaultValue = "37.3915951817")
     private String ey;
     @Schema(description = "이동 수단( 0: 모두 , 1: 지하철 , 2: 버스 )" , defaultValue = "0")
-    private String searchPathType;
+    private String searchPathType = "0";
 
 
     @Data

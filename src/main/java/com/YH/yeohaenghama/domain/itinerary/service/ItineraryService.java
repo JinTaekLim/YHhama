@@ -13,6 +13,10 @@ import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 //import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryTypeRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
+import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDirectionsDTO;
+import com.YH.yeohaenghama.domain.openApi.dto.OpenApiGetXY;
+import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -27,6 +31,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -36,6 +42,7 @@ public class ItineraryService {
     private final AccountRepository accountRepository;
     private final DiaryRepository diaryRepository;
     private final DiaryService diaryService;
+    private final OpenApiService openApiService;
 
     public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO, Long accountId) {
 
@@ -143,7 +150,7 @@ public class ItineraryService {
 
 
 
-    public ItineraryShowMain.Response showMain(ItineraryShowMain.Request dto){
+    public ItineraryShowMain.Response showMain(ItineraryShowMain.Request dto) throws IOException {
         log.info(String.valueOf(dto));
 
         Optional<Itinerary> itineraryOpt = itineraryRepository.findByIdAndAccountId(dto.getItineraryId(), dto.getAccountId());
@@ -172,31 +179,71 @@ public class ItineraryService {
         }
 
 
+
+
         Map<String, Map<String, Object>> placesMap = new HashMap<>();
+        Map<String, Map<String, Object>> result = new HashMap<>();
+
         for (Place place : places) {
             String getDay = String.valueOf(place.getDay());
 
-            Map<String, Object> placeMap = new HashMap<>();
+            Map<String, Object> placeMap = new LinkedHashMap<>();
             placeMap.put("name", place.getPlaceName());
-            placeMap.put("startTime",place.getStartTime());
-            placeMap.put("endTime",place.getEndTime());
+            placeMap.put("place_num", place.getPlaceNum());
+            placeMap.put("place_type", place.getPlaceType());
+            placeMap.put("startTime", place.getStartTime());
+            placeMap.put("endTime", place.getEndTime());
 
-            Map<String, String> transport = new HashMap<>();
-            transport.put("startPlace", "출발장소");
-            transport.put("endPlace", "도착장소");
-            transport.put("time", "소요시간");
 
             if (!placesMap.containsKey(getDay)) {
                 placesMap.put(getDay, new HashMap<>());
-                placesMap.get(getDay).put("tran", transport);
+                placesMap.get(getDay).put("places", new ArrayList<>());
+                placesMap.get(getDay).put("trans", new ArrayList<>());
             }
 
-            if (!placesMap.get(getDay).containsKey("places")) {
-                placesMap.get(getDay).put("places", new ArrayList<>());
-            }
             ((List<Map<String, Object>>) placesMap.get(getDay).get("places")).add(placeMap);
         }
 
+        for (String day : placesMap.keySet()) {
+            List<Map<String, Object>> dayPlaces = (List<Map<String, Object>>) placesMap.get(day).get("places");
+            List<Map<String, Object>> trans = (List<Map<String, Object>>) placesMap.get(day).get("trans");
+
+            for (int i = 0; i < dayPlaces.size(); i += 2) {
+                Map<String, Object> place1 = dayPlaces.get(i);
+                Map<String, Object> place2 = (i + 1 < dayPlaces.size()) ? dayPlaces.get(i + 1) : null;
+
+                Map<String, Object> tran = new HashMap<>();
+                tran.put("startPlace", place1.get("name"));
+                tran.put("endPlace", (place2 != null) ? place2.get("name") : "");
+
+
+                if(place2 != null) {
+                    OpenApiGetXY.Response openApiGetXY = openApiService.getXY((String) place1.get("place_num"), (String) place1.get("place_type"));  // 출발 장소 좌표
+
+                    OpenApiGetXY.Response openApiGetXY2 = openApiService.getXY((String) place2.get("place_num"), (String) place2.get("place_type"));  // 도착 장소 좌표
+
+//                    log.info("x = " + openApiGetXY.getX() + " y = " + openApiGetXY.getY());
+//                    log.info("2x = " + openApiGetXY2.getX() + " 2y = " + openApiGetXY2.getY());
+
+                    if (openApiGetXY2 != null) {
+                        OpenApiDirectionsDTO openApiDirectionsDTO = new OpenApiDirectionsDTO();
+                        openApiDirectionsDTO.setSx(openApiGetXY.getX());
+                        openApiDirectionsDTO.setSy(openApiGetXY.getY());
+                        openApiDirectionsDTO.setEx(openApiGetXY2.getX());
+                        openApiDirectionsDTO.setEy(openApiGetXY2.getY());
+
+                        tran.put("time", openApiService.getDirectionsTransport(openApiDirectionsDTO));
+                    }
+                    trans.add(tran);
+                }
+            }
+
+            Map<String, Object> dayResult = new HashMap<>();
+            dayResult.put("places", dayPlaces);
+            dayResult.put("trans", trans);
+
+            result.put(day, dayResult);
+        }
 
 
 
