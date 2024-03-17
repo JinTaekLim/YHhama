@@ -140,7 +140,7 @@ public class ItineraryController {
     }
 
     @Operation(summary = "일정 삭제")
-    @GetMapping("/itinerary/delete/{itineraryId}")
+    @GetMapping("/delete/{itineraryId}")
     public ApiResult itineraryDelete(@RequestParam Long itineraryId) {
         try {
             itineraryService.deleteItinerary(itineraryId);
@@ -155,7 +155,7 @@ public class ItineraryController {
 
 
     @Operation(summary = "일정 수정")
-    @PostMapping("/itinerary/update")
+    @PostMapping("/update")
     public ApiResult itineraryUpdate(@RequestBody ItineraryJoinDTO.Request req, @RequestParam Long accountId, @RequestParam Long itineraryId) {
         try {
             ItineraryJoinDTO.Response response = itineraryService.update(itineraryId, req, accountId);
@@ -164,6 +164,18 @@ public class ItineraryController {
             return ApiResult.success("[일정]수정 실패: " + e.getMessage());
         } catch (Exception e) {
             return ApiResult.fail("");
+        }
+    }
+
+    @Operation(summary = "일정 확인 ( 메인 화면 )")
+    @PostMapping("/showMain")
+    public ApiResult itineraryShowMain(ItineraryShowMain.Request dto) {
+        try {
+            return ApiResult.success(itineraryService.showMain(dto));
+        } catch (NoSuchElementException e) {
+            return ApiResult.success("[일정]수정 실패: " + e.getMessage());
+        } catch (Exception e) {
+            return ApiResult.fail(e.getMessage());
         }
     }
 
