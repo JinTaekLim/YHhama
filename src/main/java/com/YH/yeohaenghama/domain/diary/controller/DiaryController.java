@@ -1,10 +1,12 @@
 package com.YH.yeohaenghama.domain.diary.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Comment;
+import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.service.CommentService;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.google.protobuf.Api;
@@ -99,6 +101,18 @@ public class DiaryController {
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         } catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "댓글 삭제")
+    @PostMapping("commentDelete")
+    public ApiResult commentDelete(Account account, Diary diary,Comment commentId){
+        try{
+            return ApiResult.success(commentService.delete(account,diary,commentId));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
     }

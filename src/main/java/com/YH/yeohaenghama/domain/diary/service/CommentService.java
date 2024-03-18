@@ -1,18 +1,14 @@
 package com.YH.yeohaenghama.domain.diary.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
-import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Comment;
+import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.CommentRepository;
-import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
-import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -35,5 +31,24 @@ public class CommentService {
 
         return CommentDTO.Response.fromEntity(comment);
 
+    }
+
+
+    public CommentDTO.Response delete(Account account, Diary diary, Comment comment){
+        if (account.getId() == null){ throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
+
+        if (diary.getId() == null){ throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않음"); }
+
+        if (comment.getId() == null){ throw new NoSuchElementException("해당 ID를 가진 댓글이 존재하지 않음"); }
+
+        Optional<Comment> commentOpt = commentRepository.findById(comment.getId());
+
+        if(commentOpt.get().getAccount() != account){
+            throw new NoSuchElementException("해당 댓글을 작성한 글쓴이가 아닙니다.");
+        }
+
+        commentRepository.deleteById(comment.getId());
+
+        return CommentDTO.Response.fromEntity(comment);
     }
 }
