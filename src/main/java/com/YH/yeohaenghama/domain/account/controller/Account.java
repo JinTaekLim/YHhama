@@ -31,6 +31,18 @@ public class Account {
     private final GCSService gcsService;
 
 
+    @Operation(summary = "테스트 코드 Int")
+    @PostMapping("/tsetIntInsert")
+    public void testInt(int a){
+        log.info("testIntInsert : "+a);
+    }
+
+    @Operation(summary = "테스트 코드 Integer")
+    @PostMapping("/tsetIntegerInsert")
+    public void testInt(Integer a){
+        log.info("testIntegerInsert : "+a);
+    }
+
     @Operation(summary = "아이디 중복 체크")
     @PostMapping("/emailDuplicateCheck")
     public ApiResult emailDuplicateCheck(@RequestParam String email){
