@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/KAN-51" />
+                    <option name="lastUsedInstant" value="1710827742" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1710827712" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/KAN-114" />
+                    <option name="lastUsedInstant" value="1710771256" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2cTsZneJgFOjvgIT0tXrpAWA6Nv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Gradle.YeohaengHama-backend 빌드.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.YeohaenghamaApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-51&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/controller" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="YeohaengHama-backend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="YeohaengHama-backend" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="YeohaenghamaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="yeohaenghama.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.YH.yeohaenghama.YeohaenghamaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-322ed176" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="" />
+      <created>1708146961035</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1708146961035</updated>
+      <workItem from="1708146962190" duration="106000" />
+      <workItem from="1708147659684" duration="758000" />
+      <workItem from="1708235971683" duration="1864000" />
+      <workItem from="1708238103000" duration="869000" />
+      <workItem from="1708239849526" duration="1211000" />
+      <workItem from="1708241070986" duration="14181000" />
+      <workItem from="1708322820079" duration="3827000" />
+      <workItem from="1708352331837" duration="1883000" />
+      <workItem from="1708494553858" duration="368000" />
+      <workItem from="1708495554834" duration="10167000" />
+      <workItem from="1708524288172" duration="4514000" />
+      <workItem from="1708575344096" duration="2697000" />
+      <workItem from="1708578052134" duration="1259000" />
+      <workItem from="1708579343258" duration="1680000" />
+      <workItem from="1708618221146" duration="222000" />
+      <workItem from="1708668472038" duration="48000" />
+      <workItem from="1708668533811" duration="6281000" />
+      <workItem from="1708695549286" duration="4477000" />
+      <workItem from="1708700519488" duration="3132000" />
+      <workItem from="1708759659124" duration="79000" />
+      <workItem from="1708759759118" duration="5975000" />
+      <workItem from="1708771285639" duration="124000" />
+      <workItem from="1708771425819" duration="3158000" />
+      <workItem from="1708931066152" duration="19500000" />
+      <workItem from="1709091613523" duration="2073000" />
+      <workItem from="1709099653992" duration="9100000" />
+      <workItem from="1709181417937" duration="7492000" />
+      <workItem from="1709224699636" duration="1147000" />
+      <workItem from="1709271039408" duration="14728000" />
+      <workItem from="1709356793659" duration="28851000" />
+      <workItem from="1709391581638" duration="19000" />
+      <workItem from="1709391608642" duration="4120000" />
+      <workItem from="1709447337888" duration="8109000" />
+      <workItem from="1709479488619" duration="1968000" />
+      <workItem from="1709481606858" duration="270000" />
+      <workItem from="1709527728001" duration="4384000" />
+      <workItem from="1709534920013" duration="812000" />
+      <workItem from="1709545803715" duration="7658000" />
+      <workItem from="1709600163471" duration="27456000" />
+      <workItem from="1709860058065" duration="7704000" />
+      <workItem from="1709891199224" duration="16676000" />
+      <workItem from="1710064705431" duration="20681000" />
+      <workItem from="1710132243809" duration="4367000" />
+      <workItem from="1710204972564" duration="19340000" />
+      <workItem from="1710243319217" duration="614000" />
+      <workItem from="1710292786921" duration="1686000" />
+      <workItem from="1710309266455" duration="25000" />
+      <workItem from="1710309334026" duration="8048000" />
+      <workItem from="1710655072450" duration="11941000" />
+      <workItem from="1710692896413" duration="14000" />
+      <workItem from="1710761748786" duration="10249000" />
+      <workItem from="1710810943255" duration="10104000" />
+      <workItem from="1710830934151" duration="1231000" />
+      <workItem from="1710832433936" duration="2128000" />
+      <workItem from="1710844763369" duration="146000" />
+    </task>
+    <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
+      <option name="closed" value="true" />
+      <created>1709481861679</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1709481861679</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/test/diaryTest/entity/Diary.java</url>
+          <line>37</line>
+          <properties class="com.YH.yeohaenghama.domain.diary.entity.Diary">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
