@@ -117,4 +117,15 @@ public class DiaryController {
         }
     }
 
+    @Operation(summary = "댓글 수정")
+    @PostMapping("commentUpdate")
+    public ApiResult<CommentDTO.Response> commentUpdate(CommentDTO.Update dto){
+        try{
+            return ApiResult.success(commentService.update(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 }

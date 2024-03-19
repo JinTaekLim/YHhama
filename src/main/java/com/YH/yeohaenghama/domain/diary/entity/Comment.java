@@ -29,10 +29,16 @@ public class Comment {
     private LocalDateTime date; // 댓글 작성한 일시
 
     @Builder
-    public Comment(Account account, Diary diary, String content, LocalDateTime date) {
+    public Comment(Long id, Account account, Diary diary, String content, LocalDateTime date) {
+        this.id = id;
         this.account = account;
         this.diary = diary;
         this.content = content;
         this.date = date;
+    }
+
+    public void update(String content) {
+        this.content = content;
+        this.date = LocalDateTime.now();
     }
 }

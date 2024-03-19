@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -33,7 +34,6 @@ public class CommentService {
 
     }
 
-
     public CommentDTO.Response delete(Account account, Diary diary, Comment comment){
         if (account.getId() == null){ throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
 
@@ -48,6 +48,26 @@ public class CommentService {
         }
 
         commentRepository.deleteById(comment.getId());
+
+        return CommentDTO.Response.fromEntity(comment);
+    }
+
+    public CommentDTO.Response update(CommentDTO.Update dto){
+        if (dto.getAccount() == null){ throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
+
+        if (dto.getComment() == null){ throw new NoSuchElementException("해당 ID를 가진 댓글이 존재하지 않음"); }
+
+        Optional<Comment> commentOpt = commentRepository.findById(dto.getComment().getId());
+
+        Comment comment = commentOpt.get();
+
+        if(commentOpt.get().getAccount() != dto.getAccount()){
+            throw new NoSuchElementException("해당 댓글을 작성한 글쓴이가 아닙니다.");
+        }
+
+        comment.update(dto.getContent());
+
+        commentRepository.save(comment);
 
         return CommentDTO.Response.fromEntity(comment);
     }

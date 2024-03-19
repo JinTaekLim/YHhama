@@ -16,6 +16,15 @@ import java.time.LocalDateTime;
 public class CommentDTO {
 
     @Data
+    public static class Update{
+        @Schema(description = "내용")
+        private String content;
+        @Schema(description = "수정하는 계정 ID")
+        private Account account;
+        @Schema(description = "수정하는 댓글 ID")
+        private Comment comment;
+    }
+    @Data
     public static class Request{
         @Schema(description = "댓글 작성자 ID")
         private Account account;
