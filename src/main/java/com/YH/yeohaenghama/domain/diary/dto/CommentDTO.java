@@ -36,6 +36,8 @@ public class CommentDTO {
 
     @Data
     public static class Response{
+        @Schema(description = "댓글 ID")
+        private Long comment;
         @Schema(description = "댓글 작성자 ID")
         private Long account;
         @Schema(description = "해당 일기 ID")
@@ -53,6 +55,7 @@ public class CommentDTO {
 
         public static CommentDTO.Response fromEntity(Comment comment) {
             CommentDTO.Response response = new CommentDTO.Response();
+            response.setComment(comment.getId());
             response.setAccount(comment.getAccount().getId());
             response.setDiary(comment.getDiary().getId());
             response.setNickName(comment.getAccount().getNickname());
