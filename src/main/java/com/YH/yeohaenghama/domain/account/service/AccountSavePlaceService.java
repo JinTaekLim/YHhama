@@ -77,6 +77,17 @@ public class AccountSavePlaceService {
         }
     }
 
+    public boolean checkSavePlace(Long accountId,AccountSavePlaceDTO dto){
+        findAccountById(accountId);
+        log.info("[DeletePlace] 유저 조회 성공");
+
+        List<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_Id(dto.getContentTypeId(),dto.getPlaceNum(),accountId);
+
+        if (placeToDelete.isEmpty()){
+            return false;
+        }
+        return true;
+    }
 
     public Account findAccountById(Long accountId) {
         return accountRepository.findById(accountId)
