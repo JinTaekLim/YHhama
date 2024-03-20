@@ -25,7 +25,7 @@ public class ReviewController {
     private final ReviewService reviewService;
     @Operation(summary = "리뷰 등록")
     @PostMapping("/join")
-    public ApiResult<ReviewDTO.Response> join(ReviewDTO.Request dto){
+    public ApiResult<ReviewDTO.Response> join(@ModelAttribute ReviewDTO.Request dto){
         try{
             log.info(String.valueOf(dto));
 
@@ -88,7 +88,7 @@ public class ReviewController {
 
     @Operation(summary = "리뷰 수정")
     @PostMapping("/update")
-    public ApiResult<ReviewDTO.Response> update(Long reviewId, ReviewDTO.Request dto){
+    public ApiResult<ReviewDTO.Response> update(@RequestParam Long reviewId,@ModelAttribute ReviewDTO.Request dto){
         try{
             return ApiResult.success(reviewService.update(reviewId,dto));
         }catch (NoSuchElementException e){

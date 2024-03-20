@@ -169,7 +169,7 @@ public class ItineraryController {
 
     @Operation(summary = "일정 확인 ( 메인 화면 )")
     @PostMapping("/showMain")
-    public ApiResult itineraryShowMain(ItineraryShowMain.Request dto) {
+    public ApiResult itineraryShowMain(@RequestBody ItineraryShowMain.Request dto) {
         try {
             return ApiResult.success(itineraryService.showMain(dto));
         } catch (NoSuchElementException e) {

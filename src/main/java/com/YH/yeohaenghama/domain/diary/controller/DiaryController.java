@@ -45,7 +45,7 @@ public class DiaryController {
 
     @Operation(summary = "일기 삭제")
     @PostMapping("/delete")
-    public ApiResult diaryDelete(Long diaryId){
+    public ApiResult diaryDelete(@RequestParam Long diaryId){
         try{
             diaryService.delete(diaryId);
             return ApiResult.success("일기 삭제 성공");
@@ -59,7 +59,7 @@ public class DiaryController {
 
     @Operation(summary = "일기 조회")
     @PostMapping("/show")
-    public ApiResult diaryShow(Long diaryId){
+    public ApiResult diaryShow(@RequestParam Long diaryId){
         try{
             return ApiResult.success(diaryService.show(diaryId));
         }catch (NoSuchElementException e){
@@ -85,7 +85,7 @@ public class DiaryController {
 
     @Operation(summary = "일기 수정")
     @PostMapping("/update")
-    public ApiResult<DiaryDTO.Response> update(Long diaryId,DiaryDTO.Request dto){
+    public ApiResult<DiaryDTO.Response> update(@RequestParam Long diaryId,@RequestBody DiaryDTO.Request dto){
         try{
             return ApiResult.success(diaryService.updatae(diaryId,dto));
         }catch (Exception e){
@@ -96,7 +96,7 @@ public class DiaryController {
 
     @Operation(summary = "댓글 작성")
     @PostMapping("/commentSave")
-    public ApiResult<CommentDTO.Response> commentSave(CommentDTO.Request dto){
+    public ApiResult<CommentDTO.Response> commentSave(@RequestBody CommentDTO.Request dto){
         try{
             return ApiResult.success(commentService.save(dto));
         } catch (NoSuchElementException e){
@@ -108,7 +108,7 @@ public class DiaryController {
 
     @Operation(summary = "댓글 삭제")
     @PostMapping("commentDelete")
-    public ApiResult commentDelete(Account account, Diary diary,Comment commentId){
+    public ApiResult commentDelete(@RequestParam Account account,@RequestParam Diary diary,@RequestParam Comment commentId){
         try{
             return ApiResult.success(commentService.delete(account,diary,commentId));
         }catch (NoSuchElementException e){
@@ -120,7 +120,7 @@ public class DiaryController {
 
     @Operation(summary = "댓글 수정")
     @PostMapping("commentUpdate")
-    public ApiResult<CommentDTO.Response> commentUpdate(CommentDTO.Update dto){
+    public ApiResult<CommentDTO.Response> commentUpdate(@RequestBody CommentDTO.Update dto){
         try{
             return ApiResult.success(commentService.update(dto));
         }catch (NoSuchElementException e){
@@ -132,7 +132,7 @@ public class DiaryController {
 
     @Operation(summary = "댓글 조회")
     @PostMapping("commentShow")
-    public ApiResult<CommentShowDTO.Response> commentUpdate(CommentShowDTO dto){
+    public ApiResult<CommentShowDTO.Response> commentUpdate(@RequestBody CommentShowDTO dto){
         try{
             return ApiResult.success(commentService.show(dto));
         }catch (NoSuchElementException e){
