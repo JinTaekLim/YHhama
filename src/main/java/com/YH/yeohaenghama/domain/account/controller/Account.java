@@ -205,7 +205,7 @@ public class Account {
 
     @Operation(summary = "프로필 편집")
     @PostMapping("/update")
-    public ApiResult<AccountShowDTO.Response> update(AccountShowDTO.Request dto){
+    public ApiResult<AccountShowDTO.Response> update(@ModelAttribute AccountShowDTO.Request dto){
         try{
             return ApiResult.success(accountService.update(dto));
         }catch (NoSuchElementException e){

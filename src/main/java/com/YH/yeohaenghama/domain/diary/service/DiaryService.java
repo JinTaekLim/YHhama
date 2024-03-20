@@ -82,8 +82,6 @@ public class DiaryService {
 
         Diary diary = diaryOpt.get();
 
-
-
         Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
         Itinerary itinerary = itineraryOpt.get();
 
