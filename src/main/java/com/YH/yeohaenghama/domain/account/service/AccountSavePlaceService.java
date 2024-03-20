@@ -65,6 +65,10 @@ public class AccountSavePlaceService {
         findAccountById(accountId);
         log.info("[DeletePlace] 유저 조회 성공");
 
+
+        log.info("user: " +String.valueOf(accountId));
+        log.info("dto" +String.valueOf(dto));
+
         List<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_Id(dto.getContentTypeId(),dto.getPlaceNum(),accountId);
 
         log.info(placeToDelete.toString());

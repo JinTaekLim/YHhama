@@ -159,7 +159,7 @@ public class Account {
 
     @Operation(summary = "장소 저장 유무 확인")
     @PostMapping("/checkSavePlace")
-    private ApiResult checkSavePlace(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId){
+        private ApiResult checkSavePlace(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId){
         try {
             boolean check = accountSavePlaceService.checkSavePlace(accountId,requestDto);
             return ApiResult.success(check);
@@ -172,12 +172,12 @@ public class Account {
 
     @Operation(summary = "저장한 장소 삭제")
     @PostMapping("/deletePlace")
-    public ApiResult deletePlace(@RequestParam Long accountId, AccountSavePlaceDTO dto){
+    public ApiResult<AccountSavePlaceDTO> deletePlace(@RequestParam Long accountId, @RequestBody AccountSavePlaceDTO dto){
         try {
             accountSavePlaceService.DeletePlace(accountId,dto);
-            return ApiResult.success("저장된 장소 삭제 완료");
+            return ApiResult.success(dto);
         } catch (IllegalArgumentException e){
-            return ApiResult.success(accountId,e.getMessage());
+            return ApiResult.success(dto,e.getMessage());
         }
         catch (NoSuchElementException e) {
             return ApiResult.success(null, e.getMessage());
