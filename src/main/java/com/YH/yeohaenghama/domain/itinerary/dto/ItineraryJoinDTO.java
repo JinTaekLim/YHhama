@@ -54,6 +54,8 @@ public class ItineraryJoinDTO {
     @Data
     @Schema(name = "ItineraryReponseDTO")
     public static class Response {
+        @Schema(description = "일정 ID")
+        private Long id;
         @Schema(description = "일정 이름")
         private String name;
         @Schema(description = "동반자(0:기타, 1:혼자, 2:친구와, 3:연인과, 4:배우자와,5:아이와,6:부모님과)")
@@ -73,6 +75,7 @@ public class ItineraryJoinDTO {
 
         public static Response fromEntity(Itinerary itinerary) {
             Response response = new Response();
+            response.setId(itinerary.getId());
             response.setName(itinerary.getName());
             response.setType(itinerary.getType());
             response.setTransportation(itinerary.getTransportation());
