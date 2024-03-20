@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.diary.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
+import com.YH.yeohaenghama.domain.diary.dto.CommentShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.CommentRepository;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -70,5 +73,27 @@ public class CommentService {
         commentRepository.save(comment);
 
         return CommentDTO.Response.fromEntity(comment);
+    }
+
+
+
+    public CommentShowDTO.Response show(CommentShowDTO dto){
+        if (dto.getDiary() == null){ throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않음"); }
+
+        List<Comment> comments = commentRepository.findAllByDiaryId(dto.getDiary().getId());
+
+
+        List<CommentDTO.Response> commentDTO = new ArrayList<>();
+
+        for (Comment comment : comments) {
+            commentDTO.add(CommentDTO.Response.fromEntity(comment));
+            log.info(String.valueOf(comment.getId()));
+        }
+
+        CommentShowDTO.Response commentShow = new CommentShowDTO.Response();
+        commentShow.setCommentShowDTO(commentDTO);
+
+
+        return commentShow;
     }
 }

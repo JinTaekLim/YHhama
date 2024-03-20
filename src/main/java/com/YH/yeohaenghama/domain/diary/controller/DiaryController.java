@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.diary.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
+import com.YH.yeohaenghama.domain.diary.dto.CommentShowDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Comment;
@@ -122,6 +123,18 @@ public class DiaryController {
     public ApiResult<CommentDTO.Response> commentUpdate(CommentDTO.Update dto){
         try{
             return ApiResult.success(commentService.update(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "댓글 조회")
+    @PostMapping("commentShow")
+    public ApiResult<CommentShowDTO.Response> commentUpdate(CommentShowDTO dto){
+        try{
+            return ApiResult.success(commentService.show(dto));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }catch (Exception e){
