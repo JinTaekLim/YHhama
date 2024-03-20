@@ -8,6 +8,7 @@ import com.YH.yeohaenghama.domain.account.dto.testDTO;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -152,6 +153,19 @@ public class Account {
             return ApiResult.success(null,e.getMessage());
         }
         catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "장소 저장 유무 확인")
+    @PostMapping("/checkSavePlace")
+    private ApiResult checkSavePlace(@RequestBody AccountSavePlaceDTO requestDto, @RequestParam Long accountId){
+        try {
+            boolean check = accountSavePlaceService.checkSavePlace(accountId,requestDto);
+            return ApiResult.success(check);
+        }catch (IllegalArgumentException e){
+            return ApiResult.success(e.getMessage());
+        } catch(Exception e){
             return ApiResult.fail(e.getMessage());
         }
     }
