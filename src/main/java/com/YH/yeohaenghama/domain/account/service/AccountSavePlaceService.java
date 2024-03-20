@@ -61,14 +61,15 @@ public class AccountSavePlaceService {
         return filteredAccountData;
     }
 
-    public void DeletePlace(Long accountId, Long savePlaceId) {
+    public void DeletePlace(Long accountId, AccountSavePlaceDTO dto) {
         findAccountById(accountId);
         log.info("[DeletePlace] 유저 조회 성공");
 
-        Optional<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findById(savePlaceId);
+        List<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_Id(dto.getContentTypeId(),dto.getPlaceNum(),accountId);
 
-        if (placeToDelete.isPresent() && placeToDelete.get().getAccount().getId().equals(accountId)) {
-            accountSavePlaceRepository.deleteById(savePlaceId);
+        log.info(placeToDelete.toString());
+        if (!placeToDelete.isEmpty()) {
+            accountSavePlaceRepository.deleteById(placeToDelete.get(0).getId());
             log.info("[DeletePlace] 해당 장소 저장 정보 삭제 완료");
         } else {
             log.info("[DeletePlace] 해당하는 장소 저장 정보가 없거나 유저에게 속하지 않습니다.");
