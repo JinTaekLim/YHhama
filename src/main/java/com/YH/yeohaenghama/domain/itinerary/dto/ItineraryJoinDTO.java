@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +45,9 @@ public class ItineraryJoinDTO {
         @Schema(description = "여행 지역")
         private String area;
         @Schema(description = "일정 시작 일시")
-        private String startDate;
+        private LocalDate startDate;
         @Schema(description = "일정 종료 일시")
-        private String endDate;
+        private LocalDate endDate;
         @Schema(description = "경비 관리")
         private String expense;
     }
@@ -67,9 +68,9 @@ public class ItineraryJoinDTO {
         @Schema(description = "여행 지역")
         private String area;
         @Schema(description = "일정 시작 일시")
-        private String startDate;
+        private LocalDate startDate;
         @Schema(description = "일정 종료 일시")
-        private String endDate;
+        private LocalDate endDate;
         @Schema(description = "경비 관리")
         private String expense;
 

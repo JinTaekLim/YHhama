@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -40,10 +41,10 @@ public class Itinerary {
     private String area;      // 출발지
 
     @Column(nullable = false)
-    private String startDate;
+    private LocalDate startDate;
 
     @Column(nullable = false)
-    private String endDate;
+    private LocalDate endDate;
 
     @OneToMany
     @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
@@ -70,7 +71,7 @@ public class Itinerary {
     }
 
     @Builder
-    public Itinerary(String name, List<String> type, List<String> itineraryStyle, Long id, String transportation, String area, String startDate, String endDate, String expense, List<Place> places) {
+    public Itinerary(String name, List<String> type, List<String> itineraryStyle, Long id, String transportation, String area, LocalDate startDate, LocalDate endDate, String expense, List<Place> places) {
         this.name = name;
         this.type = type;
         this.itineraryStyle = itineraryStyle;

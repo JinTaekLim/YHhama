@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +25,9 @@ public class ItineraryShowDTO {
     @Schema(description = "지역")
     private String area;
     @Schema(description = "시작 일시")
-    private String startDate;
+    private LocalDate startDate;
     @Schema(description = "종료 일시")
-    private String endDate;
+    private LocalDate endDate;
     @Schema(description = "경비")
     private String expense;
     @Schema(description = "일정을 제작한 회원 정보")

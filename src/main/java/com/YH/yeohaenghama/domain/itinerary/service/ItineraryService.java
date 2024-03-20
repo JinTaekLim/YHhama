@@ -165,7 +165,7 @@ public class ItineraryService {
 
 
         LocalDate currentDate = LocalDate.now();
-        LocalDate savedDate = LocalDate.parse(itinerary.getStartDate(), DateTimeFormatter.BASIC_ISO_DATE);
+        LocalDate savedDate = itinerary.getStartDate(); // 이미 LocalDate 값을 가지고 있다고 가정합니다.
         long daysDifference = ChronoUnit.DAYS.between(currentDate,savedDate);
 
 
