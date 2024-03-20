@@ -4,6 +4,7 @@ import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.dto.testDTO;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
 import jakarta.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import io.swagger.v3.oas.annotations.*;
@@ -31,25 +33,11 @@ public class Account {
     private final GCSService gcsService;
 
 
-    @Operation(summary = "테스트 코드 Int")
-    @PostMapping("/tsetIntInsert")
-    public String testInt(int a){
-        log.info("testIntInsert : "+a);
-        return "a = "+ a;
-    }
-
-
-    @Operation(summary = "테스트 코드 Integer")
-    @PostMapping("/tsetIntegerInsert")
-    public String testInt(Integer a){
-        log.info("testIntegerInsert : "+a);
-        return "a = " + a;
-    }
-
     @Operation(summary = "아이디 중복 체크")
     @PostMapping("/emailDuplicateCheck")
-    public ApiResult emailDuplicateCheck(@RequestParam String email){
+    public ApiResult emailDuplicateCheck(@RequestParam(name = "email") String email){
         if(accountService.emailDuplicateCheck(email) == false){
+            log.info("성");
             return ApiResult.success(email,"사용 가능한 이메일 주소 입니다.");
         }
         return ApiResult.fail("중복되는 이메일 주소가 있습니다.");
@@ -170,9 +158,9 @@ public class Account {
 
     @Operation(summary = "저장한 장소 삭제")
     @PostMapping("/deletePlace")
-    public ApiResult deletePlace(@RequestParam Long accountId, @RequestParam Long placeId){
+    public ApiResult deletePlace(@RequestParam Long accountId, AccountSavePlaceDTO dto){
         try {
-            accountSavePlaceService.DeletePlace(accountId,placeId);
+            accountSavePlaceService.DeletePlace(accountId,dto);
             return ApiResult.success("저장된 장소 삭제 완료");
         } catch (IllegalArgumentException e){
             return ApiResult.success(accountId,e.getMessage());
