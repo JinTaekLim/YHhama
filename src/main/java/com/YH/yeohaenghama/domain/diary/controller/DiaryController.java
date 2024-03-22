@@ -12,6 +12,8 @@ import com.YH.yeohaenghama.domain.diary.service.CommentService;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -132,7 +134,10 @@ public class DiaryController {
 
     @Operation(summary = "댓글 조회")
     @PostMapping("commentShow")
-    public ApiResult<CommentShowDTO.Response> commentUpdate(@RequestBody CommentShowDTO dto){
+    public ApiResult<CommentShowDTO.Response> commentUpdate(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "조회할 일기", content = @Content(
+            mediaType = "application/json",
+            examples = @ExampleObject(name = "Example", value = "{\"DiaryId\":\"1\"}")
+    ))@RequestBody CommentShowDTO dto){
         try{
             return ApiResult.success(commentService.show(dto));
         }catch (NoSuchElementException e){

@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/controller/DiaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/controller/DiaryController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,7 +103,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;Spring Boot.YeohaenghamaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-51&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-121&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -221,6 +224,9 @@
       <workItem from="1710830934151" duration="1231000" />
       <workItem from="1710832433936" duration="2128000" />
       <workItem from="1710844763369" duration="146000" />
+      <workItem from="1711008492331" duration="1906000" />
+      <workItem from="1711035050531" duration="4104000" />
+      <workItem from="1711041446213" duration="241000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
