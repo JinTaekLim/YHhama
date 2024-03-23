@@ -132,9 +132,22 @@ public class DiaryController {
 
     @Operation(summary = "댓글 조회")
     @PostMapping("commentShow")
-    public ApiResult<CommentShowDTO.Response> commentUpdate(@RequestBody CommentShowDTO dto){
+    public ApiResult<CommentShowDTO.Response> commentShow(@RequestBody CommentShowDTO dto){
         try{
             return ApiResult.success(commentService.show(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+    @Operation(summary = "유저의 댓글 전체 조회")
+    @PostMapping("accountCommentShow")
+    public ApiResult<CommentShowDTO.Response> accountCommentShow(@RequestParam Long accountId){
+        try{
+            return ApiResult.success(commentService.show(accountId));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }catch (Exception e){
