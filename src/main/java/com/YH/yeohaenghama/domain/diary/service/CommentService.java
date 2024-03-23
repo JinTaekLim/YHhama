@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.diary.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
 import com.YH.yeohaenghama.domain.diary.dto.CommentShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Comment;
@@ -21,10 +22,10 @@ import java.util.Optional;
 @Slf4j
 public class CommentService {
     private final CommentRepository commentRepository;
-
+    private final AccountRepository accountRepository;
     public CommentDTO.Response save(CommentDTO.Request dto){
 
-        if (dto.getAccount() == null){ throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
+        if(accountRepository.findById(dto.getAccount().getId()).isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
 
         if (dto.getDiary() == null){ throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않음"); }
 
@@ -38,7 +39,7 @@ public class CommentService {
     }
 
     public CommentDTO.Response delete(Account account, Diary diary, Comment comment){
-        if (account.getId() == null){ throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
+        if(accountRepository.findById(account.getId()).isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
 
         if (diary.getId() == null){ throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않음"); }
 
@@ -56,7 +57,7 @@ public class CommentService {
     }
 
     public CommentDTO.Response update(CommentDTO.Update dto){
-        if (dto.getAccount() == null){ throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
+        if(accountRepository.findById(dto.getAccount().getId()).isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
 
         if (dto.getComment() == null){ throw new NoSuchElementException("해당 ID를 가진 댓글이 존재하지 않음"); }
 
@@ -95,5 +96,26 @@ public class CommentService {
 
 
         return commentShow;
+    }
+
+    public CommentShowDTO.Response show(Long accountId){
+
+        if(accountRepository.findById(accountId).isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
+
+        List<Comment> comments = commentRepository.findAllByAccountId(accountId);
+
+        if(comments.isEmpty()) { throw new NoSuchElementException("해당 유저가 작성한 댓글이 존재하지 않습니다."); }
+
+
+        CommentShowDTO.Response commentShowDTO = new CommentShowDTO.Response();
+
+        List<CommentDTO.Response> commentDTO = new ArrayList<>();
+
+        for (Comment comment : comments) {
+            commentDTO.add(CommentDTO.Response.fromEntity(comment));
+        }
+        commentShowDTO.setCommentShowDTO(commentDTO);
+
+        return commentShowDTO;
     }
 }
