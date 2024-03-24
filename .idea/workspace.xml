@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/controller/DiaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/controller/DiaryController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +23,12 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="yeohaenghama" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -54,16 +57,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/KAN-51" />
-                    <option name="lastUsedInstant" value="1710827742" />
+                    <option name="branchName" value="feature/KAN-113" />
+                    <option name="lastUsedInstant" value="1711211482" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1710827712" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-114" />
-                    <option name="lastUsedInstant" value="1710771256" />
+                    <option name="lastUsedInstant" value="1711210112" />
                   </RecentBranch>
                 </list>
               </option>
@@ -87,7 +86,9 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2cTsZneJgFOjvgIT0tXrpAWA6Nv" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -103,7 +104,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;Spring Boot.YeohaenghamaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-121&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-113&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -227,6 +228,7 @@
       <workItem from="1711008492331" duration="1906000" />
       <workItem from="1711035050531" duration="4104000" />
       <workItem from="1711041446213" duration="241000" />
+      <workItem from="1711262792366" duration="2790000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
