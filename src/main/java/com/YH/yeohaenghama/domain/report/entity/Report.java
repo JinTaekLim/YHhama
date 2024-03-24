@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ReportDiary {
+public class Report {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long typeId;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
@@ -23,7 +25,8 @@ public class ReportDiary {
     private Diary diary;
 
     @Builder
-    public ReportDiary(Account account, Diary diary) {
+    public Report(Long typeId,Account account, Diary diary) {
+        this.typeId = typeId;
         this.account = account;
         this.diary = diary;
     }

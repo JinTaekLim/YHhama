@@ -19,10 +19,10 @@ import java.util.NoSuchElementException;
 public class ReportController {
     private final ReportService reportService;
 
-    @PostMapping("/insert")
+    @PostMapping("/diary")
     public ApiResult diary(ReportDiaryDTO dto){
         try{
-            reportService.reportDiary(dto);
+            reportService.report(dto);
             return ApiResult.success(dto);
         }catch (NoSuchElementException e){
             return ApiResult.success(e.getMessage());
