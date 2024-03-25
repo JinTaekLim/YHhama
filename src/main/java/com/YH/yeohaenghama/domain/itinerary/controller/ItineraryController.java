@@ -120,10 +120,11 @@ public class ItineraryController {
             List<Map<String, Object>> itineraryData = itineraries.stream()
                     .map(itineraryProjection -> {
                         Map<String, Object> data = new HashMap<>();
+
                         data.put("itineraryId", itineraryProjection.getId());
                         data.put("name", itineraryProjection.getName());
-                        data.put("startDate", itineraryProjection.getStartDate());
-                        data.put("endDate", itineraryProjection.getEndDate());
+//                        data.put("startDate", itineraryProjection.getStartDate());
+//                        data.put("endDate", itineraryProjection.getEndDate());
                         data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
                         return data;
                     })
@@ -135,7 +136,7 @@ public class ItineraryController {
             return ApiResult.success(null,e.getMessage());
         }
         catch (Exception e){
-            return ApiResult.fail("");
+            return ApiResult.fail(e.getMessage());
         }
     }
 
