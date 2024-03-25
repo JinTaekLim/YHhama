@@ -1,8 +1,10 @@
 package com.YH.yeohaenghama.domain.itinerary.repository;
 
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +16,7 @@ public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
     interface ItineraryProjection {
         Long getId();
         String getName();
-        String getStartDate();
-        String getEndDate();
+        LocalDate getStartDate();
+        LocalDate getEndDate();
     }
 }

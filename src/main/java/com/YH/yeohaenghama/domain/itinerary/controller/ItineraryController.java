@@ -123,8 +123,8 @@ public class ItineraryController {
 
                         data.put("itineraryId", itineraryProjection.getId());
                         data.put("name", itineraryProjection.getName());
-//                        data.put("startDate", itineraryProjection.getStartDate());
-//                        data.put("endDate", itineraryProjection.getEndDate());
+                        data.put("startDate", itineraryProjection.getStartDate());
+                        data.put("endDate", itineraryProjection.getEndDate());
                         data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
                         return data;
                     })
