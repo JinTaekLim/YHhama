@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.report.entity;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -10,24 +11,21 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Report {
+public class ReportComment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long typeId;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
     @ManyToOne
-    @JoinColumn(name = "diary_id")
-    private Diary diary;
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
     @Builder
-    public Report(Long typeId,Account account, Diary diary) {
-        this.typeId = typeId;
+    public ReportComment(Account account, Comment comment) {
         this.account = account;
-        this.diary = diary;
+        this.comment = comment;
     }
 }

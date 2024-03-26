@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[수정] 신고 스웨거 설명 추가&quot;">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/controller/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportDiaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportDiaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/entity/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/entity/ReportDiary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/repository/ReportRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/repository/ReportDiaryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/service/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/service/ReportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +44,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -58,12 +62,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/KAN-126" />
-                    <option name="lastUsedInstant" value="1711361718" />
+                    <option name="branchName" value="feature/KAN-113" />
+                    <option name="lastUsedInstant" value="1711415927" />
                   </RecentBranch>
                   <RecentBranch>
-                    <option name="branchName" value="feature/KAN-113" />
-                    <option name="lastUsedInstant" value="1711211482" />
+                    <option name="branchName" value="feature/KAN-126" />
+                    <option name="lastUsedInstant" value="1711361718" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="main" />
@@ -109,7 +113,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.YeohaenghamaApplication.executor": "Run",
-    "git-widget-placeholder": "feature/KAN-126",
+    "git-widget-placeholder": "feature/KAN-113",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend",
     "node.js.detected.package.eslint": "true",
