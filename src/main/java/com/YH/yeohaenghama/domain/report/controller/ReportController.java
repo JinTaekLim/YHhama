@@ -60,7 +60,7 @@ public class ReportController {
 
     @Operation(summary = "신고당한 일기 조회")
     @PostMapping("showDiary")
-    public ApiResult<List<ReportShowDiaryDTO>> showDiary(){
+    public ApiResult<List<ReportDiaryDTO.Request>> showDiary(){
         try{
             return ApiResult.success(reportService.diaryReportList());
         }catch (NoSuchElementException e){

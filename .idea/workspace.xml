@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[수정] 신고 스웨거 설명 추가&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/service/DiaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/service/DiaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportDiaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportDiaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportShowDiaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportShowDiaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/service/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/service/ReportService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,12 +60,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/KAN-129" />
-                    <option name="lastUsedInstant" value="1711435527" />
+                    <option name="branchName" value="feature/KAN-128" />
+                    <option name="lastUsedInstant" value="1711437467" />
                   </RecentBranch>
                   <RecentBranch>
-                    <option name="branchName" value="feature/KAN-128" />
-                    <option name="lastUsedInstant" value="1711431419" />
+                    <option name="branchName" value="feature/KAN-129" />
+                    <option name="lastUsedInstant" value="1711435527" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/KAN-113" />
@@ -117,7 +119,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.YeohaenghamaApplication.executor": "Run",
-    "git-widget-placeholder": "feature/KAN-129",
+    "git-widget-placeholder": "feature/KAN-128",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend",
     "node.js.detected.package.eslint": "true",
@@ -242,7 +244,7 @@
       <workItem from="1711035050531" duration="4104000" />
       <workItem from="1711041446213" duration="241000" />
       <workItem from="1711262792366" duration="11866000" />
-      <workItem from="1711430997767" duration="6337000" />
+      <workItem from="1711430997767" duration="7433000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
