@@ -2,10 +2,7 @@ package com.YH.yeohaenghama.domain.report.controller;
 
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
-import com.YH.yeohaenghama.domain.report.dto.ReportCommentDTO;
-import com.YH.yeohaenghama.domain.report.dto.ReportCountDTO;
-import com.YH.yeohaenghama.domain.report.dto.ReportDiaryDTO;
-import com.YH.yeohaenghama.domain.report.dto.ReportReviewDTO;
+import com.YH.yeohaenghama.domain.report.dto.*;
 import com.YH.yeohaenghama.domain.report.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -55,6 +53,18 @@ public class ReportController {
             return ApiResult.success(reportService.commentReport(dto));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "신고당한 일기 조회")
+    @PostMapping("showDiary")
+    public ApiResult<List<ReportShowDiaryDTO>> showDiary(){
+        try{
+            return ApiResult.success(reportService.diaryReportList());
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null);
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }

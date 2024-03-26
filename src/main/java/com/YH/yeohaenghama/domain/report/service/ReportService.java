@@ -6,10 +6,7 @@ import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.CommentRepository;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
-import com.YH.yeohaenghama.domain.report.dto.ReportCommentDTO;
-import com.YH.yeohaenghama.domain.report.dto.ReportCountDTO;
-import com.YH.yeohaenghama.domain.report.dto.ReportDiaryDTO;
-import com.YH.yeohaenghama.domain.report.dto.ReportReviewDTO;
+import com.YH.yeohaenghama.domain.report.dto.*;
 import com.YH.yeohaenghama.domain.report.entity.ReportComment;
 import com.YH.yeohaenghama.domain.report.entity.ReportDiary;
 import com.YH.yeohaenghama.domain.report.entity.ReportReview;
@@ -22,8 +19,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -89,6 +86,41 @@ public class ReportService {
         return new ReportCountDTO((long) reportCommentRepository.findByCommentId(dto.getCommentId()).size());
 
     }
+
+
+
+    public List<ReportShowDiaryDTO> diaryReportList(){
+        List<ReportDiary> reportDiaryList = reportDiaryRepository.findAll();
+
+        List<ReportShowDiaryDTO> reportShowDiaryDTOList = new ArrayList<>();
+
+
+        Set<Long> addedDiaryIds = new HashSet<>();
+
+        for (ReportDiary reportDiary : reportDiaryList) {
+            Long diaryId = reportDiary.getDiary().getId();
+
+            if (!addedDiaryIds.contains(diaryId)) {
+                ReportShowDiaryDTO reportShowDiaryDTO = new ReportShowDiaryDTO();
+                Diary diary = reportDiary.getDiary();
+
+                reportShowDiaryDTO.setDiaryId(diaryId);
+                reportShowDiaryDTO.setDiaryTitle(diary.getTitle());
+                reportShowDiaryDTO.setWriter(reportDiary.getAccount().getNickname());
+                reportShowDiaryDTO.setReportCount(reportDiaryRepository.findByDiaryId(diaryId).size());
+                reportShowDiaryDTO.setDate(diary.getDate());
+
+                reportShowDiaryDTOList.add(reportShowDiaryDTO);
+
+                addedDiaryIds.add(diaryId);
+            }
+        }
+
+        return reportShowDiaryDTOList;
+    }
+
+
+
     public Account checkAccount(Long accountId){
         Optional<Account> accountOpt = accountRepository.findById(accountId);
         return accountOpt.orElseThrow(() -> new NoSuchElementException("해당 ID값을 가진 유저가 존재하지 않습니다."));
