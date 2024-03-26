@@ -2,11 +2,22 @@ package com.YH.yeohaenghama.domain.report.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
+import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
+import com.YH.yeohaenghama.domain.diary.repository.CommentRepository;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
+import com.YH.yeohaenghama.domain.report.dto.ReportCommentDTO;
+import com.YH.yeohaenghama.domain.report.dto.ReportCountDTO;
 import com.YH.yeohaenghama.domain.report.dto.ReportDiaryDTO;
-import com.YH.yeohaenghama.domain.report.entity.Report;
-import com.YH.yeohaenghama.domain.report.repository.ReportRepository;
+import com.YH.yeohaenghama.domain.report.dto.ReportReviewDTO;
+import com.YH.yeohaenghama.domain.report.entity.ReportComment;
+import com.YH.yeohaenghama.domain.report.entity.ReportDiary;
+import com.YH.yeohaenghama.domain.report.entity.ReportReview;
+import com.YH.yeohaenghama.domain.report.repository.ReportCommentRepository;
+import com.YH.yeohaenghama.domain.report.repository.ReportDiaryRepository;
+import com.YH.yeohaenghama.domain.report.repository.ReportReviewRepository;
+import com.YH.yeohaenghama.domain.review.entity.Review;
+import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,23 +30,68 @@ import java.util.Optional;
 @Slf4j
 public class ReportService {
 
-    private final ReportRepository reportRepository;
+    private final ReportDiaryRepository reportDiaryRepository;
+    private final ReportReviewRepository reportReviewRepository;
+    private final ReportCommentRepository reportCommentRepository;
     private final AccountRepository accountRepository;
     private final DiaryRepository diaryRepository;
+    private final ReviewRepository reviewRepository;
+    private final CommentRepository commentRepository;
 
-    public void report(ReportDiaryDTO dto) {
-        if (reportRepository.findByTypeIdAndAccountIdAndDiaryId(dto.getTypeId(),dto.getAccountId(), dto.getDiaryId()).isPresent()) {
-            throw new NoSuchElementException("2회 이상 신고할 수 없습니다.");
-        }
-
-        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
-        Account account = accountOpt.orElseThrow(() -> new NoSuchElementException("해당 ID값을 가진 유저가 존재하지 않습니다."));
+    public ReportCountDTO diaryReport(ReportDiaryDTO dto) {
+        Account account = checkAccount(dto.getAccountId());
 
         Optional<Diary> diaryOpt = diaryRepository.findById(dto.getDiaryId());
         Diary diary = diaryOpt.orElseThrow(() ->  new NoSuchElementException("해당 ID값을 가진 일기가 존재하지 않습니다."));
 
-        Report reportDiary = new Report(dto.getTypeId(), account,diary);
+        if (reportDiaryRepository.findByAccountIdAndDiaryId(dto.getAccountId(), dto.getDiaryId()).isPresent()) {
+            throw new NoSuchElementException("2회 이상 신고할 수 없습니다.");
+        }
 
-        reportRepository.save(reportDiary);
+        ReportDiary reportDiary = new ReportDiary(account,diary);
+
+        reportDiaryRepository.save(reportDiary);
+
+        return new ReportCountDTO((long) reportDiaryRepository.findByDiaryId(dto.getDiaryId()).size());
     }
+
+    public ReportCountDTO reviewReport(ReportReviewDTO dto){
+        Account account = checkAccount(dto.getAccountId());
+
+        Optional<Review> reviewOpt = reviewRepository.findById(dto.getReviewId());
+        Review review = reviewOpt.orElseThrow(() -> new NoSuchElementException("해당 ID값을 가진 리뷰가 존재하지 않습니다."));
+
+        if (reportReviewRepository.findByAccountIdAndReviewId(dto.getAccountId(), dto.getReviewId()).isPresent()) {
+            throw new NoSuchElementException("2회 이상 신고할 수 없습니다.");
+        }
+
+        ReportReview reportReview = new ReportReview(account,review);
+
+        reportReviewRepository.save(reportReview);
+
+        return new ReportCountDTO((long) reportReviewRepository.findByReviewId(dto.getReviewId()).size());
+    }
+
+    public ReportCountDTO commentReport(ReportCommentDTO dto){
+        Account account = checkAccount(dto.getAccountId());
+
+        Optional<Comment> coomentOpt = commentRepository.findById(dto.getCommentId());
+        Comment comment = coomentOpt.orElseThrow(() -> new NoSuchElementException("해당 ID값을 가진 댓글이 존재하지 않습니다."));
+
+        if (reportCommentRepository.findByAccountIdAndCommentId(dto.getAccountId(), dto.getCommentId()).isPresent()) {
+            throw new NoSuchElementException("2회 이상 신고할 수 없습니다.");
+        }
+
+        ReportComment reportComment = new ReportComment(account,comment);
+
+        reportCommentRepository.save(reportComment);
+
+        return new ReportCountDTO((long) reportCommentRepository.findByCommentId(dto.getCommentId()).size());
+
+    }
+    public Account checkAccount(Long accountId){
+        Optional<Account> accountOpt = accountRepository.findById(accountId);
+        return accountOpt.orElseThrow(() -> new NoSuchElementException("해당 ID값을 가진 유저가 존재하지 않습니다."));
+    }
+
 }

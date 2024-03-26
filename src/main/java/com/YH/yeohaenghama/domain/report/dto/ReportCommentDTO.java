@@ -4,12 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class ReportDiaryDTO {
+public class ReportCommentDTO {
 
     @Schema(description = "유저ID")
     private Long accountId;
-    @Schema(description = "일기ID")
-    private Long diaryId;
+    @Schema(description = "댓글ID")
+    private Long commentId;
 
 
 
