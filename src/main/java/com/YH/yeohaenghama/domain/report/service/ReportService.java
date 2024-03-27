@@ -118,6 +118,16 @@ public class ReportService {
     }
 
 
+    public void commentReportList(){
+        List<ReportComment> commentList = reportCommentRepository.findAll();
+
+        for(ReportComment reportComment : commentList){
+            Comment comment = reportComment.getComment();
+            log.info("댓글 : " + comment.getContent());
+        }
+
+
+    }
 
     public Account checkAccount(Long accountId){
         Optional<Account> accountOpt = accountRepository.findById(accountId);

@@ -25,7 +25,11 @@ public class CommentService {
     private final AccountRepository accountRepository;
     public CommentDTO.Response save(CommentDTO.Request dto){
 
-        if(accountRepository.findById(dto.getAccount().getId()).isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
+        log.info(String.valueOf(dto));
+        
+        if(dto.getAccount() == null || accountRepository.findById(dto.getAccount().getId()).isEmpty()) {
+            throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음");
+        }
 
         if (dto.getDiary() == null){ throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않음"); }
 

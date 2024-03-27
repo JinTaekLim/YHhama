@@ -14,6 +14,7 @@ import java.util.List;
 public class ReviewDTO {
 
     @Data
+    @Schema(name = "ReviewDTO_Show")
     public static class Show{
         @Schema(description = "유저 번호")
         private Long accountId;
@@ -23,6 +24,7 @@ public class ReviewDTO {
         private Long contentTypeId; // 관광 타입 번호
     }
     @Data
+    @Schema(name = "ReviewDTO_Request")
     public static class Request{
         @Schema(description = "장소 번호")
         private Long contentId;     // 장소 번호
