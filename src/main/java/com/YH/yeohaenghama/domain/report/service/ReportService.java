@@ -89,11 +89,10 @@ public class ReportService {
 
 
 
-    public List<ReportShowDiaryDTO> diaryReportList(){
+    public List<ReportDiaryDTO.Request> diaryReportList(){
         List<ReportDiary> reportDiaryList = reportDiaryRepository.findAll();
 
-        List<ReportShowDiaryDTO> reportShowDiaryDTOList = new ArrayList<>();
-
+        List<ReportDiaryDTO.Request> reportShowDiaryDTOList = new ArrayList<>();
 
         Set<Long> addedDiaryIds = new HashSet<>();
 
@@ -101,14 +100,13 @@ public class ReportService {
             Long diaryId = reportDiary.getDiary().getId();
 
             if (!addedDiaryIds.contains(diaryId)) {
-                ReportShowDiaryDTO reportShowDiaryDTO = new ReportShowDiaryDTO();
                 Diary diary = reportDiary.getDiary();
-
-                reportShowDiaryDTO.setDiaryId(diaryId);
-                reportShowDiaryDTO.setDiaryTitle(diary.getTitle());
-                reportShowDiaryDTO.setWriter(reportDiary.getAccount().getNickname());
-                reportShowDiaryDTO.setReportCount(reportDiaryRepository.findByDiaryId(diaryId).size());
-                reportShowDiaryDTO.setDate(diary.getDate());
+                ReportDiaryDTO.Request reportShowDiaryDTO = new ReportDiaryDTO.Request(
+                        diaryId,
+                        diary.getTitle(),
+                        reportDiary.getAccount().getNickname(),
+                        reportDiaryRepository.findByDiaryId(diaryId).size(),
+                        diary.getDate());
 
                 reportShowDiaryDTOList.add(reportShowDiaryDTO);
 
@@ -120,6 +118,16 @@ public class ReportService {
     }
 
 
+    public void commentReportList(){
+        List<ReportComment> commentList = reportCommentRepository.findAll();
+
+        for(ReportComment reportComment : commentList){
+            Comment comment = reportComment.getComment();
+            log.info("댓글 : " + comment.getContent());
+        }
+
+
+    }
 
     public Account checkAccount(Long accountId){
         Optional<Account> accountOpt = accountRepository.findById(accountId);

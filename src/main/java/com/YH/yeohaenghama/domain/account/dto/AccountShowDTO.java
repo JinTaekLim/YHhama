@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class AccountShowDTO {
     @Data
+    @Schema(name = "AccountShowDTO_Request")
     public static class Request{
         @Schema(description = "account ID 번호")
         private Long id;
@@ -18,6 +19,7 @@ public class AccountShowDTO {
 
     }
     @Data
+    @Schema(name = "AccountShowDTO_Response")
     public static class Response {
         @Schema(description = "account ID 번호")
         private Long id;

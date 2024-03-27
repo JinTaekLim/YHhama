@@ -13,11 +13,13 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
+@Schema(name = "CommentDTO")
 public class CommentDTO {
 
     @Data
+    @Schema(name = "CommentDTO_Update")
     public static class Update{
-        @Schema(description = "내용")
+        @Schema(description = "내용", example = "수정할 내용")
         private String content;
         @Schema(description = "수정하는 계정 ID")
         private Account account;
@@ -25,6 +27,7 @@ public class CommentDTO {
         private Comment comment;
     }
     @Data
+    @Schema(name = "CommentDTO_Request")
     public static class Request{
         @Schema(description = "댓글 작성자 ID")
         private Account account;
@@ -35,6 +38,7 @@ public class CommentDTO {
     }
 
     @Data
+    @Schema(name = "CommentDTO_Response")
     public static class Response{
         @Schema(description = "댓글 ID")
         private Long comment;

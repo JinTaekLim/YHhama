@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Schema(name = "DiaryDTO")
 public class DiaryDTO {
 
     @Schema(description = "일기 사진 URL")
     private List<DiaryPhotoUrl> photos;
 
     @Data
+    @Schema(name = "DiaryDTO_Request")
     public static class Request{
         @Schema(description = "일정 ID")
         private Long itinerary;
@@ -30,6 +32,7 @@ public class DiaryDTO {
     }
 
     @Data
+    @Schema(name = "DiaryDTO_Response")
     public static class Response {
         @Schema(description = "일정 ID")
         private Long itinerary;
