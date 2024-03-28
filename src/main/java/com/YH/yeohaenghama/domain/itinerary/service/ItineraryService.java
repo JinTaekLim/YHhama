@@ -93,6 +93,15 @@ public class ItineraryService {
             Account account = itinerary.getAccount();
             AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(),null);
 
+
+            LocalDate startDate = itinerary.getStartDate();
+            LocalDate endDate = itinerary.getEndDate();
+
+            long numOfDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+            System.out.println("기간은 " + numOfDays + "일입니다.");
+
+
             List<Place> places = itinerary.getPlaces();
             Map<String, List<PlaceShowDTO>> placesByDay = new HashMap<>();
 
@@ -108,7 +117,13 @@ public class ItineraryService {
 
                 placesByDay.computeIfAbsent(dayKey, k -> new ArrayList<>()).add(placeShowDTO);
             }
-
+            if(places.isEmpty()){
+                log.info("djqts?");
+                for (int i = 1; i <= numOfDays; i++) {
+                    String dayKey = "Day-" + i;
+                    placesByDay.put(dayKey, new ArrayList<>());
+                }
+            }
             return new ItineraryShowDTO(itinerary, accountShowDTO, placesByDay);
         } else {
             throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
