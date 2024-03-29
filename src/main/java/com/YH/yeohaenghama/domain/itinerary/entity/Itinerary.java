@@ -50,7 +50,7 @@ public class Itinerary {
     @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
     private List<Place> places;
 
-    private String expense = "null";
+    private String expense = "";
 
 
 
