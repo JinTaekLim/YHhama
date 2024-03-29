@@ -12,7 +12,9 @@ public class ItineraryShowMain {
     @Data
     @Schema(name = "ItineraryShowMain_Request")
     public static class Request {
+        @Schema(description = "유저 ID")
         private Long accountId;
+        @Schema(description = "일정 ID")
         private Long itineraryId;
     }
 
