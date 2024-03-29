@@ -12,5 +12,4 @@ public class ReportCommentDTO {
     private Long commentId;
 
 
-
 }
