@@ -84,15 +84,15 @@ public class ReportController {
         }
     }
 
-//    @Operation(summary = "신고된 리뷰 조회")
-//    @PostMapping("showReview")
-//    public ApiResult<List<ReportReviewDTO.Response>> showReview(){
-//        try{
-//            return ApiResult.success(reportService.commentReportList());
-//        }catch (NoSuchElementException e){
-//            return ApiResult.success(null);
-//        }catch (Exception e){
-//            return ApiResult.fail(e.getMessage());
-//        }
-//    }
+    @Operation(summary = "신고된 리뷰 조회")
+    @PostMapping("showReview")
+    public ApiResult<List<ReportReviewDTO.Response>> showReview(){
+        try{
+            return ApiResult.success(reportService.reviewReportList());
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null);
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 }
