@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[추가] 신고된 댓글 조회&quot;">
+    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[수정] 일정 확인시 등록된 장소가 없어도 해당 일수 만큼의 배열 반환&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/controller/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportCommentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportCommentDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportReviewDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportReviewDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/service/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/service/ReportService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
@@ -243,7 +242,9 @@
       <workItem from="1711633627482" duration="2422000" />
       <workItem from="1711902715902" duration="518000" />
       <workItem from="1711983837699" duration="845000" />
-      <workItem from="1712020199502" duration="2330000" />
+      <workItem from="1712020199502" duration="4687000" />
+      <workItem from="1712024999757" duration="4000" />
+      <workItem from="1712042675560" duration="941000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
@@ -277,7 +278,23 @@
       <option name="project" value="LOCAL" />
       <updated>1711675828485</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="&quot;[수정] 신고된 댓글 조회시 신고당한 횟수 함께 반환&quot;">
+      <option name="closed" value="true" />
+      <created>1712022600895</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1712022600895</updated>
+    </task>
+    <task id="LOCAL-00006" summary="&quot;[수정] 일정 확인시 등록된 장소가 없어도 해당 일수 만큼의 배열 반환&quot;">
+      <option name="closed" value="true" />
+      <created>1712024802470</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1712024802470</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,7 +316,9 @@
     <MESSAGE value="&quot;[수정] 신고 스웨거 설명 추가&quot;" />
     <MESSAGE value="&quot;[수정] 일정 조회시 추가된 장소가 없어도 날짜만큼의 빈 배열 반환&quot;" />
     <MESSAGE value="&quot;[추가] 신고된 댓글 조회&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;[추가] 신고된 댓글 조회&quot;" />
+    <MESSAGE value="&quot;[수정] 신고된 댓글 조회시 신고당한 횟수 함께 반환&quot;" />
+    <MESSAGE value="&quot;[수정] 일정 확인시 등록된 장소가 없어도 해당 일수 만큼의 배열 반환&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;[수정] 일정 확인시 등록된 장소가 없어도 해당 일수 만큼의 배열 반환&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

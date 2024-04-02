@@ -131,6 +131,23 @@ public class ReportService {
             responses.add(response);
         }
         return responses;
+    }
+
+
+    public List<ReportReviewDTO.Response> reviewReportList(){
+        List<ReportReview> reviewList = reportReviewRepository.findAll();
+
+        List<ReportReviewDTO.Response> responseList = new ArrayList<>();
+
+        for(ReportReview reviewReview : reviewList){
+            Review review =  reviewReview.getReview();
+            ReportReviewDTO.Response response = ReportReviewDTO.Response.fromEntity(review,reportReviewRepository.findByReviewId(review.getId()).size());
+
+            responseList.add(response);
+        }
+
+        return responseList;
+
 
     }
 
