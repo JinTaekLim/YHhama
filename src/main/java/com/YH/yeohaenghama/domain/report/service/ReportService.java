@@ -120,15 +120,14 @@ public class ReportService {
     }
 
 
-    public List<CommentDTO.Response> commentReportList(){
+    public List<ReportCommentDTO.Response> commentReportList(){
         List<ReportComment> commentList = reportCommentRepository.findAll();
 
-        List<CommentDTO.Response> responses = new ArrayList<>();
-
+        List<ReportCommentDTO.Response> responses = new ArrayList<>();
 
         for(ReportComment reportComment : commentList){
             Comment comment = reportComment.getComment();
-            CommentDTO.Response response = CommentDTO.Response.fromEntity(comment);
+            ReportCommentDTO.Response response = ReportCommentDTO.Response.fromEntity(comment,reportCommentRepository.findByCommentId(comment.getId()).size());
             responses.add(response);
         }
         return responses;

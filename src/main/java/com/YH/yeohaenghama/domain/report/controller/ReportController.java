@@ -74,7 +74,7 @@ public class ReportController {
 
     @Operation(summary = "신고된 댓글 조회")
     @PostMapping("showComment")
-    public ApiResult<List<CommentDTO.Response>> showComment(){
+    public ApiResult<List<ReportCommentDTO.Response>> showComment(){
         try{
             return ApiResult.success(reportService.commentReportList());
         }catch (NoSuchElementException e){
@@ -83,4 +83,16 @@ public class ReportController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+//    @Operation(summary = "신고된 리뷰 조회")
+//    @PostMapping("showReview")
+//    public ApiResult<List<ReportReviewDTO.Response>> showReview(){
+//        try{
+//            return ApiResult.success(reportService.commentReportList());
+//        }catch (NoSuchElementException e){
+//            return ApiResult.success(null);
+//        }catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 }
