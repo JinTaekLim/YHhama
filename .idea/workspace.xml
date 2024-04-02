@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[수정] 일정 조회시 추가된 장소가 없어도 날짜만큼의 빈 배열 반환&quot;">
+    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="&quot;[추가] 신고된 댓글 조회&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/ItineraryJoinDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/ItineraryJoinDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/entity/Itinerary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/entity/Itinerary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/controller/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportCommentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportCommentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportReviewDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/dto/ReportReviewDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/service/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/report/service/ReportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +112,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;Spring Boot.YeohaenghamaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-124&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-128&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -238,6 +241,9 @@
       <workItem from="1711501868438" duration="9064000" />
       <workItem from="1711618894168" duration="2575000" />
       <workItem from="1711633627482" duration="2422000" />
+      <workItem from="1711902715902" duration="518000" />
+      <workItem from="1711983837699" duration="845000" />
+      <workItem from="1712020199502" duration="2330000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
@@ -263,7 +269,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711619652739</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="&quot;[추가] 신고된 댓글 조회&quot;">
+      <option name="closed" value="true" />
+      <created>1711675828485</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1711675828485</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,7 +298,8 @@
     <MESSAGE value="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;" />
     <MESSAGE value="&quot;[수정] 신고 스웨거 설명 추가&quot;" />
     <MESSAGE value="&quot;[수정] 일정 조회시 추가된 장소가 없어도 날짜만큼의 빈 배열 반환&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;[수정] 일정 조회시 추가된 장소가 없어도 날짜만큼의 빈 배열 반환&quot;" />
+    <MESSAGE value="&quot;[추가] 신고된 댓글 조회&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;[추가] 신고된 댓글 조회&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

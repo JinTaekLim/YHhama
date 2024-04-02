@@ -99,11 +99,14 @@ public class ItineraryService {
 
             long numOfDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
-            System.out.println("기간은 " + numOfDays + "일입니다.");
-
 
             List<Place> places = itinerary.getPlaces();
             Map<String, List<PlaceShowDTO>> placesByDay = new HashMap<>();
+
+            for (int i = 1; i <= numOfDays; i++) {
+                String dayKey = "Day-" + i;
+                placesByDay.put(dayKey, new ArrayList<>());
+            }
 
             for (Place place : places) {
                 PlaceShowDTO placeShowDTO = new PlaceShowDTO();
@@ -111,24 +114,21 @@ public class ItineraryService {
                 placeShowDTO.setEndTime(place.getEndTime());
                 placeShowDTO.setPlaceType(place.getPlaceType());
                 placeShowDTO.setPlaceNum(place.getPlaceNum());
-                String dayKey = "Day-" + place.getDay();
                 placeShowDTO.setPlaceName(place.getPlaceName());
                 placeShowDTO.setMemo(place.getMemo());
 
-                placesByDay.computeIfAbsent(dayKey, k -> new ArrayList<>()).add(placeShowDTO);
-            }
-            if(places.isEmpty()){
-                log.info("djqts?");
-                for (int i = 1; i <= numOfDays; i++) {
-                    String dayKey = "Day-" + i;
-                    placesByDay.put(dayKey, new ArrayList<>());
+                String dayKey = "Day-" + place.getDay();
+                if (placesByDay.containsKey(dayKey)) {
+                    placesByDay.get(dayKey).add(placeShowDTO);
                 }
             }
+
             return new ItineraryShowDTO(itinerary, accountShowDTO, placesByDay);
         } else {
             throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
         }
     }
+
 
     public void deleteItinerary(Long itineraryId) throws IOException {
         Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);

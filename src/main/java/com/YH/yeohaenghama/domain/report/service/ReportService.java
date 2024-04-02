@@ -2,6 +2,8 @@ package com.YH.yeohaenghama.domain.report.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
+import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
+import com.YH.yeohaenghama.domain.diary.dto.CommentShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.CommentRepository;
@@ -118,14 +120,17 @@ public class ReportService {
     }
 
 
-    public void commentReportList(){
+    public List<ReportCommentDTO.Response> commentReportList(){
         List<ReportComment> commentList = reportCommentRepository.findAll();
+
+        List<ReportCommentDTO.Response> responses = new ArrayList<>();
 
         for(ReportComment reportComment : commentList){
             Comment comment = reportComment.getComment();
-            log.info("댓글 : " + comment.getContent());
+            ReportCommentDTO.Response response = ReportCommentDTO.Response.fromEntity(comment,reportCommentRepository.findByCommentId(comment.getId()).size());
+            responses.add(response);
         }
-
+        return responses;
 
     }
 

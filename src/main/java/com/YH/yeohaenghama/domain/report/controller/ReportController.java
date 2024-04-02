@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.report.controller;
 
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
+import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
 import com.YH.yeohaenghama.domain.report.dto.*;
 import com.YH.yeohaenghama.domain.report.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,14 +74,25 @@ public class ReportController {
 
     @Operation(summary = "신고된 댓글 조회")
     @PostMapping("showComment")
-    public ApiResult showComment(){
+    public ApiResult<List<ReportCommentDTO.Response>> showComment(){
         try{
-            reportService.commentReportList();
-            return ApiResult.success(null);
+            return ApiResult.success(reportService.commentReportList());
         }catch (NoSuchElementException e){
             return ApiResult.success(null);
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
     }
+
+//    @Operation(summary = "신고된 리뷰 조회")
+//    @PostMapping("showReview")
+//    public ApiResult<List<ReportReviewDTO.Response>> showReview(){
+//        try{
+//            return ApiResult.success(reportService.commentReportList());
+//        }catch (NoSuchElementException e){
+//            return ApiResult.success(null);
+//        }catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 }
