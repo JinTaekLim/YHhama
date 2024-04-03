@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.dto.testDTO;
+import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
 import jakarta.servlet.http.HttpSession;
@@ -22,6 +23,10 @@ import io.swagger.v3.oas.annotations.*;
 import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
+
+import static com.YH.yeohaenghama.domain.account.entity.AccountRole.ACCOUNT;
+import static com.YH.yeohaenghama.domain.account.entity.AccountRole.ADMIN;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/account")
@@ -49,6 +54,7 @@ public class Account {
     public ApiResult createAccount(@RequestParam("email") String email,
                                      @RequestParam("pw") String pw,
                                      @RequestParam("nickname") String nickname,
+                                     @RequestParam(value = "role", required = false) String role,
                                      @RequestParam(value = "file",required = false) MultipartFile file) {
 
         log.info(String.valueOf(file));
@@ -64,6 +70,9 @@ public class Account {
             account.setPw(pw);
             account.setNickname(nickname);
             account.setPhotoUrl(photoUrl);
+            if(role != null){
+                account.setRole(AccountRole.valueOf(role));
+            }
             accountService.createAccount(account);
 
             log.info(email);
