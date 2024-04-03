@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.diary.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
 import com.YH.yeohaenghama.domain.diary.dto.CommentShowDTO;
@@ -62,7 +63,9 @@ public class CommentService {
             throw new NoSuchElementException("해당 ID를 가진 댓글이 존재하지 않음");
         }
 
-        if (!comment.get().getAccount().getId().equals(accountId)) {
+
+
+        if (!comment.get().getAccount().getId().equals(accountId) && account.get().getRole() == AccountRole.ACCOUNT) {
             throw new NoSuchElementException("해당 댓글을 작성한 글쓴이가 아닙니다.");
         }
 
