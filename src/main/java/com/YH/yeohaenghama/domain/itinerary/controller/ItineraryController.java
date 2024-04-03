@@ -141,10 +141,10 @@ public class ItineraryController {
     }
 
     @Operation(summary = "일정 삭제")
-    @GetMapping("/delete/{itineraryId}")
-    public ApiResult itineraryDelete(@RequestParam Long itineraryId) {
+    @PostMapping("/delete")
+    public ApiResult itineraryDelete(@RequestParam Long itineraryId,@RequestParam Long accountId) {
         try {
-            itineraryService.deleteItinerary(itineraryId);
+            itineraryService.deleteItinerary(itineraryId,accountId);
             return ApiResult.success("일정 삭제 성공");
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());

@@ -117,6 +117,7 @@ public class ReviewService {
     }
 
     public ReviewDeleteDTO.Request delete(ReviewDeleteDTO.Request dto) throws IOException {
+
         List<Review> reviews = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId());
 
         log.info("사진 URL : " + reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl());   // 사진 URL
