@@ -1,7 +1,9 @@
 package com.YH.yeohaenghama.domain.itinerary.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryDeletePlaceDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
+import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
@@ -12,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -86,6 +86,35 @@ public class PlaceService {
 
         return placeDTO;
 
+
+    }
+
+    public List<PlaceShowDTO> deletePlace(ItineraryDeletePlaceDTO.Request dto){
+
+        Itinerary itinerary = itineraryRepository.findById(dto.getItineraryId())
+                .orElse(null);
+
+        if (itinerary == null) {
+            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + dto.getItineraryId());
+        }
+
+
+        Optional<Place> place = placeRepository.findById(dto.getPlaceId());
+        if(place.isEmpty()) {
+            throw new NoSuchElementException("해당 id 값을 가진 장소가 존재하지 않습니다. : ");
+        }
+
+        placeRepository.deleteById(dto.getPlaceId());
+
+        List<Place> placeList = placeRepository.findByItineraryIdAndDay(dto.getItineraryId(), place.get().getDay());
+
+        PlaceShowDTO placeDTO;
+        List<PlaceShowDTO> placeShowDTOList = new ArrayList<>();
+
+        for(Place place1 : placeList)
+            placeShowDTOList.add(PlaceShowDTO.fromEntity(place1));
+
+        return placeShowDTOList;
 
     }
 

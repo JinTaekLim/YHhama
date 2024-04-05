@@ -71,6 +71,19 @@ public class ItineraryController {
             return ApiResult.fail("[일정]장소 추가 실패 : " + e.getMessage());
         }
     }
+
+    @Operation(summary = "일정의 장소 개별 삭제")
+    @PostMapping("/deletePlace")
+    public ApiResult<List<PlaceShowDTO>> createPlaces(ItineraryDeletePlaceDTO.Request dto) {
+        try {
+            return ApiResult.success(placeService.deletePlace(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e) {
+            return ApiResult.fail("[일정]장소 삭제 실패 : " + e.getMessage());
+        }
+    }
 //
 //    @Operation(summary = "제작된 일정 확인")
 //    @GetMapping("/showItinerary/{itineraryId}")

@@ -111,6 +111,7 @@ public class ItineraryService {
 
             for (Place place : places) {
                 PlaceShowDTO placeShowDTO = new PlaceShowDTO();
+                placeShowDTO.setPlaceId(place.getId());
                 placeShowDTO.setStartTime(place.getStartTime());
                 placeShowDTO.setEndTime(place.getEndTime());
                 placeShowDTO.setPlaceType(place.getPlaceType());
