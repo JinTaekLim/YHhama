@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.itinerary.service;
 
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
@@ -130,8 +131,16 @@ public class ItineraryService {
     }
 
 
-    public void deleteItinerary(Long itineraryId) throws IOException {
+    public void deleteItinerary(Long itineraryId,Long accountId) throws IOException {
         Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
+
+        if(optionalItinerary.isEmpty()){
+            throw new NoSuchElementException("존재하지 않는 일정입니다.");
+        }
+
+        if(accountId != optionalItinerary.get().getAccount().getId() && accountRepository.findById(accountId).get().getRole() == AccountRole.ACCOUNT){
+            throw new NoSuchElementException("해당 일정을 작성한 유저가 아닙니다.");
+        }
 
         if (optionalItinerary.isPresent()) {
             log.info(String.valueOf("deleteItinerary : " + itineraryId));

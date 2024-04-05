@@ -64,6 +64,30 @@ public class PlaceService {
     }
 
 
+    public PlaceJoinDTO createPlace(PlaceJoinDTO placeDTO, Long itineraryId) {
+        Itinerary itinerary = itineraryRepository.findById(itineraryId)
+                .orElse(null);
+
+        if (itinerary == null) {
+            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+        }
+
+        Place place = new Place();
+        place.setDay(placeDTO.getDay());
+        place.setStartTime(placeDTO.getStartTime());
+        place.setEndTime(placeDTO.getEndTime());
+        place.setPlaceType(placeDTO.getPlaceType());
+        place.setPlaceName(placeDTO.getPlaceName());
+        place.setPlaceNum(placeDTO.getPlaceNum());
+        place.setMemo(placeDTO.getMemo());
+        place.setItinerary(itinerary);
+
+        placeRepository.save(place);
+
+        return placeDTO;
+
+
+    }
 
     public List<Place> show(Long itineraryId) {
         List<Place> places = placeRepository.findByItineraryId(itineraryId);

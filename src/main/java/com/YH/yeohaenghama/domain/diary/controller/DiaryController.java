@@ -110,9 +110,9 @@ public class DiaryController {
 
     @Operation(summary = "댓글 삭제")
     @PostMapping("commentDelete")
-    public ApiResult commentDelete(@RequestParam Account account,@RequestParam Diary diary,@RequestParam Comment commentId){
+    public ApiResult commentDelete(@RequestParam Long accountId,@RequestParam Long diaryId,@RequestParam Long commentId){
         try{
-            return ApiResult.success(commentService.delete(account,diary,commentId));
+            return ApiResult.success(commentService.delete(accountId,diaryId,commentId));
         }catch (NoSuchElementException e){
             return ApiResult.success(e.getMessage());
         }catch (Exception e){

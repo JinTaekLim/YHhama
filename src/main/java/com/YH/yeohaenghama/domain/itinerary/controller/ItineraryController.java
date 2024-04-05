@@ -46,11 +46,24 @@ public class ItineraryController {
     }
 
     @Operation(summary = "일정의 장소 추가")
-    @PostMapping("/{itineraryId}")
+    @PostMapping("/joinPlaces/{itineraryId}")
     public ApiResult<List<PlaceJoinDTO>> createPlaces(@RequestBody List<PlaceJoinDTO> placeDTOs, @PathVariable Long itineraryId) {
         try {
             placeService.createPlaces(placeDTOs, itineraryId);
             return ApiResult.success(placeDTOs,"장소 추가 성공");
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e) {
+            return ApiResult.fail("[일정]장소 추가 실패 : " + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "일정의 장소 개별 추가")
+    @PostMapping("/joinPlace/{itineraryId}")
+    public ApiResult<PlaceJoinDTO> createPlaces(@RequestBody PlaceJoinDTO placeDTO, @PathVariable Long itineraryId) {
+        try {
+            return ApiResult.success(placeService.createPlace(placeDTO, itineraryId),"장소 추가 성공");
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }
@@ -141,10 +154,10 @@ public class ItineraryController {
     }
 
     @Operation(summary = "일정 삭제")
-    @GetMapping("/delete/{itineraryId}")
-    public ApiResult itineraryDelete(@RequestParam Long itineraryId) {
+    @PostMapping("/delete")
+    public ApiResult itineraryDelete(@RequestParam Long itineraryId,@RequestParam Long accountId) {
         try {
-            itineraryService.deleteItinerary(itineraryId);
+            itineraryService.deleteItinerary(itineraryId,accountId);
             return ApiResult.success("일정 삭제 성공");
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
