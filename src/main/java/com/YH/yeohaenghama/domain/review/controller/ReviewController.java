@@ -97,4 +97,14 @@ public class ReviewController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+    @Operation(summary = "리뷰 유무 확인")
+    @PostMapping("/check")
+    public ApiResult check(ReviewDTO.Show dto){
+        try {
+            return ApiResult.success(reviewService.check(dto));
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 }
