@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.review.service;
 
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDeleteDTO;
@@ -184,6 +185,11 @@ public class ReviewService {
 
         log.info("리뷰 수정완료");
         return ReviewDTO.Response.fromEntity(updatedReview);
+    }
+
+
+    public boolean check(ReviewDTO.Show dto) {
+        return !reviewRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId()).isEmpty();
     }
 
 
