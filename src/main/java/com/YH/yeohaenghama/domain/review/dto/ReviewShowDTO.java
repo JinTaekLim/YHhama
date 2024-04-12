@@ -11,6 +11,7 @@ public class ReviewShowDTO {
         private Long contentTypeId;
         private Long contentId;
     }
+
     @Data
     public static class Response{
         private Long ratingNum;

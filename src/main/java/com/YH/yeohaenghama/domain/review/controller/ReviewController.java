@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.review.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDeleteDTO;
+import com.YH.yeohaenghama.domain.review.dto.ReviewShowAllDTO;
 import com.YH.yeohaenghama.domain.review.dto.ReviewShowDTO;
 import com.YH.yeohaenghama.domain.review.service.ReviewService;
 import com.google.protobuf.Api;
@@ -52,6 +53,20 @@ public class ReviewController {
             return ApiResult.success(reviewService.reviewShow(dto));
         }catch (NoSuchElementException e){
             return ApiResult.success(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+    @Operation(summary = "특정 장소의 모든 리뷰 확인")
+    @PostMapping("/showAll")
+    public ApiResult<List<ReviewShowAllDTO.Response>> reviewShowAll(@RequestBody ReviewShowAllDTO.Request dto){
+        try{
+            return ApiResult.success(reviewService.reviewShowAll(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
         }
         catch (Exception e){
             return ApiResult.fail(e.getMessage());

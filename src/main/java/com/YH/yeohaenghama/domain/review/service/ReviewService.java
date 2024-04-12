@@ -1,9 +1,11 @@
 package com.YH.yeohaenghama.domain.review.service;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDeleteDTO;
+import com.YH.yeohaenghama.domain.review.dto.ReviewShowAllDTO;
 import com.YH.yeohaenghama.domain.review.dto.ReviewShowDTO;
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
@@ -84,6 +86,28 @@ public class ReviewService {
 
 
         return response;
+    }
+
+    public List<ReviewShowAllDTO.Response> reviewShowAll(ReviewShowAllDTO.Request dto) {
+
+        List<Review> reviewList = reviewRepository.findByContentTypeIdAndContentId(dto.getContentTypeId(),dto.getContentId());
+
+        if(reviewList.isEmpty()){
+            throw new NoSuchElementException("해당 장소의 저장된 리뷰가 존재하지 않습니다. ");
+        }
+
+
+        List<ReviewShowAllDTO.Response> responseList = new ArrayList<>();
+
+        for( Review review : reviewList){
+            Optional<Account> accountOptional = accountRepository.findById(review.getAccountId());
+            Account account = accountOptional.get();
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl());
+            ReviewShowAllDTO.Response response = new ReviewShowAllDTO.Response().fromEntity(review,accountShowDTO);
+            responseList.add(response);
+        }
+
+        return responseList;
     }
 
 
