@@ -2,10 +2,7 @@ package com.YH.yeohaenghama.domain.diary.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.account.entity.Account;
-import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
-import com.YH.yeohaenghama.domain.diary.dto.CommentShowDTO;
-import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
-import com.YH.yeohaenghama.domain.diary.dto.DiaryShowDTO;
+import com.YH.yeohaenghama.domain.diary.dto.*;
 import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.service.CommentService;
@@ -33,6 +30,7 @@ public class DiaryController {
     @PostMapping("/save")
     public ApiResult diarySave(@ModelAttribute DiaryDTO.Request diaryDTO){
         try{
+            log.info(String.valueOf(diaryDTO));
             return ApiResult.success(diaryService.save(diaryDTO));
 
         } catch (Error e){
@@ -79,6 +77,18 @@ public class DiaryController {
             return ApiResult.success(diaryService.findAll());
         }catch (NoSuchElementException e){
             return ApiResult.success(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "특정 장소가 포함된 모든 일기 조회")
+    @PostMapping("/findInPlace")
+    public ApiResult<List<DiaryShowInPlaceDTO.Response>> findInPlace(DiaryShowInPlaceDTO.Request dto){
+        try{
+            return ApiResult.success(diaryService.findInPlace(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }

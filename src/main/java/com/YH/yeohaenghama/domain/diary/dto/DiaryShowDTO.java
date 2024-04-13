@@ -48,15 +48,6 @@ public class DiaryShowDTO {
             response.setReviews(reviews);
 
 
-
-
-
-
-
-
-
-
-
             return response;
         }
     }

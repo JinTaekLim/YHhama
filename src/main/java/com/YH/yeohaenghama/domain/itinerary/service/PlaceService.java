@@ -126,4 +126,17 @@ public class PlaceService {
         }
         return places;
     }
+
+    public List<Long> checkPlace(String placeNum,String placeType){
+        List<Place> placeList = placeRepository.findByPlaceNumAndPlaceType(placeNum,placeType);
+        if(placeList.isEmpty()) throw new NoSuchElementException("해당 장소를 포함한 일정이 존재하지 않습니다.");
+
+        List<Long> itineraryNum = new ArrayList<>();
+        for(Place place : placeList){
+            itineraryNum.add(place.getId());
+        }
+
+
+        return itineraryNum;
+    }
 }
