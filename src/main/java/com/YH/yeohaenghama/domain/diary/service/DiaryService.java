@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.diary.service;
 
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryShowDTO;
+import com.YH.yeohaenghama.domain.diary.dto.DiaryShowInPlaceDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
@@ -10,6 +11,7 @@ import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
+import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
@@ -30,6 +32,7 @@ public class DiaryService {
     private final ReviewRepository reviewRepository;
     private final PlaceRepository placeRepository;
     private final GCSService gcsService;
+    private final PlaceService placeService;
 
     public DiaryDTO.Response save(DiaryDTO.Request diaryDTO) throws IOException {
 
@@ -160,4 +163,40 @@ public class DiaryService {
         return diaryRepository.findAll();
     }
 
+
+    public List<DiaryShowInPlaceDTO.Response> findInPlace(DiaryShowInPlaceDTO.Request dto){
+        List<Long> itineraryNum = placeService.checkPlace(dto.getPlaceNum(),dto.getTypeNum());
+
+        List<DiaryShowInPlaceDTO.Response> DiaryList = new ArrayList<>();
+
+        for(Long id : itineraryNum){
+
+            log.info("id 값 = " + id);
+
+            Optional<Place> placeOpt = placeRepository.findById(id);
+
+            Optional<Diary> diaryOpt = diaryRepository.findByItinerary(placeOpt.get().getItinerary().getId());
+
+
+            if(!diaryOpt.isEmpty()) {
+                Diary diary = diaryOpt.get();
+
+                String photo = "";
+
+                if(!diary.getDiaryPhotoUrls().isEmpty()){
+                    photo = String.valueOf(diary.getDiaryPhotoUrls().get(0).getPhotoURL());
+                    log.info("사진 = " + photo);
+                }
+                DiaryShowInPlaceDTO.Response diaryShowInPlaceDTO = new DiaryShowInPlaceDTO.Response().fromEntity(diary,photo);
+
+                DiaryList.add(diaryShowInPlaceDTO);
+
+            }else {
+                log.info("해당 일정의 일기가 존재하지 않습니다.");
+            }
+
+        }
+
+        return DiaryList;
+    }
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface PlaceRepository extends JpaRepository<Place, Long> {
     List<Place> findByItineraryId(Long itineraryId);
     List<Place> findByItineraryIdAndDay(Long itineraryId, int day);
+
+    List<Place> findByPlaceNumAndPlaceType(String placeNum,String placeType);
 }
