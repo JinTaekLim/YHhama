@@ -8,6 +8,9 @@ import com.YH.yeohaenghama.domain.account.dto.testDTO;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -90,7 +93,7 @@ public class Account {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ApiResult<AccountShowDTO.Response> login(@RequestBody AccountLoginDTO req) {
+    public ApiResult<AccountShowDTO.Response> login(@RequestBody AccountLoginDTO req, HttpServletResponse response) {
         try{
             if(req.getEmail()==null || req.getPw()==null){
                 return ApiResult.badRequest("누락된 데이터가 존재합니다.");
@@ -99,6 +102,13 @@ public class Account {
             httpSession.setAttribute("loggedInId", account);
             httpSession.setAttribute("nickname", account.getNickname());
             httpSession.setAttribute("AccountId", account.getId());
+
+
+            Cookie cookie = new Cookie("userId", String.valueOf(account.getId()));
+            cookie.setMaxAge(60 * 60 * 24);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
 
             AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getEmail(), account.getPhotoUrl());
 
@@ -114,12 +124,27 @@ public class Account {
 
     @Operation(summary = "로그아웃")
     @GetMapping("/logout")
-    public ApiResult logout() {
-        try{
-            httpSession.removeAttribute("loggedInUser");
+    public ApiResult logout(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            httpSession.removeAttribute("loggedInId");
+            httpSession.removeAttribute("nickname");
+            httpSession.removeAttribute("AccountId");
+
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("userId".equals(cookie.getName())) {
+                        cookie.setMaxAge(0);
+                        cookie.setPath("/");
+                        response.addCookie(cookie);
+                        break;
+                    }
+                }
+            }
+
             return ApiResult.success("로그아웃 성공");
-        }catch (Exception e){
-            return ApiResult.fail(e.getMessage());
+        } catch (Exception e) {
+            return ApiResult.fail("로그아웃 실패: " + e.getMessage());
         }
     }
 
