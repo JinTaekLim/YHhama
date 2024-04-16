@@ -10,4 +10,6 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     List<Place> findByItineraryIdAndDay(Long itineraryId, int day);
 
     List<Place> findByPlaceNumAndPlaceType(String placeNum,String placeType);
+
+    List<Place> findByPlaceName(String placeName);
 }

@@ -46,4 +46,28 @@ public class SearchController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+    @Operation(summary = "일기 내용 검색")
+    @PostMapping("/diaryContent")
+    public ApiResult<List<SearchDiaryDTO>> diaryContent(SearchDTO.Request dto) {
+        try {
+            return ApiResult.success(searchService.serachContent(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "특정 장소가 포함된 일기 검색")
+    @PostMapping("/diaryPlace")
+    public ApiResult<List<SearchDiaryDTO>> diaryPlace(SearchDTO.Request dto) {
+        try {
+            return ApiResult.success(searchService.serachPlace(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 }
