@@ -115,7 +115,7 @@ public class ReviewController {
 
     @Operation(summary = "리뷰 유무 확인")
     @PostMapping("/check")
-    public ApiResult check(ReviewDTO.Show dto){
+    public ApiResult check(@RequestBody ReviewDTO.Show dto){
         try {
             return ApiResult.success(reviewService.check(dto));
         }catch (Exception e){

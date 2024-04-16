@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.openApi.service;
 
+import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDetailDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDirectionsDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiGetXY;
@@ -22,6 +23,30 @@ public class OpenApiService {
     private String serviceKey = "%2B1I%2BbTxxqsKlIjXBgNQX38e6gZOJnlCyPLnkFQUQFrpoCl9tEcII2L%2BvUeJuiaAFf3bN1wly8A6VzOw%2FGz9v7w%3D%3D";
 
 
+
+
+    public OpenApiAreaDTO.Response searchAreaAndGetResponse(OpenApiAreaDTO dto) throws Exception {
+            String encodedKeyword = URLEncoder.encode(dto.getKeyword(), "UTF-8");
+
+            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
+                    "searchKeyword1?" +
+                    "serviceKey=" + serviceKey +
+                    "&numOfRows=" + dto.getNumOfRows() +
+                    "&pageNo=" + dto.getPage() +
+                    "&MobileOS=" + dto.getMobileOS() +
+                    "&MobileApp=AppTest" +
+                    "&_type=json" +
+                    "&listYN=Y" +
+                    "&arrange=A" +
+                    "&keyword=" + encodedKeyword +
+                    "&contentTypeId=" + dto.getContentTypeId();
+
+            String response = sendHttpRequest(apiUrl);
+            ObjectMapper objectMapper = new ObjectMapper();
+        OpenApiAreaDTO.Response apiResponse = objectMapper.readValue(response, OpenApiAreaDTO.Response.class);
+
+            return apiResponse;
+    }
 
 
     public String getServiceKey(){

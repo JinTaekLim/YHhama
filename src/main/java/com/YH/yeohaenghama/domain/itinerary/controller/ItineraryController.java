@@ -74,7 +74,7 @@ public class ItineraryController {
 
     @Operation(summary = "일정의 장소 개별 삭제")
     @PostMapping("/deletePlace")
-    public ApiResult<List<PlaceShowDTO>> createPlaces(ItineraryDeletePlaceDTO.Request dto) {
+    public ApiResult<List<PlaceShowDTO>> createPlaces(@RequestBody ItineraryDeletePlaceDTO.Request dto) {
         try {
             return ApiResult.success(placeService.deletePlace(dto));
         }catch (NoSuchElementException e){

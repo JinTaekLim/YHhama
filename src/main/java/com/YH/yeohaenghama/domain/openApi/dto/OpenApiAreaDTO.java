@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.openApi.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +19,13 @@ public class OpenApiAreaDTO {
     private String keyword;
     @Schema(description = "관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점) ID")
     private String contentTypeId;
+
+    @Data
+    public static class Response{
+        private String title;
+        private String firstimage;
+        private String contentid;
+        private String contenttypeid;
+    }
 
 }

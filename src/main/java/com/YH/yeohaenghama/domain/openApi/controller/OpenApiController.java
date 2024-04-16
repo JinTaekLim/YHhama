@@ -177,8 +177,8 @@ public class OpenApiController {
 
 
     @PostMapping("/testAPIA")
-    public String test(@RequestBody OpenApiDirectionsDTO req) throws IOException {
-        return openApiService.getDirectionsTransport(req);
+    public OpenApiAreaDTO.Response test(@RequestBody OpenApiAreaDTO req) throws Exception {
+        return openApiService.searchAreaAndGetResponse(req);
     }
 
 

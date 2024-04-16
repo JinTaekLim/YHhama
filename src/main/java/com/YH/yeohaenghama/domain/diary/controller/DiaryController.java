@@ -84,7 +84,7 @@ public class DiaryController {
 
     @Operation(summary = "특정 장소가 포함된 모든 일기 조회")
     @PostMapping("/findInPlace")
-    public ApiResult<List<DiaryShowInPlaceDTO.Response>> findInPlace(DiaryShowInPlaceDTO.Request dto){
+    public ApiResult<List<DiaryShowInPlaceDTO.Response>> findInPlace(@RequestBody DiaryShowInPlaceDTO.Request dto){
         try{
             return ApiResult.success(diaryService.findInPlace(dto));
         }catch (NoSuchElementException e){
