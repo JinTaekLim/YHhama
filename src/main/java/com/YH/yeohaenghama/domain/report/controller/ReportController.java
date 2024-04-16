@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class ReportController {
 
     @Operation(summary = "일기 신고")
     @PostMapping("/diary")
-    public ApiResult<ReportCountDTO> diary(ReportDiaryDTO dto){
+    public ApiResult<ReportCountDTO> diary(@RequestBody ReportDiaryDTO dto){
         try{
             return ApiResult.success(reportService.diaryReport(dto));
         }catch (NoSuchElementException e){
@@ -36,7 +37,7 @@ public class ReportController {
 
     @Operation(summary = "리뷰 신고")
     @PostMapping("/review")
-    public ApiResult<ReportCountDTO> review(ReportReviewDTO dto){
+    public ApiResult<ReportCountDTO> review(@RequestBody ReportReviewDTO dto){
         try{
             return ApiResult.success(reportService.reviewReport(dto));
         }catch (NoSuchElementException e){
@@ -49,7 +50,7 @@ public class ReportController {
 
     @Operation(summary = "댓글 신고")
     @PostMapping("/comment")
-    public ApiResult<ReportCountDTO> comment(ReportCommentDTO dto){
+    public ApiResult<ReportCountDTO> comment(@RequestBody ReportCommentDTO dto){
         try{
             return ApiResult.success(reportService.commentReport(dto));
         }catch (NoSuchElementException e){

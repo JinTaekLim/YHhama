@@ -30,7 +30,7 @@ public class SearchController {
 
     @Operation(summary = "통합 검색")
     @PostMapping("/federated")
-    public ApiResult<SearchDTO.Response> federated(SearchDTO.Request dto) {
+    public ApiResult<SearchDTO.Response> federated(@RequestBody SearchDTO.Request dto) {
         try {
             return ApiResult.success(searchService.federated(dto));
         }catch (Exception e){
@@ -40,7 +40,7 @@ public class SearchController {
 
     @Operation(summary = "일기 제목 검색")
     @PostMapping("/diaryTitle")
-    public ApiResult<List<SearchDiaryDTO>> diaryTitle(SearchDTO.Request dto) {
+    public ApiResult<List<SearchDiaryDTO>> diaryTitle(@RequestBody SearchDTO.Request dto) {
         try {
             return ApiResult.success(searchService.serachTitle(dto));
         }catch (NoSuchElementException e){
@@ -52,7 +52,7 @@ public class SearchController {
 
     @Operation(summary = "일기 내용 검색")
     @PostMapping("/diaryContent")
-    public ApiResult<List<SearchDiaryDTO>> diaryContent(SearchDTO.Request dto) {
+    public ApiResult<List<SearchDiaryDTO>> diaryContent(@RequestBody SearchDTO.Request dto) {
         try {
             return ApiResult.success(searchService.serachContent(dto));
         }catch (NoSuchElementException e){
@@ -64,7 +64,7 @@ public class SearchController {
 
     @Operation(summary = "특정 장소가 포함된 일기 검색")
     @PostMapping("/diaryPlace")
-    public ApiResult<List<SearchDiaryDTO>> diaryPlace(SearchDTO.Request dto) {
+    public ApiResult<List<SearchDiaryDTO>> diaryPlace(@RequestBody SearchDTO.Request dto) {
         try {
             return ApiResult.success(searchService.serachPlace(dto));
         }catch (NoSuchElementException e){
