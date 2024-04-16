@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="[추가] 특정 장소가 포함된 모든 일기 조회">
+    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="[수정] CorsConfig 플러터 도메인 허용">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/repository/DiaryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/repository/DiaryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/search/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/search/controller/SearchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/search/service/SearchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/search/service/SearchService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,24 +59,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/KAN-135" />
-                    <option name="lastUsedInstant" value="1712892913" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-134" />
-                    <option name="lastUsedInstant" value="1712628813" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-133" />
-                    <option name="lastUsedInstant" value="1712625442" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-132" />
-                    <option name="lastUsedInstant" value="1712279706" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-124" />
-                    <option name="lastUsedInstant" value="1711504235" />
+                    <option name="branchName" value="feature/KAN-137" />
+                    <option name="lastUsedInstant" value="1713229862" />
                   </RecentBranch>
                 </list>
               </option>
@@ -116,7 +102,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.YeohaenghamaApplication.executor": "Run",
-    "git-widget-placeholder": "feature/KAN-138",
+    "git-widget-placeholder": "feature/KAN-137",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend",
     "node.js.detected.package.eslint": "true",
@@ -259,6 +245,9 @@
       <workItem from="1712625371517" duration="15481000" />
       <workItem from="1712884229625" duration="4076000" />
       <workItem from="1713083764409" duration="649000" />
+      <workItem from="1713111275331" duration="600000" />
+      <workItem from="1713190303438" duration="723000" />
+      <workItem from="1713229607481" duration="1745000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
@@ -396,7 +385,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713028059840</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="[수정] CorsConfig 플러터 도메인 허용">
+      <option name="closed" value="true" />
+      <created>1713089922504</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1713089922504</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -431,7 +428,8 @@
     <MESSAGE value="&quot;[추가] 카카오 로그인/회원가입&quot;" />
     <MESSAGE value="[추가] 특정 자소가 포함된 모든 일기 조회" />
     <MESSAGE value="[추가] 특정 장소가 포함된 모든 일기 조회" />
-    <option name="LAST_COMMIT_MESSAGE" value="[추가] 특정 장소가 포함된 모든 일기 조회" />
+    <MESSAGE value="[수정] CorsConfig 플러터 도메인 허용" />
+    <option name="LAST_COMMIT_MESSAGE" value="[수정] CorsConfig 플러터 도메인 허용" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
