@@ -11,6 +11,8 @@ public class AccountSavePlace {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = true)
+    private Long itineraryId;
 
     @Column(nullable = false)
     private String placeNum;
@@ -21,7 +23,8 @@ public class AccountSavePlace {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    public AccountSavePlace(String placeNum, String contentTypeId, Account account) {
+    public AccountSavePlace(Long itineraryId,String placeNum, String contentTypeId, Account account) {
+        this.itineraryId = itineraryId;
         this.placeNum = placeNum;
         this.contentTypeId = contentTypeId;
         this.account = account;
