@@ -25,8 +25,8 @@ public class SearchService {
     private final ItineraryRepository itineraryRepository;
     private final PlaceRepository placeRepository;
 
-    public void federated(SearchDTO.Request dto){
-
+    public SearchDTO.Response federated(SearchDTO.Request dto){
+        return SearchDTO.Response.setSearch(serachTitle(dto),serachContent(dto),serachPlace(dto));
     }
 
     public List<SearchDiaryDTO> serachTitle(SearchDTO.Request dto){
@@ -67,7 +67,9 @@ public class SearchService {
         if(!placeList.isEmpty()){
             for (Place place : placeList){
                 Optional<Diary> diaryOpt = diaryRepository.findByItinerary(place.getItinerary().getId());
-                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get()));
+                if(!diaryOpt.isEmpty()) {
+                    searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get()));
+                }
             }
         }
 

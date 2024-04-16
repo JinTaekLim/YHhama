@@ -30,9 +30,12 @@ public class SearchController {
 
     @Operation(summary = "통합 검색")
     @PostMapping("/federated")
-    public ApiResult federated(SearchDTO.Request dto) {
-        searchService.federated(dto);
-        return ApiResult.success(null);
+    public ApiResult<SearchDTO.Response> federated(SearchDTO.Request dto) {
+        try {
+            return ApiResult.success(searchService.federated(dto));
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
     }
 
     @Operation(summary = "일기 제목 검색")
