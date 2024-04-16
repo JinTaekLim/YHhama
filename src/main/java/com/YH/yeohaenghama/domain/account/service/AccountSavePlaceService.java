@@ -28,10 +28,10 @@ public class AccountSavePlaceService {
 
         log.info("[SavePlace] 유저 조회 성공");
 
-        List<AccountSavePlace> accountData = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_Id(req.getContentTypeId(), req.getPlaceNum(), accountId);
+        List<AccountSavePlace> accountData = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_IdAndItineraryId(req.getContentTypeId(), req.getPlaceNum(), accountId,req.getItineraryId());
 
         if (accountData.isEmpty()) {
-            AccountSavePlace accountSavePlace = new AccountSavePlace(req.getPlaceNum(), req.getContentTypeId(), account);
+            AccountSavePlace accountSavePlace = new AccountSavePlace(req.getItineraryId(),req.getPlaceNum(), req.getContentTypeId(), account);
             accountSavePlaceRepository.save(accountSavePlace);
             log.info("장소 저장 완료");
 
@@ -69,7 +69,7 @@ public class AccountSavePlaceService {
         log.info("user: " +String.valueOf(accountId));
         log.info("dto" +String.valueOf(dto));
 
-        List<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_Id(dto.getContentTypeId(),dto.getPlaceNum(),accountId);
+        List<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_IdAndItineraryId(dto.getContentTypeId(),dto.getPlaceNum(),accountId,dto.getItineraryId());
 
         log.info(placeToDelete.toString());
         if (!placeToDelete.isEmpty()) {
@@ -85,7 +85,7 @@ public class AccountSavePlaceService {
         findAccountById(accountId);
         log.info("[DeletePlace] 유저 조회 성공");
 
-        List<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_Id(dto.getContentTypeId(),dto.getPlaceNum(),accountId);
+        List<AccountSavePlace> placeToDelete = accountSavePlaceRepository.findByContentTypeIdAndPlaceNumAndAccount_IdAndItineraryId(dto.getContentTypeId(),dto.getPlaceNum(),accountId,dto.getItineraryId());
 
         if (placeToDelete.isEmpty()){
             return false;
