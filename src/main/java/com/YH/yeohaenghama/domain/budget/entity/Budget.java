@@ -20,5 +20,5 @@ public class Budget {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
-    private int totalAccount;
+    private Integer totalAmount;
 }

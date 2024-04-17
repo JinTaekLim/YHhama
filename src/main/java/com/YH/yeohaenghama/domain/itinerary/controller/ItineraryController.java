@@ -61,7 +61,7 @@ public class ItineraryController {
 
     @Operation(summary = "일정의 장소 개별 추가")
     @PostMapping("/joinPlace/{itineraryId}")
-    public ApiResult<PlaceJoinDTO> createPlaces(@RequestBody PlaceJoinDTO placeDTO, @PathVariable Long itineraryId) {
+    public ApiResult<List<PlaceShowDTO>> createPlaces(@RequestBody PlaceJoinDTO placeDTO, @PathVariable Long itineraryId) {
         try {
             return ApiResult.success(placeService.createPlace(placeDTO, itineraryId),"장소 추가 성공");
         }catch (NoSuchElementException e){
@@ -111,6 +111,7 @@ public class ItineraryController {
                         dto.setPlaceType(place.getPlaceType());
                         dto.setPlaceNum(place.getPlaceNum());
                         dto.setPlaceName(place.getPlaceName());
+                        dto.setPlaceId(place.getId());
                         dto.setMemo(place.getMemo());
                         return dto;
                     })
