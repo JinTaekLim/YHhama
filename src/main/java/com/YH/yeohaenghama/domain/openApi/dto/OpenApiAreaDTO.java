@@ -1,9 +1,12 @@
 package com.YH.yeohaenghama.domain.openApi.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -11,7 +14,7 @@ public class OpenApiAreaDTO {
 
     @Schema(description = "가져올 결과 수")
     private String numOfRows;
-    @Schema(description = "페이지 번호" , defaultValue = "1")
+    @Schema(description = "페이지 번호", defaultValue = "1")
     private String page;
     @Schema(description = "OS 구분 : IOS (아이폰), AND (안드로이드), WIN (윈도우폰), ETC(기타)")
     private String MobileOS;
@@ -21,11 +24,36 @@ public class OpenApiAreaDTO {
     private String contentTypeId;
 
     @Data
-    public static class Response{
-        private String title;
-        private String firstimage;
-        private String contentid;
-        private String contenttypeid;
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Response {
+        private Body body;
+
+        @Data
+        public static class Body {
+            private Items items;
+
+            @Data
+            public static class Items {
+                private List<Item> item;
+
+                @Data
+                public static class Item {
+                    private String title;
+                    private String firstimage;
+                    private String contentid;
+                    private String contenttypeid;
+
+                    public Item(String title,String firstimage, String contentid, String contenttypeid){
+                        this.title = title;
+                        this.firstimage = firstimage;
+                        this.contentid = contentid;
+                        this.contenttypeid = contenttypeid;
+
+                    }
+                }
+            }
+        }
     }
+
 
 }
