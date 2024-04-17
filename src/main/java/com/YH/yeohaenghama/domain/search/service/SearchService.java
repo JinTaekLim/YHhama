@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
+import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.search.dto.SearchDTO;
 import com.YH.yeohaenghama.domain.search.dto.SearchDiaryDTO;
@@ -25,8 +26,23 @@ public class SearchService {
     private final ItineraryRepository itineraryRepository;
     private final PlaceRepository placeRepository;
 
-    public SearchDTO.Response federated(SearchDTO.Request dto){
-        return SearchDTO.Response.setSearch(serachTitle(dto),serachContent(dto),serachPlace(dto));
+    public SearchDTO.Response federated(SearchDTO.Request dto) throws Exception {
+        OpenApiAreaDTO openApiAreaDTO = new OpenApiAreaDTO();
+        openApiAreaDTO.setPage("1");
+        openApiAreaDTO.setKeyword(dto.getKeyWord());
+        openApiAreaDTO.setMobileOS("ETC");
+        openApiAreaDTO.setContentTypeId("12");
+        openApiAreaDTO.setNumOfRows("10");
+
+        List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace =
+                openApiService.searchAreaAndGetResponse(openApiAreaDTO);
+
+        return SearchDTO.Response.setSearch(
+                serachTitle(dto),
+                serachContent(dto),
+                serachPlace(dto),
+                searchPlace != null ? searchPlace : new ArrayList<>()
+        );
     }
 
     public List<SearchDiaryDTO> serachTitle(SearchDTO.Request dto){

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -176,8 +177,9 @@ public class OpenApiController {
     }
 
 
-    @PostMapping("/testAPIA")
-    public OpenApiAreaDTO.Response test(@RequestBody OpenApiAreaDTO req) throws Exception {
+    @Operation(summary = "관광지/음식점 키워드 검색 ( 요약 반환 ) ")
+    @PostMapping("/searchSimpleArea")
+    public List<OpenApiAreaDTO.Response.Body.Items.Item> test(@RequestBody OpenApiAreaDTO req) throws Exception {
         return openApiService.searchAreaAndGetResponse(req);
     }
 

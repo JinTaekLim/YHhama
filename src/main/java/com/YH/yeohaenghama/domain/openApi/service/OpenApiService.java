@@ -7,6 +7,8 @@ import com.YH.yeohaenghama.domain.openApi.dto.OpenApiGetXY;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -15,6 +17,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -25,28 +29,49 @@ public class OpenApiService {
 
 
 
-    public OpenApiAreaDTO.Response searchAreaAndGetResponse(OpenApiAreaDTO dto) throws Exception {
-            String encodedKeyword = URLEncoder.encode(dto.getKeyword(), "UTF-8");
+        public List<OpenApiAreaDTO.Response.Body.Items.Item> searchAreaAndGetResponse(OpenApiAreaDTO dto) throws Exception {
+            try {
+                String encodedKeyword = URLEncoder.encode(dto.getKeyword(), "UTF-8");
 
-            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
-                    "searchKeyword1?" +
-                    "serviceKey=" + serviceKey +
-                    "&numOfRows=" + dto.getNumOfRows() +
-                    "&pageNo=" + dto.getPage() +
-                    "&MobileOS=" + dto.getMobileOS() +
-                    "&MobileApp=AppTest" +
-                    "&_type=json" +
-                    "&listYN=Y" +
-                    "&arrange=A" +
-                    "&keyword=" + encodedKeyword +
-                    "&contentTypeId=" + dto.getContentTypeId();
+                String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
+                        "searchKeyword1?" +
+                        "serviceKey=" + serviceKey +
+                        "&numOfRows=" + dto.getNumOfRows() +
+                        "&pageNo=" + dto.getPage() +
+                        "&MobileOS=" + dto.getMobileOS() +
+                        "&MobileApp=AppTest" +
+                        "&_type=json" +
+                        "&listYN=Y" +
+                        "&arrange=A" +
+                        "&keyword=" + encodedKeyword +
+                        "&contentTypeId=" + dto.getContentTypeId();
 
-            String response = sendHttpRequest(apiUrl);
-            ObjectMapper objectMapper = new ObjectMapper();
-        OpenApiAreaDTO.Response apiResponse = objectMapper.readValue(response, OpenApiAreaDTO.Response.class);
+                String responseJson = sendHttpRequest(apiUrl);
+                List<OpenApiAreaDTO.Response.Body.Items.Item> responseList = new ArrayList<>();
 
-            return apiResponse;
+
+                JSONObject jsonResponse = new JSONObject(responseJson);
+                JSONObject responseBody = jsonResponse.getJSONObject("response").getJSONObject("body");
+                JSONObject items = responseBody.getJSONObject("items");
+                JSONArray itemList = items.getJSONArray("item");
+
+                for (int i = 0; i < itemList.length(); i++) {
+                    JSONObject item = itemList.getJSONObject(i);
+                    String title = item.getString("title");
+                    String firstImage = item.optString("firstimage", "");
+                    String contentId = item.getString("contentid");
+                    String contentTypeId = item.getString("contenttypeid");
+
+                    OpenApiAreaDTO.Response.Body.Items.Item reponse = new OpenApiAreaDTO.Response.Body.Items.Item(title,firstImage,contentId,contentTypeId);
+                    responseList.add(reponse);
+                }
+                return responseList;
+            }catch (Exception e){
+                return new ArrayList<>();
+            }
+
     }
+
 
 
     public String getServiceKey(){
