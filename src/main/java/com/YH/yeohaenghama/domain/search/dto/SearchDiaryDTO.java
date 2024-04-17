@@ -27,7 +27,7 @@ public class SearchDiaryDTO {
     public static SearchDiaryDTO fromEntity(Diary diary) {
         SearchDiaryDTO searchDiaryDTO = new SearchDiaryDTO();
         searchDiaryDTO.setItinerary(diary.getItinerary());
-        searchDiaryDTO.setDate(diary.getDate());
+        searchDiaryDTO.setDate(String.valueOf(diary.getDate()));
         searchDiaryDTO.setTitle(diary.getTitle());
         searchDiaryDTO.setContent(diary.getContent());
 
