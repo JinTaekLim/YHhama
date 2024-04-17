@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -64,7 +65,7 @@ public class PlaceService {
     }
 
 
-    public PlaceJoinDTO createPlace(PlaceJoinDTO placeDTO, Long itineraryId) {
+    public List<PlaceShowDTO> createPlace(PlaceJoinDTO placeDTO, Long itineraryId) {
         Itinerary itinerary = itineraryRepository.findById(itineraryId)
                 .orElse(null);
 
@@ -84,7 +85,15 @@ public class PlaceService {
 
         placeRepository.save(place);
 
-        return placeDTO;
+
+        List<Place> places = show(itineraryId);
+        List<PlaceShowDTO> placeDTOs = new ArrayList<>();
+
+        for(Place p : places){
+            placeDTOs.add(PlaceShowDTO.fromEntity(p));
+        }
+
+        return placeDTOs;
 
 
     }
