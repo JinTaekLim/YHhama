@@ -30,41 +30,46 @@ public class OpenApiService {
 
 
         public List<OpenApiAreaDTO.Response.Body.Items.Item> searchAreaAndGetResponse(OpenApiAreaDTO dto) throws Exception {
-            String encodedKeyword = URLEncoder.encode(dto.getKeyword(), "UTF-8");
+            try {
+                String encodedKeyword = URLEncoder.encode(dto.getKeyword(), "UTF-8");
 
-            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
-                    "searchKeyword1?" +
-                    "serviceKey=" + serviceKey +
-                    "&numOfRows=" + dto.getNumOfRows() +
-                    "&pageNo=" + dto.getPage() +
-                    "&MobileOS=" + dto.getMobileOS() +
-                    "&MobileApp=AppTest" +
-                    "&_type=json" +
-                    "&listYN=Y" +
-                    "&arrange=A" +
-                    "&keyword=" + encodedKeyword +
-                    "&contentTypeId=" + dto.getContentTypeId();
+                String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
+                        "searchKeyword1?" +
+                        "serviceKey=" + serviceKey +
+                        "&numOfRows=" + dto.getNumOfRows() +
+                        "&pageNo=" + dto.getPage() +
+                        "&MobileOS=" + dto.getMobileOS() +
+                        "&MobileApp=AppTest" +
+                        "&_type=json" +
+                        "&listYN=Y" +
+                        "&arrange=A" +
+                        "&keyword=" + encodedKeyword +
+                        "&contentTypeId=" + dto.getContentTypeId();
 
-            String responseJson = sendHttpRequest(apiUrl);
-            List<OpenApiAreaDTO.Response.Body.Items.Item> responseList = new ArrayList<>();
+                String responseJson = sendHttpRequest(apiUrl);
+                List<OpenApiAreaDTO.Response.Body.Items.Item> responseList = new ArrayList<>();
 
 
-            JSONObject jsonResponse = new JSONObject(responseJson);
-            JSONObject responseBody = jsonResponse.getJSONObject("response").getJSONObject("body");
-            JSONObject items = responseBody.getJSONObject("items");
-            JSONArray itemList = items.getJSONArray("item");
+                JSONObject jsonResponse = new JSONObject(responseJson);
+                JSONObject responseBody = jsonResponse.getJSONObject("response").getJSONObject("body");
+                JSONObject items = responseBody.getJSONObject("items");
+                JSONArray itemList = items.getJSONArray("item");
 
-            for (int i = 0; i < itemList.length(); i++) {
-                JSONObject item = itemList.getJSONObject(i);
-                String title = item.getString("title");
-                String firstImage = item.optString("firstimage", "");
-                String contentId = item.getString("contentid");
-                String contentTypeId = item.getString("contenttypeid");
+                for (int i = 0; i < itemList.length(); i++) {
+                    JSONObject item = itemList.getJSONObject(i);
+                    String title = item.getString("title");
+                    String firstImage = item.optString("firstimage", "");
+                    String contentId = item.getString("contentid");
+                    String contentTypeId = item.getString("contenttypeid");
 
-                OpenApiAreaDTO.Response.Body.Items.Item reponse = new OpenApiAreaDTO.Response.Body.Items.Item(title,firstImage,contentId,contentTypeId);
-                responseList.add(reponse);
+                    OpenApiAreaDTO.Response.Body.Items.Item reponse = new OpenApiAreaDTO.Response.Body.Items.Item(title,firstImage,contentId,contentTypeId);
+                    responseList.add(reponse);
+                }
+                return responseList;
+            }catch (Exception e){
+                return new ArrayList<>();
             }
-            return responseList;
+
     }
 
 
