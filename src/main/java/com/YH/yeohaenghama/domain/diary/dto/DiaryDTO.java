@@ -3,9 +3,12 @@ package com.YH.yeohaenghama.domain.diary.dto;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Nullable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +24,6 @@ public class DiaryDTO {
     public static class Request{
         @Schema(description = "일정 ID")
         private Long itinerary;
-        @Schema(description = "일기 작성 일시")
-        private String date;
         @Schema(description = "일기 제목")
         private String title;
         @Schema(description = "일기 내용")
@@ -37,7 +38,7 @@ public class DiaryDTO {
         @Schema(description = "일정 ID")
         private Long itinerary;
         @Schema(description = "일기 작성 일시")
-        private String date;
+        private LocalTime date;
         @Schema(description = "일기 제목")
         private String title;
         @Schema(description = "일기 내용")

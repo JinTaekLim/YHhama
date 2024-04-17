@@ -56,7 +56,7 @@ public class DiaryService {
             }
         }
 
-        diary.set(diaryDTO.getDate(), diaryDTO.getTitle(), diaryDTO.getContent(), diaryDTO.getItinerary(), diaryPhotoUrls);
+        diary.set(diaryDTO.getTitle(), diaryDTO.getContent(), diaryDTO.getItinerary(), diaryPhotoUrls);
 
         diaryRepository.save(diary);
 
@@ -153,7 +153,7 @@ public class DiaryService {
             }
         }
 
-        diary.update(dto.getDate(), dto.getTitle(), dto.getContent(), diaryPhotoUrls);
+        diary.update(dto.getTitle(), dto.getContent(), diaryPhotoUrls);
         diaryRepository.save(diary);
 
         return DiaryDTO.Response.fromEntity(diary);
