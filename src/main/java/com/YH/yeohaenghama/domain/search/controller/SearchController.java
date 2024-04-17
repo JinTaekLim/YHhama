@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.search.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
+import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.search.dto.SearchDTO;
 import com.YH.yeohaenghama.domain.search.dto.SearchDiaryDTO;
 import com.YH.yeohaenghama.domain.search.service.SearchService;
@@ -25,6 +26,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/search")
 public class SearchController {
     private final SearchService searchService;
+    private final OpenApiService openApiService;
 
 
 
@@ -36,6 +38,12 @@ public class SearchController {
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
+    }
+
+    @Operation(summary = "관광지/음식점 키워드 검색")
+    @PostMapping("/area")
+    public List<OpenApiAreaDTO.Response.Body.Items.Item> test(@RequestBody OpenApiAreaDTO req) throws Exception {
+        return openApiService.searchAreaAndGetResponse(req);
     }
 
     @Operation(summary = "일기 제목 검색")
