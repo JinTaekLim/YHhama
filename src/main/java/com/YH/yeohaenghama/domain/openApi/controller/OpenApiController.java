@@ -177,7 +177,8 @@ public class OpenApiController {
     }
 
 
-    @PostMapping("/testAPIA")
+    @Operation(summary = "관광지/음식점 키워드 검색 ( 요약 반환 ) ")
+    @PostMapping("/searchSimpleArea")
     public List<OpenApiAreaDTO.Response.Body.Items.Item> test(@RequestBody OpenApiAreaDTO req) throws Exception {
         return openApiService.searchAreaAndGetResponse(req);
     }
