@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class PlaceShowDTO {
-//    @Schema(description = "지정 날짜")
-//    private int day;
+    @Schema(description = "지정 날짜")
+    private int day;
     @Schema(description = "장소 ID")
     private Long PlaceId;
     @Schema(description = "시작 시간")
@@ -31,6 +31,7 @@ public class PlaceShowDTO {
     public static PlaceShowDTO fromEntity(Place place) {
         PlaceShowDTO dto = new PlaceShowDTO();
         dto.setPlaceId(place.getId());
+        dto.setDay(place.getDay());
         dto.setStartTime(place.getStartTime());
         dto.setEndTime(place.getEndTime());
         dto.setPlaceType(place.getPlaceType());
