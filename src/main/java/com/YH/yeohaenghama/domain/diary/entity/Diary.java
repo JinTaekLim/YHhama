@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Diary {
     private Long itinerary;
 
     @Column(nullable = false)
-    private LocalTime date;
+    private LocalDateTime date;
 
     @Column(nullable = false)
     private String title;
@@ -36,7 +37,7 @@ public class Diary {
 
     @Builder
     public Diary(String title, String content, Long itinerary, List<DiaryPhotoUrl> diaryPhotoUrls) {
-        this.date = LocalTime.now(ZoneId.of("Asia/Seoul"));
+        this.date = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         this.title = title;
         this.content = content;
         this.itinerary = itinerary;
@@ -45,7 +46,7 @@ public class Diary {
     }
 
     public void set(String title, String content, Long itinerary, List<DiaryPhotoUrl> diaryPhotoUrls) {
-        this.date = LocalTime.now(ZoneId.of("Asia/Seoul"));
+        this.date = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         this.title = title;
         this.content = content;
         this.itinerary = itinerary;
@@ -53,7 +54,7 @@ public class Diary {
     }
 
     public void update(String title, String content, List<DiaryPhotoUrl> diaryPhotoUrls) {
-        this.date = LocalTime.now(ZoneId.of("Asia/Seoul"));
+        this.date = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         this.title = title;
         this.content = content;
 

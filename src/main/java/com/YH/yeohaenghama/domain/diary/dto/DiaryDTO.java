@@ -8,6 +8,7 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Nullable;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class DiaryDTO {
         @Schema(description = "일정 ID")
         private Long itinerary;
         @Schema(description = "일기 작성 일시")
-        private LocalTime date;
+        private LocalDateTime date;
         @Schema(description = "일기 제목")
         private String title;
         @Schema(description = "일기 내용")
