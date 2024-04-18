@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.report.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -24,10 +25,10 @@ public class ReportDiaryDTO {
         @Schema(description = "신고 누적 횟수")
         private int reportCount;
         @Schema(description = "작성 날짜")
-        private LocalTime date;
+        private LocalDateTime date;
 
 
-        public Request(Long diaryId, String diaryTitle, String writer, int reportCount, LocalTime date) {
+        public Request(Long diaryId, String diaryTitle, String writer, int reportCount, LocalDateTime date) {
             this.diaryId = diaryId;
             this.diaryTitle = diaryTitle;
             this.writer = writer;

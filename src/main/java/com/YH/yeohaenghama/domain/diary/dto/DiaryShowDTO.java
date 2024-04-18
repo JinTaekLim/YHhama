@@ -6,6 +6,7 @@ import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class DiaryShowDTO {
         @Schema(description = "일정 ID")
         private Long itinerary;
         @Schema(description = "일기 작성 일시")
-        private LocalTime date;
+        private LocalDateTime date;
         @Schema(description = "일기 제목")
         private String title;
         @Schema(description = "일기 내용")
