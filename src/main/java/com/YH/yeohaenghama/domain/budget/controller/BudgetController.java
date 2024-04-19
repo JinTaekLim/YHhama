@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.budget.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
+import com.YH.yeohaenghama.domain.budget.dto.BudgetCreateDTO;
 import com.YH.yeohaenghama.domain.budget.service.BudgetService;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,11 +23,14 @@ public class BudgetController {
 
     @Operation(summary = "가계부 생성")
     @PostMapping("/create")
-    public ApiResult budgetCreate(){
+    public ApiResult budgetCreate(BudgetCreateDTO.Request dto){
         try{
-            budgetService.budgetCreate();
+            budgetService.budgetCreate(dto);
             return ApiResult.success(null);
-        } catch (Exception e){
+        } catch (NoSuchElementException e){
+            return ApiResult.success(e.getMessage());
+        }
+        catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
     }
