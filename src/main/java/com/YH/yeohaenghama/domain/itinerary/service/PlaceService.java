@@ -58,7 +58,7 @@ public class PlaceService {
             place.setEndTime(placeDTO.getEndTime());
             place.setPlaceType(placeDTO.getPlaceType());
             place.setPlaceName(placeDTO.getPlaceName());
-            place.setAdd1(placeDTO.getAdd1());
+            place.setAddr1(placeDTO.getAddr1());
             place.setPlaceNum(placeDTO.getPlaceNum());
             place.setMemo(placeDTO.getMemo());
             place.setItinerary(itinerary);
@@ -84,7 +84,7 @@ public class PlaceService {
         place.setPlaceType(placeDTO.getPlaceType());
         place.setPlaceName(placeDTO.getPlaceName());
         place.setPlaceNum(placeDTO.getPlaceNum());
-        place.setAdd1(placeDTO.getAdd1());
+        place.setAddr1(placeDTO.getAddr1());
         place.setMemo(placeDTO.getMemo());
         place.setItinerary(itinerary);
 

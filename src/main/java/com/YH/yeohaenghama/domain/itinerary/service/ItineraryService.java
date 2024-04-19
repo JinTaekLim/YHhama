@@ -117,7 +117,7 @@ public class ItineraryService {
                 placeShowDTO.setPlaceType(place.getPlaceType());
                 placeShowDTO.setPlaceNum(place.getPlaceNum());
                 placeShowDTO.setPlaceName(place.getPlaceName());
-                placeShowDTO.setAdd1(place.getAdd1());
+                placeShowDTO.setAddr1(place.getAddr1());
                 placeShowDTO.setMemo(place.getMemo());
 
                 String dayKey = "Day-" + place.getDay();

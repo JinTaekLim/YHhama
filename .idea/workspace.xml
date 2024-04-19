@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="[수정] CorsConfig 플러터 도메인 허용">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceJoinDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceJoinDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceShowDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceShowDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/entity/Place.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/entity/Place.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/ItineraryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/ItineraryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/PlaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/PlaceService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +120,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.YeohaenghamaApplication.executor": "Run",
-    "git-widget-placeholder": "feature/KAN-143",
+    "git-widget-placeholder": "feature/KAN-142",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend",
     "node.js.detected.package.eslint": "true",

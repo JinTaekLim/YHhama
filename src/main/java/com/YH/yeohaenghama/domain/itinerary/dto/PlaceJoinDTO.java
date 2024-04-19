@@ -18,7 +18,7 @@ public class PlaceJoinDTO {
     @Schema(description = "장소 이름")
     private String placeName;
     @Schema(description = "장소 주소")
-    private String add1;
+    private String addr1;
     @Schema(description = "메모")
     private String memo;
 
@@ -30,7 +30,7 @@ public class PlaceJoinDTO {
         private String placeType;
         private String placeNum;
         private String placeName;
-        private String add1;
+        private String addr1;
         private String memo;
     }
 }
