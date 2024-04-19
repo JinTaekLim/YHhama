@@ -48,6 +48,8 @@ public class PlaceService {
             log.info("해당 id 값을 가진 일정에 속한 장소들이 모두 삭제되었습니다.");
         }
 
+        log.info(String.valueOf(placeDTOs));
+
 
         for (PlaceJoinDTO placeDTO : placeDTOs) {
             Place place = new Place();
@@ -56,6 +58,7 @@ public class PlaceService {
             place.setEndTime(placeDTO.getEndTime());
             place.setPlaceType(placeDTO.getPlaceType());
             place.setPlaceName(placeDTO.getPlaceName());
+            place.setAdd1(placeDTO.getAdd1());
             place.setPlaceNum(placeDTO.getPlaceNum());
             place.setMemo(placeDTO.getMemo());
             place.setItinerary(itinerary);
@@ -80,6 +83,7 @@ public class PlaceService {
         place.setPlaceType(placeDTO.getPlaceType());
         place.setPlaceName(placeDTO.getPlaceName());
         place.setPlaceNum(placeDTO.getPlaceNum());
+        place.setAdd1(placeDTO.getAdd1());
         place.setMemo(placeDTO.getMemo());
         place.setItinerary(itinerary);
 
