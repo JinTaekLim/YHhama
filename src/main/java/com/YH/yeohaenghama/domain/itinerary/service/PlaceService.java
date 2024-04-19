@@ -69,6 +69,7 @@ public class PlaceService {
 
 
     public List<PlaceShowDTO> createPlace(PlaceJoinDTO placeDTO, Long itineraryId) {
+
         Itinerary itinerary = itineraryRepository.findById(itineraryId)
                 .orElse(null);
 
@@ -90,12 +91,12 @@ public class PlaceService {
         placeRepository.save(place);
 
 
-        List<Place> places = show(itineraryId);
+//        List<Place> places = show(itineraryId);
         List<PlaceShowDTO> placeDTOs = new ArrayList<>();
 
-        for(Place p : places){
-            placeDTOs.add(PlaceShowDTO.fromEntity(p));
-        }
+//        for(Place p : places){
+//            placeDTOs.add(PlaceShowDTO.fromEntity(p));
+//        }
 
         return placeDTOs;
 
@@ -131,13 +132,18 @@ public class PlaceService {
 
     }
 
-    public List<Place> show(Long itineraryId) {
+    public List<PlaceShowDTO> show(Long itineraryId) {
         List<Place> places = placeRepository.findByItineraryId(itineraryId);
         if (places.isEmpty()) {
             log.warn("해당 itineraryId를 가진 장소가 존재하지 않습니다. Itinerary ID: {}", itineraryId);
             throw new NoSuchElementException("해당 itineraryId를 가진 장소가 존재하지 않습니다. Itinerary ID : " + itineraryId);
         }
-        return places;
+
+        List<PlaceShowDTO> placeShowDTOList = new ArrayList<>();
+        for(Place place : places)
+            placeShowDTOList.add(PlaceShowDTO.fromEntity(place));
+
+        return placeShowDTOList;
     }
 
     public List<Long> checkPlace(String placeNum,String placeType){

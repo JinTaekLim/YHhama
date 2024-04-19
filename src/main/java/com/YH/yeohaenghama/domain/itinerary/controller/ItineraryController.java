@@ -11,6 +11,7 @@ import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
 import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -63,6 +64,16 @@ public class ItineraryController {
     @PostMapping("/joinPlace/{itineraryId}")
     public ApiResult<List<PlaceShowDTO>> createPlaces(@RequestBody PlaceJoinDTO placeDTO, @PathVariable Long itineraryId) {
         try {
+            if (placeDTO.getDay() == null ||
+                    placeDTO.getStartTime() == null ||
+                    placeDTO.getEndTime() == null ||
+                    placeDTO.getPlaceType() == null ||
+                    placeDTO.getPlaceNum() == null ||
+                    placeDTO.getPlaceName() == null ||
+                    placeDTO.getAdd1() == null) {
+                return ApiResult.fail("[일정]장소 추가 실패 : 필수 정보가 누락되었습니다.");
+            }
+
             return ApiResult.success(placeService.createPlace(placeDTO, itineraryId),"장소 추가 성공");
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
@@ -102,22 +113,22 @@ public class ItineraryController {
     @GetMapping("/showPlace/{itineraryId}")
     public ApiResult<List<PlaceShowDTO>> showPlace(@PathVariable Long itineraryId) {
         try {
-            List<Place> places = placeService.show(itineraryId);
-            List<PlaceShowDTO> placeDTOs = places.stream()
-                    .map(place -> {
-                        PlaceShowDTO dto = new PlaceShowDTO();
-                        dto.setStartTime(place.getStartTime());
-                        dto.setEndTime(place.getEndTime());
-                        dto.setPlaceType(place.getPlaceType());
-                        dto.setPlaceNum(place.getPlaceNum());
-                        dto.setPlaceName(place.getPlaceName());
-                        dto.setAdd1(place.getAdd1());
-                        dto.setPlaceId(place.getId());
-                        dto.setMemo(place.getMemo());
-                        return dto;
-                    })
-                    .collect(Collectors.toList());
-            return ApiResult.success(placeDTOs);
+//            List<Place> places = placeService.show(itineraryId);
+//            List<PlaceShowDTO> placeDTOs = places.stream()
+//                    .map(place -> {
+//                        PlaceShowDTO dto = new PlaceShowDTO();
+//                        dto.setStartTime(place.getStartTime());
+//                        dto.setEndTime(place.getEndTime());
+//                        dto.setPlaceType(place.getPlaceType());
+//                        dto.setPlaceNum(place.getPlaceNum());
+//                        dto.setPlaceName(place.getPlaceName());
+//                        dto.setAdd1(place.getAdd1());
+//                        dto.setPlaceId(place.getId());
+//                        dto.setMemo(place.getMemo());
+//                        return dto;
+//                    })
+//                    .collect(Collectors.toList());
+            return ApiResult.success(placeService.show(itineraryId));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }

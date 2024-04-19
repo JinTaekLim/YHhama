@@ -15,7 +15,7 @@ public class Place {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int day;
+    private Integer day;
     private String startTime;
     private String endTime;
     private String placeType;

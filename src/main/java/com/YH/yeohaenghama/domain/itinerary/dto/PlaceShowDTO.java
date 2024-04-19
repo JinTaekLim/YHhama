@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 public class PlaceShowDTO {
     @Schema(description = "지정 날짜")
-    private int day;
+    private Integer day;
     @Schema(description = "장소 ID")
     private Long PlaceId;
     @Schema(description = "시작 시간")

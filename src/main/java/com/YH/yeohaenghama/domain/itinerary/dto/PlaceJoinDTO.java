@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class PlaceJoinDTO {
     @Schema(description = "지정 날짜")
-    private int day;
+    private Integer day;
     @Schema(description = "시작 시간")
     private String startTime;
     @Schema(description = "종료 시간")
@@ -24,7 +24,7 @@ public class PlaceJoinDTO {
 
     @Data
     public static class Request {
-        private int day;
+        private Integer day;
         private String startTime;
         private String endTime;
         private String placeType;
