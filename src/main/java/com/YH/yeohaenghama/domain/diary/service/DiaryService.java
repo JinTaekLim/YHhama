@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Slf4j
@@ -127,6 +129,24 @@ public class DiaryService {
         DiaryShowDTO.Response showDTO = DiaryShowDTO.Response.fromEntity(diary, reviewsByDate);
 
 
+        List<String> tag = new ArrayList<>();
+        String month = itinerary.getStartDate().getMonthValue() + "월출발";
+
+        long day = ChronoUnit.DAYS.between(itinerary.getStartDate(), itinerary.getEndDate());
+
+        tag.add(itinerary.getArea());
+
+        if (day == 1){
+            tag.add("당일치기");
+        }else {
+            tag.add(day-1 + "박" + day +"일");
+        }
+
+        tag.add(month);
+        tag.addAll(itinerary.getItineraryStyle());
+        tag.addAll(itinerary.getType());
+
+        showDTO.setTag(tag);
 
         return showDTO;
 

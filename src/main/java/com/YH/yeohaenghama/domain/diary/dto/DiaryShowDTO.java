@@ -18,6 +18,8 @@ public class DiaryShowDTO {
     public static class Response {
         @Schema(description = "일정 ID")
         private Long itinerary;
+        @Schema(description = "태그")
+        private List<String> tag;
         @Schema(description = "일기 작성 일시")
         private LocalDateTime date;
         @Schema(description = "일기 제목")
