@@ -71,7 +71,7 @@ public class ItineraryController {
                     placeDTO.getPlaceNum() == null ||
                     placeDTO.getPlaceName() == null ||
                     placeDTO.getAdd1() == null) {
-                return ApiResult.fail("[일정]장소 추가 실패 : 필수 정보가 누락되었습니다.");
+                return ApiResult.success(placeService.show(itineraryId),"장소 조회 실패");
             }
 
             return ApiResult.success(placeService.createPlace(placeDTO, itineraryId),"장소 추가 성공");
@@ -95,39 +95,12 @@ public class ItineraryController {
             return ApiResult.fail("[일정]장소 삭제 실패 : " + e.getMessage());
         }
     }
-//
-//    @Operation(summary = "제작된 일정 확인")
-//    @GetMapping("/showItinerary/{itineraryId}")
-//    public ResponseEntity<Itinerary> showItinerary(@PathVariable Long itineraryId){
-//        try {
-//            return ResponseEntity.ok(itineraryService.show(itineraryId));
-//        }
-//        catch (Exception e){
-//            e.getMessage();
-//            return null;
-//        }
-//    }
 
 
     @Operation(summary = "제작된 일정 장소 확인")
     @GetMapping("/showPlace/{itineraryId}")
     public ApiResult<List<PlaceShowDTO>> showPlace(@PathVariable Long itineraryId) {
         try {
-//            List<Place> places = placeService.show(itineraryId);
-//            List<PlaceShowDTO> placeDTOs = places.stream()
-//                    .map(place -> {
-//                        PlaceShowDTO dto = new PlaceShowDTO();
-//                        dto.setStartTime(place.getStartTime());
-//                        dto.setEndTime(place.getEndTime());
-//                        dto.setPlaceType(place.getPlaceType());
-//                        dto.setPlaceNum(place.getPlaceNum());
-//                        dto.setPlaceName(place.getPlaceName());
-//                        dto.setAdd1(place.getAdd1());
-//                        dto.setPlaceId(place.getId());
-//                        dto.setMemo(place.getMemo());
-//                        return dto;
-//                    })
-//                    .collect(Collectors.toList());
             return ApiResult.success(placeService.show(itineraryId));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());

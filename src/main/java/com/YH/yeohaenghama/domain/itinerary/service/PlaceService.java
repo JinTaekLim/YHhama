@@ -91,12 +91,12 @@ public class PlaceService {
         placeRepository.save(place);
 
 
-//        List<Place> places = show(itineraryId);
+        List<Place> places = placeRepository.findByItineraryId(itineraryId);
         List<PlaceShowDTO> placeDTOs = new ArrayList<>();
 
-//        for(Place p : places){
-//            placeDTOs.add(PlaceShowDTO.fromEntity(p));
-//        }
+        for(Place p : places){
+            placeDTOs.add(PlaceShowDTO.fromEntity(p));
+        }
 
         return placeDTOs;
 

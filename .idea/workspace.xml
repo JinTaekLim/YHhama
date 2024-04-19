@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="[수정] CorsConfig 플러터 도메인 허용">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceJoinDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceJoinDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceShowDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceShowDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/entity/Place.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/entity/Place.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/PlaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/PlaceService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -269,7 +265,7 @@
       <workItem from="1713316484123" duration="2711000" />
       <workItem from="1713335691334" duration="793000" />
       <workItem from="1713456767599" duration="2125000" />
-      <workItem from="1713489330814" duration="4083000" />
+      <workItem from="1713489330814" duration="4461000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
