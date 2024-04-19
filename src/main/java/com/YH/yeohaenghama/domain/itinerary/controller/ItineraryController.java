@@ -111,6 +111,7 @@ public class ItineraryController {
                         dto.setPlaceType(place.getPlaceType());
                         dto.setPlaceNum(place.getPlaceNum());
                         dto.setPlaceName(place.getPlaceName());
+                        dto.setAdd1(place.getAdd1());
                         dto.setPlaceId(place.getId());
                         dto.setMemo(place.getMemo());
                         return dto;

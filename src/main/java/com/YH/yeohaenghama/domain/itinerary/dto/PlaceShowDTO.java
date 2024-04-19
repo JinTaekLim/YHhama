@@ -25,6 +25,8 @@ public class PlaceShowDTO {
     private String placeNum;
     @Schema(description = "장소 이름")
     private String placeName;
+    @Schema(description = "장소 주소")
+    private String add1;
     @Schema(description = "메모")
     private String memo;
 
@@ -37,6 +39,7 @@ public class PlaceShowDTO {
         dto.setPlaceType(place.getPlaceType());
         dto.setPlaceNum(place.getPlaceNum());
         dto.setPlaceName(place.getPlaceName());
+        dto.setAdd1(place.getAdd1());
         dto.setMemo(place.getMemo());
         return dto;
     }
