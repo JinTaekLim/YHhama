@@ -70,7 +70,7 @@ public class ItineraryController {
                     placeDTO.getPlaceType() == null ||
                     placeDTO.getPlaceNum() == null ||
                     placeDTO.getPlaceName() == null ||
-                    placeDTO.getAdd1() == null) {
+                    placeDTO.getAddr1() == null) {
                 return ApiResult.success(placeService.show(itineraryId),"장소 조회 실패");
             }
 
