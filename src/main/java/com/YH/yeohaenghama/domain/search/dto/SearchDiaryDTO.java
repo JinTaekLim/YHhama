@@ -12,6 +12,8 @@ import java.util.List;
 @Data
 //@Schema(description = "SearchDiaryDTO")
 public class SearchDiaryDTO {
+    @Schema(description = "일기 ID")
+    private Long diary;
     @Schema(description = "일정 ID")
     private Long itinerary;
     @Schema(description = "일기 작성 일시")
@@ -26,6 +28,7 @@ public class SearchDiaryDTO {
 
     public static SearchDiaryDTO fromEntity(Diary diary) {
         SearchDiaryDTO searchDiaryDTO = new SearchDiaryDTO();
+        searchDiaryDTO.setDiary(diary.getId());
         searchDiaryDTO.setItinerary(diary.getItinerary());
         searchDiaryDTO.setDate(String.valueOf(diary.getDate()));
         searchDiaryDTO.setTitle(diary.getTitle());
