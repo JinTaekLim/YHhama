@@ -161,10 +161,19 @@ public class ItineraryService {
         }
     }
 
-    public String getItinerariesByAccountId(Long accountId) {
+    public List<ItineraryShowAccountDTO.Response> showAccount(Long accountId) {
         accountRepository.findById(accountId)
                 .orElseThrow(() -> new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId));
-        return null;
+
+        List<Itinerary> itineraryList = itineraryRepository.findByAccountId(accountId);
+
+        List<ItineraryShowAccountDTO.Response> responses = new ArrayList<>();
+
+        for(Itinerary itinerary : itineraryList) {
+            responses.add(ItineraryShowAccountDTO.Response.fromEntity(itinerary));
+        }
+
+        return responses;
     }
 
     public final PlaceRepository placeRepository;
