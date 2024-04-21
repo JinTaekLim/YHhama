@@ -11,7 +11,8 @@ import java.util.Optional;
 public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
 
     Optional<Itinerary> findByIdAndAccountId(Long itineraryId,Long accountId);
-    List<ItineraryProjection> findByAccountId(Long accountId);
+//    List<ItineraryProjection> findByAccountId(Long accountId);
+    List<Itinerary> findByAccountId(Long accountId);
 
     interface ItineraryProjection {
         Long getId();

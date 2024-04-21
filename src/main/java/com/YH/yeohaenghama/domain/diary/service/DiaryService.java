@@ -153,6 +153,28 @@ public class DiaryService {
     }
 
 
+
+    public List<Diary> findAccountDiary(Long accountId){
+        List<Itinerary> itineraryList = itineraryRepository.findByAccountId(accountId);
+
+        if(itineraryList.isEmpty()){
+            throw new NoSuchElementException("해당 ID를 가진 일정이 존재하지 않습니다.");
+        }
+
+        List<Diary> diaryList = new ArrayList<>();
+
+        for(Itinerary itinerary : itineraryList){
+            Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
+            if(!diaryOpt.isEmpty()){
+                diaryList.add(diaryOpt.get());
+            }
+        }
+
+        return diaryList;
+
+
+    }
+
     public DiaryDTO.Response updatae(Long diaryId, DiaryDTO.Request dto) throws IOException {
         Optional<Diary> diaryOpt = diaryRepository.findById(diaryId);
         Diary diary = diaryOpt.get();

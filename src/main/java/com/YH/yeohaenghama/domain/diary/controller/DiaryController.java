@@ -69,6 +69,18 @@ public class DiaryController {
         }
     }
 
+    @Operation(summary = "특정 유저의 모든 일기 조회")
+    @PostMapping("/findAccountDiary")
+    public ApiResult<List<Diary>> findAccountDiary(@RequestParam Long accountId){
+        try{
+            return ApiResult.success(diaryService.findAccountDiary(accountId));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
 
     @Operation(summary = "모든 일기 조회")
     @PostMapping("/findAll")

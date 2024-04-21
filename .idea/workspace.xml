@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="[수정] CorsConfig 플러터 도메인 허용">
+    <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="[추가] 특정 유저가 작성한 일기 조회">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/controller/BudgetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/controller/BudgetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/BudgetCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/BudgetCreateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/Budget.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/service/BudgetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/service/BudgetService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/dto/DiaryShowDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/dto/DiaryShowDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/service/DiaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/diary/service/DiaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/ItineraryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/ItineraryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +62,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="KAN-144" />
+                    <option name="lastUsedInstant" value="1713686651" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/KAN-140" />
                     <option name="lastUsedInstant" value="1713497611" />
                   </RecentBranch>
@@ -74,10 +80,6 @@
                   <RecentBranch>
                     <option name="branchName" value="feature/KAN-132" />
                     <option name="lastUsedInstant" value="1713457100" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-139" />
-                    <option name="lastUsedInstant" value="1713319480" />
                   </RecentBranch>
                 </list>
               </option>
@@ -119,7 +121,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.YeohaenghamaApplication.executor": "Run",
-    "git-widget-placeholder": "feature/KAN-140",
+    "git-widget-placeholder": "KAN-144",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend",
     "node.js.detected.package.eslint": "true",
@@ -269,6 +271,10 @@
       <workItem from="1713335691334" duration="793000" />
       <workItem from="1713456767599" duration="2125000" />
       <workItem from="1713489330814" duration="4461000" />
+      <workItem from="1713507584681" duration="1943000" />
+      <workItem from="1713599870881" duration="317000" />
+      <workItem from="1713615093606" duration="1037000" />
+      <workItem from="1713686571566" duration="1830000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
@@ -414,7 +420,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713089922504</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="[추가] 특정 유저가 작성한 일기 조회">
+      <option name="closed" value="true" />
+      <created>1713688097004</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1713688097005</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -450,7 +464,8 @@
     <MESSAGE value="[추가] 특정 자소가 포함된 모든 일기 조회" />
     <MESSAGE value="[추가] 특정 장소가 포함된 모든 일기 조회" />
     <MESSAGE value="[수정] CorsConfig 플러터 도메인 허용" />
-    <option name="LAST_COMMIT_MESSAGE" value="[수정] CorsConfig 플러터 도메인 허용" />
+    <MESSAGE value="[추가] 특정 유저가 작성한 일기 조회" />
+    <option name="LAST_COMMIT_MESSAGE" value="[추가] 특정 유저가 작성한 일기 조회" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

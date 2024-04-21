@@ -125,24 +125,9 @@ public class ItineraryController {
 
     @Operation(summary = "유저의 모든 일정 조회")
     @GetMapping("/itineraryShow/{accountId}")
-    public ApiResult<List<Map<String, Object>>> getItinerariesByAccountId(@PathVariable Long accountId) {
+    public ApiResult<List<ItineraryShowAccountDTO.Response>> showAccount(@PathVariable Long accountId) {
         try {
-            List<ItineraryRepository.ItineraryProjection> itineraries = itineraryService.getItinerariesByAccountId(accountId);
-
-            List<Map<String, Object>> itineraryData = itineraries.stream()
-                    .map(itineraryProjection -> {
-                        Map<String, Object> data = new HashMap<>();
-
-                        data.put("itineraryId", itineraryProjection.getId());
-                        data.put("name", itineraryProjection.getName());
-                        data.put("startDate", itineraryProjection.getStartDate());
-                        data.put("endDate", itineraryProjection.getEndDate());
-                        data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
-                        return data;
-                    })
-                    .collect(Collectors.toList());
-
-            return ApiResult.success(itineraryData);
+            return ApiResult.success(itineraryService.showAccount(accountId));
         }
         catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
