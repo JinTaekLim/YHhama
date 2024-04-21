@@ -127,22 +127,22 @@ public class ItineraryController {
     @GetMapping("/itineraryShow/{accountId}")
     public ApiResult<List<Map<String, Object>>> getItinerariesByAccountId(@PathVariable Long accountId) {
         try {
-            List<ItineraryRepository.ItineraryProjection> itineraries = itineraryService.getItinerariesByAccountId(accountId);
+//            List<ItineraryRepository.ItineraryProjection> itineraries = itineraryService.getItinerariesByAccountId(accountId);
+//
+//            List<Map<String, Object>> itineraryData = itineraries.stream()
+//                    .map(itineraryProjection -> {
+//                        Map<String, Object> data = new HashMap<>();
+//
+//                        data.put("itineraryId", itineraryProjection.getId());
+//                        data.put("name", itineraryProjection.getName());
+//                        data.put("startDate", itineraryProjection.getStartDate());
+//                        data.put("endDate", itineraryProjection.getEndDate());
+//                        data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
+//                        return data;
+//                    })
+//                    .collect(Collectors.toList());
 
-            List<Map<String, Object>> itineraryData = itineraries.stream()
-                    .map(itineraryProjection -> {
-                        Map<String, Object> data = new HashMap<>();
-
-                        data.put("itineraryId", itineraryProjection.getId());
-                        data.put("name", itineraryProjection.getName());
-                        data.put("startDate", itineraryProjection.getStartDate());
-                        data.put("endDate", itineraryProjection.getEndDate());
-                        data.put("placeLength", itineraryService.getPlaceLength(itineraryProjection.getId()));
-                        return data;
-                    })
-                    .collect(Collectors.toList());
-
-            return ApiResult.success(itineraryData);
+            return ApiResult.success(null);
         }
         catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
