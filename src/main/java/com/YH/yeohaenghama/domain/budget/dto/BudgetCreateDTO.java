@@ -2,6 +2,9 @@ package com.YH.yeohaenghama.domain.budget.dto;
 
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.budget.entity.Budget;
+import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
+import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.JoinColumn;
@@ -10,6 +13,7 @@ import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 import javax.annotation.Nullable;
+import java.time.LocalDateTime;
 
 public class BudgetCreateDTO {
     @Data
@@ -33,5 +37,27 @@ public class BudgetCreateDTO {
         private Long accountId;
         @Schema(description = "총 예산")
         private Integer totalAmount;
+
+    }
+
+
+    private Request request;
+
+//    public CommentDTO(CommentDTO.Request request) {
+//        this.request = request;
+//    }
+
+    public BudgetCreateDTO(BudgetCreateDTO.Request request) {
+        this.request = request;
+    }
+
+    public Budget toEntity(Account account,Itinerary itinerary) {
+        Budget budget = Budget.builder()
+                .account(account)
+                .itinerary(itinerary)
+                .totalAmount(request.getTotalAmount())
+                .build();
+        return budget;
+
     }
 }

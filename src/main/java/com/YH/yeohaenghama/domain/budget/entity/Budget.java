@@ -4,10 +4,13 @@ import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Budget {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,4 +24,11 @@ public class Budget {
     private Account account;
 
     private Integer totalAmount;
+
+    @Builder
+    public Budget(Itinerary itinerary, Account account, Integer totalAmount) {
+        this.itinerary = itinerary;
+        this.account = account;
+        this.totalAmount = totalAmount;
+    }
 }
