@@ -14,6 +14,8 @@ public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
 //    List<ItineraryProjection> findByAccountId(Long accountId);
     List<Itinerary> findByAccountId(Long accountId);
 
+    List<Itinerary> findByArea(String area);
+
     interface ItineraryProjection {
         Long getId();
         String getName();

@@ -41,6 +41,7 @@ public class SearchService {
         return SearchDTO.Response.setSearch(
                 serachTitle(dto),
                 serachContent(dto),
+                searchArea(dto),
                 serachPlace(dto),
                 searchPlace != null ? searchPlace : new ArrayList<>()
         );
@@ -92,6 +93,27 @@ public class SearchService {
             }
         }
 
+
+        return searchDiaryDTOList;
+
+    }
+
+
+    public List<SearchDiaryDTO> searchArea(SearchDTO.Request dto){
+        List<SearchDiaryDTO> searchDiaryDTOList = new ArrayList<>();
+
+        List<Itinerary> itineraryList = itineraryRepository.findByArea(dto.getKeyWord());
+
+        log.info(itineraryList.toString());
+        if(!itineraryList.isEmpty()){
+            for (Itinerary itinerary : itineraryList){
+                log.info(String.valueOf(itinerary.getId()));
+                Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
+                if(!diaryOpt.isEmpty()){
+                    searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get(), itinerary.getAccount()));
+                }
+            }
+        }
 
         return searchDiaryDTOList;
 
