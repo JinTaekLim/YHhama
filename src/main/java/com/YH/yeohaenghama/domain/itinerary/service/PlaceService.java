@@ -59,6 +59,8 @@ public class PlaceService {
             place.setPlaceType(placeDTO.getPlaceType());
             place.setPlaceName(placeDTO.getPlaceName());
             place.setAddr1(placeDTO.getAddr1());
+            place.setMapx(placeDTO.getMapx());
+            place.setMapy(placeDTO.getMapy());
             place.setPlaceNum(placeDTO.getPlaceNum());
             place.setMemo(placeDTO.getMemo());
             place.setItinerary(itinerary);
@@ -85,6 +87,8 @@ public class PlaceService {
         place.setPlaceName(placeDTO.getPlaceName());
         place.setPlaceNum(placeDTO.getPlaceNum());
         place.setAddr1(placeDTO.getAddr1());
+        place.setMapx(placeDTO.getMapx());
+        place.setMapy(placeDTO.getMapy());
         place.setMemo(placeDTO.getMemo());
         place.setItinerary(itinerary);
 

@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.search.service;
 
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
+import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
@@ -52,7 +53,8 @@ public class SearchService {
 
         if (!diaryList.isEmpty()) {
             for (Diary diary : diaryList) {
-                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diary));
+                Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
+                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diary, itineraryOpt.get().getAccount()));
             }
         }
 
@@ -67,7 +69,8 @@ public class SearchService {
 
         if (!diaryList.isEmpty()) {
             for (Diary diary : diaryList) {
-                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diary));
+                Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
+                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diary,itineraryOpt.get().getAccount()));
             }
         }
 
@@ -84,7 +87,7 @@ public class SearchService {
             for (Place place : placeList){
                 Optional<Diary> diaryOpt = diaryRepository.findByItinerary(place.getItinerary().getId());
                 if(!diaryOpt.isEmpty()) {
-                    searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get()));
+                    searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get(),place.getItinerary().getAccount()));
                 }
             }
         }

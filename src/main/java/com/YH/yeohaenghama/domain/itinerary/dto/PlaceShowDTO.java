@@ -27,6 +27,10 @@ public class PlaceShowDTO {
     private String placeName;
     @Schema(description = "장소 주소")
     private String addr1;
+    @Schema(description = "X　좌표")
+    private Integer mapx;
+    @Schema(description = "Y　좌표")
+    private Integer mapy;
     @Schema(description = "메모")
     private String memo;
 
@@ -40,6 +44,8 @@ public class PlaceShowDTO {
         dto.setPlaceNum(place.getPlaceNum());
         dto.setPlaceName(place.getPlaceName());
         dto.setAddr1(place.getAddr1());
+        dto.setMapx(place.getMapx());
+        dto.setMapy(place.getMapy());
         dto.setMemo(place.getMemo());
         return dto;
     }

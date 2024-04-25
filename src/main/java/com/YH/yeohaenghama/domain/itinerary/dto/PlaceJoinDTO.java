@@ -21,7 +21,10 @@ public class PlaceJoinDTO {
     private String addr1;
     @Schema(description = "메모")
     private String memo;
-
+    @Schema(description = "X　좌표")
+    private Integer mapx;
+    @Schema(description = "Y　좌표")
+    private Integer mapy;
     @Data
     public static class Request {
         private Integer day;
@@ -32,5 +35,7 @@ public class PlaceJoinDTO {
         private String placeName;
         private String addr1;
         private String memo;
+        private Integer mapx;
+        private Integer mapy;
     }
 }
