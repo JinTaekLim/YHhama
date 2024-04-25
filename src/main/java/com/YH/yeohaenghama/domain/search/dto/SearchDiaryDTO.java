@@ -1,5 +1,7 @@
 package com.YH.yeohaenghama.domain.search.dto;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
@@ -24,9 +26,11 @@ public class SearchDiaryDTO {
     private String content;
     @Schema(description = "일기 사진 URL")
     private List<String> photos;
+    @Schema(description = "작성자 정보")
+    private AccountShowDTO.Response account;
 
 
-    public static SearchDiaryDTO fromEntity(Diary diary) {
+    public static SearchDiaryDTO fromEntity(Diary diary, Account account) {
         SearchDiaryDTO searchDiaryDTO = new SearchDiaryDTO();
         searchDiaryDTO.setDiary(diary.getId());
         searchDiaryDTO.setItinerary(diary.getItinerary());
@@ -40,6 +44,9 @@ public class SearchDiaryDTO {
             photoURLs.add(photoUrl.getPhotoURL());
         }
         searchDiaryDTO.setPhotos(photoURLs);
+
+        AccountShowDTO.Response accountResponse = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl());
+        searchDiaryDTO.setAccount(accountResponse);
 
 
         return searchDiaryDTO;

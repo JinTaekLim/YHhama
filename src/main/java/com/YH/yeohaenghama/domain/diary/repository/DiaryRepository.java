@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface DiaryRepository extends JpaRepository<Diary,Long> {
     Optional<Diary> findByItinerary(Long itineraryId);
-    List<Diary> findByTitle(String keyWord);
+    List<Diary> findByTitleContaining(String keyWord);
     List<Diary> findByContentContaining(String keyWord);
 }
