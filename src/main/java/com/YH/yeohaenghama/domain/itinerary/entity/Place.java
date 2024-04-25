@@ -22,6 +22,8 @@ public class Place {
     private String placeNum;
     private String placeName;
     private String addr1;
+    private Integer mapx;
+    private Integer mapy;
     private String memo = null;
 
     @ManyToOne(fetch = FetchType.LAZY)
