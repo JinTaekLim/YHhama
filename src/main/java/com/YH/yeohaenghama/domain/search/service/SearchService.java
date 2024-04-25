@@ -49,7 +49,7 @@ public class SearchService {
     public List<SearchDiaryDTO> serachTitle(SearchDTO.Request dto){
         List<SearchDiaryDTO> searchDiaryDTOList = new ArrayList<>();
 
-        List<Diary> diaryList = diaryRepository.findByTitle(dto.getKeyWord());
+        List<Diary> diaryList = diaryRepository.findByTitleContaining(dto.getKeyWord());
 
         if (!diaryList.isEmpty()) {
             for (Diary diary : diaryList) {
