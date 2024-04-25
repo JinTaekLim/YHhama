@@ -81,4 +81,16 @@ public class SearchController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+    @Operation(summary = "특정 지역에 생성된 일기 검색")
+    @PostMapping("/diaryArea")
+    public ApiResult<List<SearchDiaryDTO>> diaryArea(@RequestBody SearchDTO.Request dto) {
+        try {
+            return ApiResult.success(searchService.searchArea(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 }

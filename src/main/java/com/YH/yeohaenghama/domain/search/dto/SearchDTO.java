@@ -19,14 +19,16 @@ public class SearchDTO {
         private List<SearchDiaryDTO> searchDiaryTitle;
         private List<SearchDiaryDTO> searchDiaryContent;
         private List<SearchDiaryDTO> searchDiaryPlace;
+        private List<SearchDiaryDTO> searchDiaryArea;
 
         private List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace;
 
-        public static Response setSearch(List<SearchDiaryDTO> searchDiaryTitle, List<SearchDiaryDTO> searchDiaryContent, List<SearchDiaryDTO> searchDiaryPlace, List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace){
+        public static Response setSearch(List<SearchDiaryDTO> searchDiaryTitle, List<SearchDiaryDTO> searchDiaryContent, List<SearchDiaryDTO> searchDiaryPlace, List<SearchDiaryDTO> searchDiaryArea ,List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace){
             Response response = new Response();
             response.searchDiaryTitle = searchDiaryTitle;
             response.searchDiaryContent = searchDiaryContent;
             response.searchDiaryPlace = searchDiaryPlace;
+            response.searchDiaryArea = searchDiaryArea;
             response.searchPlace = searchPlace;
 
             return response;
