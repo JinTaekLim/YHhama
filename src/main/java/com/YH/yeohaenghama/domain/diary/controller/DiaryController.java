@@ -84,11 +84,11 @@ public class DiaryController {
 
     @Operation(summary = "모든 일기 조회")
     @PostMapping("/findAll")
-    public ApiResult findAll(){
+    public ApiResult<List<DiaryShowDTO.AccountResponse>> findAll(){
         try{
             return ApiResult.success(diaryService.findAll());
         }catch (NoSuchElementException e){
-            return ApiResult.success(e.getMessage());
+            return ApiResult.success(null,e.getMessage());
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }

@@ -207,8 +207,21 @@ public class DiaryService {
         return DiaryDTO.Response.fromEntity(diary);
     }
 
-    public List<Diary> findAll(){
-        return diaryRepository.findAll();
+    public List<DiaryShowDTO.AccountResponse> findAll(){
+        List<DiaryShowDTO.AccountResponse> responses = new ArrayList<>();
+        List<Diary> diaryList = diaryRepository.findAll();
+
+        for(Diary diary : diaryList){
+            DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diary);
+            Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
+            if(!itineraryOpt.isEmpty()){
+                accountResponse.setTag(addTag(itineraryOpt.get()));
+            }
+            responses.add(accountResponse);
+
+        }
+
+        return responses;
     }
 
 
