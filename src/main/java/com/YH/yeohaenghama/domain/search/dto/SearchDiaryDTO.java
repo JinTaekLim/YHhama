@@ -14,6 +14,15 @@ import java.util.List;
 @Data
 //@Schema(description = "SearchDiaryDTO")
 public class SearchDiaryDTO {
+    @Data
+
+    public static class Response{
+        private List<SearchDiaryDTO> searchDiaryDTOS;
+        private Integer pageNum;
+        private Integer totalPage;
+    }
+
+
     @Schema(description = "일기 ID")
     private Long diary;
     @Schema(description = "일정 ID")
