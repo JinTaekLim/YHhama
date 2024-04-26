@@ -1,6 +1,8 @@
 package com.YH.yeohaenghama.domain.itinerary.repository;
 
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,5 +13,5 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     List<Place> findByPlaceNumAndPlaceType(String placeNum,String placeType);
 
-    List<Place> findByPlaceName(String placeName);
+    Page<Place> findByPlaceNameContaining(String placeName, Pageable pageable);
 }

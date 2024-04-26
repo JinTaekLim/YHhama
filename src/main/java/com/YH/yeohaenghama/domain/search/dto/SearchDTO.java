@@ -11,19 +11,25 @@ public class SearchDTO {
     @Schema(description = "SearchDTO_Request")
     public static class Request{
         private String keyWord;
+        private Integer numOfRows;
+        private Integer page;
     }
 
     @Data
     @Schema(description = "SearchDTO_Response")
     public static class Response{
-        private List<SearchDiaryDTO> searchDiaryTitle;
-        private List<SearchDiaryDTO> searchDiaryContent;
-        private List<SearchDiaryDTO> searchDiaryPlace;
-        private List<SearchDiaryDTO> searchDiaryArea;
+        private SearchDiaryDTO.Response searchDiaryTitle;
+        private SearchDiaryDTO.Response searchDiaryContent;
+        private SearchDiaryDTO.Response searchDiaryPlace;
+        private SearchDiaryDTO.Response searchDiaryArea;
 
         private List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace;
 
-        public static Response setSearch(List<SearchDiaryDTO> searchDiaryTitle, List<SearchDiaryDTO> searchDiaryContent, List<SearchDiaryDTO> searchDiaryPlace, List<SearchDiaryDTO> searchDiaryArea ,List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace){
+        public static Response setSearch(SearchDiaryDTO.Response searchDiaryTitle,
+                                         SearchDiaryDTO.Response searchDiaryContent,
+                                         SearchDiaryDTO.Response searchDiaryPlace,
+                                         SearchDiaryDTO.Response searchDiaryArea ,
+                                         List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace){
             Response response = new Response();
             response.searchDiaryTitle = searchDiaryTitle;
             response.searchDiaryContent = searchDiaryContent;

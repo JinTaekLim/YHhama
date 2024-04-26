@@ -12,6 +12,10 @@ import com.YH.yeohaenghama.domain.search.dto.SearchDTO;
 import com.YH.yeohaenghama.domain.search.dto.SearchDiaryDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,29 +32,33 @@ public class SearchService {
     private final PlaceRepository placeRepository;
 
     public SearchDTO.Response federated(SearchDTO.Request dto) throws Exception {
+
         OpenApiAreaDTO openApiAreaDTO = new OpenApiAreaDTO();
-        openApiAreaDTO.setPage("1");
+        openApiAreaDTO.setPage(String.valueOf(dto.getPage()));
         openApiAreaDTO.setKeyword(dto.getKeyWord());
         openApiAreaDTO.setMobileOS("ETC");
         openApiAreaDTO.setContentTypeId("12");
-        openApiAreaDTO.setNumOfRows("10");
+        openApiAreaDTO.setNumOfRows(String.valueOf(dto.getNumOfRows()));
+
 
         List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace =
                 openApiService.searchAreaAndGetResponse(openApiAreaDTO);
 
         return SearchDTO.Response.setSearch(
-                serachTitle(dto),
-                serachContent(dto),
-                searchArea(dto),
+                searchTitle(dto),
+                searchContent(dto),
                 serachPlace(dto),
-                searchPlace != null ? searchPlace : new ArrayList<>()
+                searchArea(dto),
+                searchPlace != null? searchPlace : new ArrayList<>()
         );
     }
 
-    public List<SearchDiaryDTO> serachTitle(SearchDTO.Request dto){
+    public SearchDiaryDTO.Response searchTitle(SearchDTO.Request dto){
+        Pageable pageable = PageRequest.of(dto.getPage(),dto.getNumOfRows(), Sort.by("id").ascending());
+        SearchDiaryDTO.Response searchDiaryDTO = new SearchDiaryDTO.Response();
         List<SearchDiaryDTO> searchDiaryDTOList = new ArrayList<>();
 
-        List<Diary> diaryList = diaryRepository.findByTitleContaining(dto.getKeyWord());
+        Page<Diary> diaryList = diaryRepository.findByTitleContaining(dto.getKeyWord(),pageable);
 
         if (!diaryList.isEmpty()) {
             for (Diary diary : diaryList) {
@@ -59,14 +67,20 @@ public class SearchService {
             }
         }
 
-        return searchDiaryDTOList;
+        searchDiaryDTO.setSearchDiaryDTOS(searchDiaryDTOList);
+        searchDiaryDTO.setPageNum(pageable.getPageNumber());
+        searchDiaryDTO.setTotalPage(diaryList.getTotalPages());
+
+        return searchDiaryDTO;
 
     }
 
-    public List<SearchDiaryDTO> serachContent(SearchDTO.Request dto){
+    public SearchDiaryDTO.Response searchContent(SearchDTO.Request dto){
+        Pageable pageable = PageRequest.of(dto.getPage(),dto.getNumOfRows(), Sort.by("id").ascending());
+        SearchDiaryDTO.Response searchDiaryDTO = new SearchDiaryDTO.Response();
         List<SearchDiaryDTO> searchDiaryDTOList = new ArrayList<>();
 
-        List<Diary> diaryList = diaryRepository.findByContentContaining(dto.getKeyWord());
+        Page<Diary> diaryList = diaryRepository.findByContentContaining(dto.getKeyWord(),pageable);
 
         if (!diaryList.isEmpty()) {
             for (Diary diary : diaryList) {
@@ -75,39 +89,56 @@ public class SearchService {
             }
         }
 
-        return searchDiaryDTOList;
+        searchDiaryDTO.setSearchDiaryDTOS(searchDiaryDTOList);
+        searchDiaryDTO.setPageNum(pageable.getPageNumber());
+        searchDiaryDTO.setTotalPage(diaryList.getTotalPages());
+
+
+        return searchDiaryDTO;
 
     }
 
-    public List<SearchDiaryDTO> serachPlace(SearchDTO.Request dto){
+    public SearchDiaryDTO.Response serachPlace(SearchDTO.Request dto){
+        Pageable pageable = PageRequest.of(dto.getPage(),dto.getNumOfRows(), Sort.by("id").ascending());
+        SearchDiaryDTO.Response searchDiaryDTO = new SearchDiaryDTO.Response();
         List<SearchDiaryDTO> searchDiaryDTOList = new ArrayList<>();
 
-        List<Place> placeList = placeRepository.findByPlaceName(dto.getKeyWord());
+        Page<Place> placeList = placeRepository.findByPlaceNameContaining(dto.getKeyWord(),pageable);
 
+//        log.info(placeList.toString());
         if(!placeList.isEmpty()){
             for (Place place : placeList){
+//                log.info(String.valueOf(place.getId()));
                 Optional<Diary> diaryOpt = diaryRepository.findByItinerary(place.getItinerary().getId());
                 if(!diaryOpt.isEmpty()) {
                     searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get(),place.getItinerary().getAccount()));
+//                    log.info(String.valueOf(diaryOpt.get().getId()));
                 }
             }
         }
 
+        searchDiaryDTO.setSearchDiaryDTOS(searchDiaryDTOList);
+        searchDiaryDTO.setPageNum(pageable.getPageNumber());
+        searchDiaryDTO.setTotalPage(placeList.getTotalPages());
 
-        return searchDiaryDTOList;
+
+        return searchDiaryDTO;
 
     }
 
 
-    public List<SearchDiaryDTO> searchArea(SearchDTO.Request dto){
+    public SearchDiaryDTO.Response searchArea(SearchDTO.Request dto){
+        Pageable pageable = PageRequest.of(dto.getPage(),dto.getNumOfRows(), Sort.by("id").ascending());
+
+        SearchDiaryDTO.Response searchDiaryDTO = new SearchDiaryDTO.Response();
         List<SearchDiaryDTO> searchDiaryDTOList = new ArrayList<>();
 
-        List<Itinerary> itineraryList = itineraryRepository.findByArea(dto.getKeyWord());
+        Page<Itinerary> itineraryList = itineraryRepository.findByArea(dto.getKeyWord(),pageable);
 
-        log.info(itineraryList.toString());
+//        log.info(itineraryList.toString());
         if(!itineraryList.isEmpty()){
             for (Itinerary itinerary : itineraryList){
-                log.info(String.valueOf(itinerary.getId()));
+//                log.info(String.valueOf(itinerary.getId()));
                 Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
                 if(!diaryOpt.isEmpty()){
                     searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get(), itinerary.getAccount()));
@@ -115,7 +146,31 @@ public class SearchService {
             }
         }
 
-        return searchDiaryDTOList;
+        searchDiaryDTO.setSearchDiaryDTOS(searchDiaryDTOList);
+        searchDiaryDTO.setPageNum(pageable.getPageNumber());
+        searchDiaryDTO.setTotalPage(itineraryList.getTotalPages());
 
+        return searchDiaryDTO;
+
+    }
+
+    public SearchDiaryDTO.Response findAll() {
+        Pageable pageable = PageRequest.of(0,10, Sort.by("id").ascending());
+
+        SearchDiaryDTO.Response searchDiaryDTO = new SearchDiaryDTO.Response();
+        List<SearchDiaryDTO> searchDiaryDTOList = new ArrayList<>();
+        Page<Itinerary> itineraries = itineraryRepository.findAll(pageable);
+
+        for(Itinerary itinerary : itineraries){
+            log.info(String.valueOf(itinerary.getId()));
+            Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
+            if(!diaryOpt.isEmpty()) {
+                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get(), itinerary.getAccount()));
+            }
+        }
+
+        searchDiaryDTO.setSearchDiaryDTOS(searchDiaryDTOList);
+
+        return searchDiaryDTO;
     }
 }
