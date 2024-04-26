@@ -128,7 +128,14 @@ public class DiaryService {
 
         DiaryShowDTO.Response showDTO = DiaryShowDTO.Response.fromEntity(diary, reviewsByDate);
 
+        showDTO.setTag(addTag(itinerary));
 
+        return showDTO;
+
+    }
+
+
+    public List<String> addTag(Itinerary itinerary){
         List<String> tag = new ArrayList<>();
         String month = itinerary.getStartDate().getMonthValue() + "월출발";
 
@@ -146,31 +153,30 @@ public class DiaryService {
         tag.addAll(itinerary.getItineraryStyle());
         tag.addAll(itinerary.getType());
 
-        showDTO.setTag(tag);
-
-        return showDTO;
-
+        return tag;
     }
 
-
-
-    public List<Diary> findAccountDiary(Long accountId){
+    public List<DiaryShowDTO.AccountResponse> findAccountDiary(Long accountId){
         List<Itinerary> itineraryList = itineraryRepository.findByAccountId(accountId);
 
         if(itineraryList.isEmpty()){
             throw new NoSuchElementException("해당 ID를 가진 일정이 존재하지 않습니다.");
         }
 
-        List<Diary> diaryList = new ArrayList<>();
+        List<DiaryShowDTO.AccountResponse> response = new ArrayList<>();
 
         for(Itinerary itinerary : itineraryList){
             Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
             if(!diaryOpt.isEmpty()){
-                diaryList.add(diaryOpt.get());
+                DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diaryOpt.get());
+                accountResponse.setTag(addTag(itinerary));
+
+                response.add(accountResponse);
+
             }
         }
 
-        return diaryList;
+        return response;
 
 
     }

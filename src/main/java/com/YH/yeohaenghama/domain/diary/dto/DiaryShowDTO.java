@@ -55,4 +55,37 @@ public class DiaryShowDTO {
             return response;
         }
     }
+    @Data
+    public static class AccountResponse {
+        @Schema(description = "일정 ID")
+        private Long itinerary;
+        @Schema(description = "태그")
+        private List<String> tag;
+        @Schema(description = "일기 작성 일시")
+        private LocalDateTime date;
+        @Schema(description = "일기 제목")
+        private String title;
+        @Schema(description = "일기 내용")
+        private String content;
+        @Schema(description = "일기 사진 URL")
+        private List<String> photos;
+
+        public static AccountResponse fromEntity(Diary diary) {
+            AccountResponse response = new AccountResponse();
+            response.setItinerary(diary.getItinerary());
+            response.setDate(diary.getDate());
+            response.setTitle(diary.getTitle());
+            response.setContent(diary.getContent());
+
+            List<String> photoURLs = new ArrayList<>();
+            List<DiaryPhotoUrl> diaryPhotoUrls = diary.getDiaryPhotoUrls();
+            for (DiaryPhotoUrl photoUrl : diaryPhotoUrls) {
+                photoURLs.add(photoUrl.getPhotoURL());
+            }
+            response.setPhotos(photoURLs);
+
+
+            return response;
+        }
+    }
 }
