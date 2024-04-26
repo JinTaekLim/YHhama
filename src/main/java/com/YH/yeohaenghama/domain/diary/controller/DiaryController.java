@@ -71,7 +71,7 @@ public class DiaryController {
 
     @Operation(summary = "특정 유저의 모든 일기 조회")
     @PostMapping("/findAccountDiary")
-    public ApiResult<List<Diary>> findAccountDiary(@RequestParam Long accountId){
+    public ApiResult<List<DiaryShowDTO.AccountResponse>> findAccountDiary(@RequestParam Long accountId){
         try{
             return ApiResult.success(diaryService.findAccountDiary(accountId));
         }catch (NoSuchElementException e){
