@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -22,6 +25,9 @@ public class Budget {
 //    @ManyToOne
 //    @JoinColumn(name = "account_id", referencedColumnName = "id")
 //    private Account account;
+
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.REMOVE)
+    private List<Expenditures> expenditures = new ArrayList<>();
 
     private Integer totalAmount;
 
