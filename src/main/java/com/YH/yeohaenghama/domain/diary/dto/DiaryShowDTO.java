@@ -73,17 +73,20 @@ public class DiaryShowDTO {
         private String title;
         @Schema(description = "일기 내용")
         private String content;
+        @Schema(description = "장소 갯수")
+        private Integer placeLength;
         @Schema(description = "일기 사진 URL")
         private List<String> photos;
         @Schema(description = "작성자 정보")
         private AccountShowDTO.Response accountShowDTO;
 
-        public static AccountResponse fromEntity(Diary diary, Account account) {
+        public static AccountResponse fromEntity(Diary diary, Account account,Integer placeLength) {
             AccountResponse response = new AccountResponse();
             response.setItinerary(diary.getItinerary());
             response.setDate(diary.getDate());
             response.setTitle(diary.getTitle());
             response.setContent(diary.getContent());
+            response.setPlaceLength(placeLength);
 
             AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(),account.getPhotoUrl());
             response.setAccountShowDTO(accountShowDTO);

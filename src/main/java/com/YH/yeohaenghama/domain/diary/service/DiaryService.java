@@ -168,7 +168,7 @@ public class DiaryService {
         for(Itinerary itinerary : itineraryList){
             Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
             if(!diaryOpt.isEmpty()){
-                DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diaryOpt.get(),itinerary.getAccount());
+                DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diaryOpt.get(),itinerary.getAccount(),itinerary.getPlaces().size());
                 accountResponse.setTag(addTag(itinerary));
 
                 response.add(accountResponse);
@@ -213,7 +213,7 @@ public class DiaryService {
 
         for(Diary diary : diaryList){
             Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
-            DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diary,itineraryOpt.get().getAccount());
+            DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diary,itineraryOpt.get().getAccount(),itineraryOpt.get().getPlaces().size());
             if(!itineraryOpt.isEmpty()){
                 accountResponse.setTag(addTag(itineraryOpt.get()));
             }
