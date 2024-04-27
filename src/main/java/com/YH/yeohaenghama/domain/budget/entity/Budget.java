@@ -19,16 +19,16 @@ public class Budget {
     @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
     private Itinerary itinerary;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
+//    @ManyToOne
+//    @JoinColumn(name = "account_id", referencedColumnName = "id")
+//    private Account account;
 
     private Integer totalAmount;
 
     @Builder
-    public Budget(Itinerary itinerary, Account account, Integer totalAmount) {
+    public Budget(Itinerary itinerary, Integer totalAmount) {
         this.itinerary = itinerary;
-        this.account = account;
+//        this.account = account;
         this.totalAmount = totalAmount;
     }
 }
