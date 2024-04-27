@@ -1,10 +1,7 @@
 package com.YH.yeohaenghama.domain.review.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
-import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
-import com.YH.yeohaenghama.domain.review.dto.ReviewDeleteDTO;
-import com.YH.yeohaenghama.domain.review.dto.ReviewShowAllDTO;
-import com.YH.yeohaenghama.domain.review.dto.ReviewShowDTO;
+import com.YH.yeohaenghama.domain.review.dto.*;
 import com.YH.yeohaenghama.domain.review.service.ReviewService;
 import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,6 +71,20 @@ public class ReviewController {
     }
 
 
+    @Operation(summary = "특정 유저의 모든 리뷰 확인")
+    @PostMapping("/showAccountAll")
+    public ApiResult<List<ReviewAccountShowDTO.Response>> reviewAccountShowAll(@RequestBody ReviewAccountShowDTO.Request dto){
+        try{
+            return ApiResult.success(reviewService.reviewAccountShow(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
 
 
     @Operation(summary = "평점 확인")
@@ -105,6 +116,7 @@ public class ReviewController {
     @PostMapping("/update")
     public ApiResult<ReviewDTO.Response> update(@RequestParam Long reviewId,@ModelAttribute ReviewDTO.Request dto){
         try{
+            log.info("DTO = " + dto);
             return ApiResult.success(reviewService.update(reviewId,dto));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());

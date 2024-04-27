@@ -22,7 +22,7 @@ public class ReviewPhotoURL {
     private String photoUrl;
 
 
-    public ReviewPhotoURL(Review review, String photoUrl) {
+    public void ReviewPhotoURL(Review review, String photoUrl) {
         this.review = review;
         this.photoUrl = photoUrl;
     }

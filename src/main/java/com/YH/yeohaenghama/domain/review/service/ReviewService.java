@@ -3,10 +3,7 @@ package com.YH.yeohaenghama.domain.review.service;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
-import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
-import com.YH.yeohaenghama.domain.review.dto.ReviewDeleteDTO;
-import com.YH.yeohaenghama.domain.review.dto.ReviewShowAllDTO;
-import com.YH.yeohaenghama.domain.review.dto.ReviewShowDTO;
+import com.YH.yeohaenghama.domain.review.dto.*;
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
 import com.YH.yeohaenghama.domain.review.repository.ReviewPhotoURLRepository;
@@ -58,7 +55,8 @@ public class ReviewService {
                 String photoUrl = gcsService.uploadPhoto(photo, String.valueOf(fileNum), "Review/"+filename);
                 log.info("업로드 사진 위치 : " + photoUrl);
 
-                ReviewPhotoURL reviewPhotoURL = new ReviewPhotoURL(review,photoUrl);
+                ReviewPhotoURL reviewPhotoURL = new ReviewPhotoURL();
+                reviewPhotoURL.ReviewPhotoURL(review,photoUrl);
                 reviewPhotoURLRepository.save(reviewPhotoURL);
 
                 fileNum++;
@@ -110,6 +108,20 @@ public class ReviewService {
         return responseList;
     }
 
+    public List<ReviewAccountShowDTO.Response> reviewAccountShow(ReviewAccountShowDTO.Request dto){
+        List<Review> reviewsList = reviewRepository.findByAccountId(dto.getAccountId());
+
+        if (reviewsList.isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 유저의 작성된 리뷰가 존재하지 않습니다.");}
+
+        List<ReviewAccountShowDTO.Response> responseList = new ArrayList<>();
+
+        for(Review review : reviewsList){
+            responseList.add(ReviewAccountShowDTO.Response.fromEntity(review));
+        }
+
+        return responseList;
+
+    }
 
 
 
@@ -181,6 +193,7 @@ public class ReviewService {
 
         List<ReviewPhotoURL> reviewPhotoURLs = new ArrayList<>();
         List<MultipartFile> photoList = dto.getPhotos();
+        ReviewPhotoURL reviewPhotoURL = new ReviewPhotoURL();
         if (photoList != null && !photoList.isEmpty()) {
             String filename = dto.getContentId() + "_" + dto.getContentTypeId() + "/" + dto.getAccountId();
             int fileNum = 1;
@@ -190,18 +203,15 @@ public class ReviewService {
                     String photoUrl = gcsService.uploadPhoto(photo, String.valueOf(fileNum), "Review/" + filename);
                     log.info("업로드 사진 위치: " + photoUrl);
 
-                    ReviewPhotoURL reviewPhotoURL = new ReviewPhotoURL(review, photoUrl);
+                    reviewPhotoURL.ReviewPhotoURL(review, photoUrl);
                     reviewPhotoURLs.add(reviewPhotoURL);
                     fileNum++;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
-
-            review.update(dto.getContentId(),dto.getContentTypeId(),dto.getRating(),dto.getContent(),reviewPhotoURLs);
-
         }
-
+        review.update(dto.getPlaceName(), dto.getContentId(),dto.getContentTypeId(),dto.getRating(),dto.getContent(),reviewPhotoURLs);
 
         Review updatedReview = reviewRepository.save(review);
 

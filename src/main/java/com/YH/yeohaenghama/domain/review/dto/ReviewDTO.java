@@ -27,6 +27,8 @@ public class ReviewDTO {
     @Data
     @Schema(name = "ReviewDTO_Request")
     public static class Request{
+        @Schema(description = "장소 이름")
+        private String placeName;
         @Schema(description = "장소 번호")
         private Long contentId;     // 장소 번호
         @Schema(description = "관광 타입 번호")
@@ -42,6 +44,8 @@ public class ReviewDTO {
     }
     @Data
     public static class Response{
+        @Schema(description = "장소 이름")
+        private String placeName;
         @Schema(description = "장소 번호")
         private Long contentId;     // 장소 번호
         @Schema(description = "관광 타입 번호")
@@ -58,6 +62,7 @@ public class ReviewDTO {
 
         public static ReviewDTO.Response fromEntity(Review review) {
             ReviewDTO.Response response = new ReviewDTO.Response();
+            response.setPlaceName(review.getPlaceName());
             response.setContentId(review.getContentId());
             response.setContentTypeId(review.getContentTypeId());
             response.setRating(review.getRating());
@@ -89,6 +94,7 @@ public class ReviewDTO {
 
     public Review toEntity() {
         return Review.builder()
+                .placeName(request.getPlaceName())
                 .contentId(request.getContentId())
                 .contentTypeId(request.getContentTypeId())
                 .rating(request.getRating())
