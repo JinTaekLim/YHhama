@@ -1,5 +1,7 @@
 package com.YH.yeohaenghama.domain.diary.dto;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.entity.DiaryPhotoUrl;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
@@ -28,11 +30,13 @@ public class DiaryShowDTO {
         private String content;
         @Schema(description = "일기 사진 URL")
         private List<String> photos;
+        @Schema(description = "일기 작성자 정보")
+        private AccountShowDTO.Response account;
 
         @Schema(description = "리뷰")
         private Map<String, List<ReviewDTO.Response>> reviews;
 
-        public static Response fromEntity(Diary diary, Map<String, List<ReviewDTO.Response>> reviews) {
+        public static Response fromEntity(Diary diary, Map<String, List<ReviewDTO.Response>> reviews,Account account) {
             Response response = new Response();
             response.setItinerary(diary.getItinerary());
             response.setDate(diary.getDate());
@@ -46,6 +50,8 @@ public class DiaryShowDTO {
             }
             response.setPhotos(photoURLs);
 
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl());
+            response.setAccount(accountShowDTO);
 
 
 
@@ -69,13 +75,18 @@ public class DiaryShowDTO {
         private String content;
         @Schema(description = "일기 사진 URL")
         private List<String> photos;
+        @Schema(description = "작성자 정보")
+        private AccountShowDTO.Response accountShowDTO;
 
-        public static AccountResponse fromEntity(Diary diary) {
+        public static AccountResponse fromEntity(Diary diary, Account account) {
             AccountResponse response = new AccountResponse();
             response.setItinerary(diary.getItinerary());
             response.setDate(diary.getDate());
             response.setTitle(diary.getTitle());
             response.setContent(diary.getContent());
+
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(),account.getPhotoUrl());
+            response.setAccountShowDTO(accountShowDTO);
 
             List<String> photoURLs = new ArrayList<>();
             List<DiaryPhotoUrl> diaryPhotoUrls = diary.getDiaryPhotoUrls();
