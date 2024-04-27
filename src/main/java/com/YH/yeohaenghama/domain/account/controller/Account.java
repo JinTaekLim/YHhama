@@ -110,7 +110,7 @@ public class Account {
             response.addCookie(cookie);
 
 
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getEmail(), account.getPhotoUrl());
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl());
 
             return ApiResult.success(accountShowDTO);
         }
