@@ -16,15 +16,17 @@ public class ItineraryShowAccountDTO {
         private LocalDate startDate;
         private LocalDate endDate;
         private Integer placeLength;
+        private boolean diary;
 
 
-        public static ItineraryShowAccountDTO.Response fromEntity(Itinerary itinerary) {
+        public static ItineraryShowAccountDTO.Response fromEntity(Itinerary itinerary,boolean diary) {
             ItineraryShowAccountDTO.Response response = new ItineraryShowAccountDTO.Response();
             response.setId(itinerary.getId());
             response.setName(itinerary.getName());
             response.setStartDate(itinerary.getStartDate());
             response.setEndDate(itinerary.getEndDate());
             response.setPlaceLength(itinerary.getPlaces().size());
+            response.setDiary(diary);
             return response;
         }
     }
