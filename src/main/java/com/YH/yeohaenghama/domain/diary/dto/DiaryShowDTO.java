@@ -64,7 +64,9 @@ public class DiaryShowDTO {
     @Data
     public static class AccountResponse {
         @Schema(description = "일정 ID")
-        private Long itinerary;
+        private Long itineraryId;
+        @Schema(description = "일기 ID")
+        private Long diaryId;
         @Schema(description = "태그")
         private List<String> tag;
         @Schema(description = "일기 작성 일시")
@@ -82,7 +84,8 @@ public class DiaryShowDTO {
 
         public static AccountResponse fromEntity(Diary diary, Account account,Integer placeLength) {
             AccountResponse response = new AccountResponse();
-            response.setItinerary(diary.getItinerary());
+            response.setItineraryId(diary.getItinerary());
+            response.setDiaryId(diary.getId());
             response.setDate(diary.getDate());
             response.setTitle(diary.getTitle());
             response.setContent(diary.getContent());
