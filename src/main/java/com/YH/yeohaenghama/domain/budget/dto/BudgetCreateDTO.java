@@ -21,8 +21,6 @@ public class BudgetCreateDTO {
     public static class Request{
         @Schema(description = "일정ID")
         private Long itineraryId;
-        @Schema(description = "사용자ID")
-        private Long accountId;
         @Schema(description = "총 예산")
         private Integer totalAmount;
     }
@@ -38,6 +36,14 @@ public class BudgetCreateDTO {
         @Schema(description = "총 예산")
         private Integer totalAmount;
 
+        public static BudgetCreateDTO.Response fromEntity(Budget budget) {
+            BudgetCreateDTO.Response response = new BudgetCreateDTO.Response();
+            response.setId(budget.getId());
+            response.setItineraryId(budget.getItinerary().getId());
+            response.setAccountId(budget.getItinerary().getAccount().getId());
+            response.setTotalAmount(budget.getTotalAmount());
+            return response;
+        }
     }
 
 
@@ -51,9 +57,8 @@ public class BudgetCreateDTO {
         this.request = request;
     }
 
-    public Budget toEntity(Account account,Itinerary itinerary) {
+    public Budget toEntity(Itinerary itinerary) {
         Budget budget = Budget.builder()
-                .account(account)
                 .itinerary(itinerary)
                 .totalAmount(request.getTotalAmount())
                 .build();
