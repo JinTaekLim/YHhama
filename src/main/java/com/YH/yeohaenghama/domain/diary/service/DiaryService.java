@@ -126,7 +126,7 @@ public class DiaryService {
 
         log.info("총 리뷰 = " + reviewsByDate);
 
-        DiaryShowDTO.Response showDTO = DiaryShowDTO.Response.fromEntity(diary, reviewsByDate);
+        DiaryShowDTO.Response showDTO = DiaryShowDTO.Response.fromEntity(diary, reviewsByDate,itinerary.getAccount());
 
         showDTO.setTag(addTag(itinerary));
 
@@ -168,7 +168,7 @@ public class DiaryService {
         for(Itinerary itinerary : itineraryList){
             Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
             if(!diaryOpt.isEmpty()){
-                DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diaryOpt.get());
+                DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diaryOpt.get(),itinerary.getAccount());
                 accountResponse.setTag(addTag(itinerary));
 
                 response.add(accountResponse);
@@ -212,8 +212,8 @@ public class DiaryService {
         List<Diary> diaryList = diaryRepository.findAll();
 
         for(Diary diary : diaryList){
-            DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diary);
             Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
+            DiaryShowDTO.AccountResponse accountResponse = DiaryShowDTO.AccountResponse.fromEntity(diary,itineraryOpt.get().getAccount());
             if(!itineraryOpt.isEmpty()){
                 accountResponse.setTag(addTag(itineraryOpt.get()));
             }
