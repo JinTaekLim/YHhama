@@ -168,9 +168,14 @@ public class ItineraryService {
         List<Itinerary> itineraryList = itineraryRepository.findByAccountId(accountId);
 
         List<ItineraryShowAccountDTO.Response> responses = new ArrayList<>();
-
         for(Itinerary itinerary : itineraryList) {
-            responses.add(ItineraryShowAccountDTO.Response.fromEntity(itinerary));
+            boolean diary = false;
+            Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
+            if(!diaryOpt.isEmpty()){
+                log.info(diaryOpt.get().getTitle());
+                diary = true;
+            };
+            responses.add(ItineraryShowAccountDTO.Response.fromEntity(itinerary,diary));
         }
 
         return responses;
