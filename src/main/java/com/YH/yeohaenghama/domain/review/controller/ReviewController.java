@@ -25,9 +25,6 @@ public class ReviewController {
     @PostMapping("/join")
     public ApiResult<ReviewDTO.Response> join(@ModelAttribute ReviewDTO.Request dto){
         try{
-            log.info(String.valueOf(dto));
-
-
             ReviewDTO.Response response = reviewService.join(dto);
             return ApiResult.success(response);
         }catch (NoSuchElementException e){
