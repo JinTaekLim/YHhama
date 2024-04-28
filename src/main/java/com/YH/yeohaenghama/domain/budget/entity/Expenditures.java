@@ -35,8 +35,10 @@ public class Expenditures {
     private Integer amount;
 
 
-    public void setBudgetPlace(Budget budget,Place place){
+    public void setBudget(Budget budget){
         this.budget = budget;
+    }
+    public void setPlace(Place place){
         this.place = place;
     }
 

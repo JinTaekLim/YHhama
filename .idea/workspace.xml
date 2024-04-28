@@ -7,11 +7,11 @@
     <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="gi">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/controller/BudgetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/controller/BudgetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/BudgetCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/BudgetCreateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/Budget.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/ExpendituresAddDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/ExpendituresAddDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/Expenditures.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/Expenditures.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/BudgetRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/BudgetRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/ExpendituresRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/ExpendituresRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/service/BudgetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/service/BudgetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceShowExpendituresDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/PlaceShowExpendituresDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,23 +64,11 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="feature/KAN-140" />
-                    <option name="lastUsedInstant" value="1714240245" />
+                    <option name="lastUsedInstant" value="1714279764" />
                   </RecentBranch>
                   <RecentBranch>
-                    <option name="branchName" value="feature/KAN-158" />
-                    <option name="lastUsedInstant" value="1714239626" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-157" />
-                    <option name="lastUsedInstant" value="1714238758" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-156" />
-                    <option name="lastUsedInstant" value="1714235459" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/KAN-155" />
-                    <option name="lastUsedInstant" value="1714211438" />
+                    <option name="branchName" value="feature/KAN-159" />
+                    <option name="lastUsedInstant" value="1714279459" />
                   </RecentBranch>
                 </list>
               </option>
@@ -277,7 +265,8 @@
       <workItem from="1713599870881" duration="317000" />
       <workItem from="1713615093606" duration="1037000" />
       <workItem from="1713686571566" duration="1830000" />
-      <workItem from="1714094403007" duration="22667000" />
+      <workItem from="1714094403007" duration="26052000" />
+      <workItem from="1714279349750" duration="3557000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />
