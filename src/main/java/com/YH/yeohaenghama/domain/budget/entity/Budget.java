@@ -29,6 +29,9 @@ public class Budget {
     @OneToMany(mappedBy = "budget", cascade = CascadeType.REMOVE)
     private List<Expenditures> expenditures = new ArrayList<>();
 
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.REMOVE)
+    private List<BudgetAccount> budgetAccounts = new ArrayList<>();
+
     private Integer totalAmount;
 
     @Builder

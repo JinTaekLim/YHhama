@@ -2,10 +2,15 @@ package com.YH.yeohaenghama.domain.budget.service;
 
 import com.YH.yeohaenghama.domain.budget.dto.ExpendituresAddDTO;
 import com.YH.yeohaenghama.domain.budget.dto.ExpendituresDeleteDTO;
+import com.YH.yeohaenghama.domain.budget.dto.ExpendituresGroupAddDTO;
 import com.YH.yeohaenghama.domain.budget.dto.ExpendituresShowDTO;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
+import com.YH.yeohaenghama.domain.budget.entity.BudgetAccount;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
+import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
+import com.YH.yeohaenghama.domain.budget.repository.BudgetAccountRepository;
 import com.YH.yeohaenghama.domain.budget.repository.BudgetRepository;
+import com.YH.yeohaenghama.domain.budget.repository.ExpendituresGroupRepository;
 import com.YH.yeohaenghama.domain.budget.repository.ExpendituresRepository;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
@@ -27,6 +32,8 @@ public class ExpendituresService {
     private final ExpendituresRepository expendituresRepository;
     private final ItineraryRepository itineraryRepository;
     private final PlaceRepository placeRepository;
+    private final BudgetAccountRepository budgetAccountRepository;
+    private final ExpendituresGroupRepository expendituresGroupRepository;
 
     public ExpendituresAddDTO.Response expendituresAdd(ExpendituresAddDTO.Request dto){
         Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudget());
@@ -46,6 +53,26 @@ public class ExpendituresService {
 
         if(placeOpt != null) response.setPlace(placeOpt.get());
         return response;
+    }
+
+
+    public String expendituresGroupAdd(ExpendituresGroupAddDTO.Request dto){
+        Optional<BudgetAccount> budgetAccountOpt = budgetAccountRepository.findByBudgetIdAndAccountId(dto.getBudgetId(),dto.getAccountId());
+
+        if(budgetAccountOpt.isEmpty()) throw new NoSuchElementException("해당 가계부에 속해있는 유저 정보를 찾을 수 없습니다. ");
+        Optional<Place> placeOpt = null;
+        if(dto.getPlace() != null) {
+            placeOpt = placeRepository.findById(dto.getPlace());
+            if (placeOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 장소가 존재하지 않습니다. ");
+        }
+
+        ExpendituresGroup expendituresGroup = new ExpendituresGroupAddDTO(dto).toEntity();
+        expendituresGroup.setBudgetAccount(budgetAccountOpt.get());
+        if(placeOpt != null){
+            expendituresGroup.setPlace(placeOpt.get());
+        }
+        expendituresGroupRepository.save(expendituresGroup);
+        return "성공";
     }
 
     public List<ExpendituresShowDTO.Response> expendituresShow(ExpendituresShowDTO.Request dto){
