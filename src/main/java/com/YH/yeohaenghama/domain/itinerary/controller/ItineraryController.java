@@ -179,4 +179,20 @@ public class ItineraryController {
 
 
 
+
+
+    @Operation(summary = "일정 유저 추가")
+    @PostMapping("/addAccount")
+    public ApiResult<String> addAccount(ItineraryJoinAccountDTO.Request dto){
+        try{
+            return ApiResult.success(itineraryService.itineraryJoinAccount(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
 }

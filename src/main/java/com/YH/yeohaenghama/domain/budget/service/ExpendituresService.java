@@ -5,14 +5,15 @@ import com.YH.yeohaenghama.domain.budget.dto.ExpendituresDeleteDTO;
 import com.YH.yeohaenghama.domain.budget.dto.ExpendituresGroupAddDTO;
 import com.YH.yeohaenghama.domain.budget.dto.ExpendituresShowDTO;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
-import com.YH.yeohaenghama.domain.budget.entity.BudgetAccount;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
-import com.YH.yeohaenghama.domain.budget.repository.BudgetAccountRepository;
 import com.YH.yeohaenghama.domain.budget.repository.BudgetRepository;
 import com.YH.yeohaenghama.domain.budget.repository.ExpendituresGroupRepository;
 import com.YH.yeohaenghama.domain.budget.repository.ExpendituresRepository;
+import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
+import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryJoinAccount;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
+import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryJoinAccountRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +32,12 @@ public class ExpendituresService {
     private final BudgetRepository budgetRepository;
     private final ExpendituresRepository expendituresRepository;
     private final ItineraryRepository itineraryRepository;
+    private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
     private final PlaceRepository placeRepository;
-    private final BudgetAccountRepository budgetAccountRepository;
     private final ExpendituresGroupRepository expendituresGroupRepository;
 
     public ExpendituresAddDTO.Response expendituresAdd(ExpendituresAddDTO.Request dto){
-        Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudget());
+        Optional<Budget> budgetOpt = budgetRepository.findByItineraryId(dto.getItineraryId());
         if(budgetOpt.isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 가계부가 존재하지 않습니다. "); }
         Optional<Place> placeOpt = null;
         if(dto.getPlace() != null) {
@@ -57,9 +58,10 @@ public class ExpendituresService {
 
 
     public String expendituresGroupAdd(ExpendituresGroupAddDTO.Request dto){
-        Optional<BudgetAccount> budgetAccountOpt = budgetAccountRepository.findByBudgetIdAndAccountId(dto.getBudgetId(),dto.getAccountId());
+        Optional<ItineraryJoinAccount> itineraryJoinAccountOpt = itineraryJoinAccountRepository.findByItineraryIdAndAccountId(dto.getItineraryId(),dto.getAccountId());
 
-        if(budgetAccountOpt.isEmpty()) throw new NoSuchElementException("해당 가계부에 속해있는 유저 정보를 찾을 수 없습니다. ");
+//        itineraryJoinAccountOpt.get().getItinerary().getPlaces().get()
+        if(itineraryJoinAccountOpt.isEmpty()) throw new NoSuchElementException("해당 가계부에 속해있는 유저 정보를 찾을 수 없습니다. ");
         Optional<Place> placeOpt = null;
         if(dto.getPlace() != null) {
             placeOpt = placeRepository.findById(dto.getPlace());
@@ -67,10 +69,12 @@ public class ExpendituresService {
         }
 
         ExpendituresGroup expendituresGroup = new ExpendituresGroupAddDTO(dto).toEntity();
-        expendituresGroup.setBudgetAccount(budgetAccountOpt.get());
+//        expendituresGroup.setBudget(itineraryJoinAccountOpt.get().getItinerary().getBudget());
         if(placeOpt != null){
             expendituresGroup.setPlace(placeOpt.get());
         }
+
+        expendituresGroup.setBudget(budgetRepository.findByItineraryId(dto.getItineraryId()).get());
         expendituresGroupRepository.save(expendituresGroup);
         return "성공";
     }

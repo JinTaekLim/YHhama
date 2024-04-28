@@ -16,8 +16,8 @@ public class ExpendituresGroup {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "budgetAccount", referencedColumnName = "id")
-    private BudgetAccount budgetAccount;
+    @JoinColumn(name = "budget", referencedColumnName = "id")
+    private Budget budget;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "place_id", referencedColumnName = "id")
@@ -33,8 +33,8 @@ public class ExpendituresGroup {
 
     private Integer amount;
 
-    public void setBudgetAccount(BudgetAccount budgetAccount) {
-        this.budgetAccount = budgetAccount;
+    public void setBudget(Budget budget) {
+        this.budget = budget;
     }
 
     public void setPlace(Place place) {
@@ -42,8 +42,8 @@ public class ExpendituresGroup {
     }
 
     @Builder
-    public ExpendituresGroup(BudgetAccount budgetAccount, Place place, Integer day, String paymentMethod, String category, String name, Integer amount) {
-        this.budgetAccount = budgetAccount;
+    public ExpendituresGroup(Budget budget, Place place, Integer day, String paymentMethod, String category, String name, Integer amount) {
+        this.budget = budget;
         this.place = place;
         this.day = day;
         this.paymentMethod = paymentMethod;

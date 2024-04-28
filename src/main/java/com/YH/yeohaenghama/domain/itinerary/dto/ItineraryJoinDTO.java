@@ -85,7 +85,7 @@ public class ItineraryJoinDTO {
             response.setArea(itinerary.getArea());
             response.setStartDate(itinerary.getStartDate());
             response.setEndDate(itinerary.getEndDate());
-            response.setExpense(itinerary.getExpense());
+//            response.setExpense(itinerary.getExpense());
             response.setStyle(itinerary.getItineraryStyle());
             return response;
         }

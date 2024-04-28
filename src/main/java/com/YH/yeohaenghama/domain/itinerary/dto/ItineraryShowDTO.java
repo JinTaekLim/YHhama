@@ -44,7 +44,7 @@ public class ItineraryShowDTO {
         this.area = itinerary.getArea();
         this.startDate = itinerary.getStartDate();
         this.endDate = itinerary.getEndDate();
-        this.expense = itinerary.getExpense();
+//        this.expense = itinerary.getExpense();
         this.account = account;
         this.placesByDay = placesByDay;
     }

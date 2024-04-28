@@ -1,6 +1,8 @@
 package com.YH.yeohaenghama.domain.itinerary.entity;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.budget.entity.Budget;
+import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,10 +53,6 @@ public class Itinerary {
     @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
     private List<Place> places;
 
-    private String expense = "";
-
-
-
     public void update(ItineraryJoinDTO.Request reqDTO) {
 
         this.name = reqDTO.getName();
@@ -63,8 +62,6 @@ public class Itinerary {
         this.area = reqDTO.getArea();
         this.startDate = reqDTO.getStartDate();
         this.endDate = reqDTO.getEndDate();
-        this.expense = reqDTO.getExpense();
-
     }
     public void setAccount(Account account) {
         this.account = account;
@@ -81,7 +78,6 @@ public class Itinerary {
         this.startDate = startDate;
         this.endDate = endDate;
         this.places = places;
-        this.expense = expense;
     }
 
 
