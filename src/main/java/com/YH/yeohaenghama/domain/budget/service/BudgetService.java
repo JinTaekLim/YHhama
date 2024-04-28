@@ -2,10 +2,7 @@ package com.YH.yeohaenghama.domain.budget.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
-import com.YH.yeohaenghama.domain.budget.dto.BudgetCreateDTO;
-import com.YH.yeohaenghama.domain.budget.dto.BudgetDeleteDTO;
-import com.YH.yeohaenghama.domain.budget.dto.BudgetShowDTO;
-import com.YH.yeohaenghama.domain.budget.dto.ExpendituresAddDTO;
+import com.YH.yeohaenghama.domain.budget.dto.*;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.repository.BudgetRepository;
@@ -18,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -54,18 +53,5 @@ public class BudgetService {
 
 
         return BudgetShowDTO.Response.fromEntity(budgetOpt.get());
-    }
-
-    public ExpendituresAddDTO.Response ExpendituresAdd(ExpendituresAddDTO.Request dto){
-        Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudget());
-        if(budgetOpt.isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 가계부가 존재하지 않습니다. "); }
-        Optional<Place> placeOpt = placeRepository.findById(dto.getPlace());
-        if(placeOpt.isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 장소가 존재하지 않습니다. "); }
-        Expenditures expenditures = new ExpendituresAddDTO(dto).toEntity();
-        expenditures.setBudgetPlace(budgetOpt.get(),placeOpt.get());
-
-        expendituresRepository.save(expenditures);
-
-        return ExpendituresAddDTO.Response.fromEntity(expenditures,placeOpt.get());
     }
 }

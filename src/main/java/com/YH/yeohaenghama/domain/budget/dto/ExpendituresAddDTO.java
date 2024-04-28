@@ -29,7 +29,7 @@ public class ExpendituresAddDTO {
         @JsonIgnore
         private Budget budget;
         @JsonIgnore
-        private Place placeEntity;
+        private Place placeEntity = null;
         private PlaceShowExpendituresDTO.Response place = null;
         private int day;
         private String paymentMethod;
@@ -37,15 +37,15 @@ public class ExpendituresAddDTO {
         private String name;
         private Integer amount;
 
-        public static ExpendituresAddDTO.Response fromEntity(Expenditures expenditures,Place place){
+        public static ExpendituresAddDTO.Response fromEntity(Expenditures expenditures){
             ExpendituresAddDTO.Response response = new ExpendituresAddDTO.Response();
             response.setId(expenditures.getId());
             response.setBudget(expenditures.getBudget());
-            response.setPlaceEntity(place);
-            if(place != null){
-                PlaceShowExpendituresDTO.Response placeResponse = PlaceShowExpendituresDTO.Response.fromEntity(place);
-                response.setPlace(placeResponse);
-            }
+//            if(place != null){
+//                response.setPlaceEntity(place);
+//                PlaceShowExpendituresDTO.Response placeResponse = PlaceShowExpendituresDTO.Response.fromEntity(place);
+//                response.setPlace(placeResponse);
+//            }
             response.setPaymentMethod(expenditures.getPaymentMethod());
             response.setCategory(expenditures.getCategory());
             response.setName(expenditures.getName());
@@ -53,6 +53,14 @@ public class ExpendituresAddDTO {
 
             return response;
         }
+        public ExpendituresAddDTO.Response setPlace(Place place) {
+            this.placeEntity = place;
+            PlaceShowExpendituresDTO.Response placeResponse = PlaceShowExpendituresDTO.Response.fromEntity(place);
+            this.place = placeResponse;
+            return this;
+        }
+
+
     }
 
     private ExpendituresAddDTO.Request request;
