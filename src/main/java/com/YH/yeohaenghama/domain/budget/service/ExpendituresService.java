@@ -68,4 +68,13 @@ public class ExpendituresService {
 
         return "삭제 완료";
     }
+
+    public String expendituresDeleteDay(ExpendituresDeleteDTO.RequestDeleteDay dto){
+        List<Expenditures> expendituresOpt = expendituresRepository.findByDay(dto.getDay());
+        if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");
+
+        expendituresRepository.deleteAll(expendituresOpt);
+
+        return "삭제 완료";
+    }
 }

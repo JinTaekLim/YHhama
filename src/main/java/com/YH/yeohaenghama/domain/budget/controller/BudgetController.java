@@ -80,6 +80,19 @@ public class BudgetController {
         }
     }
 
+    @Operation(summary = "지출 금액 날짜별 삭제")
+    @PostMapping("/expendituresDeleteDay")
+    public ApiResult<String> expendituresDeleteDay(ExpendituresDeleteDTO.RequestDeleteDay dto){
+        try{
+            return ApiResult.success(expendituresService.expendituresDeleteDay(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "가계부 조회")
     @PostMapping("/budgetShow")
     public ApiResult<BudgetShowDTO.Response> budgetShow(BudgetShowDTO.Request dto){

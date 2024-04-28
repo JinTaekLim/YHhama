@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface ExpendituresRepository extends JpaRepository<Expenditures,Long> {
     List<Expenditures> findByBudgetId(Long budgetId);
+    List<Expenditures> findByDay(Integer day);
 }
