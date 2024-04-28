@@ -67,6 +67,45 @@ public class BudgetController {
         }
     }
 
+    @Operation(summary = "지출 금액 단일 삭제")
+    @PostMapping("/expendituresDeleteOne")
+    public ApiResult<String> expendituresDeleteOne(ExpendituresDeleteDTO.RequestDeleteOne dto){
+        try{
+            return ApiResult.success(expendituresService.expendituresDeleteOne(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "지출 금액 날짜별 삭제")
+    @PostMapping("/expendituresDeleteDay")
+    public ApiResult<String> expendituresDeleteDay(ExpendituresDeleteDTO.RequestDeleteDay dto){
+        try{
+            return ApiResult.success(expendituresService.expendituresDeleteDay(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "지출 금액 전체 삭제")
+    @PostMapping("/expendituresDeleteBudget")
+    public ApiResult<String> expendituresDeleteBudget(ExpendituresDeleteDTO.RequestDeleteBudget dto){
+        try{
+            return ApiResult.success(expendituresService.expendituresDeleteBudget(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "가계부 조회")
     @PostMapping("/budgetShow")
     public ApiResult<BudgetShowDTO.Response> budgetShow(BudgetShowDTO.Request dto){
@@ -92,6 +131,10 @@ public class BudgetController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+
+
+
 
 
 }
