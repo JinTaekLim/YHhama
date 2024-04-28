@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.budget.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.budget.dto.*;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
+import com.YH.yeohaenghama.domain.budget.entity.BudgetAccount;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.service.BudgetService;
 import com.YH.yeohaenghama.domain.budget.service.ExpendituresService;
@@ -52,6 +53,35 @@ public class BudgetController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+    @Operation(summary = "특정 유저 가계부 지출 추가")
+    @PostMapping("/addExpendituresGroupAdd")
+    public ApiResult<String> addExpendituresGroupAdd(ExpendituresGroupAddDTO.Request dto){
+        try{
+            log.info("dto = "+dto);
+            return ApiResult.success(expendituresService.expendituresGroupAdd(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "가계부 유저 추가")
+    @PostMapping("/addAccount")
+    public ApiResult<String> addAccount(BudgetAccountAddDTO.Request dto){
+        try{
+            return ApiResult.success(budgetService.budgetAddAccount(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
 
     @Operation(summary = "가계부 삭제")
     @PostMapping("/delete")
