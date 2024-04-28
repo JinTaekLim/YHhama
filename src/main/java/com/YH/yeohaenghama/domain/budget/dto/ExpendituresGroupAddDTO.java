@@ -1,7 +1,6 @@
 package com.YH.yeohaenghama.domain.budget.dto;
 
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
-import com.YH.yeohaenghama.domain.budget.entity.BudgetAccount;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
@@ -12,7 +11,7 @@ public class ExpendituresGroupAddDTO {
     @Data
     @Schema(name = "ExpendituresGroupAddDTO_Request")
     public static class Request{
-        private Long budgetId;
+        private Long itineraryId;
         private Long accountId;
         private Long place = null;
         private Integer day = null;

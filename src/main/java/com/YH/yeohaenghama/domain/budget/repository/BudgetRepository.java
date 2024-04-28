@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface BudgetRepository extends JpaRepository<Budget,Long> {
     Optional<Budget> findByItinerary(Itinerary itinerary);
+    Optional<Budget> findByItineraryId(Long itineraryId);
 }

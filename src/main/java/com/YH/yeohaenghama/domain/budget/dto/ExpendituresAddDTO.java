@@ -15,7 +15,7 @@ import lombok.Data;
 public class ExpendituresAddDTO {
     @Data @Schema(name = "ExpendituresAddDTO_Request")
     public static class Request{
-        private Long budget;
+        private Long itineraryId;
         private Long place = null;
         private Integer day = null;
         private String paymentMethod;

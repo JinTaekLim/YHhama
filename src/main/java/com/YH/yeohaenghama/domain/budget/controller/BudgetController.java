@@ -3,7 +3,6 @@ package com.YH.yeohaenghama.domain.budget.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.budget.dto.*;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
-import com.YH.yeohaenghama.domain.budget.entity.BudgetAccount;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.service.BudgetService;
 import com.YH.yeohaenghama.domain.budget.service.ExpendituresService;
@@ -67,28 +66,27 @@ public class BudgetController {
             return ApiResult.fail(e.getMessage());
         }
     }
-
-    @Operation(summary = "가계부 유저 추가")
-    @PostMapping("/addAccount")
-    public ApiResult<String> addAccount(BudgetAccountAddDTO.Request dto){
-        try{
-            return ApiResult.success(budgetService.budgetAddAccount(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.notFound(e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//
+//    @Operation(summary = "가계부 유저 추가")
+//    @PostMapping("/addAccount")
+//    public ApiResult<String> addAccount(BudgetAccountAddDTO.Request dto){
+//        try{
+//            return ApiResult.success(budgetService.budgetAddAccount(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.notFound(e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
 
 
     @Operation(summary = "가계부 삭제")
     @PostMapping("/delete")
-    public ApiResult budgetDelete(BudgetDeleteDTO.Request dto){
+    public ApiResult<String> budgetDelete(BudgetDeleteDTO.Request dto){
         try{
-            budgetService.budgetDelete(dto);
-            return ApiResult.success(dto.getBudgetId(),"가계부 삭제 완료");
+            return ApiResult.success(budgetService.budgetDelete(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }

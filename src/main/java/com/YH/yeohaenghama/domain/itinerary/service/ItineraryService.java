@@ -4,13 +4,16 @@ import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
+import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.YH.yeohaenghama.domain.itinerary.dto.*;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 //import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
+import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryJoinAccount;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
+import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryJoinAccountRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 //import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryTypeRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
@@ -44,6 +47,7 @@ public class ItineraryService {
     private final DiaryRepository diaryRepository;
     private final DiaryService diaryService;
     private final OpenApiService openApiService;
+    private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
 
     public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO, Long accountId) {
 
@@ -93,7 +97,6 @@ public class ItineraryService {
             Itinerary itinerary = optionalItinerary.get();
             Account account = itinerary.getAccount();
             AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(),null, account.getRole());
-
 
             LocalDate startDate = itinerary.getStartDate();
             LocalDate endDate = itinerary.getEndDate();
@@ -294,6 +297,27 @@ public class ItineraryService {
 
 
         return response;
+    }
+
+
+
+
+
+
+
+    public String itineraryJoinAccount(ItineraryJoinAccountDTO.Request dto){
+        ItineraryJoinAccountDTO itineraryJoinAccountDTO = new ItineraryJoinAccountDTO();
+
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+        Optional<Itinerary> itineraryOpt = itineraryRepository.findById(dto.getItineraryId());
+
+        if(accountOpt == null || itineraryOpt == null) throw new NoSuchElementException(" 입력된 ID를 가진 정보가 존재하지 않습니다. ");
+        if(itineraryOpt.get().getAccount() == accountOpt.get()) throw new NoSuchElementException("해당 유저는 일정 주인 입니다.");
+
+
+        itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(accountOpt.get(),itineraryOpt.get()));
+
+        return "추가 성공";
     }
 }
 
