@@ -77,4 +77,13 @@ public class ExpendituresService {
 
         return "삭제 완료";
     }
+
+    public String expendituresDeleteBudget(ExpendituresDeleteDTO.RequestDeleteBudget dto){
+        List<Expenditures> expendituresOpt = expendituresRepository.findByBudgetId(dto.getBudgetId());
+        if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");
+
+        expendituresRepository.deleteAll(expendituresOpt);
+
+        return "삭제 완료";
+    }
 }

@@ -14,4 +14,10 @@ public class ExpendituresDeleteDTO {
         @Schema(description = "날짜")
         private Integer day;
     }
+
+    @Data @Schema(name ="ExpendituresDeleteDTO_RequestBudget")
+    public static class RequestDeleteBudget{
+        @Schema(description = "가계부 ID")
+        private Long BudgetId;
+    }
 }

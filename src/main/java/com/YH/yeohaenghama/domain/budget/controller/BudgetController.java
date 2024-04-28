@@ -93,6 +93,19 @@ public class BudgetController {
         }
     }
 
+    @Operation(summary = "지출 금액 전체 삭제")
+    @PostMapping("/expendituresDeleteBudget")
+    public ApiResult<String> expendituresDeleteBudget(ExpendituresDeleteDTO.RequestDeleteBudget dto){
+        try{
+            return ApiResult.success(expendituresService.expendituresDeleteBudget(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "가계부 조회")
     @PostMapping("/budgetShow")
     public ApiResult<BudgetShowDTO.Response> budgetShow(BudgetShowDTO.Request dto){
