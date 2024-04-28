@@ -51,7 +51,11 @@ public class BudgetService {
         if(itineraryOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 일정이 존재하지 않습니다. ");
         Optional<Budget> budgetOpt = budgetRepository.findByItinerary(itineraryOpt.get());
 
+        List<Expenditures> expenditures = expendituresRepository.findByBudgetId(budgetOpt.get().getId());
 
-        return BudgetShowDTO.Response.fromEntity(budgetOpt.get());
+        BudgetShowDTO.Response response = BudgetShowDTO.Response.fromEntity(budgetOpt.get());
+        if(expenditures != null) response.setExpenditures(expenditures);
+
+        return response;
     }
 }
