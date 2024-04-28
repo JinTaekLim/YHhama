@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.budget.service;
 
 import com.YH.yeohaenghama.domain.budget.dto.ExpendituresAddDTO;
+import com.YH.yeohaenghama.domain.budget.dto.ExpendituresDeleteDTO;
 import com.YH.yeohaenghama.domain.budget.dto.ExpendituresShowDTO;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
@@ -57,4 +58,14 @@ public class ExpendituresService {
         }
 
         return response;
-    }}
+    }
+
+    public String expendituresDeleteOne(ExpendituresDeleteDTO.RequestDeleteOne dto){
+        Optional<Expenditures> expendituresOpt = expendituresRepository.findById(dto.getId());
+        if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");
+
+        expendituresRepository.deleteById(dto.getId());
+
+        return "삭제 완료";
+    }
+}
