@@ -54,7 +54,7 @@ public class SearchDiaryDTO {
         }
         searchDiaryDTO.setPhotos(photoURLs);
 
-        AccountShowDTO.Response accountResponse = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl());
+        AccountShowDTO.Response accountResponse = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl(),account.getRole());
         searchDiaryDTO.setAccount(accountResponse);
 
 

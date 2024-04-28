@@ -92,7 +92,7 @@ public class AccountService {
 
         accountRepository.save(account);
 
-        AccountShowDTO.Response response = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl());
+        AccountShowDTO.Response response = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
 
         return response;
     }

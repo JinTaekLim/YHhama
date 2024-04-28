@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.account.dto;
 
+import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -27,12 +28,15 @@ public class AccountShowDTO {
         private String nickname;
         @Schema(description = "프로필 사진 URL")
         private String photoUrl;
+        @Schema(description = "계정 권한")
+        private AccountRole accountRole;
 
 
-        public Response(Long id, String nickname, String photoUrl) {
+        public Response(Long id, String nickname, String photoUrl,AccountRole accountRole) {
             this.id = id;
             this.nickname = nickname;
             this.photoUrl = photoUrl;
+            this.accountRole = accountRole;
         }
     }
 
