@@ -106,7 +106,7 @@ public class ReviewService {
         for( Review review : reviewList){
             Optional<Account> accountOptional = accountRepository.findById(review.getAccountId());
             Account account = accountOptional.get();
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl());
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl(), account.getRole());
             ReviewShowAllDTO.Response response = new ReviewShowAllDTO.Response().fromEntity(review,accountShowDTO);
             responseList.add(response);
         }

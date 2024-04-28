@@ -121,7 +121,7 @@ public class KakaoService {
         }
 
         accountOpt = accountRepository.findByexternalId(id);
-        AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(accountOpt.get().getId(), nickname, profileImage);
+        AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(accountOpt.get().getId(), nickname, profileImage, accountOpt.get().getRole());
 
         return accountShowDTO;
     }

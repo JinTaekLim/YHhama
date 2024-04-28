@@ -92,7 +92,7 @@ public class ItineraryService {
         if (optionalItinerary.isPresent()) {
             Itinerary itinerary = optionalItinerary.get();
             Account account = itinerary.getAccount();
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(),null);
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(),null, account.getRole());
 
 
             LocalDate startDate = itinerary.getStartDate();

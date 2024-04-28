@@ -50,7 +50,7 @@ public class DiaryShowDTO {
             }
             response.setPhotos(photoURLs);
 
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl());
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
             response.setAccount(accountShowDTO);
 
 
@@ -91,7 +91,7 @@ public class DiaryShowDTO {
             response.setContent(diary.getContent());
             response.setPlaceLength(placeLength);
 
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(),account.getPhotoUrl());
+            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(),account.getPhotoUrl(), account.getRole());
             response.setAccountShowDTO(accountShowDTO);
 
             List<String> photoURLs = new ArrayList<>();
