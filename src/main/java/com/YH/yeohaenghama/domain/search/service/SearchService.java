@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.search.service;
 
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
+import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
@@ -30,6 +31,7 @@ public class SearchService {
     private final DiaryRepository diaryRepository;
     private final ItineraryRepository itineraryRepository;
     private final PlaceRepository placeRepository;
+    private final DiaryService diaryService;
 
     public SearchDTO.Response federated(SearchDTO.Request dto) throws Exception {
 
@@ -63,14 +65,15 @@ public class SearchService {
         if (!diaryList.isEmpty()) {
             for (Diary diary : diaryList) {
                 Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
-                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diary, itineraryOpt.get().getAccount()));
+                SearchDiaryDTO searchReponse = SearchDiaryDTO.fromEntity(diary, itineraryOpt.get().getAccount());
+                searchReponse.setTag(diaryService.addTag(itineraryOpt.get()));
+                searchDiaryDTOList.add(searchReponse);
             }
         }
 
         searchDiaryDTO.setSearchDiaryDTOS(searchDiaryDTOList);
         searchDiaryDTO.setPageNum(pageable.getPageNumber());
         searchDiaryDTO.setTotalPage(diaryList.getTotalPages());
-
         return searchDiaryDTO;
 
     }
@@ -85,7 +88,9 @@ public class SearchService {
         if (!diaryList.isEmpty()) {
             for (Diary diary : diaryList) {
                 Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
-                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diary,itineraryOpt.get().getAccount()));
+                SearchDiaryDTO searchReponse = SearchDiaryDTO.fromEntity(diary, itineraryOpt.get().getAccount());
+                searchReponse.setTag(diaryService.addTag(itineraryOpt.get()));
+                searchDiaryDTOList.add(searchReponse);
             }
         }
 
@@ -111,7 +116,9 @@ public class SearchService {
 //                log.info(String.valueOf(place.getId()));
                 Optional<Diary> diaryOpt = diaryRepository.findByItinerary(place.getItinerary().getId());
                 if(!diaryOpt.isEmpty()) {
-                    searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get(),place.getItinerary().getAccount()));
+                    SearchDiaryDTO searchReponse = SearchDiaryDTO.fromEntity(diaryOpt.get(), place.getItinerary().getAccount());
+                    searchReponse.setTag(diaryService.addTag(place.getItinerary()));
+                    searchDiaryDTOList.add(searchReponse);
 //                    log.info(String.valueOf(diaryOpt.get().getId()));
                 }
             }
@@ -141,7 +148,9 @@ public class SearchService {
 //                log.info(String.valueOf(itinerary.getId()));
                 Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
                 if(!diaryOpt.isEmpty()){
-                    searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get(), itinerary.getAccount()));
+                    SearchDiaryDTO searchReponse = SearchDiaryDTO.fromEntity(diaryOpt.get(), itinerary.getAccount());
+                    searchReponse.setTag(diaryService.addTag(itinerary));
+                    searchDiaryDTOList.add(searchReponse);
                 }
             }
         }
@@ -165,7 +174,9 @@ public class SearchService {
             log.info(String.valueOf(itinerary.getId()));
             Optional<Diary> diaryOpt = diaryRepository.findByItinerary(itinerary.getId());
             if(!diaryOpt.isEmpty()) {
-                searchDiaryDTOList.add(SearchDiaryDTO.fromEntity(diaryOpt.get(), itinerary.getAccount()));
+                SearchDiaryDTO searchReponse = SearchDiaryDTO.fromEntity(diaryOpt.get(), itinerary.getAccount());
+                searchReponse.setTag(diaryService.addTag(itinerary));
+                searchDiaryDTOList.add(searchReponse);
             }
         }
 
