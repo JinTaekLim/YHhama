@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.account.service;
 
 import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
+import com.YH.yeohaenghama.domain.account.dto.AccountChangePwDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
@@ -56,7 +57,23 @@ public class AccountService {
         return account;
     }
 
-    public String changePw(String email){
+    public String changePw(AccountChangePwDTO.Request dto){
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+        if (accountOpt.isEmpty()){
+            throw new NoSuchElementException("해당 이메일을 가진 계정을 찾을 수 없습니다.");
+        }
+        Account account = accountOpt.get();
+
+        if(!account.getPw().equals(dto.getOldPw())) throw new NoSuchElementException("기존 비밀번호가 일치하지 않습니다. ");
+
+        account.setPw(dto.getNewPw());
+        accountRepository.save(account);
+
+        return "비밀번호 변경 성공";
+    }
+
+
+    public String randomChangePw(String email){
         Optional<Account> optionalAccount = accountRepository.findByEmail(email);
         if (optionalAccount.isEmpty()){
             throw new NoSuchElementException("해당 이메일을 가진 계정을 찾을 수 없습니다.");
