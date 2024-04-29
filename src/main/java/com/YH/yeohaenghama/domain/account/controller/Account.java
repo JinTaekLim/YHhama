@@ -258,4 +258,16 @@ public class Account {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+    @Operation(summary = "회원 탈퇴")
+    @PostMapping("/delete")
+    public ApiResult<String> update(@RequestParam Long accountId){
+        try{
+            return ApiResult.success(accountService.delete(accountId));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 }
