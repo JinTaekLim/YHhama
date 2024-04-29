@@ -1,10 +1,7 @@
 package com.YH.yeohaenghama.domain.account.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
-import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
-import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
-import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
-import com.YH.yeohaenghama.domain.account.dto.testDTO;
+import com.YH.yeohaenghama.domain.account.dto.*;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.service.AccountSavePlaceService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
@@ -221,10 +218,10 @@ public class Account {
     }
 
     @Operation(summary = "비밀번호 무작위 변경")
-    @PostMapping("/ChangePw")
-    public ApiResult changePw(@RequestParam String email){
+    @PostMapping("/RangdomChangePw")
+    public ApiResult RandomChangePw(@RequestParam String email){
         try{
-            return ApiResult.success("[성공] 새 비밀번호 : " + accountService.changePw(email));
+            return ApiResult.success("[성공] 새 비밀번호 : " + accountService.randomChangePw(email));
         }
         catch (NoSuchElementException e){
             return ApiResult.success("비밀번호 변경 실패 : " + e.getMessage());
@@ -232,7 +229,20 @@ public class Account {
         catch (Exception e){
             return ApiResult.fail("비밀번호 변경 실패 : " + e.getMessage());
         }
+    }
 
+    @Operation(summary = "비밀번호 변경")
+    @PostMapping("/ChangePw")
+    public ApiResult changePw(@RequestBody AccountChangePwDTO.Request dto){
+        try{
+            return ApiResult.success(accountService.changePw(dto));
+        }
+        catch (NoSuchElementException e){
+            return ApiResult.notFound("비밀번호 변경 실패 : " + e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail("비밀번호 변경 실패 : " + e.getMessage());
+        }
     }
 
 
