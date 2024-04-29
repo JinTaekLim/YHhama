@@ -114,4 +114,10 @@ public class AccountService {
         return response;
     }
 
+
+    public String delete(Long accountId){
+        accountRepository.deleteById(accountId);
+        return "회원 삭제 성공";
+    }
+
 }
