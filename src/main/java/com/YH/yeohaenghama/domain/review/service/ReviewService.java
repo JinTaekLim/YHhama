@@ -50,16 +50,17 @@ public class ReviewService {
         String filename = dto.getContentId()+"_"+dto.getContentTypeId()+"/"+dto.getAccountId();
         int fileNum = 1;
 
-        List<String >photoUrlList = new ArrayList<>();
-        ReviewPhotoURL reviewPhotoURL = new ReviewPhotoURL();
+        List<String>photoUrlList = new ArrayList<>();
 
         for (MultipartFile photo : photoList ) {
             try {
                 String photoUrl = gcsService.uploadPhoto(photo, String.valueOf(fileNum), "Review/"+filename);
                 log.info("업로드 사진 위치 : " + photoUrl);
 
+                ReviewPhotoURL reviewPhotoURL = new ReviewPhotoURL();
                 reviewPhotoURL.ReviewPhotoURL(review,photoUrl);
                 reviewPhotoURLRepository.save(reviewPhotoURL);
+                log.info("저장");
                 photoUrlList.add(reviewPhotoURL.getPhotoUrl());
 
                 fileNum++;
@@ -67,6 +68,7 @@ public class ReviewService {
                 throw new RuntimeException(e);
             }
         }
+
 
         ReviewDTO.Response response = ReviewDTO.Response.fromEntity(review);
         response.setReviewPhotoURLList(photoUrlList);
