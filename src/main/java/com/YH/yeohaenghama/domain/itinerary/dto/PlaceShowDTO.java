@@ -28,9 +28,9 @@ public class PlaceShowDTO {
     @Schema(description = "장소 주소")
     private String addr1;
     @Schema(description = "X　좌표")
-    private Integer mapx;
+    private double mapx;
     @Schema(description = "Y　좌표")
-    private Integer mapy;
+    private double mapy;
     @Schema(description = "메모")
     private String memo;
 

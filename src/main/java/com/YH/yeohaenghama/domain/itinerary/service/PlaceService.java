@@ -39,6 +39,7 @@ public class PlaceService {
 
 
         log.info("조회 성공");
+        log.info(placeDTOs.toString());
 
 
 
