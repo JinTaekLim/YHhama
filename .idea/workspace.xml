@@ -7,21 +7,10 @@
     <list default="true" id="582ad1ae-0c41-4cec-b54c-a30689bf55b3" name="변경" comment="gi">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/controller/BudgetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/controller/BudgetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/BudgetAccountAddDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/ExpendituresAddDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/ExpendituresAddDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/ExpendituresGroupAddDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/dto/ExpendituresGroupAddDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/Budget.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/BudgetAccount.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/ExpendituresGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/entity/ExpendituresGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/BudgetAccountRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/BudgetRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/BudgetRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/service/BudgetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/service/BudgetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/ExpendituresGroupRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/repository/ExpendituresGroupRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/service/ExpendituresService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/budget/service/ExpendituresService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/controller/ItineraryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/ItineraryJoinDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/ItineraryJoinDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/ItineraryShowDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/dto/ItineraryShowDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/entity/Itinerary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/entity/Itinerary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/ItineraryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/YH/yeohaenghama/domain/itinerary/service/ItineraryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +63,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="feature/KAN-140" />
-                    <option name="lastUsedInstant" value="1714279764" />
+                    <option name="lastUsedInstant" value="1714460191" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/KAN-159" />

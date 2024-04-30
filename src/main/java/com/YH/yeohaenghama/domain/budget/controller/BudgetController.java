@@ -160,6 +160,19 @@ public class BudgetController {
         }
     }
 
+    @Operation(summary = "공동 지출 금액 조회")
+    @PostMapping("/expendituresGroupShow")
+    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupShow(ExpendituresGroupShowDTO.Request dto){
+        try{
+            return ApiResult.success(expendituresService.expendituresGroupShow(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
 
 
 

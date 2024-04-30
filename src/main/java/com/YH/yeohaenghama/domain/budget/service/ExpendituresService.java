@@ -1,9 +1,6 @@
 package com.YH.yeohaenghama.domain.budget.service;
 
-import com.YH.yeohaenghama.domain.budget.dto.ExpendituresAddDTO;
-import com.YH.yeohaenghama.domain.budget.dto.ExpendituresDeleteDTO;
-import com.YH.yeohaenghama.domain.budget.dto.ExpendituresGroupAddDTO;
-import com.YH.yeohaenghama.domain.budget.dto.ExpendituresShowDTO;
+import com.YH.yeohaenghama.domain.budget.dto.*;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
@@ -69,6 +66,7 @@ public class ExpendituresService {
         }
 
         ExpendituresGroup expendituresGroup = new ExpendituresGroupAddDTO(dto).toEntity();
+        expendituresGroup.setItineraryAccount(itineraryJoinAccountOpt.get());
 //        expendituresGroup.setBudget(itineraryJoinAccountOpt.get().getItinerary().getBudget());
         if(placeOpt != null){
             expendituresGroup.setPlace(placeOpt.get());
@@ -86,6 +84,18 @@ public class ExpendituresService {
 
         for(Expenditures expenditures : expendituresList){
             response.add(ExpendituresShowDTO.Response.fromEntity(expenditures));
+        }
+
+        return response;
+    }
+
+    public List<ExpendituresGroupShowDTO.Response> expendituresGroupShow(ExpendituresGroupShowDTO.Request dto){
+        List<ExpendituresGroup> expendituresList = expendituresGroupRepository.findByBudgetId(dto.getId());
+        if(expendituresList.isEmpty()) { throw new NoSuchElementException("해당 가계부에는 존재하는 지출 금액이 없습니다. "); }
+        List<ExpendituresGroupShowDTO.Response> response = new ArrayList<>();
+
+        for(ExpendituresGroup expendituresGroup : expendituresList){
+            response.add(ExpendituresGroupShowDTO.Response.fromEntity(expendituresGroup));
         }
 
         return response;
