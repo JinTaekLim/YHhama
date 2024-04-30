@@ -61,6 +61,18 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="feature/KAN-162" />
+                    <option name="lastUsedInstant" value="1714388169" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/KAN-161" />
+                    <option name="lastUsedInstant" value="1714374542" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/KAN-160" />
+                    <option name="lastUsedInstant" value="1714371901" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/KAN-140" />
                     <option name="lastUsedInstant" value="1714460191" />
                   </RecentBranch>
@@ -108,7 +120,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;Spring Boot.YeohaenghamaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-140&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/KAN-162&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/jintaeklim/Documents/YHhama/YeohaengHama-backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -268,7 +280,10 @@
       <workItem from="1713686571566" duration="1830000" />
       <workItem from="1714094403007" duration="26052000" />
       <workItem from="1714279349750" duration="10461000" />
-      <workItem from="1714293536704" duration="8229000" />
+      <workItem from="1714293536704" duration="8921000" />
+      <workItem from="1714370472155" duration="5483000" />
+      <workItem from="1714388116528" duration="589000" />
+      <workItem from="1714400796362" duration="3214000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;[변경] 프로필 사진 없이도 회원가입이 가능하도록 수정&quot;">
       <option name="closed" value="true" />

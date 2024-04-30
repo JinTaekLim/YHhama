@@ -33,6 +33,8 @@ public class SearchDiaryDTO {
     private String title;
     @Schema(description = "일기 내용")
     private String content;
+    @Schema(description = "태그")
+    private List<String> tag;
     @Schema(description = "일기 사진 URL")
     private List<String> photos;
     @Schema(description = "작성자 정보")
