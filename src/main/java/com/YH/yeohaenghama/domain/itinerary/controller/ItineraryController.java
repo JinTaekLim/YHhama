@@ -194,6 +194,19 @@ public class ItineraryController {
         }
     }
 
+    @Operation(summary = "일정에 참가한 유저 전체 조회")
+    @PostMapping("/showItineraryAccount")
+    public ApiResult<List<ItineraryJoinAccountShowDTO.Response>> showItineraryAccount(ItineraryJoinAccountShowDTO.Request dto){
+        try{
+            return ApiResult.success(itineraryService.itineraryShowAccount(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "일정 유저 삭제")
     @PostMapping("/deleteAccount")
     public ApiResult<String> deleteAccount(ItineraryJoinAccountDTO.Request dto){
