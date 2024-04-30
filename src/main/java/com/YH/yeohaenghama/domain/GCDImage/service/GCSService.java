@@ -46,13 +46,10 @@ public class GCSService {
                 .setContentType(file.getContentType())
                 .build();
 
-        // 파일 업로드
         storage.create(blobInfo, file.getInputStream());
 
-        //공개 링크 생성
-        String publicUrl = showURL(bucketName, filePath);
-
-        log.info("파일 업로드 성공 : ", publicUrl);
+        String publicUrl = "https://storage.googleapis.com/" + bucketName + "/" + filePath;
+        log.info("파일 업로드 성공 : " + publicUrl);
         return publicUrl;
     }
 
@@ -81,13 +78,5 @@ public class GCSService {
     }
 
 
-    private String showURL(String bucketName, String objectName) {
-        try {
-            return "https://storage.googleapis.com/" + bucketName + "/" + objectName;
-        } catch (Exception e) {
-            log.error("URL 생성 실패 : {}", objectName, e.getMessage());
-            throw new NoSuchElementException("[showURL] URL 생성 실패 .");
-        }
-    }
 
 }
