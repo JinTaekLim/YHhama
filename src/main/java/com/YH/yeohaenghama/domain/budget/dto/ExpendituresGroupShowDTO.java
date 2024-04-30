@@ -15,6 +15,12 @@ public class ExpendituresGroupShowDTO {
         private Long id;
     }
     @Data
+    @Schema(name = "ExpendituresGroupAccountShowDTO_Request")
+    public static class AccountRequest{
+        private Long accountId;
+        private Long itineraryId;
+    }
+    @Data
     public static class Response{
         private Long id;
         private AccountShowDTO.Response accountShowDTO;

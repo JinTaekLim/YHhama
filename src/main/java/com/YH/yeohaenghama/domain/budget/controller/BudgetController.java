@@ -160,11 +160,24 @@ public class BudgetController {
         }
     }
 
-    @Operation(summary = "공동 지출 금액 조회")
-    @PostMapping("/expendituresGroupShow")
-    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupShow(ExpendituresGroupShowDTO.Request dto){
+    @Operation(summary = "공동 지출 금액 전체 조회")
+    @PostMapping("/expendituresGroupAllShow")
+    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAllShow(ExpendituresGroupShowDTO.Request dto){
         try{
-            return ApiResult.success(expendituresService.expendituresGroupShow(dto));
+            return ApiResult.success(expendituresService.expendituresGroupAllShow(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "공동 지출 금액 개별 조회")
+    @PostMapping("/expendituresGroupAccountShow")
+    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAccountShow(ExpendituresGroupShowDTO.AccountRequest dto){
+        try{
+            return ApiResult.success(expendituresService.expendituresGroupAccountShow(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }

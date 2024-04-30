@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ExpendituresGroupRepository extends JpaRepository<ExpendituresGroup, Long> {
     List<ExpendituresGroup> findByBudgetId(Long budgetId);
+    List<ExpendituresGroup> findByItineraryJoinAccountId(Long itineraryJoinAccountId);
 }

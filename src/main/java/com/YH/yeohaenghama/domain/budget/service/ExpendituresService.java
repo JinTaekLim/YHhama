@@ -89,7 +89,7 @@ public class ExpendituresService {
         return response;
     }
 
-    public List<ExpendituresGroupShowDTO.Response> expendituresGroupShow(ExpendituresGroupShowDTO.Request dto){
+    public List<ExpendituresGroupShowDTO.Response> expendituresGroupAllShow(ExpendituresGroupShowDTO.Request dto){
         List<ExpendituresGroup> expendituresList = expendituresGroupRepository.findByBudgetId(dto.getId());
         if(expendituresList.isEmpty()) { throw new NoSuchElementException("해당 가계부에는 존재하는 지출 금액이 없습니다. "); }
         List<ExpendituresGroupShowDTO.Response> response = new ArrayList<>();
@@ -98,6 +98,21 @@ public class ExpendituresService {
             response.add(ExpendituresGroupShowDTO.Response.fromEntity(expendituresGroup));
         }
 
+        return response;
+    }
+
+
+    public List<ExpendituresGroupShowDTO.Response> expendituresGroupAccountShow(ExpendituresGroupShowDTO.AccountRequest dto) {
+        Optional<ItineraryJoinAccount> itineraryJoinAccountOpt = itineraryJoinAccountRepository.findByItineraryIdAndAccountId(dto.getItineraryId(), dto.getAccountId());
+        List<ExpendituresGroup> expendituresList = expendituresGroupRepository.findByItineraryJoinAccountId(itineraryJoinAccountOpt.get().getId());
+        if (expendituresList.isEmpty()) {
+            throw new NoSuchElementException("해당 가계부에는 존재하는 지출 금액이 없습니다. ");
+        }
+        List<ExpendituresGroupShowDTO.Response> response = new ArrayList<>();
+
+        for (ExpendituresGroup expendituresGroup : expendituresList) {
+            response.add(ExpendituresGroupShowDTO.Response.fromEntity(expendituresGroup));
+        }
         return response;
     }
 
