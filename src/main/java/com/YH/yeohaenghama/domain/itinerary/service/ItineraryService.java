@@ -319,6 +319,15 @@ public class ItineraryService {
 
         return "추가 성공";
     }
+
+    public String itineraryDeleteAccount(ItineraryJoinAccountDTO.Request dto){
+        Optional<ItineraryJoinAccount> itineraryJoinAccountOpt = itineraryJoinAccountRepository.findByItineraryIdAndAccountId(dto.getItineraryId(),dto.getAccountId());
+        if(itineraryJoinAccountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 일정에 존재하지 않습니다. ");
+
+        itineraryJoinAccountRepository.delete(itineraryJoinAccountOpt.get());
+
+        return "삭제 성공";
+    }
 }
 
 
