@@ -116,6 +116,26 @@ public class ExpendituresService {
         return response;
     }
 
+    public ExpendituresCalculateDTO.Response expendituresCalculate(ExpendituresCalculateDTO.Request dto){
+        Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudgetId());
+        if(budgetOpt.get().getExpenditures().isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 가계부에 지출 정보가 존재하지 않습니다. "); }
+
+        List<ExpendituresShowDTO.Response> expendituresReponse = new ArrayList<>();
+        Integer totalAmount = budgetOpt.get().getTotalAmount();
+
+        for(Expenditures expenditures : budgetOpt.get().getExpenditures()){
+            totalAmount -= expenditures.getAmount();
+            expendituresReponse.add(ExpendituresShowDTO.Response.fromEntity(expenditures));
+        }
+
+        ExpendituresCalculateDTO.Response response = new ExpendituresCalculateDTO.Response();
+        response.setBudgetId(budgetOpt.get().getId());
+        response.setTotalAmount(totalAmount);
+        response.setExpendituresShowDTOList(expendituresReponse);
+
+        return response;
+    }
+
     public String expendituresDeleteOne(ExpendituresDeleteDTO.RequestDeleteOne dto){
         Optional<Expenditures> expendituresOpt = expendituresRepository.findById(dto.getId());
         if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");

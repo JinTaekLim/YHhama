@@ -187,6 +187,33 @@ public class BudgetController {
     }
 
 
+    @Operation(summary = "개인 지출 금액 정산")
+    @PostMapping("/expendituresCalculate")
+    public ApiResult<ExpendituresCalculateDTO.Response> expendituresCalculate(ExpendituresCalculateDTO.Request dto){
+        try{
+            return ApiResult.success(expendituresService.expendituresCalculate(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+//    @Operation(summary = "공동 지출 금액 정산")
+//    @PostMapping("/expendituresGroupCalculate")
+//    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAccountShow(ExpendituresGroupShowDTO.AccountRequest dto){
+//        try{
+//            return ApiResult.success(expendituresService.expendituresGroupAccountShow(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.success(null,e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
+
+
 
 
 
