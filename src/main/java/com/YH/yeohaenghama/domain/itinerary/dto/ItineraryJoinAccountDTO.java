@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.itinerary.dto;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
@@ -14,6 +15,7 @@ public class ItineraryJoinAccountDTO {
         private Long accountId;
         private Long itineraryId;
     }
+
 
     public ItineraryJoinAccount add(Account account, Itinerary itinerary){
         ItineraryJoinAccount itineraryJoinAccount = ItineraryJoinAccount.builder()

@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.budget.entity;
 
+import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryJoinAccount;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -18,6 +19,10 @@ public class ExpendituresGroup {
     @ManyToOne
     @JoinColumn(name = "budget", referencedColumnName = "id")
     private Budget budget;
+
+    @ManyToOne
+    @JoinColumn(name = "accountId",referencedColumnName = "id")
+    private ItineraryJoinAccount itineraryJoinAccount;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "place_id", referencedColumnName = "id")
@@ -41,9 +46,12 @@ public class ExpendituresGroup {
         this.place = place;
     }
 
+    public void setItineraryAccount(ItineraryJoinAccount itineraryJoinAccount){ this.itineraryJoinAccount = itineraryJoinAccount; }
+
     @Builder
-    public ExpendituresGroup(Budget budget, Place place, Integer day, String paymentMethod, String category, String name, Integer amount) {
+    public ExpendituresGroup(Budget budget,ItineraryJoinAccount itineraryJoinAccount, Place place, Integer day, String paymentMethod, String category, String name, Integer amount) {
         this.budget = budget;
+        this.itineraryJoinAccount = itineraryJoinAccount;
         this.place = place;
         this.day = day;
         this.paymentMethod = paymentMethod;

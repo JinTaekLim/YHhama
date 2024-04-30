@@ -319,6 +319,28 @@ public class ItineraryService {
 
         return "추가 성공";
     }
+
+    public String itineraryDeleteAccount(ItineraryJoinAccountDTO.Request dto){
+        Optional<ItineraryJoinAccount> itineraryJoinAccountOpt = itineraryJoinAccountRepository.findByItineraryIdAndAccountId(dto.getItineraryId(),dto.getAccountId());
+        if(itineraryJoinAccountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 일정에 존재하지 않습니다. ");
+
+        itineraryJoinAccountRepository.delete(itineraryJoinAccountOpt.get());
+
+        return "삭제 성공";
+    }
+
+    public List<ItineraryJoinAccountShowDTO.Response> itineraryShowAccount(ItineraryJoinAccountShowDTO.Request dto){
+        List<ItineraryJoinAccount> itineraryJoinAccountOpt = itineraryJoinAccountRepository.findByItineraryId(dto.getItineraryId());
+
+        if(itineraryJoinAccountOpt.isEmpty()) { throw new NoSuchElementException("해당 일정에 추가된 유저 정보가 존재하지 않습니다. "); }
+
+        List<ItineraryJoinAccountShowDTO.Response> responses = new ArrayList<>();
+
+        for(ItineraryJoinAccount itineraryJoinAccount : itineraryJoinAccountOpt){
+            responses.add(ItineraryJoinAccountShowDTO.Response.fromEntity(itineraryJoinAccount));
+        }
+        return responses;
+    }
 }
 
 

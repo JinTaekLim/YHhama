@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.budget.dto;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
+import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryJoinAccount;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
