@@ -101,8 +101,9 @@ public class AccountService {
         }
 
         if(dto.getPhoto() != null) {
+            log.info("삭제");
             gcsService.delete("Profile_Image/" + account.getEmail());
-            String photoUrl = gcsService.uploadPhoto(dto.getPhoto(), account.getEmail(), "Profile_Image/"+account.getEmail());
+            String photoUrl = gcsService.uploadPhoto(dto.getPhoto(), String.valueOf(dto.getPhoto()) , "Profile_Image/"+account.getEmail());
 
             account.setPhotoUrl(photoUrl);
         }
