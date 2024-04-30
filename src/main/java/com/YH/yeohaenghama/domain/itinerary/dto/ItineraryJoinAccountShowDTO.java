@@ -24,6 +24,7 @@ public class ItineraryJoinAccountShowDTO {
             AccountShowDTO.Response accountResponse = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
             response.setAccount(accountResponse);
 
+
             return response;
         }
     }

@@ -1,5 +1,8 @@
 package com.YH.yeohaenghama.domain.budget.service;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.budget.dto.*;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
@@ -132,6 +135,40 @@ public class ExpendituresService {
         response.setBudgetId(budgetOpt.get().getId());
         response.setTotalAmount(totalAmount);
         response.setExpendituresShowDTOList(expendituresReponse);
+
+        return response;
+    }
+
+    public List<ExpendituresGroupCalculateDTO.Reponse> expendituresGroupCalculate(ExpendituresGroupCalculateDTO.Request dto){
+        List<Long> accountList = dto.getAccountId();
+        List<Integer> ratioList = dto.getRatio();
+
+        List<ExpendituresGroup> budgetList = expendituresGroupRepository.findByBudgetId(dto.getBudgetId());
+
+
+
+        Integer totalAmount = (int) budgetList.stream()
+                .mapToDouble(ExpendituresGroup::getAmount)
+                .sum();
+
+        Integer ratioSum = ratioList.stream().mapToInt(Integer::intValue).sum();
+
+        List<ExpendituresGroupCalculateDTO.Reponse> response = new ArrayList<>();
+
+        for(int i=0; i<accountList.size(); i++){
+
+            Optional<ItineraryJoinAccount> itineraryJoinAccountOpt = itineraryJoinAccountRepository.findByItineraryIdAndAccountId(dto.getItineraryId(),accountList.get(i));
+
+
+            Account account = itineraryJoinAccountOpt.get().getAccount();
+            AccountShowDTO.Response accountResponse = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
+
+            Integer amount = totalAmount * ratioList.get(i) / ratioSum;
+
+
+            response.add(ExpendituresGroupCalculateDTO.Reponse.setAccountAndAmount(accountResponse,amount));
+
+        }
 
         return response;
     }

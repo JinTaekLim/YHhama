@@ -200,18 +200,19 @@ public class BudgetController {
         }
     }
 
-//    @Operation(summary = "공동 지출 금액 정산")
-//    @PostMapping("/expendituresGroupCalculate")
-//    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAccountShow(ExpendituresGroupShowDTO.AccountRequest dto){
-//        try{
-//            return ApiResult.success(expendituresService.expendituresGroupAccountShow(dto));
-//        } catch (NoSuchElementException e){
-//            return ApiResult.success(null,e.getMessage());
-//        }
-//        catch (Exception e){
-//            return ApiResult.fail(e.getMessage());
-//        }
-//    }
+    @Operation(summary = "공동 지출 금액 정산")
+    @PostMapping("/expendituresGroupCalculate")
+    public ApiResult<List<ExpendituresGroupCalculateDTO.Reponse>> expendituresGroupCalculate(ExpendituresGroupCalculateDTO.Request dto){
+        try{
+            log.info("DTO => " + dto);
+            return ApiResult.success(expendituresService.expendituresGroupCalculate(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 
 
 
