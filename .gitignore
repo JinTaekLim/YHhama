@@ -43,3 +43,5 @@ application.properties
 /src/main/resources/application.properties
 
 workspace.xml
+
+.idea/workspace.xml
