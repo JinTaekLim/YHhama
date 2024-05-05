@@ -1,7 +1,7 @@
 package com.YH.yeohaenghama.domain.chat.controller;
 
-import com.YH.yeohaenghama.domain.chat.dto.ChatRoom;
-import com.YH.yeohaenghama.domain.chat.repository.ChatRoomRepository;
+import com.YH.yeohaenghama.domain.chat.model.ChatRoom;
+import com.YH.yeohaenghama.domain.chat.repo.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

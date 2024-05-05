@@ -1,4 +1,4 @@
-package com.YH.yeohaenghama.domain.chat.dto;
+package com.YH.yeohaenghama.domain.chat.model;
 
 import lombok.Getter;
 import lombok.Setter;
