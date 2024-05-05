@@ -2,13 +2,13 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'com.YH'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
 }
 
 repositories {
@@ -34,6 +34,26 @@ dependencies {
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
 
+
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+
+
+	implementation 'org.webjars.bower:bootstrap:4.3.1'
+	implementation 'org.webjars.bower:vue:2.5.16'
+	implementation 'org.webjars.bower:axios:0.17.1'
+	implementation 'org.webjars:sockjs-client:1.1.2'
+	implementation 'org.webjars:stomp-websocket:2.3.3-1'
+	implementation 'com.google.code.gson:gson:2.8.0'
+
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+
 //
 //	implementation 'mysql:mysql-connector-java'
 
@@ -49,4 +69,7 @@ tasks.named('test') {
 
 tasks.withType(Jar) {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+kotlin {
+	jvmToolchain(17)
 }
