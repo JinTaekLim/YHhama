@@ -86,18 +86,17 @@ public class ReportController {
     }
 
 
-//    @Operation(summary = "일기 조회")
-//    @PostMapping("showDiary")
-//    public ApiResult<List<ReportDiaryAllDTO.Response>> showDiary(){
-//        try{
-//            return ApiResult.success(reportService.diaryShow());
-//        }catch (NoSuchElementException e){
-//            return ApiResult.success(null);
-//        }catch (Exception e){
-//            return ApiResult.fail(e.getMessage());
-//        }
-//    }
-
+    @Operation(summary = "댓글 조회")
+    @PostMapping("showComment")
+    public ApiResult<List<ReportCommentDTO.Response>> showComment(){
+        try{
+            return ApiResult.success(reportService.commentShow());
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null);
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 
 
     @Operation(summary = "신고된 일기 조회")

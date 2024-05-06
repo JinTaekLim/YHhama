@@ -119,6 +119,17 @@ public class ReportService {
         return response;
     }
 
+    public List<ReportCommentDTO.Response> commentShow(){
+        List<Comment> commentList = commentRepository.findAll();
+
+        List<ReportCommentDTO.Response> response = new ArrayList<>();
+        for(Comment comment : commentList){
+            List<ReportComment> commentOpt = reportCommentRepository.findByCommentId(comment.getId());
+            response.add(ReportCommentDTO.Response.fromEntity(comment,commentOpt.size()));
+        }
+        return response;
+    }
+
 
     public List<ReportDiaryDTO.Request> diaryReportList(){
         List<ReportDiary> reportDiaryList = reportDiaryRepository.findAll();
