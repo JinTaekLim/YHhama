@@ -1,5 +1,7 @@
 package com.YH.yeohaenghama.domain.report.dto;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.diary.dto.CommentDTO;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import com.YH.yeohaenghama.domain.review.entity.Review;
@@ -30,17 +32,18 @@ public class ReportReviewDTO {
         @Schema(description = "리뷰 내용")
         private String content; // 리뷰 내용
         @Schema(description = "유저 ID")
-        private Long accountId;
+        private AccountShowDTO.Response account;
         @Schema(description = "신고당한 횟수")
-        private int reportCount;
+        private Integer reportCount;
 
-        public static ReportReviewDTO.Response fromEntity(Review review,int reportCount) {
+        public static ReportReviewDTO.Response fromEntity(Review review, Account account, Integer reportCount) {
             ReportReviewDTO.Response response = new ReportReviewDTO.Response();
             response.setContentId(review.getContentId());
             response.setContentTypeId(review.getContentTypeId());
             response.setRating(review.getRating());
             response.setContent(review.getContent());
-            response.setAccountId(review.getAccountId());
+            AccountShowDTO.Response accountShow = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
+            response.setAccount(accountShow);
             response.setReportCount(reportCount);
 
 

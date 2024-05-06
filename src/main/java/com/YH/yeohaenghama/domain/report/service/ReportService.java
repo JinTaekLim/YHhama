@@ -106,6 +106,19 @@ public class ReportService {
         return response;
     }
 
+    public List<ReportReviewDTO.Response> reviewShow(){
+        List<Review> reviewList = reviewRepository.findAll();
+
+        List<ReportReviewDTO.Response> response = new ArrayList<>();
+        for(Review review : reviewList){
+            List<ReportReview> reviewOpt = reportReviewRepository.findByReviewId(review.getId());
+            Optional<Account> accountOpt = accountRepository.findById(review.getAccountId());
+            response.add(ReportReviewDTO.Response.fromEntity(review,accountOpt.get(),reviewOpt.size()));
+        }
+
+        return response;
+    }
+
 
     public List<ReportDiaryDTO.Request> diaryReportList(){
         List<ReportDiary> reportDiaryList = reportDiaryRepository.findAll();
@@ -157,7 +170,8 @@ public class ReportService {
 
         for(ReportReview reviewReview : reviewList){
             Review review =  reviewReview.getReview();
-            ReportReviewDTO.Response response = ReportReviewDTO.Response.fromEntity(review,reportReviewRepository.findByReviewId(review.getId()).size());
+            Optional<Account> accountOpt = accountRepository.findById(review.getAccountId());
+            ReportReviewDTO.Response response = ReportReviewDTO.Response.fromEntity(review,accountOpt.get(),reportReviewRepository.findByReviewId(review.getId()).size());
 
             responseList.add(response);
         }

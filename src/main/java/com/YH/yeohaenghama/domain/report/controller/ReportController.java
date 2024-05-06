@@ -73,6 +73,32 @@ public class ReportController {
         }
     }
 
+    @Operation(summary = "리뷰 조회")
+    @PostMapping("showReview")
+    public ApiResult<List<ReportReviewDTO.Response>> showReview(){
+        try{
+            return ApiResult.success(reportService.reviewShow());
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null);
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+//    @Operation(summary = "일기 조회")
+//    @PostMapping("showDiary")
+//    public ApiResult<List<ReportDiaryAllDTO.Response>> showDiary(){
+//        try{
+//            return ApiResult.success(reportService.diaryShow());
+//        }catch (NoSuchElementException e){
+//            return ApiResult.success(null);
+//        }catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
+
+
 
     @Operation(summary = "신고된 일기 조회")
     @PostMapping("showReportDiary")
