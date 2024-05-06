@@ -8,6 +8,8 @@ import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.CommentRepository;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
+import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
+import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.report.dto.*;
 import com.YH.yeohaenghama.domain.report.entity.ReportComment;
 import com.YH.yeohaenghama.domain.report.entity.ReportDiary;
@@ -33,6 +35,7 @@ public class ReportService {
     private final ReportReviewRepository reportReviewRepository;
     private final ReportCommentRepository reportCommentRepository;
     private final AccountRepository accountRepository;
+    private final ItineraryRepository itineraryRepository;
     private final DiaryRepository diaryRepository;
     private final ReviewRepository reviewRepository;
     private final CommentRepository commentRepository;
@@ -90,6 +93,43 @@ public class ReportService {
     }
 
 
+    public List<ReportDiaryAllDTO.Response> diaryShow(){
+        List<Diary> diaryList = diaryRepository.findAll();
+
+        List<ReportDiaryAllDTO.Response> response = new ArrayList<>();
+        for(Diary diary : diaryList){
+            Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
+            List<ReportDiary> diaries = reportDiaryRepository.findByDiaryId(diary.getId());
+            response.add(ReportDiaryAllDTO.Response.fromEntity(diary, itineraryOpt.get().getAccount() , diaries.size()));
+        }
+
+        return response;
+    }
+
+    public List<ReportReviewDTO.Response> reviewShow(){
+        List<Review> reviewList = reviewRepository.findAll();
+
+        List<ReportReviewDTO.Response> response = new ArrayList<>();
+        for(Review review : reviewList){
+            List<ReportReview> reviewOpt = reportReviewRepository.findByReviewId(review.getId());
+            Optional<Account> accountOpt = accountRepository.findById(review.getAccountId());
+            response.add(ReportReviewDTO.Response.fromEntity(review,accountOpt.get(),reviewOpt.size()));
+        }
+
+        return response;
+    }
+
+    public List<ReportCommentDTO.Response> commentShow(){
+        List<Comment> commentList = commentRepository.findAll();
+
+        List<ReportCommentDTO.Response> response = new ArrayList<>();
+        for(Comment comment : commentList){
+            List<ReportComment> commentOpt = reportCommentRepository.findByCommentId(comment.getId());
+            response.add(ReportCommentDTO.Response.fromEntity(comment,commentOpt.size()));
+        }
+        return response;
+    }
+
 
     public List<ReportDiaryDTO.Request> diaryReportList(){
         List<ReportDiary> reportDiaryList = reportDiaryRepository.findAll();
@@ -141,7 +181,8 @@ public class ReportService {
 
         for(ReportReview reviewReview : reviewList){
             Review review =  reviewReview.getReview();
-            ReportReviewDTO.Response response = ReportReviewDTO.Response.fromEntity(review,reportReviewRepository.findByReviewId(review.getId()).size());
+            Optional<Account> accountOpt = accountRepository.findById(review.getAccountId());
+            ReportReviewDTO.Response response = ReportReviewDTO.Response.fromEntity(review,accountOpt.get(),reportReviewRepository.findByReviewId(review.getId()).size());
 
             responseList.add(response);
         }

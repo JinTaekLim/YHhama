@@ -60,9 +60,48 @@ public class ReportController {
         }
     }
 
-    @Operation(summary = "신고된 일기 조회")
+
+    @Operation(summary = "일기 조회")
     @PostMapping("showDiary")
-    public ApiResult<List<ReportDiaryDTO.Request>> showDiary(){
+    public ApiResult<List<ReportDiaryAllDTO.Response>> showDiary(){
+        try{
+            return ApiResult.success(reportService.diaryShow());
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null);
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "리뷰 조회")
+    @PostMapping("showReview")
+    public ApiResult<List<ReportReviewDTO.Response>> showReview(){
+        try{
+            return ApiResult.success(reportService.reviewShow());
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null);
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+    @Operation(summary = "댓글 조회")
+    @PostMapping("showComment")
+    public ApiResult<List<ReportCommentDTO.Response>> showComment(){
+        try{
+            return ApiResult.success(reportService.commentShow());
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null);
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+    @Operation(summary = "신고된 일기 조회")
+    @PostMapping("showReportDiary")
+    public ApiResult<List<ReportDiaryDTO.Request>> showReportDiary(){
         try{
             return ApiResult.success(reportService.diaryReportList());
         }catch (NoSuchElementException e){
@@ -74,8 +113,8 @@ public class ReportController {
 
 
     @Operation(summary = "신고된 댓글 조회")
-    @PostMapping("showComment")
-    public ApiResult<List<ReportCommentDTO.Response>> showComment(){
+    @PostMapping("showReportComment")
+    public ApiResult<List<ReportCommentDTO.Response>> showReportComment(){
         try{
             return ApiResult.success(reportService.commentReportList());
         }catch (NoSuchElementException e){
@@ -86,8 +125,8 @@ public class ReportController {
     }
 
     @Operation(summary = "신고된 리뷰 조회")
-    @PostMapping("showReview")
-    public ApiResult<List<ReportReviewDTO.Response>> showReview(){
+    @PostMapping("showReportReview")
+    public ApiResult<List<ReportReviewDTO.Response>> showReportReview(){
         try{
             return ApiResult.success(reportService.reviewReportList());
         }catch (NoSuchElementException e){
