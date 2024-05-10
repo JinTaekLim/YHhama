@@ -113,15 +113,7 @@ public class ItineraryService {
             }
 
             for (Place place : places) {
-                PlaceShowDTO placeShowDTO = new PlaceShowDTO();
-                placeShowDTO.setPlaceId(place.getId());
-                placeShowDTO.setStartTime(place.getStartTime());
-                placeShowDTO.setEndTime(place.getEndTime());
-                placeShowDTO.setPlaceType(place.getPlaceType());
-                placeShowDTO.setPlaceNum(place.getPlaceNum());
-                placeShowDTO.setPlaceName(place.getPlaceName());
-                placeShowDTO.setAddr1(place.getAddr1());
-                placeShowDTO.setMemo(place.getMemo());
+                PlaceShowDTO placeShowDTO = PlaceShowDTO.fromEntity(place);
 
                 String dayKey = "Day-" + place.getDay();
                 if (placesByDay.containsKey(dayKey)) {
