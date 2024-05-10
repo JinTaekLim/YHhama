@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
+import com.YH.yeohaenghama.domain.diary.dto.DiaryItineraryShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
@@ -20,6 +21,8 @@ import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDirectionsDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiGetXY;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
+import com.YH.yeohaenghama.domain.review.entity.Review;
+import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -48,7 +51,7 @@ public class ItineraryService {
     private final DiaryService diaryService;
     private final OpenApiService openApiService;
     private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
-
+    private final ReviewRepository reviewRepository;
     public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO, Long accountId) {
 
 
@@ -332,6 +335,15 @@ public class ItineraryService {
             responses.add(ItineraryJoinAccountShowDTO.Response.fromEntity(itineraryJoinAccount));
         }
         return responses;
+    }
+
+
+    public DiaryItineraryShowDTO.Response diaryForm(Long itineraryId){
+        Optional<Itinerary> itineraryOpt = itineraryRepository.findById(itineraryId);
+        Itinerary itinerary = itineraryOpt.get();
+        Account account = itinerary.getAccount();
+        List<Review> review = reviewRepository.findByAccountId(account.getId());
+        return DiaryItineraryShowDTO.Response.fromEntity(itinerary,review);
     }
 }
 
