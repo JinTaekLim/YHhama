@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.itinerary.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.diary.dto.DiaryItineraryShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.*;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 //import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryType;
@@ -150,6 +151,21 @@ public class ItineraryController {
             return ApiResult.fail("[일정]장소 삭제 실패 : " + e.getMessage());
         }
     }
+
+    @Operation(summary = "일기 작성 양식")
+    @PostMapping("/diaryForm")
+    public ApiResult<DiaryItineraryShowDTO.Response> diaryForm(@RequestParam Long itineraryId) {
+        try {
+            return ApiResult.success(itineraryService.diaryForm(itineraryId));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e) {
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
 
 
     @Operation(summary = "일정 수정")
