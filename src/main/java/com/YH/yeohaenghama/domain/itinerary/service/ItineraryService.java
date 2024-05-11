@@ -96,39 +96,57 @@ public class ItineraryService {
 
     public ItineraryShowDTO getItineraryInfo(Long itineraryId) {
         Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
-        if (optionalItinerary.isPresent()) {
-            Itinerary itinerary = optionalItinerary.get();
-            Account account = itinerary.getAccount();
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(),null, account.getRole());
-
-            LocalDate startDate = itinerary.getStartDate();
-            LocalDate endDate = itinerary.getEndDate();
-
-            long numOfDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
-
-
-            List<Place> places = itinerary.getPlaces();
-            Map<String, List<PlaceShowDTO>> placesByDay = new HashMap<>();
-
-            for (int i = 1; i <= numOfDays; i++) {
-                String dayKey = "Day-" + i;
-                placesByDay.put(dayKey, new ArrayList<>());
-            }
-
-            for (Place place : places) {
-                PlaceShowDTO placeShowDTO = PlaceShowDTO.fromEntity(place);
-
-                String dayKey = "Day-" + place.getDay();
-                if (placesByDay.containsKey(dayKey)) {
-                    placesByDay.get(dayKey).add(placeShowDTO);
-                }
-            }
-
-            return new ItineraryShowDTO(itinerary, accountShowDTO, placesByDay);
-        } else {
-            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
-        }
+        if (!optionalItinerary.isPresent())    throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+        Itinerary itinerary = optionalItinerary.get();
+        return new ItineraryShowDTO(itinerary);
     }
+
+
+    public ItineraryShowDTO copy(ItineraryCopyDTO.Request dto){
+        Optional<Itinerary> itineraryOpt = itineraryRepository.findById(dto.getItineraryId());
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+        if(itineraryOpt.isEmpty() || accountOpt.isEmpty()) throw new NoSuchElementException("입력 받은 ID를 가진 데이터가 존재하지 않습니다. ");
+        Itinerary itinerary = itineraryOpt.get();
+        Account account = accountOpt.get();
+
+        log.info("account = " + account.getId());
+
+
+        ItineraryCopyDTO.itinerary copyItinerary = ItineraryCopyDTO.itinerary.fromEntity(itinerary,account);
+
+
+        Itinerary newItinerary = ItineraryCopyDTO.toEntity(copyItinerary);
+
+
+        itineraryRepository.save(newItinerary);
+
+
+        List<Place> placeList = new ArrayList<>();
+
+        for(Place place : itinerary.getPlaces()){
+            Place newPlace = new Place();
+            newPlace.setItinerary(newItinerary);
+            newPlace.setDay(place.getDay());
+            newPlace.setStartTime(place.getStartTime());
+            newPlace.setEndTime(place.getEndTime());
+            newPlace.setPlaceType(place.getPlaceType());
+            newPlace.setPlaceNum(place.getPlaceNum());
+            newPlace.setPlaceName(place.getPlaceName());
+            newPlace.setAddr1(place.getAddr1());
+            newPlace.setMapx(place.getMapx());
+            newPlace.setMapy(place.getMapy());
+            newPlace.setMemo(place.getMemo());
+
+            placeRepository.save(newPlace);
+            placeList.add(newPlace);
+        }
+
+        newItinerary.setPlaceItinerary(placeList);
+        ItineraryShowDTO response = new ItineraryShowDTO(newItinerary);
+        return response;
+
+    }
+
 
 
     public void deleteItinerary(Long itineraryId,Long accountId) throws IOException {

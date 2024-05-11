@@ -1,11 +1,16 @@
 package com.YH.yeohaenghama.domain.itinerary.dto;
 
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
+import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +40,7 @@ public class ItineraryShowDTO {
     @Schema(description = "일정의 여행지 정보")
     private Map<String, List<PlaceShowDTO>> placesByDay;
 
-    public ItineraryShowDTO(Itinerary itinerary, AccountShowDTO.Response account, Map<String, List<PlaceShowDTO>> placesByDay) {
+    public ItineraryShowDTO(Itinerary itinerary) {
         this.itineraryId = itinerary.getId();
         this.type = itinerary.getType();
         this.style = itinerary.getItineraryStyle();
@@ -45,8 +50,39 @@ public class ItineraryShowDTO {
         this.startDate = itinerary.getStartDate();
         this.endDate = itinerary.getEndDate();
 //        this.expense = itinerary.getExpense();
-        this.account = account;
+
+        Account account = itinerary.getAccount();
+        AccountShowDTO.Response accountDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(),account.getPhotoUrl(),account.getRole());
+        this.account = accountDTO;
+
+
+        Map<String, List<PlaceShowDTO>> placesByDay = new HashMap<>();
+        LocalDate startDate = itinerary.getStartDate();
+        LocalDate endDate = itinerary.getEndDate();
+
+        long numOfDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+
+        for (int i = 1; i <= numOfDays; i++) {
+            String dayKey = "Day-" + i;
+            placesByDay.put(dayKey, new ArrayList<>());
+        }
+
+        for (Place place : itinerary.getPlaces()) {
+            PlaceShowDTO placeShowDTO = PlaceShowDTO.fromEntity(place);
+
+            String dayKey = "Day-" + place.getDay();
+            if (placesByDay.containsKey(dayKey)) {
+                placesByDay.get(dayKey).add(placeShowDTO);
+            }
+        }
+
         this.placesByDay = placesByDay;
+    }
+
+    public Map<String, List<PlaceShowDTO>> setPlace(){
+
+        return null;
     }
 
     public Long getId() {

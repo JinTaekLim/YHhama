@@ -10,6 +10,8 @@ import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
 import com.YH.yeohaenghama.domain.itinerary.service.PlaceService;
+import com.YH.yeohaenghama.domain.report.dto.ReportCountDTO;
+import com.YH.yeohaenghama.domain.report.dto.ReportDiaryDTO;
 import com.google.protobuf.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -137,6 +139,20 @@ public class ItineraryController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+    @Operation(summary = "일정 가져오기")
+    @PostMapping("/copy")
+    public ApiResult<ItineraryShowDTO> copy(@RequestBody ItineraryCopyDTO.Request dto){
+        try{
+            return ApiResult.success(itineraryService.copy(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
 
     @Operation(summary = "일정 삭제")
     @PostMapping("/delete")

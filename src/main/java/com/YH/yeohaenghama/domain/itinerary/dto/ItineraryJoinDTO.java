@@ -31,6 +31,17 @@ public class ItineraryJoinDTO {
     @Schema(description = "경비 관리" , example = "경비 관리")
     private String expense;
 
+    public static ItineraryJoinDTO.Request fromEntity(Itinerary itinerary) {
+        ItineraryJoinDTO.Request request = new ItineraryJoinDTO.Request();
+        request.setName(itinerary.getName());
+        request.setType(new ArrayList<>(itinerary.getType()));
+        request.setStyle(new ArrayList<>(itinerary.getItineraryStyle()));
+        request.setTransportation(itinerary.getTransportation());
+        request.setArea(itinerary.getArea());
+        request.setStartDate(itinerary.getStartDate());
+        request.setEndDate(itinerary.getEndDate());
+        return request;
+    }
 
     @Data
     @Schema(name = "ItineraryRequestDTO", description = " type과 style은 2개 이상의 값을 작성할 때는 , 로 구분하여 한 줄로 전달 <br> ex) 0, 1, 2")
