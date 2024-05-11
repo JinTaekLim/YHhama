@@ -63,6 +63,10 @@ public class Itinerary {
         this.startDate = reqDTO.getStartDate();
         this.endDate = reqDTO.getEndDate();
     }
+
+    public void setPlaceItinerary(List<Place> placeList){
+        this.places = placeList;
+    }
     public void setAccount(Account account) {
         this.account = account;
     }
