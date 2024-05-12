@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,33 @@ public class DiaryShowDTO {
             response.setPhotos(getPhotoUrls(diary.getDiaryPhotoUrls()));
             response.setAccount(getAccountInfo(itinerary.getAccount()));
             response.setItinerary(DiaryItineraryShowDTO.Response.fromEntity(itinerary,review));
+
+            response.setTag(addTag(itinerary));
+
+
             return response;
+        }
+
+
+        public static List<String> addTag(Itinerary itinerary){
+            List<String> tag = new ArrayList<>();
+            String month = itinerary.getStartDate().getMonthValue() + "월출발";
+
+            long day = ChronoUnit.DAYS.between(itinerary.getStartDate(), itinerary.getEndDate());
+
+            tag.add(itinerary.getArea());
+
+            if (day == 1){
+                tag.add("당일치기");
+            }else {
+                tag.add(day-1 + "박" + day +"일");
+            }
+
+            tag.add(month);
+            tag.addAll(itinerary.getItineraryStyle());
+            tag.addAll(itinerary.getType());
+
+            return tag;
         }
 
         private static List<String> getPhotoUrls(List<DiaryPhotoUrl> diaryPhotoUrls) {
