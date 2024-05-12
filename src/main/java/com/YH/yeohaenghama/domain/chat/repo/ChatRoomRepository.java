@@ -42,11 +42,14 @@ public class ChatRoomRepository {
         return opsHashChatRoom.get(CHAT_ROOMS, id);
     }
 
+    public ChatRoom findRoomByItineraryId(String itineraryId) { return opsHashChatRoom.get(CHAT_ROOMS,itineraryId); }
+
+
     /**
      * 채팅방 생성 : 서버간 채팅방 공유를 위해 redis hash에 저장한다.
      */
-    public ChatRoom createChatRoom(String name) {
-        ChatRoom chatRoom = ChatRoom.create(name);
+    public ChatRoom createChatRoom(String name, String itineraryId) {
+        ChatRoom chatRoom = ChatRoom.create(name, itineraryId);
         opsHashChatRoom.put(CHAT_ROOMS, chatRoom.getRoomId(), chatRoom);
         return chatRoom;
     }
@@ -65,4 +68,13 @@ public class ChatRoomRepository {
     public ChannelTopic getTopic(String roomId) {
         return topics.get(roomId);
     }
+
+    public void deleteChatRoom(String roomId) {
+        opsHashChatRoom.delete(CHAT_ROOMS, roomId);
+    }
+
+    public void deleteAll(){
+        redisTemplate.delete(CHAT_ROOMS);
+    }
+
 }
