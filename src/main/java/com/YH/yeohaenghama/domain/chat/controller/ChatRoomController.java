@@ -27,10 +27,28 @@ public class ChatRoomController {
         return chatRoomRepository.findAllRoom();
     }
 
+    @GetMapping("/roomFindItinerary")
+    @ResponseBody
+    public ChatRoom roomItinerary(@RequestParam String itineraryId) {
+        return chatRoomRepository.findRoomByItineraryId(itineraryId);
+    }
+
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom createRoom(@RequestParam String name) {
-        return chatRoomRepository.createChatRoom(name);
+    public ChatRoom createRoom(@RequestParam String name, @RequestParam String itineraryId) {
+        return chatRoomRepository.createChatRoom(name,itineraryId);
+    }
+
+    @DeleteMapping("/deleteRoom")
+    @ResponseBody
+    public void deleteRoom(@RequestParam String roomId) {
+        chatRoomRepository.deleteChatRoom(roomId);
+    }
+
+    @DeleteMapping("/deleteAll")
+    @ResponseBody
+    public void deleteAll(){
+        chatRoomRepository.deleteAll();
     }
 
 //    @GetMapping("/room/enter/{roomId}")
