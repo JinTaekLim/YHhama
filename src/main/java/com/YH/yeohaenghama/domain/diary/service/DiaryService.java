@@ -92,65 +92,10 @@ public class DiaryService {
 
         List<Review> review = reviewRepository.findByAccountId(itinerary.getAccount().getId());
 
+
         return DiaryShowDTO.Response.fromEntity(diary,itinerary,review);
 
     }
-
-//    public DiaryShowDTO.Response show(Long diaryId){
-//        Optional<Diary> diaryOpt = diaryRepository.findById(diaryId);
-//
-//        if (diaryOpt.isEmpty()) {
-//            throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다.");
-//        }
-//
-//        Diary diary = diaryOpt.get();
-//
-//        Optional<Itinerary> itineraryOpt = itineraryRepository.findById(diary.getItinerary());
-//        Itinerary itinerary = itineraryOpt.get();
-//
-//        List<Place> placeOpt = placeRepository.findByItineraryId(itinerary.getId());
-//
-//
-//
-//
-//        Map<String, List<ReviewDTO.Response>> reviewsByDate = new HashMap<>();
-//
-//        for (int i = 0; i < itinerary.getPlaces().size(); i++) {
-//            Long PlaceType = Long.parseLong(itinerary.getPlaces().get(i).getPlaceType());
-//            Long PlaceNum = Long.parseLong(itinerary.getPlaces().get(i).getPlaceNum());
-//
-//            log.info("PlaceType = " + PlaceType + "  PlaceNum = " + PlaceNum + "  Id = " + itinerary.getAccount().getId());
-//
-//            List<Review> reviewOpt = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(PlaceType, PlaceNum, itinerary.getAccount().getId());
-//
-//            String reviewDate = String.valueOf(placeOpt.get(i).getDay());
-//
-//            if (!reviewsByDate.containsKey(reviewDate)) {
-//                reviewsByDate.put(reviewDate, new ArrayList<>());
-//            }
-//
-//            if (!reviewOpt.isEmpty()) {
-//                Review review = reviewOpt.get(0);
-//                ReviewDTO.Response reviewResponse = ReviewDTO.Response.fromEntity(review);
-//                reviewsByDate.get(reviewDate).add(reviewResponse);
-//                log.info("리뷰 ID = " + review.getId());
-//            } else {
-//
-//                reviewsByDate.put(reviewDate, new ArrayList<>());
-//                log.info("리뷰가 없습니다.");
-//            }
-//        }
-//
-//
-//        log.info("총 리뷰 = " + reviewsByDate);
-//
-//        DiaryShowDTO.Response showDTO = DiaryShowDTO.Response.fromEntity(diary, reviewsByDate,itinerary.getAccount());
-//
-//        showDTO.setTag(addTag(itinerary));
-//
-//        return showDTO;
-//
-//    }
 
 
     public List<String> addTag(Itinerary itinerary){
