@@ -36,6 +36,8 @@ public class DiaryDTO {
     @Data
     @Schema(name = "DiaryDTO_Response")
     public static class Response {
+        @Schema(description = "일기 ID")
+        private Long diaryId;
         @Schema(description = "일정 ID")
         private Long itinerary;
         @Schema(description = "일기 작성 일시")
@@ -49,6 +51,7 @@ public class DiaryDTO {
 
         public static Response fromEntity(Diary diary) {
             Response response = new Response();
+            response.setDiaryId(diary.getId());
             response.setItinerary(diary.getItinerary());
             response.setDate(diary.getDate());
             response.setTitle(diary.getTitle());

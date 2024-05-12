@@ -30,7 +30,6 @@ public class DiaryController {
     @PostMapping("/save")
     public ApiResult diarySave(@ModelAttribute DiaryDTO.Request diaryDTO){
         try{
-            log.info(String.valueOf(diaryDTO));
             return ApiResult.success(diaryService.save(diaryDTO));
 
         } catch (Error e){
