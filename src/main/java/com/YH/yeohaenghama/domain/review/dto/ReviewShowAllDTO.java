@@ -24,6 +24,8 @@ public class ReviewShowAllDTO {
 
     @Data
     public static class Response{
+        @Schema(description = "리뷰 ID")
+        private Long reviewId;
         @Schema(description = "장소 번호")
         private Long contentId;     // 장소 번호
         @Schema(description = "관광 타입 번호")
@@ -39,6 +41,7 @@ public class ReviewShowAllDTO {
 
         public static ReviewShowAllDTO.Response fromEntity(Review review, AccountShowDTO.Response account) {
             ReviewShowAllDTO.Response response = new ReviewShowAllDTO.Response();
+            response.setReviewId(review.getId());
             response.setContentId(review.getContentId());
             response.setContentTypeId(review.getContentTypeId());
             response.setRating(review.getRating());

@@ -44,6 +44,8 @@ public class ReviewDTO {
     }
     @Data
     public static class Response{
+        @Schema(description = "리뷰 ID")
+        private Long reviewId;
         @Schema(description = "장소 이름")
         private String placeName;
         @Schema(description = "장소 번호")
@@ -62,6 +64,7 @@ public class ReviewDTO {
 
         public static ReviewDTO.Response fromEntity(Review review) {
             ReviewDTO.Response response = new ReviewDTO.Response();
+            response.setReviewId(review.getId());
             response.setPlaceName(review.getPlaceName());
             response.setContentId(review.getContentId());
             response.setContentTypeId(review.getContentTypeId());
