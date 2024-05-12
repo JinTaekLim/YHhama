@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -34,6 +35,16 @@ public class ChatRoomRepository {
         topics = new HashMap<>();
     }
 
+
+
+
+    public List<ChatRoom> getChatRoomsByUserId(String userId) {
+        List<ChatRoom> allChatRooms = opsHashChatRoom.values(CHAT_ROOMS);
+        return allChatRooms.stream()
+                .filter(chatRoom -> chatRoom.getUsers().contains(userId))
+                .collect(Collectors.toList());
+    }
+
     public List<ChatRoom> findAllRoom() {
         return opsHashChatRoom.values(CHAT_ROOMS);
     }
@@ -48,8 +59,8 @@ public class ChatRoomRepository {
     /**
      * 채팅방 생성 : 서버간 채팅방 공유를 위해 redis hash에 저장한다.
      */
-    public ChatRoom createChatRoom(String name, String itineraryId) {
-        ChatRoom chatRoom = ChatRoom.create(name, itineraryId);
+    public ChatRoom createChatRoom(String name, String itineraryId,List<String> users) {
+        ChatRoom chatRoom = ChatRoom.create(name, itineraryId,users);
         opsHashChatRoom.put(CHAT_ROOMS, chatRoom.getRoomId(), chatRoom);
         return chatRoom;
     }
