@@ -2,7 +2,9 @@ package com.YH.yeohaenghama.domain.chat.controller;
 
 import com.YH.yeohaenghama.domain.chat.model.ChatRoom;
 import com.YH.yeohaenghama.domain.chat.repo.ChatRoomRepository;
+import com.YH.yeohaenghama.domain.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +13,24 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
+@Slf4j
 @RequestMapping("/chat")
 public class ChatRoomController {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatService chatService;
 
 //    @GetMapping("/room")
 //    public String rooms(Model model) {
 //        return "/chat/room";
 //    }
+
+
+    @GetMapping("/test")
+    @ResponseBody
+    public List<ChatRoom> test(String accountId) {
+        return chatRoomRepository.getChatRoomsByUserId(accountId);
+    }
 
     @GetMapping("/rooms")
     @ResponseBody
@@ -35,8 +46,9 @@ public class ChatRoomController {
 
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom createRoom(@RequestParam String name, @RequestParam String itineraryId) {
-        return chatRoomRepository.createChatRoom(name,itineraryId);
+    public ChatRoom createRoom(@RequestParam String itineraryId) {
+        log.info("log " + itineraryId);
+        return chatService.createRoom(itineraryId);
     }
 
     @DeleteMapping("/deleteRoom")
