@@ -261,9 +261,9 @@ public class Account {
 
     @Operation(summary = "회원 탈퇴")
     @PostMapping("/delete")
-    public ApiResult<String> update(@RequestParam Long accountId){
+    public ApiResult<String> delete(@RequestParam Long accountId,@RequestParam String password){
         try{
-            return ApiResult.success(accountService.delete(accountId));
+            return ApiResult.success(accountService.delete(accountId,password));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }catch (Exception e){

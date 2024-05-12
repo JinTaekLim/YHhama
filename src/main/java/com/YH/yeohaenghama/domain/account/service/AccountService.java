@@ -116,7 +116,13 @@ public class AccountService {
     }
 
 
-    public String delete(Long accountId){
+    public String delete(Long accountId,String password){
+        Optional<Account> accountOpt = accountRepository.findById(accountId);
+        if (accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
+        Account account = accountOpt.get();
+
+        if(!account.getPw().equals(password)) throw new NoSuchElementException("비밀번호가 일치하지 않습니다.");
+
         accountRepository.deleteById(accountId);
         return "회원 삭제 성공";
     }
