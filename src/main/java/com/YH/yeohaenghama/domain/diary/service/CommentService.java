@@ -104,10 +104,10 @@ public class CommentService {
 
 
     public CommentShowDTO.Response show(CommentShowDTO dto){
-        if (dto.getDiary() == null){ throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않음"); }
 
-        List<Comment> comments = commentRepository.findAllByDiaryId(dto.getDiary().getId());
+        List<Comment> comments = commentRepository.findAllByDiaryId(dto.getDiaryId());
 
+        if (comments.isEmpty()){ throw new NoSuchElementException("해당 ID를 가진 일기에 댓글이 존재하지 않습니다."); }
 
         List<CommentDTO.Response> commentDTO = new ArrayList<>();
 
