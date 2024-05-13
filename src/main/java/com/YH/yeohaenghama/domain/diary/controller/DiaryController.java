@@ -155,10 +155,8 @@ public class DiaryController {
 
     @Operation(summary = "댓글 조회")
     @PostMapping("commentShow")
-    public ApiResult<CommentShowDTO.Response> commentUpdate(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "조회할 일기", content = @Content(
-            mediaType = "application/json",
-            examples = @ExampleObject(name = "Example", value = "{\"DiaryId\":\"1\"}")
-    ))@RequestBody CommentShowDTO dto){        try{
+    public ApiResult<CommentShowDTO.Response> commentUpdate(@RequestBody CommentShowDTO dto){
+        try{
             return ApiResult.success(commentService.show(dto));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
