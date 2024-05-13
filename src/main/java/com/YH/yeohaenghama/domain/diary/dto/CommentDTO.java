@@ -30,9 +30,9 @@ public class CommentDTO {
     @Schema(name = "CommentDTO_Request")
     public static class Request{
         @Schema(description = "댓글 작성자 ID")
-        private Account account;
+        private Long account;
         @Schema(description = "해당 일기 ID")
-        private Diary diary;
+        private Long diary;
         @Schema(description = "내용")
         private String content;
     }
@@ -78,10 +78,10 @@ public class CommentDTO {
         this.request = request;
     }
 
-    public Comment toEntity() {
+    public Comment toEntity(Account account, Diary diary) {
         Comment comment = Comment.builder()
-                .account(request.getAccount())
-                .diary(request.getDiary())
+                .account(account)
+                .diary(diary)
                 .content(request.getContent())
                 .date(LocalDateTime.now())
                 .build();

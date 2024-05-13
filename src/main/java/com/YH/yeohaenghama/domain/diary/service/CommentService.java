@@ -32,15 +32,17 @@ public class CommentService {
     public CommentDTO.Response save(CommentDTO.Request dto){
 
         log.info(String.valueOf(dto));
-        
-        if(dto.getAccount() == null || accountRepository.findById(dto.getAccount().getId()).isEmpty()) {
-            throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음");
-        }
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccount());
+        if(accountOpt.isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않음"); }
+        Optional<Diary> diaryOpt = diaryRepository.findById(dto.getDiary());
+        if (diaryOpt.isEmpty()){ throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않음"); }
 
-        if (dto.getDiary() == null){ throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않음"); }
+        Account account = accountOpt.get();
+        Diary diary = diaryOpt.get();
+
 
         CommentDTO commentDTO = new CommentDTO(dto);
-        Comment comment = commentDTO.toEntity();
+        Comment comment = commentDTO.toEntity(account,diary);
 
         commentRepository.save(comment);
 
