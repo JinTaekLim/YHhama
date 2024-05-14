@@ -134,7 +134,7 @@ public class AccountService {
     }
 
     public AccountReportDTO.Response warning(AccountReportDTO.Request dto){
-        Optional<Account> adminOpt = accountRepository.findById(dto.getId());
+        Optional<Account> adminOpt = accountRepository.findById(dto.getAdminId());
 
         if (adminOpt.get() == null || adminOpt.get().getRole() == AccountRole.ACCOUNT) { throw new NoSuchElementException("해당 ID를 가진 관리자 계정이 존재하지 않습니다."); }
 
@@ -147,14 +147,7 @@ public class AccountService {
 
         int reportCount = accountReportRepository.findByAccountId(dto.getAccountId()).size();
 
-        if((reportCount+1) % 3 == 0){
-            Date currentDate = new Date();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(currentDate);
-            calendar.add(Calendar.DAY_OF_MONTH, 7);
-
-            account.setStop(calendar.getTime());
-        }
+        if((reportCount+1) % 3 == 0){ account.setStop(getAfterDay(7)); }
 
         accountReportRepository.save(AccountReportDTO.toEntity(account));
 
@@ -162,6 +155,31 @@ public class AccountService {
         AccountReportDTO.Response response = new AccountReportDTO.Response().fromEntity(account);
 
         return response;
+    }
+
+    public AccountReportDTO.Response stop(AccountReportDTO.stop dto){
+        Optional<Account> adminOpt = accountRepository.findById(dto.getAdminid());
+
+        if (adminOpt.get() == null || adminOpt.get().getRole() == AccountRole.ACCOUNT) { throw new NoSuchElementException("해당 ID를 가진 관리자 계정이 존재하지 않습니다."); }
+
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+
+        if(accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
+
+        Account account = accountOpt.get();
+
+        account.setStop(getAfterDay(dto.getDay()));
+
+        return new AccountReportDTO.Response().fromEntity(account);
+    }
+
+    public Date getAfterDay(int day){
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DAY_OF_MONTH, day);
+
+        return calendar.getTime();
     }
 
 }

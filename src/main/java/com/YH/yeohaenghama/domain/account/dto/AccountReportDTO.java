@@ -13,8 +13,15 @@ import java.util.Date;
 public class AccountReportDTO {
     @Data @Schema(name = "AccountReportDTO.Request")
     public static class Request{
-        private Long id;
+        private Long adminId;
         private Long accountId;
+    }
+
+    @Data @Schema(name = "AccountReportDTO.stop")
+    public static class stop{
+        private Long adminid;
+        private Long accountId;
+        private int day;
     }
 
     @Data @Schema(name = "AccountReportDTO.Response")

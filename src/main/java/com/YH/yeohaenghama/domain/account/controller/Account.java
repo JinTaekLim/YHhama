@@ -273,6 +273,19 @@ public class Account {
         }
     }
 
+
+    @Operation(summary = "계정 정지")
+    @PostMapping("/stop")
+    public ApiResult<AccountReportDTO.Response> stop(@RequestBody AccountReportDTO.stop dto){
+        try{
+            return ApiResult.success(accountService.stop(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "계정 경고")
     @PostMapping("/warning")
     public ApiResult<AccountReportDTO.Response> warning(@RequestBody AccountReportDTO.Request dto){
