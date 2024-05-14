@@ -35,6 +35,7 @@ public class AccountService {
         if(accountList.isEmpty()) { throw new NoSuchElementException("유저 데이터가 존재하지 않습니다."); }
 
         for(Account account : accountList){
+            if (account.getRole().equals(AccountRole.ADMIN)) continue;
             response.add(AccountShowAll.Response.fromEntity(account));
         }
 
