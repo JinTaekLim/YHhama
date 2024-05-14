@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.account.dto;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class AccountLoginDTO {
         private String email;
         private String photoUrl;
         private String nickname;
+        private AccountRole role;
         private Date stop;
 
         public static AccountLoginDTO.Response fromEntity(Account account){
@@ -32,6 +34,7 @@ public class AccountLoginDTO {
             response.setEmail(account.getEmail());
             response.setPhotoUrl(account.getPhotoUrl());
             response.setNickname(account.getNickname());
+            response.setRole(account.getRole());
             response.setStop(account.getStop());
             return response;
         }
