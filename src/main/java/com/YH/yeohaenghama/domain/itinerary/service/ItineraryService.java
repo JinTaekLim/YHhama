@@ -207,113 +207,17 @@ public class ItineraryService {
 
 
     public ItineraryShowMain.Response showMain(ItineraryShowMain.Request dto) throws IOException {
-        log.info(String.valueOf(dto));
 
         Optional<Itinerary> itineraryOpt = itineraryRepository.findByIdAndAccountId(dto.getItineraryId(), dto.getAccountId());
-
-        if(itineraryOpt.isEmpty()){
-            throw new NoSuchElementException("유저가 해당 ID를 가진 일정을 가지고 있지 않습니다. ");
-        }
+        if(itineraryOpt.isEmpty()){ throw new NoSuchElementException("유저가 해당 ID를 가진 일정을 가지고 있지 않습니다. "); }
         Itinerary itinerary = itineraryOpt.get();
 
-        ItineraryShowMain.Response response = new ItineraryShowMain.Response();
-        response.setItineraryId(itinerary.getId());
-
-
-        LocalDate currentDate = LocalDate.now();
-        LocalDate savedDate = itinerary.getStartDate(); // 이미 LocalDate 값을 가지고 있다고 가정합니다.
-        long daysDifference = ChronoUnit.DAYS.between(currentDate,savedDate);
-
-
-        response.setDDay(daysDifference);   // D-day
-
-
-
-        List<Place> places = placeRepository.findByItineraryId(itinerary.getId());
-        if(places.isEmpty()){
-            throw new NoSuchElementException("해당 일정에는 장소가 저장되어있지 않습니다. ");
-        }
-
-
-
-
-        Map<String, Map<String, Object>> placesMap = new HashMap<>();
-        Map<String, Map<String, Object>> result = new HashMap<>();
-
-        for (Place place : places) {
-            String getDay = String.valueOf(place.getDay());
-
-            Map<String, Object> placeMap = new LinkedHashMap<>();
-            placeMap.put("name", place.getPlaceName());
-            placeMap.put("place_num", place.getPlaceNum());
-            placeMap.put("place_type", place.getPlaceType());
-            placeMap.put("startTime", place.getStartTime());
-            placeMap.put("endTime", place.getEndTime());
-
-
-            if (!placesMap.containsKey(getDay)) {
-                placesMap.put(getDay, new HashMap<>());
-                placesMap.get(getDay).put("places", new ArrayList<>());
-                placesMap.get(getDay).put("trans", new ArrayList<>());
-            }
-
-            ((List<Map<String, Object>>) placesMap.get(getDay).get("places")).add(placeMap);
-        }
-
-        for (String day : placesMap.keySet()) {
-            List<Map<String, Object>> dayPlaces = (List<Map<String, Object>>) placesMap.get(day).get("places");
-            List<Map<String, Object>> trans = (List<Map<String, Object>>) placesMap.get(day).get("trans");
-
-            for (int i = 0; i < dayPlaces.size(); i += 2) {
-                Map<String, Object> place1 = dayPlaces.get(i);
-                Map<String, Object> place2 = (i + 1 < dayPlaces.size()) ? dayPlaces.get(i + 1) : null;
-
-                Map<String, Object> tran = new HashMap<>();
-                tran.put("startPlace", place1.get("name"));
-                tran.put("endPlace", (place2 != null) ? place2.get("name") : "");
-
-
-                if(place2 != null) {
-                    OpenApiGetXY.Response openApiGetXY = openApiService.getXY((String) place1.get("place_num"), (String) place1.get("place_type"));  // 출발 장소 좌표
-
-                    OpenApiGetXY.Response openApiGetXY2 = openApiService.getXY((String) place2.get("place_num"), (String) place2.get("place_type"));  // 도착 장소 좌표
-
-//                    log.info("x = " + openApiGetXY.getX() + " y = " + openApiGetXY.getY());
-//                    log.info("2x = " + openApiGetXY2.getX() + " 2y = " + openApiGetXY2.getY());
-
-                    if (openApiGetXY2 != null) {
-                        OpenApiDirectionsDTO openApiDirectionsDTO = new OpenApiDirectionsDTO();
-                        openApiDirectionsDTO.setSx(openApiGetXY.getX());
-                        openApiDirectionsDTO.setSy(openApiGetXY.getY());
-                        openApiDirectionsDTO.setEx(openApiGetXY2.getX());
-                        openApiDirectionsDTO.setEy(openApiGetXY2.getY());
-
-                        tran.put("time", openApiService.getDirectionsTransport(openApiDirectionsDTO));
-                    }
-                    trans.add(tran);
-                }
-            }
-
-            Map<String, Object> dayResult = new HashMap<>();
-            dayResult.put("places", dayPlaces);
-            dayResult.put("trans", trans);
-
-            result.put(day, dayResult);
-        }
-
-
-
-
-        response.setPlace(placesMap);
-
-
+        ItineraryShowMain.Response response = new ItineraryShowMain.Response(openApiService);
+        response.insertItinerary(itinerary);
 
 
         return response;
     }
-
-
-
 
 
 
