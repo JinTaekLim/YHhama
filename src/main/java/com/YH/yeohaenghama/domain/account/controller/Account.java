@@ -270,4 +270,16 @@ public class Account {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+    @Operation(summary = "계정 경고")
+    @PostMapping("/warning")
+    public ApiResult<AccountReportDTO.Response> warning(@RequestBody AccountReportDTO.Request dto){
+        try{
+            return ApiResult.success(accountService.warning(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 }

@@ -2,9 +2,13 @@ package com.YH.yeohaenghama.domain.account.service;
 
 import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import com.YH.yeohaenghama.domain.account.dto.AccountChangePwDTO;
+import com.YH.yeohaenghama.domain.account.dto.AccountReportDTO;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
+import com.YH.yeohaenghama.domain.account.entity.AccountReport;
+import com.YH.yeohaenghama.domain.account.entity.AccountRole;
+import com.YH.yeohaenghama.domain.account.repository.AccountReportRepository;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +17,8 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,7 @@ import java.util.Optional;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final AccountReportRepository accountReportRepository;
     private final GCSService gcsService;
 
     public Account createAccount(Account account){
@@ -125,6 +130,37 @@ public class AccountService {
 
         accountRepository.deleteById(accountId);
         return "회원 삭제 성공";
+    }
+
+    public AccountReportDTO.Response warning(AccountReportDTO.Request dto){
+        Optional<Account> adminOpt = accountRepository.findById(dto.getId());
+
+        if (adminOpt.get() == null || adminOpt.get().getRole() == AccountRole.ACCOUNT) { throw new NoSuchElementException("해당 ID를 가진 관리자 계정이 존재하지 않습니다."); }
+
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+
+        if(accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
+
+        Account account = accountOpt.get();
+
+
+        int reportCount = accountReportRepository.findByAccountId(dto.getAccountId()).size();
+
+        if((reportCount+1) % 3 == 0){
+            Date currentDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.DAY_OF_MONTH, 7);
+
+            account.setStop(calendar.getTime());
+        }
+
+        accountReportRepository.save(AccountReportDTO.toEntity(account));
+
+
+        AccountReportDTO.Response response = new AccountReportDTO.Response().fromEntity(account);
+
+        return response;
     }
 
 }
