@@ -23,6 +23,18 @@ import java.util.NoSuchElementException;
 public class ReportController {
     private final ReportService reportService;
 
+    @Operation(summary = "계정 신고")
+    @PostMapping("/account")
+    public ApiResult<ReportCountDTO> account(@RequestBody ReportAccountDTO.Request dto){
+        try{
+            return ApiResult.success(reportService.accountReport(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "일기 신고")
     @PostMapping("/diary")
     public ApiResult<ReportCountDTO> diary(@RequestBody ReportDiaryDTO dto){
