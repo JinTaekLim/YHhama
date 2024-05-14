@@ -14,6 +14,7 @@ import com.YH.yeohaenghama.domain.report.dto.*;
 import com.YH.yeohaenghama.domain.report.entity.ReportComment;
 import com.YH.yeohaenghama.domain.report.entity.ReportDiary;
 import com.YH.yeohaenghama.domain.report.entity.ReportReview;
+import com.YH.yeohaenghama.domain.report.repository.ReportAccountRepository;
 import com.YH.yeohaenghama.domain.report.repository.ReportCommentRepository;
 import com.YH.yeohaenghama.domain.report.repository.ReportDiaryRepository;
 import com.YH.yeohaenghama.domain.report.repository.ReportReviewRepository;
@@ -21,6 +22,7 @@ import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,11 +36,25 @@ public class ReportService {
     private final ReportDiaryRepository reportDiaryRepository;
     private final ReportReviewRepository reportReviewRepository;
     private final ReportCommentRepository reportCommentRepository;
+    private final ReportAccountRepository reportAccountRepository;
     private final AccountRepository accountRepository;
     private final ItineraryRepository itineraryRepository;
     private final DiaryRepository diaryRepository;
     private final ReviewRepository reviewRepository;
     private final CommentRepository commentRepository;
+
+
+    public ReportCountDTO accountReport(ReportAccountDTO.Request dto){
+        if(dto.getAccountId() == dto.getReportAccountId()) throw new NoSuchElementException("잘못된 값이 입력되었습니다.");
+
+        Account account = checkAccount(dto.getAccountId());
+        Account reportAccount = checkAccount(dto.getReportAccountId());
+
+        reportAccountRepository.save(ReportAccountDTO.fromEntity(account,reportAccount));
+
+        return new ReportCountDTO((long) reportAccountRepository.findByReportAccountId(dto.getReportAccountId()).size());
+    }
+
 
     public ReportCountDTO diaryReport(ReportDiaryDTO dto) {
         Account account = checkAccount(dto.getAccountId());
