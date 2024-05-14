@@ -39,6 +39,18 @@ public class Account {
     private final GCSService gcsService;
 
 
+    @Operation(summary = "계정 전체 조회")
+    @PostMapping("/showAll")
+    public ApiResult<List<AccountShowAll.Response>> showAll(){
+        try{
+            return ApiResult.success(accountService.showAll());
+        }catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "아이디 중복 체크")
     @PostMapping("/emailDuplicateCheck")
     public ApiResult emailDuplicateCheck(@RequestParam(name = "email") String email){

@@ -1,11 +1,8 @@
 package com.YH.yeohaenghama.domain.account.service;
 
 import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
-import com.YH.yeohaenghama.domain.account.dto.AccountChangePwDTO;
-import com.YH.yeohaenghama.domain.account.dto.AccountReportDTO;
-import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.dto.*;
 import com.YH.yeohaenghama.domain.account.entity.Account;
-import com.YH.yeohaenghama.domain.account.dto.AccountLoginDTO;
 import com.YH.yeohaenghama.domain.account.entity.AccountReport;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountReportRepository;
@@ -28,6 +25,22 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountReportRepository accountReportRepository;
     private final GCSService gcsService;
+
+
+    public List<AccountShowAll.Response> showAll(){
+
+        List<AccountShowAll.Response> response = new ArrayList<>();
+
+        List<Account> accountList = accountRepository.findAll();
+        if(accountList.isEmpty()) { throw new NoSuchElementException("유저 데이터가 존재하지 않습니다."); }
+
+        for(Account account : accountList){
+            response.add(AccountShowAll.Response.fromEntity(account));
+        }
+
+        return response;
+    }
+
 
     public Account createAccount(Account account){
         return accountRepository.save(account);
