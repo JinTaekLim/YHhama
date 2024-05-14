@@ -126,7 +126,7 @@ public class OpenApiService {
     }
 
 
-    public String getDirectionsTransport(OpenApiDirectionsDTO req) throws IOException {
+    public String getDirectionsTransport(OpenApiDirectionsDTO req) {
         StringBuffer result = new StringBuffer();
         try {
             String apiKey = "/l8EmJ0xgdxUdyZT74sfz8sg9y9K9f3Yy8r3SbZYtFc";
@@ -141,6 +141,7 @@ public class OpenApiService {
 
             String response = sendHttpRequest(apiUrl);
 
+            log.info("리스폰 = " + response);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response);
             JsonNode resultNode = rootNode.get("result");

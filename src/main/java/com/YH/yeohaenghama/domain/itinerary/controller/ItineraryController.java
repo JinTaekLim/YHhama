@@ -212,7 +212,6 @@ public class ItineraryController {
 
 
 
-
     @Operation(summary = "일정 유저 추가")
     @PostMapping("/addAccount")
     public ApiResult<String> addAccount(ItineraryJoinAccountDTO.Request dto){
