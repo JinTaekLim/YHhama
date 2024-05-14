@@ -90,12 +90,16 @@ public class Account {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ApiResult<AccountShowDTO.Response> login(@RequestBody AccountLoginDTO req, HttpServletResponse response) {
+    public ApiResult<AccountLoginDTO.Response> login(@RequestBody AccountLoginDTO req, HttpServletResponse http) {
         try{
-            if(req.getEmail()==null || req.getPw()==null){
-                return ApiResult.badRequest("누락된 데이터가 존재합니다.");
-            }
+
             com.YH.yeohaenghama.domain.account.entity.Account account = accountService.login(req);
+
+            AccountLoginDTO.Response response = new AccountLoginDTO.Response();
+
+            response.setStop(account.getStop());
+
+            if(account.getStop() == null) response = AccountLoginDTO.Response.fromEntity(account);
             httpSession.setAttribute("loggedInId", account);
             httpSession.setAttribute("nickname", account.getNickname());
             httpSession.setAttribute("AccountId", account.getId());
@@ -104,12 +108,10 @@ public class Account {
             Cookie cookie = new Cookie("userId", String.valueOf(account.getId()));
             cookie.setMaxAge(60 * 60 * 24);
             cookie.setPath("/");
-            response.addCookie(cookie);
+            http.addCookie(cookie);
 
 
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
-
-            return ApiResult.success(accountShowDTO);
+            return ApiResult.success(response);
         }
         catch (NoSuchElementException e){
             return ApiResult.success( null,"로그인 실패 : " + e.getMessage());

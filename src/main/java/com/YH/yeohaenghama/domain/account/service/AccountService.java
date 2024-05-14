@@ -41,22 +41,23 @@ public class AccountService {
 
 
     public Account login(AccountLoginDTO req) {
-//        if(req ==null || req.getEmail().isEmpty() || req.getPw().i){
-//            log.info("1");
-//            throw new BadRequestException("누락된 데이터가 있습니다.");
-//        }
         Optional<Account> optionalUser = accountRepository. findByEmail(req.getEmail());
 
 
-        if(optionalUser.isEmpty()) {
-            log.info("2");
-            throw new NoSuchElementException("해당 이메일을 가진 계정을 찾을 수 없습니다.");
-        }
+        if(optionalUser.isEmpty()) { throw new NoSuchElementException("해당 이메일을 가진 계정을 찾을 수 없습니다."); }
 
         Account account = optionalUser.get();
 
-        if(!account.getPw().equals(req.getPw())) {
-            throw new NoSuchElementException("이메일 혹은 비밀번호를 확인해주세요.");
+        if(!account.getPw().equals(req.getPw())) { throw new NoSuchElementException("이메일 혹은 비밀번호를 확인해주세요."); }
+
+        if(account.getStop() != null){
+            Date stopDate = account.getStop();
+            Date nowDate = new Date();
+
+            if (nowDate.after(stopDate)) {
+                account.setStop(null);
+                accountRepository.save(account);
+            }
         }
 
         return account;
