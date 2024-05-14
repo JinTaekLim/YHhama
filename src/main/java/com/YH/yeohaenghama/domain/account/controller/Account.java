@@ -39,6 +39,18 @@ public class Account {
     private final GCSService gcsService;
 
 
+    @Operation(summary = "계정 전체 조회")
+    @PostMapping("/showAll")
+    public ApiResult<List<AccountShowAll.Response>> showAll(){
+        try{
+            return ApiResult.success(accountService.showAll());
+        }catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "아이디 중복 체크")
     @PostMapping("/emailDuplicateCheck")
     public ApiResult emailDuplicateCheck(@RequestParam(name = "email") String email){
@@ -90,12 +102,16 @@ public class Account {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ApiResult<AccountShowDTO.Response> login(@RequestBody AccountLoginDTO req, HttpServletResponse response) {
+    public ApiResult<AccountLoginDTO.Response> login(@RequestBody AccountLoginDTO req, HttpServletResponse http) {
         try{
-            if(req.getEmail()==null || req.getPw()==null){
-                return ApiResult.badRequest("누락된 데이터가 존재합니다.");
-            }
+
             com.YH.yeohaenghama.domain.account.entity.Account account = accountService.login(req);
+
+            AccountLoginDTO.Response response = new AccountLoginDTO.Response();
+
+            response.setStop(account.getStop());
+
+            if(account.getStop() == null) response = AccountLoginDTO.Response.fromEntity(account);
             httpSession.setAttribute("loggedInId", account);
             httpSession.setAttribute("nickname", account.getNickname());
             httpSession.setAttribute("AccountId", account.getId());
@@ -104,12 +120,10 @@ public class Account {
             Cookie cookie = new Cookie("userId", String.valueOf(account.getId()));
             cookie.setMaxAge(60 * 60 * 24);
             cookie.setPath("/");
-            response.addCookie(cookie);
+            http.addCookie(cookie);
 
 
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
-
-            return ApiResult.success(accountShowDTO);
+            return ApiResult.success(response);
         }
         catch (NoSuchElementException e){
             return ApiResult.success( null,"로그인 실패 : " + e.getMessage());
@@ -266,6 +280,31 @@ public class Account {
             return ApiResult.success(accountService.delete(accountId,password));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
+    @Operation(summary = "계정 정지")
+    @PostMapping("/stop")
+    public ApiResult<AccountReportDTO.Response> stop(@RequestBody AccountReportDTO.stop dto){
+        try{
+            return ApiResult.success(accountService.stop(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "계정 경고")
+    @PostMapping("/warning")
+    public ApiResult<AccountReportDTO.Response> warning(@RequestBody AccountReportDTO.Request dto){
+        try{
+            return ApiResult.success(accountService.warning(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
