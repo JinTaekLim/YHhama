@@ -69,7 +69,6 @@ public class Account {
                                      @RequestParam(value = "role", required = false) String role,
                                      @RequestParam(value = "file",required = false) MultipartFile file) {
 
-        log.info(String.valueOf(file));
         try {
             if (email.isEmpty() || pw.isEmpty() || nickname.isEmpty() ) {
                 return ApiResult.badRequest("누락된 데이터가 존재합니다.");
