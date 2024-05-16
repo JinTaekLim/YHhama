@@ -20,7 +20,7 @@ public class ReportDiaryAllDTO {
         @Schema(description = "일기 제목")
         private String diaryTitle;
         @Schema(description = "일기 작성자")
-        private String writer;
+        private AccountShowDTO.Response writer;
         @Schema(description = "신고 누적 횟수")
         private Integer reportCount;
         @Schema(description = "작성 날짜")
@@ -31,7 +31,9 @@ public class ReportDiaryAllDTO {
             ReportDiaryAllDTO.Response response = new ReportDiaryAllDTO.Response();
             response.setDiaryId(diary.getId());
             response.setDiaryTitle(diary.getTitle());
-            response.setWriter(account.getNickname());
+
+            AccountShowDTO.Response accountDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
+            response.setWriter(accountDTO);
             response.setReportCount(reportCount);
             response.setDate(diary.getDate());
 

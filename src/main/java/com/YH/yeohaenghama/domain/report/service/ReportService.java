@@ -147,10 +147,10 @@ public class ReportService {
     }
 
 
-    public List<ReportDiaryDTO.Request> diaryReportList(){
+    public List<ReportDiaryDTO.Response> diaryReportList(){
         List<ReportDiary> reportDiaryList = reportDiaryRepository.findAll();
 
-        List<ReportDiaryDTO.Request> reportShowDiaryDTOList = new ArrayList<>();
+        List<ReportDiaryDTO.Response> reportShowDiaryDTOList = new ArrayList<>();
 
         Set<Long> addedDiaryIds = new HashSet<>();
 
@@ -159,10 +159,10 @@ public class ReportService {
 
             if (!addedDiaryIds.contains(diaryId)) {
                 Diary diary = reportDiary.getDiary();
-                ReportDiaryDTO.Request reportShowDiaryDTO = new ReportDiaryDTO.Request(
+                ReportDiaryDTO.Response reportShowDiaryDTO = new ReportDiaryDTO.Response(
                         diaryId,
                         diary.getTitle(),
-                        reportDiary.getAccount().getNickname(),
+                        reportDiary.getAccount(),
                         reportDiaryRepository.findByDiaryId(diaryId).size(),
                         diary.getDate());
 
