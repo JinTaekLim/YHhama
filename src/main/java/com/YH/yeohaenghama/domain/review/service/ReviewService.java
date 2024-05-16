@@ -161,31 +161,29 @@ public class ReviewService {
 
     }
 
-    public ReviewDeleteDTO.Request delete(ReviewDeleteDTO.Request dto) throws IOException {
+    public String delete(ReviewDeleteDTO.Request dto) throws IOException {
 
         List<Review> reviews = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId());
+        if (reviews.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 리뷰가 존재하지 않습니다.");
 
-        log.info("사진 URL : " + reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl());   // 사진 URL
+        if (!reviews.get(0).getReviewPhotoURLS().isEmpty()){
+            log.info("사진 URL : " + reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl());   // 사진 URL
 
-        String fileUrl = reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl();
-        String fileName = "";
-        int startIndex = fileUrl.indexOf("Review");
-        if (startIndex != -1) {
-            int secondSlashIndex = fileUrl.indexOf('/', startIndex + 7);
-            if (secondSlashIndex != -1) {
-                fileName = fileUrl.substring(startIndex, secondSlashIndex);
+            String fileUrl = reviews.get(0).getReviewPhotoURLS().get(0).getPhotoUrl();
+            String fileName = "";
+            int startIndex = fileUrl.indexOf("Review");
+            if (startIndex != -1) {
+                int secondSlashIndex = fileUrl.indexOf('/', startIndex + 7);
+                if (secondSlashIndex != -1) {
+                    fileName = fileUrl.substring(startIndex, secondSlashIndex);
+                }
             }
+
+            gcsService.delete(fileName);
         }
 
-        gcsService.delete(fileName);
-        log.info(reviews.toString());
-        if(!reviews.isEmpty()){
-            reviewRepository.deleteById(reviews.get(0).getId());
-            return dto;
-        }
-        else {
-            throw new NoSuchElementException(" 해당 유저가 작성한 장소의 저장된 평점이 존재하지 않습니다. : " + dto);
-        }
+        reviewRepository.deleteById(reviews.get(0).getId());
+        return "삭제 완료";
     }
 
 
