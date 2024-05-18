@@ -11,6 +11,10 @@ version = '0.0.1-SNAPSHOT'
 java {
 }
 
+jar {
+	enabled = false
+}
+
 repositories {
 	mavenCentral()
 }
@@ -73,3 +77,4 @@ tasks.withType(Jar) {
 kotlin {
 	jvmToolchain(17)
 }
+

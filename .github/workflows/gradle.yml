@@ -52,3 +52,25 @@ jobs:
               git:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
+          
+
+      # Docker 이미지 빌드
+      - name: Docker Image Build
+        run: |
+          docker build --platform linux/amd64 -t jintaeklim/yhhama .
+        # 에러 발생 시 작업 중지
+        continue-on-error: false
+
+      # Docker 로그인
+      - name: Docker Hub Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      # Docker Hub 이미지 푸시
+      - name: Docker Hub Push
+        run: |
+          docker push jintaeklim/yhhama
+        # 에러 발생 시 작업 중지
+        continue-on-error: false
