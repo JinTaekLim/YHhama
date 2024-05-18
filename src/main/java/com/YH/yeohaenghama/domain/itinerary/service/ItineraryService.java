@@ -197,7 +197,30 @@ public class ItineraryService {
         return responses;
     }
 
-    public final PlaceRepository placeRepository;
+
+    public List<ItineraryShowAccountDTO.Response> showShareAccount(Long accountId) {
+        accountRepository.findById(accountId)
+                .orElseThrow(() -> new NoSuchElementException("해당 id 값을 가진 유저가 존재하지 않습니다. : " + accountId));
+
+        List<ItineraryJoinAccount> itineraryAccountList = itineraryJoinAccountRepository.findByAccountId(accountId);
+
+        if (itineraryAccountList.isEmpty()) throw new NoSuchElementException("해당 ID값을 가진 유저가 공유받은 일정이 존재하지 않습니다.");
+
+        List<ItineraryShowAccountDTO.Response> responses = new ArrayList<>();
+
+        for (ItineraryJoinAccount joinAccount : itineraryAccountList){
+            Optional<Itinerary> itineraryOpt = itineraryRepository.findById(joinAccount.getItinerary().getId());
+            boolean diary = false;
+            Optional<Diary> diaryOpt = diaryRepository.findByItinerary(joinAccount.getItinerary().getId());
+            if(!diaryOpt.isEmpty()){ diary = true; };
+            responses.add(ItineraryShowAccountDTO.Response.fromEntity(itineraryOpt.get(),diary));
+        }
+
+
+        return responses;
+    }
+
+        public final PlaceRepository placeRepository;
 
     public int getPlaceLength(Long ItineraryId){
         log.info(String.valueOf(placeRepository.findByItineraryId(ItineraryId).size()));
