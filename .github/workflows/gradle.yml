@@ -57,7 +57,7 @@ jobs:
       # Docker 이미지 빌드
       - name: Docker Image Build
         run: |
-          docker build --platform linux/amd64 -t jintaeklim/yhhama .
+          docker build --platform linux/amd64 -t jintaeklim/yhhamaback .
         # 에러 발생 시 작업 중지
         continue-on-error: false
 
@@ -71,6 +71,6 @@ jobs:
       # Docker Hub 이미지 푸시
       - name: Docker Hub Push
         run: |
-          docker push jintaeklim/yhhama
+          docker push jintaeklim/yhhamaback
         # 에러 발생 시 작업 중지
         continue-on-error: false
