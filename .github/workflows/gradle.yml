@@ -85,6 +85,7 @@ jobs:
   run-docker-image-on-server:
     # build-docker-image (위)과정이 완료되어야 실행됩니다.
     needs: build-and-deploy
+    if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
 
     steps:
