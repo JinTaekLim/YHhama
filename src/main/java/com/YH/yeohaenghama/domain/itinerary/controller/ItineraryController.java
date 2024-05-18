@@ -140,6 +140,20 @@ public class ItineraryController {
         }
     }
 
+    @Operation(summary = "유저의 공유 받은 모든 일정 조회")
+    @GetMapping("/itineraryShareShow/{accountId}")
+    public ApiResult<List<ItineraryShowAccountDTO.Response>> showShareAccount(@PathVariable Long accountId) {
+        try {
+            return ApiResult.success(itineraryService.showShareAccount(accountId));
+        }
+        catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "일정 가져오기")
     @PostMapping("/copy")
     public ApiResult<ItineraryShowDTO> copy(@RequestBody ItineraryCopyDTO.Request dto){

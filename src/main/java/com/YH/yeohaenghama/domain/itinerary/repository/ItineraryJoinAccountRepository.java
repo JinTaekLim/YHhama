@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ItineraryJoinAccountRepository extends JpaRepository<ItineraryJoinAccount, Long> {
     Optional<ItineraryJoinAccount> findByItineraryIdAndAccountId(Long itineraryId, Long accountId);
     List<ItineraryJoinAccount> findByItineraryId(Long itineraryId);
+    List<ItineraryJoinAccount> findByAccountId(Long accountId);
 }
