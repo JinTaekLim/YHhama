@@ -21,8 +21,12 @@ public class ReviewAccountShowDTO {
 
     @Data
     public static class Response {
-        @Schema(description = "장소 번호")
+        @Schema(description = "리뷰 ID")
         private Long reviewId;
+        @Schema(description = "장소 번호")
+        private Long contentId;
+        @Schema(description = "타입 번호")
+        private Long contentTypeId;
         @Schema(description = "장소명")
         private String placeName;
         @Schema(description = "평점")
@@ -38,6 +42,8 @@ public class ReviewAccountShowDTO {
             ReviewAccountShowDTO.Response response = new ReviewAccountShowDTO.Response();
 
             response.setReviewId(review.getId());
+            response.setContentId(review.getContentId());
+            response.setContentTypeId(review.getContentTypeId());
             response.setPlaceName(review.getPlaceName());
             response.setRating(review.getRating());
             response.setContent(review.getContent());
