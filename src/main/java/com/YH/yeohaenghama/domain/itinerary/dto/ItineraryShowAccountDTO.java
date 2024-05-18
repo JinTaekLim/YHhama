@@ -13,6 +13,7 @@ public class ItineraryShowAccountDTO {
     public static class Response{
         private Long id;
         private String name;
+        private String area;
         private LocalDate startDate;
         private LocalDate endDate;
         private Integer placeLength;
@@ -23,6 +24,7 @@ public class ItineraryShowAccountDTO {
             ItineraryShowAccountDTO.Response response = new ItineraryShowAccountDTO.Response();
             response.setId(itinerary.getId());
             response.setName(itinerary.getName());
+            response.setArea(itinerary.getArea());
             response.setStartDate(itinerary.getStartDate());
             response.setEndDate(itinerary.getEndDate());
             response.setPlaceLength(itinerary.getPlaces().size());
