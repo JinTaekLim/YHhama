@@ -44,10 +44,9 @@ public class DiaryController {
 
     @Operation(summary = "일기 삭제")
     @PostMapping("/delete")
-    public ApiResult diaryDelete(@RequestParam Long diaryId){
+    public ApiResult<String> diaryDelete(@RequestParam Long diaryId){
         try{
-            diaryService.delete(diaryId);
-            return ApiResult.success("일기 삭제 성공");
+            return ApiResult.success(diaryService.delete(diaryId));
         }catch (NoSuchElementException e){
             return ApiResult.success(e.getMessage());
         }catch (Exception e){
