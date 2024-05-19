@@ -31,4 +31,8 @@ public class Account {
     @OneToMany
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private List<AccountReport> accountReports;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccountSavePlace> savePlaces;
+
 }
