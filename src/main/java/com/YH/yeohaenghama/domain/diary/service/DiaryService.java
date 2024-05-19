@@ -67,7 +67,7 @@ public class DiaryService {
 
 
 
-    public void delete(Long diaryId) throws IOException {
+    public String delete(Long diaryId) throws IOException {
         if(diaryRepository.findById(diaryId).isEmpty()){
             throw new NoSuchElementException("해당 ID를 가진 일기가 존재하지 않습니다.");
         }
@@ -76,6 +76,7 @@ public class DiaryService {
         gcsService.delete("Diary/"+optionalDiary.get().getItinerary());
         diaryRepository.deleteById(diaryId);
 
+        return "일기 삭제 성공";
     }
 
     public DiaryShowDTO.Response show(Long diaryId){
