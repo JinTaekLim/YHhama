@@ -140,6 +140,10 @@ public class AccountService {
         Optional<Account> accountOpt = accountRepository.findById(accountId);
         if (accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
         Account account = accountOpt.get();
+        if ( account.getRole() == AccountRole.ADMIN) {
+            accountRepository.deleteById(accountId);
+            return "[관리자] 회원 삭제 성공";
+        }
 
         if(!account.getPw().equals(password)) throw new NoSuchElementException("비밀번호가 일치하지 않습니다.");
 
