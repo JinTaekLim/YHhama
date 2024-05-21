@@ -30,6 +30,8 @@ public class ExpendituresGroup {
 
     private Integer day;
 
+    private String content;
+
     private String paymentMethod;
 
     private String category;
@@ -49,11 +51,12 @@ public class ExpendituresGroup {
     public void setItineraryAccount(ItineraryJoinAccount itineraryJoinAccount){ this.itineraryJoinAccount = itineraryJoinAccount; }
 
     @Builder
-    public ExpendituresGroup(Budget budget,ItineraryJoinAccount itineraryJoinAccount, Place place, Integer day, String paymentMethod, String category, String name, Integer amount) {
+    public ExpendituresGroup(Budget budget,ItineraryJoinAccount itineraryJoinAccount, Place place, Integer day, String content,String paymentMethod, String category, String name, Integer amount) {
         this.budget = budget;
         this.itineraryJoinAccount = itineraryJoinAccount;
         this.place = place;
         this.day = day;
+        this.content = content;
         this.paymentMethod = paymentMethod;
         this.category = category;
         this.name = name;

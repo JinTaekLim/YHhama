@@ -19,6 +19,7 @@ public class ExpendituresAddDTO {
         private Long place = null;
         private Integer day = null;
         private String paymentMethod;
+        private String content;
         private String category;
         private String name;
         private Integer amount;
@@ -32,6 +33,7 @@ public class ExpendituresAddDTO {
         private Place placeEntity = null;
         private PlaceShowExpendituresDTO.Response place = null;
         private int day;
+        private String content;
         private String paymentMethod;
         private String category;
         private String name;
@@ -46,6 +48,7 @@ public class ExpendituresAddDTO {
 //                PlaceShowExpendituresDTO.Response placeResponse = PlaceShowExpendituresDTO.Response.fromEntity(place);
 //                response.setPlace(placeResponse);
 //            }
+            response.setContent(expenditures.getContent());
             response.setPaymentMethod(expenditures.getPaymentMethod());
             response.setCategory(expenditures.getCategory());
             response.setName(expenditures.getName());
@@ -79,6 +82,7 @@ public class ExpendituresAddDTO {
         Expenditures expenditures = Expenditures.builder()
                 .day(request.getDay())
                 .paymentMethod(request.getPaymentMethod())
+                .content(request.getContent())
                 .category(request.getCategory())
                 .name(request.getName())
                 .amount(request.getAmount())
