@@ -26,6 +26,8 @@ public class Expenditures {
 
     private Integer day;
 
+    private String content;
+
     private String paymentMethod;
 
     private String category;
@@ -43,10 +45,11 @@ public class Expenditures {
     }
 
     @Builder
-    public Expenditures(Budget budget, Place place, Integer day, String paymentMethod, String category, String name, Integer amount) {
+    public Expenditures(Budget budget, Place place, Integer day, String content, String paymentMethod, String category, String name, Integer amount) {
         this.budget = budget;
         this.place = place;
         this.day = day;
+        this.content = content;
         this.paymentMethod = paymentMethod;
         this.category = category;
         this.name = name;

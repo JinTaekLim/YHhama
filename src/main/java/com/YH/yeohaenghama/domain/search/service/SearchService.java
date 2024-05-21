@@ -111,17 +111,13 @@ public class SearchService {
         Page<Place> placeList = placeRepository.findByPlaceNameContaining(dto.getKeyWord(),pageable);
 
 //        log.info(placeList.toString());
-        if(!placeList.isEmpty()){
-            for (Place place : placeList){
-//                log.info(String.valueOf(place.getId()));
-                Optional<Diary> diaryOpt = diaryRepository.findByItinerary(place.getItinerary().getId());
-                if(!diaryOpt.isEmpty()) {
-                    SearchDiaryDTO searchReponse = SearchDiaryDTO.fromEntity(diaryOpt.get(), place.getItinerary().getAccount());
-                    searchReponse.setTag(diaryService.addTag(place.getItinerary()));
-                    searchDiaryDTOList.add(searchReponse);
-//                    log.info(String.valueOf(diaryOpt.get().getId()));
-                }
-            }
+        if(placeList.isEmpty()) { return searchDiaryDTO; }
+        for (Place place : placeList){
+            Optional<Diary> diaryOpt = diaryRepository.findByItinerary(place.getItinerary().getId());
+            if(diaryOpt.isEmpty()) continue;
+            SearchDiaryDTO searchReponse = SearchDiaryDTO.fromEntity(diaryOpt.get(), place.getItinerary().getAccount());
+            searchReponse.setTag(diaryService.addTag(place.getItinerary()));
+            searchDiaryDTOList.add(searchReponse);
         }
 
         searchDiaryDTO.setSearchDiaryDTOS(searchDiaryDTOList);

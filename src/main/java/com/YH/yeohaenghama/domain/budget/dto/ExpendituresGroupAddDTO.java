@@ -16,6 +16,7 @@ public class ExpendituresGroupAddDTO {
         private Long accountId;
         private Long place = null;
         private Integer day = null;
+        private String content;
         private String paymentMethod;
         private String category;
         private String name;
@@ -31,6 +32,7 @@ public class ExpendituresGroupAddDTO {
     public ExpendituresGroup toEntity() {
         ExpendituresGroup.ExpendituresGroupBuilder builder = ExpendituresGroup.builder()
                 .day(request.getDay())
+                .content(request.getContent())
                 .paymentMethod(request.getPaymentMethod())
                 .category(request.getCategory())
                 .name(request.getName())

@@ -26,6 +26,7 @@ public class ExpendituresGroupShowDTO {
         private AccountShowDTO.Response accountShowDTO;
         private PlaceShowExpendituresDTO.Response place = null;
         private Integer day;
+        private String content;
         private String paymentMethod;
         private String category;
         private String name;
@@ -45,6 +46,7 @@ public class ExpendituresGroupShowDTO {
                 response.setDay(expendituresGroup.getPlace().getDay());
             }
 
+            response.setContent(expendituresGroup.getContent());
             response.setPaymentMethod(expendituresGroup.getPaymentMethod());
             response.setCategory(expendituresGroup.getCategory());
             response.setName(expendituresGroup.getName());
