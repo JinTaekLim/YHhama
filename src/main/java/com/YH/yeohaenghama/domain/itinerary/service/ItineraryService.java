@@ -250,10 +250,11 @@ public class ItineraryService {
 
         Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
         Optional<Itinerary> itineraryOpt = itineraryRepository.findById(dto.getItineraryId());
+        if(!itineraryJoinAccountRepository.findByItineraryIdAndAccountId(itineraryOpt.get().getId(),dto.getAccountId()).isEmpty()) throw new NoSuchElementException(" 해당 유저는 이미 일정을 공유 받았습니다.");
 
         if(accountOpt == null || itineraryOpt == null) throw new NoSuchElementException(" 입력된 ID를 가진 정보가 존재하지 않습니다. ");
         if(itineraryOpt.get().getAccount() == accountOpt.get()) throw new NoSuchElementException("해당 유저는 일정 주인 입니다.");
-
+        if(itineraryJoinAccountRepository.findByItineraryIdAndAccountId(itineraryOpt.get().getId(),itineraryOpt.get().getAccount().getId()).isEmpty()) itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(itineraryOpt.get().getAccount(),itineraryOpt.get()));
 
         itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(accountOpt.get(),itineraryOpt.get()));
 
