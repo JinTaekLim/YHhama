@@ -10,6 +10,9 @@ import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.report.dto.ReportAccountDTO;
 import com.YH.yeohaenghama.domain.report.entity.ReportAccount;
 import com.YH.yeohaenghama.domain.report.repository.ReportAccountRepository;
+import com.YH.yeohaenghama.domain.report.repository.ReportCommentRepository;
+import com.YH.yeohaenghama.domain.report.repository.ReportDiaryRepository;
+import com.YH.yeohaenghama.domain.report.repository.ReportReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,9 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountReportRepository accountReportRepository;
     private final ReportAccountRepository reportAccountRepository;
+    private final ReportCommentRepository reportCommentRepository;
+    private final ReportDiaryRepository reportDiaryRepository;
+    private final ReportReviewRepository reportReviewRepository;
     private final GCSService gcsService;
 
 
@@ -151,6 +157,9 @@ public class AccountService {
         List<ReportAccount> reportAccountList = reportAccountRepository.findByAccountId(accountId);
         if(!reportAccountList.isEmpty()){ reportAccountRepository.saveAll(ReportAccountDTO.deleteAccount(reportAccountList)); }
         reportAccountRepository.deleteByReportAccountId(accountId);
+        reportCommentRepository.deleteByAccountId(accountId);
+        reportDiaryRepository.deleteByAccountId(accountId);
+        reportReviewRepository.deleteByAccountId(accountId);
 
 
         accountRepository.deleteById(accountId);
