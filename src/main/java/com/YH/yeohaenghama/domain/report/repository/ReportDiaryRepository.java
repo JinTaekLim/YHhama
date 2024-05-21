@@ -10,5 +10,5 @@ public interface ReportDiaryRepository extends JpaRepository<ReportDiary, Long> 
     Optional<ReportDiary> findByAccountIdAndDiaryId(Long accountId, Long diaryId);
 
     List<ReportDiary> findByDiaryId(Long diaryId);
-
+    void deleteByAccountId(Long accountId);
 }

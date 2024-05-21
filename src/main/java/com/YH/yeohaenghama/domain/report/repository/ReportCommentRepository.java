@@ -11,4 +11,6 @@ public interface ReportCommentRepository extends JpaRepository<ReportComment, Lo
     Optional<ReportComment> findByAccountIdAndCommentId(Long accountId, Long commentId);
 
     List<ReportComment> findByCommentId(Long commentId);
+
+    void deleteByAccountId(Long accountId);
 }
