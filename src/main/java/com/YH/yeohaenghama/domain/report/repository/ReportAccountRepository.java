@@ -12,5 +12,7 @@ public interface ReportAccountRepository extends JpaRepository<ReportAccount, Lo
 
     List<ReportAccount> findByReportAccountId(Long accountId);
     List<ReportAccount> findByAccountIdOrReportAccountId(Long accountId,Long reportAccountId);
+    List<ReportAccount> findByAccountId(Long accountId);
+    void deleteByReportAccountId(Long reportAccountId);
 
 }

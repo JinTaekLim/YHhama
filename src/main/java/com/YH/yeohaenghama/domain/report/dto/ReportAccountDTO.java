@@ -24,20 +24,12 @@ public class ReportAccountDTO {
         return response;
     }
 
-    public static List<ReportAccount> deleteAccount(List<ReportAccount> reportAccountList, Account accountId){
+    public static List<ReportAccount> deleteAccount(List<ReportAccount> reportAccountList){
         List<ReportAccount> response = new ArrayList<>();
 
         for(ReportAccount reportAccount : reportAccountList){
-
-            if (reportAccount.getAccount() == accountId ){
                 reportAccount.deleteAccount();
                 response.add(reportAccount);
-            }
-            if(reportAccount.getReportAccount() == accountId){
-                reportAccount.deleteReportAccount();
-                response.add(reportAccount);
-            }
-
         }
 
 
