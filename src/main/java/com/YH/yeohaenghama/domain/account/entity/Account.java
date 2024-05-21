@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.account.entity;
 
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
+import com.YH.yeohaenghama.domain.report.entity.ReportAccount;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,5 +35,7 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountSavePlace> savePlaces;
+
+
 
 }

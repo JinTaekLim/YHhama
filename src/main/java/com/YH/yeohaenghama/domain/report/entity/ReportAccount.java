@@ -22,9 +22,19 @@ public class ReportAccount {
     @JoinColumn(name = "report_account_id")
     private Account reportAccount;
 
+
+    public void deleteAccount(){
+        this.account = null;
+    }
+    public void deleteReportAccount(){
+        this.reportAccount = null;
+    }
+
     @Builder
-    public ReportAccount(Account account, Account reportAccount) {
+    public ReportAccount(Long id, Account account, Account reportAccount) {
+        this.id = id;
         this.account = account;
         this.reportAccount = reportAccount;
     }
+
 }
