@@ -11,5 +11,8 @@ import java.util.Optional;
 public interface ReportAccountRepository extends JpaRepository<ReportAccount, Long> {
 
     List<ReportAccount> findByReportAccountId(Long accountId);
+    List<ReportAccount> findByAccountIdOrReportAccountId(Long accountId,Long reportAccountId);
+    List<ReportAccount> findByAccountId(Long accountId);
+    void deleteByReportAccountId(Long reportAccountId);
 
 }

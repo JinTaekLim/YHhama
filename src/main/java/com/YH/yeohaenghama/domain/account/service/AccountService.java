@@ -7,6 +7,10 @@ import com.YH.yeohaenghama.domain.account.entity.AccountReport;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountReportRepository;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
+import com.YH.yeohaenghama.domain.report.dto.ReportAccountDTO;
+import com.YH.yeohaenghama.domain.report.entity.ReportAccount;
+import com.YH.yeohaenghama.domain.report.repository.ReportAccountRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -24,6 +28,7 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountReportRepository accountReportRepository;
+    private final ReportAccountRepository reportAccountRepository;
     private final GCSService gcsService;
 
 
@@ -136,16 +141,17 @@ public class AccountService {
     }
 
 
+    @Transactional
     public String delete(Long accountId,String password){
         Optional<Account> accountOpt = accountRepository.findById(accountId);
         if (accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
         Account account = accountOpt.get();
-        if ( account.getRole() == AccountRole.ADMIN) {
-            accountRepository.deleteById(accountId);
-            return "[관리자] 회원 삭제 성공";
-        }
+        if(account.getRole() == AccountRole.ACCOUNT && !account.getPw().equals(password)) throw new NoSuchElementException("비밀번호가 일치하지 않습니다.");
 
-        if(!account.getPw().equals(password)) throw new NoSuchElementException("비밀번호가 일치하지 않습니다.");
+        List<ReportAccount> reportAccountList = reportAccountRepository.findByAccountId(accountId);
+        if(!reportAccountList.isEmpty()){ reportAccountRepository.saveAll(ReportAccountDTO.deleteAccount(reportAccountList)); }
+        reportAccountRepository.deleteByReportAccountId(accountId);
+
 
         accountRepository.deleteById(accountId);
         return "회원 삭제 성공";
