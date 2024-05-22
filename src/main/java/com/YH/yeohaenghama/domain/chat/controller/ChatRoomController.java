@@ -51,6 +51,12 @@ public class ChatRoomController {
         return chatService.createRoom(itineraryId);
     }
 
+    @PostMapping("/addUsers")
+    @ResponseBody
+    public ChatRoom addUsers(@RequestParam String roomId,@RequestParam String user){
+        return chatService.addUserToChatRoom(roomId,user);
+    }
+
     @DeleteMapping("/deleteRoom")
     @ResponseBody
     public void deleteRoom(@RequestParam String roomId) {

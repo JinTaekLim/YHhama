@@ -28,4 +28,9 @@ public class ChatService {
 
         return chatRoomRepository.createChatRoom(itinerary.getName(),itineraryId,users);
     }
+
+    public ChatRoom addUserToChatRoom(String roomId, String user) {
+
+        return chatRoomRepository.addUserToChatRoom(roomId,user);
+    }
 }
