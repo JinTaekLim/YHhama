@@ -26,11 +26,9 @@ public class ChatRoomController {
 //    }
 
 
-    @GetMapping("/test")
+    @GetMapping("/roomFindAccount")
     @ResponseBody
-    public List<ChatRoom> test(String accountId) {
-        return chatRoomRepository.getChatRoomsByUserId(accountId);
-    }
+    public List<ChatRoom> roomFindAccount(String accountId) {return chatRoomRepository.getChatRoomsByUserId(accountId);}
 
     @GetMapping("/rooms")
     @ResponseBody
@@ -49,6 +47,12 @@ public class ChatRoomController {
     public ChatRoom createRoom(@RequestParam String itineraryId) {
         log.info("log " + itineraryId);
         return chatService.createRoom(itineraryId);
+    }
+
+    @PostMapping("/addUsers")
+    @ResponseBody
+    public ChatRoom addUsers(@RequestParam String roomId,@RequestParam String user){
+        return chatService.addUserToChatRoom(roomId,user);
     }
 
     @DeleteMapping("/deleteRoom")

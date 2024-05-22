@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
+import com.YH.yeohaenghama.domain.chat.service.ChatService;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryItineraryShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
@@ -52,6 +53,8 @@ public class ItineraryService {
     private final OpenApiService openApiService;
     private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
     private final ReviewRepository reviewRepository;
+    private final ChatService chatService;
+
     public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO, Long accountId) {
 
 
@@ -244,7 +247,7 @@ public class ItineraryService {
 
 
 
-
+    @Transactional
     public String itineraryJoinAccount(ItineraryJoinAccountDTO.Request dto){
         ItineraryJoinAccountDTO itineraryJoinAccountDTO = new ItineraryJoinAccountDTO();
 
@@ -254,10 +257,16 @@ public class ItineraryService {
 
         if(accountOpt == null || itineraryOpt == null) throw new NoSuchElementException(" 입력된 ID를 가진 정보가 존재하지 않습니다. ");
         if(itineraryOpt.get().getAccount() == accountOpt.get()) throw new NoSuchElementException("해당 유저는 일정 주인 입니다.");
-        if(itineraryJoinAccountRepository.findByItineraryIdAndAccountId(itineraryOpt.get().getId(),itineraryOpt.get().getAccount().getId()).isEmpty()) itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(itineraryOpt.get().getAccount(),itineraryOpt.get()));
+
+        String roomId = String.valueOf(itineraryOpt.get().getId());
+
+        if(itineraryJoinAccountRepository.findByItineraryIdAndAccountId(itineraryOpt.get().getId(),itineraryOpt.get().getAccount().getId()).isEmpty()) {
+            itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(itineraryOpt.get().getAccount(), itineraryOpt.get()));
+            chatService.createRoom(roomId);
+        }
 
         itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(accountOpt.get(),itineraryOpt.get()));
-
+        chatService.addUserToChatRoom(roomId, String.valueOf(accountOpt.get().getId()));
         return "추가 성공";
     }
 

@@ -25,4 +25,11 @@ public class ChatRoom implements Serializable {
         chatRoom.users = users;
         return chatRoom;
     }
+
+    public void addUser(String user) {
+        if (this.users == null) {
+            this.users = new ArrayList<>();
+        }
+        this.users.add(user);
+    }
 }

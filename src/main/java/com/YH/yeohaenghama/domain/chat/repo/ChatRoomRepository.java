@@ -65,6 +65,16 @@ public class ChatRoomRepository {
         return chatRoom;
     }
 
+    public ChatRoom addUserToChatRoom(String roomId, String user) {
+        // 기존 채팅방을 검색
+        ChatRoom chatRoom = opsHashChatRoom.get(CHAT_ROOMS, roomId);
+        if (chatRoom != null) {
+            chatRoom.addUser(user);
+            opsHashChatRoom.put(CHAT_ROOMS, roomId, chatRoom);
+        }
+        return chatRoom;
+    }
+
     /**
      * 채팅방 입장 : redis에 topic을 만들고 pub/sub 통신을 하기 위해 리스너를 설정한다.
      */
