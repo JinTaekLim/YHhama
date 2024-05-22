@@ -26,11 +26,9 @@ public class ChatRoomController {
 //    }
 
 
-    @GetMapping("/test")
+    @GetMapping("/roomFindAccount")
     @ResponseBody
-    public List<ChatRoom> test(String accountId) {
-        return chatRoomRepository.getChatRoomsByUserId(accountId);
-    }
+    public List<ChatRoom> roomFindAccount(String accountId) {return chatRoomRepository.getChatRoomsByUserId(accountId);}
 
     @GetMapping("/rooms")
     @ResponseBody

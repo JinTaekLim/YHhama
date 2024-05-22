@@ -30,7 +30,10 @@ public class ChatService {
     }
 
     public ChatRoom addUserToChatRoom(String roomId, String user) {
-
         return chatRoomRepository.addUserToChatRoom(roomId,user);
+    }
+
+    public ChatRoom findRoom(String roomId){
+        return chatRoomRepository.findRoomById(roomId);
     }
 }
