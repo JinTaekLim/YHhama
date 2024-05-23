@@ -10,10 +10,7 @@ import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,7 +25,7 @@ public class BudgetController {
 
     @Operation(summary = "가계부 생성")
     @PostMapping("/create")
-    public ApiResult<BudgetCreateDTO.Response> budgetCreate(BudgetCreateDTO.Request dto){
+    public ApiResult<BudgetCreateDTO.Response> budgetCreate(@RequestBody BudgetCreateDTO.Request dto){
         try{
             return ApiResult.success(budgetService.budgetCreate(dto));
         } catch (NoSuchElementException e){
@@ -41,7 +38,7 @@ public class BudgetController {
 
     @Operation(summary = "가계부 지출 추가")
     @PostMapping("/addExpenditures")
-    public ApiResult<ExpendituresAddDTO.Response> addExpenditures(ExpendituresAddDTO.Request dto){
+    public ApiResult<ExpendituresAddDTO.Response> addExpenditures(@RequestBody ExpendituresAddDTO.Request dto){
         try{
             log.info("dto = "+dto);
             return ApiResult.success(expendituresService.expendituresAdd(dto));
@@ -55,7 +52,7 @@ public class BudgetController {
 
     @Operation(summary = "특정 유저 가계부 지출 추가")
     @PostMapping("/addExpendituresGroupAdd")
-    public ApiResult<String> addExpendituresGroupAdd(ExpendituresGroupAddDTO.Request dto){
+    public ApiResult<String> addExpendituresGroupAdd(@RequestBody ExpendituresGroupAddDTO.Request dto){
         try{
             log.info("dto = "+dto);
             return ApiResult.success(expendituresService.expendituresGroupAdd(dto));
@@ -84,7 +81,7 @@ public class BudgetController {
 
     @Operation(summary = "가계부 삭제")
     @PostMapping("/delete")
-    public ApiResult<String> budgetDelete(BudgetDeleteDTO.Request dto){
+    public ApiResult<String> budgetDelete(@RequestBody BudgetDeleteDTO.Request dto){
         try{
             return ApiResult.success(budgetService.budgetDelete(dto));
         } catch (NoSuchElementException e){
@@ -97,7 +94,7 @@ public class BudgetController {
 
     @Operation(summary = "지출 금액 단일 삭제")
     @PostMapping("/expendituresDeleteOne")
-    public ApiResult<String> expendituresDeleteOne(ExpendituresDeleteDTO.RequestDeleteOne dto){
+    public ApiResult<String> expendituresDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
         try{
             return ApiResult.success(expendituresService.expendituresDeleteOne(dto));
         } catch (NoSuchElementException e){
@@ -110,7 +107,7 @@ public class BudgetController {
 
     @Operation(summary = "지출 금액 날짜별 삭제")
     @PostMapping("/expendituresDeleteDay")
-    public ApiResult<String> expendituresDeleteDay(ExpendituresDeleteDTO.RequestDeleteDay dto){
+    public ApiResult<String> expendituresDeleteDay(@RequestBody ExpendituresDeleteDTO.RequestDeleteDay dto){
         try{
             return ApiResult.success(expendituresService.expendituresDeleteDay(dto));
         } catch (NoSuchElementException e){
@@ -123,7 +120,7 @@ public class BudgetController {
 
     @Operation(summary = "지출 금액 전체 삭제")
     @PostMapping("/expendituresDeleteBudget")
-    public ApiResult<String> expendituresDeleteBudget(ExpendituresDeleteDTO.RequestDeleteBudget dto){
+    public ApiResult<String> expendituresDeleteBudget(@RequestBody ExpendituresDeleteDTO.RequestDeleteBudget dto){
         try{
             return ApiResult.success(expendituresService.expendituresDeleteBudget(dto));
         } catch (NoSuchElementException e){
@@ -136,7 +133,7 @@ public class BudgetController {
 
     @Operation(summary = "가계부 조회")
     @PostMapping("/budgetShow")
-    public ApiResult<BudgetShowDTO.Response> budgetShow(BudgetShowDTO.Request dto){
+    public ApiResult<BudgetShowDTO.Response> budgetShow(@RequestBody BudgetShowDTO.Request dto){
         try{
             return ApiResult.success(budgetService.budgetShow(dto));
         } catch (NoSuchElementException e){
@@ -149,7 +146,7 @@ public class BudgetController {
 
     @Operation(summary = "지출 금액 조회")
     @PostMapping("/expendituresShow")
-    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresShow(ExpendituresShowDTO.Request dto){
+    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresShow(@RequestBody ExpendituresShowDTO.Request dto){
         try{
             return ApiResult.success(expendituresService.expendituresShow(dto));
         } catch (NoSuchElementException e){
@@ -162,7 +159,7 @@ public class BudgetController {
 
     @Operation(summary = "공동 지출 금액 전체 조회")
     @PostMapping("/expendituresGroupAllShow")
-    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAllShow(ExpendituresGroupShowDTO.Request dto){
+    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAllShow(@RequestBody ExpendituresGroupShowDTO.Request dto){
         try{
             return ApiResult.success(expendituresService.expendituresGroupAllShow(dto));
         } catch (NoSuchElementException e){
@@ -175,7 +172,7 @@ public class BudgetController {
 
     @Operation(summary = "공동 지출 금액 개별 조회")
     @PostMapping("/expendituresGroupAccountShow")
-    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAccountShow(ExpendituresGroupShowDTO.AccountRequest dto){
+    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAccountShow(@RequestBody ExpendituresGroupShowDTO.AccountRequest dto){
         try{
             return ApiResult.success(expendituresService.expendituresGroupAccountShow(dto));
         } catch (NoSuchElementException e){
@@ -189,7 +186,7 @@ public class BudgetController {
 
     @Operation(summary = "개인 지출 금액 정산")
     @PostMapping("/expendituresCalculate")
-    public ApiResult<ExpendituresCalculateDTO.Response> expendituresCalculate(ExpendituresCalculateDTO.Request dto){
+    public ApiResult<ExpendituresCalculateDTO.Response> expendituresCalculate(@RequestBody ExpendituresCalculateDTO.Request dto){
         try{
             return ApiResult.success(expendituresService.expendituresCalculate(dto));
         } catch (NoSuchElementException e){
@@ -202,7 +199,7 @@ public class BudgetController {
 
     @Operation(summary = "공동 지출 금액 정산")
     @PostMapping("/expendituresGroupCalculate")
-    public ApiResult<List<ExpendituresGroupCalculateDTO.Reponse>> expendituresGroupCalculate(ExpendituresGroupCalculateDTO.Request dto){
+    public ApiResult<List<ExpendituresGroupCalculateDTO.Reponse>> expendituresGroupCalculate(@RequestBody ExpendituresGroupCalculateDTO.Request dto){
         try{
             log.info("DTO => " + dto);
             return ApiResult.success(expendituresService.expendituresGroupCalculate(dto));
