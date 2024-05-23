@@ -27,6 +27,7 @@ public class BudgetController {
     @PostMapping("/create")
     public ApiResult<BudgetCreateDTO.Response> budgetCreate(@RequestBody BudgetCreateDTO.Request dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(budgetService.budgetCreate(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
@@ -83,6 +84,7 @@ public class BudgetController {
     @PostMapping("/delete")
     public ApiResult<String> budgetDelete(@RequestBody BudgetDeleteDTO.Request dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(budgetService.budgetDelete(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
@@ -96,6 +98,7 @@ public class BudgetController {
     @PostMapping("/expendituresDeleteOne")
     public ApiResult<String> expendituresDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(expendituresService.expendituresDeleteOne(dto));
         } catch (NoSuchElementException e){
             return ApiResult.notFound(e.getMessage());
@@ -109,6 +112,7 @@ public class BudgetController {
     @PostMapping("/expendituresDeleteDay")
     public ApiResult<String> expendituresDeleteDay(@RequestBody ExpendituresDeleteDTO.RequestDeleteDay dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(expendituresService.expendituresDeleteDay(dto));
         } catch (NoSuchElementException e){
             return ApiResult.notFound(e.getMessage());
@@ -122,6 +126,7 @@ public class BudgetController {
     @PostMapping("/expendituresDeleteBudget")
     public ApiResult<String> expendituresDeleteBudget(@RequestBody ExpendituresDeleteDTO.RequestDeleteBudget dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(expendituresService.expendituresDeleteBudget(dto));
         } catch (NoSuchElementException e){
             return ApiResult.notFound(e.getMessage());
@@ -135,6 +140,7 @@ public class BudgetController {
     @PostMapping("/budgetShow")
     public ApiResult<BudgetShowDTO.Response> budgetShow(@RequestBody BudgetShowDTO.Request dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(budgetService.budgetShow(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
@@ -148,6 +154,7 @@ public class BudgetController {
     @PostMapping("/expendituresShow")
     public ApiResult<List<ExpendituresShowDTO.Response>> expendituresShow(@RequestBody ExpendituresShowDTO.Request dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(expendituresService.expendituresShow(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
@@ -161,6 +168,7 @@ public class BudgetController {
     @PostMapping("/expendituresGroupAllShow")
     public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAllShow(@RequestBody ExpendituresGroupShowDTO.Request dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(expendituresService.expendituresGroupAllShow(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
@@ -174,6 +182,7 @@ public class BudgetController {
     @PostMapping("/expendituresGroupAccountShow")
     public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAccountShow(@RequestBody ExpendituresGroupShowDTO.AccountRequest dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(expendituresService.expendituresGroupAccountShow(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
@@ -188,6 +197,7 @@ public class BudgetController {
     @PostMapping("/expendituresCalculate")
     public ApiResult<ExpendituresCalculateDTO.Response> expendituresCalculate(@RequestBody ExpendituresCalculateDTO.Request dto){
         try{
+            log.info("DTO ==== " + dto);
             return ApiResult.success(expendituresService.expendituresCalculate(dto));
         } catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
