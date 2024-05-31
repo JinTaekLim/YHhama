@@ -17,6 +17,10 @@ public class Expenditures {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
+
+    @ManyToOne
     @JoinColumn(name = "budget_id", referencedColumnName = "id")
     private Budget budget;
 
@@ -44,8 +48,13 @@ public class Expenditures {
         this.place = place;
     }
 
+    public void setAccount(Account account){
+        this.account = account;
+    }
+
     @Builder
-    public Expenditures(Budget budget, Place place, Integer day, String content, String paymentMethod, String category, String name, Integer amount) {
+    public Expenditures(Account account, Budget budget, Place place, Integer day, String content, String paymentMethod, String category, String name, Integer amount) {
+        this.account = account;
         this.budget = budget;
         this.place = place;
         this.day = day;

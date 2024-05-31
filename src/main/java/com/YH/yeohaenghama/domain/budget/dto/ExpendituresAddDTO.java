@@ -1,5 +1,7 @@
 package com.YH.yeohaenghama.domain.budget.dto;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
@@ -16,6 +18,7 @@ public class ExpendituresAddDTO {
     @Data @Schema(name = "ExpendituresAddDTO_Request")
     public static class Request{
         private Long itineraryId;
+        private Long accountId;
         private Long place = null;
         private Integer day = null;
         private String paymentMethod;
@@ -27,6 +30,7 @@ public class ExpendituresAddDTO {
     @Data @Schema(name = "ExpendituresAddDTO_Response")
     public static class Response{
         private Long id;
+        private AccountShowDTO.Response account;
         @JsonIgnore
         private Budget budget;
         @JsonIgnore
@@ -39,9 +43,10 @@ public class ExpendituresAddDTO {
         private String name;
         private Integer amount;
 
-        public static ExpendituresAddDTO.Response fromEntity(Expenditures expenditures){
+        public static ExpendituresAddDTO.Response fromEntity(Expenditures expenditures, Account account){
             ExpendituresAddDTO.Response response = new ExpendituresAddDTO.Response();
             response.setId(expenditures.getId());
+            response.setAccount(accountShow(account));
             response.setBudget(expenditures.getBudget());
 //            if(place != null){
 //                response.setPlaceEntity(place);
@@ -88,5 +93,10 @@ public class ExpendituresAddDTO {
                 .amount(request.getAmount())
                 .build();
         return expenditures;
+    }
+
+    public static AccountShowDTO.Response accountShow(Account account){
+        AccountShowDTO.Response response = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
+        return response;
     }
 }
