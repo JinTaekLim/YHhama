@@ -14,6 +14,7 @@ public class ExpendituresShowDTO {
     @Data @Schema(name = "ExpendituresShowDTO_Request")
     public static class Request{
         private Long BudgetId;
+        private Long accountId;
     }
     @Data
     public static class Response{

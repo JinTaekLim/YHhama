@@ -150,7 +150,7 @@ public class BudgetController {
         }
     }
 
-    @Operation(summary = "지출 금액 조회")
+    @Operation(summary = "개인 지출 금액 조회")
     @PostMapping("/expendituresShow")
     public ApiResult<List<ExpendituresShowDTO.Response>> expendituresShow(@RequestBody ExpendituresShowDTO.Request dto){
         try{
