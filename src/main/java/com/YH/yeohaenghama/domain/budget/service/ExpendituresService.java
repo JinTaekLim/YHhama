@@ -87,10 +87,13 @@ public class ExpendituresService {
     public List<ExpendituresShowDTO.Response> expendituresShow(ExpendituresShowDTO.Request dto){
         List<Expenditures> expendituresList = expendituresRepository.findByBudgetId(dto.getBudgetId());
         if(expendituresList.isEmpty()) { throw new NoSuchElementException("해당 가계부에는 존재하는 지출 금액이 없습니다. "); }
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+        if(accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
+
         List<ExpendituresShowDTO.Response> response = new ArrayList<>();
 
-        for(Expenditures expenditures : expendituresList){;
-            response.add(ExpendituresShowDTO.Response.fromEntity(expenditures));
+        for(Expenditures expenditures : expendituresList){
+            if (expenditures.getAccount() == accountOpt.get()) response.add(ExpendituresShowDTO.Response.fromEntity(expenditures));
         }
 
         return response;
