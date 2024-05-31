@@ -108,6 +108,20 @@ public class BudgetController {
         }
     }
 
+    @Operation(summary = "공동 지출 금액 단일 삭제")
+    @PostMapping("/expendituresGroupDeleteOne")
+    public ApiResult<String> expendituresGroupDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
+        try{
+            log.info("DTO ==== " + dto);
+            return ApiResult.success(expendituresService.expendituresGroupDeleteOne(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "지출 금액 날짜별 삭제")
     @PostMapping("/expendituresDeleteDay")
     public ApiResult<String> expendituresDeleteDay(@RequestBody ExpendituresDeleteDTO.RequestDeleteDay dto){

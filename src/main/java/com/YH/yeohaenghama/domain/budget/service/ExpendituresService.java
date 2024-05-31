@@ -189,6 +189,15 @@ public class ExpendituresService {
         return "삭제 완료";
     }
 
+    public String expendituresGroupDeleteOne(ExpendituresDeleteDTO.RequestDeleteOne dto){
+        Optional<ExpendituresGroup> expendituresGroupOpt = expendituresGroupRepository.findById(dto.getId());
+        if(expendituresGroupOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");
+
+        expendituresGroupRepository.deleteById(dto.getId());
+
+        return "삭제 완료";
+    }
+
     public String expendituresDeleteDay(ExpendituresDeleteDTO.RequestDeleteDay dto){
         List<Expenditures> expendituresOpt = expendituresRepository.findByDay(dto.getDay());
         if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");
