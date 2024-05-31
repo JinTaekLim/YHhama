@@ -207,7 +207,7 @@ public class BudgetController {
     }
 
 
-    @Operation(summary = "가계부 지출 전체 정산")
+    @Operation(summary = "가계부 지출(개인) 전체 정산")
     @PostMapping("/calculate")
     public ApiResult<BudgetCalculateDTO.Response> expendituresCalculate(@RequestBody BudgetCalculateDTO.Request dto){
         try{
