@@ -126,6 +126,26 @@ public class ExpendituresService {
         return response;
     }
 
+    public BudgetCalculateDTO.Response calculate(BudgetCalculateDTO.Request dto){
+        Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudgetId());
+        if(budgetOpt.get().getExpenditures().isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 가계부에 지출 정보가 존재하지 않습니다. "); }
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+        if(accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
+
+        List<Expenditures> expendituresList = new ArrayList<>();
+        List<ExpendituresGroup> expendituresGroupList = new ArrayList<>();
+
+        List<Expenditures> expenditures = expendituresRepository.findByBudgetId(dto.getBudgetId());
+        if(expenditures != null) expendituresList = expenditures;
+        List<ExpendituresGroup> expendituresGroups = expendituresGroupRepository.findByBudgetId(dto.getBudgetId());
+        if(expendituresGroups != null) expendituresGroupList = expendituresGroups;
+
+        BudgetCalculateDTO.Response response = new BudgetCalculateDTO.Response().fromEntity(dto.getBudgetId(), accountOpt.get(),expendituresList,expendituresGroupList);
+
+
+        return response;
+    }
+
     public ExpendituresCalculateDTO.Response expendituresCalculate(ExpendituresCalculateDTO.Request dto){
         Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudgetId());
         if(budgetOpt.get().getExpenditures().isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 가계부에 지출 정보가 존재하지 않습니다. "); }
