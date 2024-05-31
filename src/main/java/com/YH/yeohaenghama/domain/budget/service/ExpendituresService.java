@@ -35,6 +35,7 @@ public class ExpendituresService {
     private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
     private final PlaceRepository placeRepository;
     private final ExpendituresGroupRepository expendituresGroupRepository;
+    private final AccountRepository accountRepository;
 
     public ExpendituresAddDTO.Response expendituresAdd(ExpendituresAddDTO.Request dto){
         Optional<Budget> budgetOpt = budgetRepository.findByItineraryId(dto.getItineraryId());
@@ -44,13 +45,16 @@ public class ExpendituresService {
             placeOpt = placeRepository.findById(dto.getPlace());
             if (placeOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 장소가 존재하지 않습니다. ");
         }
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+        if(accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
 
         Expenditures expenditures = new ExpendituresAddDTO(dto).toEntity();
+        expenditures.setAccount(accountOpt.get());
         expenditures.setBudget(budgetOpt.get());
         if(dto.getPlace() != null) expenditures.setPlace(placeOpt.get());
         expendituresRepository.save(expenditures);
 
-        ExpendituresAddDTO.Response response = ExpendituresAddDTO.Response.fromEntity(expenditures);
+        ExpendituresAddDTO.Response response = ExpendituresAddDTO.Response.fromEntity(expenditures,accountOpt.get());
 
         if(placeOpt != null) response.setPlace(placeOpt.get());
         return response;
@@ -81,11 +85,11 @@ public class ExpendituresService {
     }
 
     public List<ExpendituresShowDTO.Response> expendituresShow(ExpendituresShowDTO.Request dto){
-        List<Expenditures> expendituresList = expendituresRepository.findByBudgetId(dto.getId());
+        List<Expenditures> expendituresList = expendituresRepository.findByBudgetId(dto.getBudgetId());
         if(expendituresList.isEmpty()) { throw new NoSuchElementException("해당 가계부에는 존재하는 지출 금액이 없습니다. "); }
         List<ExpendituresShowDTO.Response> response = new ArrayList<>();
 
-        for(Expenditures expenditures : expendituresList){
+        for(Expenditures expenditures : expendituresList){;
             response.add(ExpendituresShowDTO.Response.fromEntity(expenditures));
         }
 
@@ -93,7 +97,7 @@ public class ExpendituresService {
     }
 
     public List<ExpendituresGroupShowDTO.Response> expendituresGroupAllShow(ExpendituresGroupShowDTO.Request dto){
-        List<ExpendituresGroup> expendituresList = expendituresGroupRepository.findByBudgetId(dto.getId());
+        List<ExpendituresGroup> expendituresList = expendituresGroupRepository.findByBudgetId(dto.getBudgetId());
         if(expendituresList.isEmpty()) { throw new NoSuchElementException("해당 가계부에는 존재하는 지출 금액이 없습니다. "); }
         List<ExpendituresGroupShowDTO.Response> response = new ArrayList<>();
 

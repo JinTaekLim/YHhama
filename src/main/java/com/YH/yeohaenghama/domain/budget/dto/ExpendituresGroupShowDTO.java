@@ -12,7 +12,7 @@ public class ExpendituresGroupShowDTO {
     @Data
     @Schema(name = "ExpendituresGroupShowDTO_Request")
     public static class Request{
-        private Long id;
+        private Long budgetId;
     }
     @Data
     @Schema(name = "ExpendituresGroupAccountShowDTO_Request")
