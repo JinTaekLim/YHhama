@@ -36,24 +36,24 @@ public class Expenditures {
 
     private String category;
 
-    private String name;
-
     private Integer amount;
 
+    private boolean individual;
 
-    public void setBudget(Budget budget){
-        this.budget = budget;
-    }
-    public void setPlace(Place place){
-        this.place = place;
-    }
 
-    public void setAccount(Account account){
-        this.account = account;
-    }
+//    public void setBudget(Budget budget){
+//        this.budget = budget;
+//    }
+//    public void setPlace(Place place){
+//        this.place = place;
+//    }
+//
+//    public void setAccount(Account account){
+//        this.account = account;
+//    }
 
     @Builder
-    public Expenditures(Account account, Budget budget, Place place, Integer day, String content, String paymentMethod, String category, String name, Integer amount) {
+    public Expenditures(Account account, Budget budget, Place place, Integer day, String content, String paymentMethod, String category,  Integer amount, boolean individual) {
         this.account = account;
         this.budget = budget;
         this.place = place;
@@ -61,8 +61,8 @@ public class Expenditures {
         this.content = content;
         this.paymentMethod = paymentMethod;
         this.category = category;
-        this.name = name;
         this.amount = amount;
+        this.individual = individual;
     }
 
 }

@@ -3,7 +3,6 @@ package com.YH.yeohaenghama.domain.itinerary.entity;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
-import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,8 +30,8 @@ public class ItineraryJoinAccount {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
-    @OneToMany(mappedBy = "itineraryJoinAccount", cascade = CascadeType.REMOVE)
-    private List<ExpendituresGroup> expendituresGroups = new ArrayList<>();
+//    @OneToMany(mappedBy = "itineraryJoinAccount", cascade = CascadeType.REMOVE)
+//    private List<Expenditures> expenditures = new ArrayList<>();
 
     @Builder
     public ItineraryJoinAccount(Itinerary itinerary, Account account) {
