@@ -11,11 +11,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 public class ExpendituresShowDTO {
-    @Data @Schema(name = "ExpendituresShowDTO_Request")
-    public static class Request{
-        private Long BudgetId;
-        private Long accountId;
-    }
+//    @Data @Schema(name = "ExpendituresShowDTO_Request")
+//    public static class Request{
+//        private Long BudgetId;
+//        private Long accountId;
+//    }
     @Data
     public static class Response{
         private Long id;
@@ -41,7 +41,6 @@ public class ExpendituresShowDTO {
             response.setContent(expenditures.getContent());
             response.setPaymentMethod(expenditures.getPaymentMethod());
             response.setCategory(expenditures.getCategory());
-            response.setName(expenditures.getName());
             response.setAmount(expenditures.getAmount());
 
             return response;

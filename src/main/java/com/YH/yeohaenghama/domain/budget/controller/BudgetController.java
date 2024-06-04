@@ -51,19 +51,19 @@ public class BudgetController {
         }
     }
 
-    @Operation(summary = "특정 유저 가계부 지출 추가")
-    @PostMapping("/addExpendituresGroupAdd")
-    public ApiResult<String> addExpendituresGroupAdd(@RequestBody ExpendituresGroupAddDTO.Request dto){
-        try{
-            log.info("dto = "+dto);
-            return ApiResult.success(expendituresService.expendituresGroupAdd(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.notFound(e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "특정 유저 가계부 지출 추가")
+//    @PostMapping("/addExpendituresGroupAdd")
+//    public ApiResult<String> addExpendituresGroupAdd(@RequestBody ExpendituresGroupAddDTO.Request dto){
+//        try{
+//            log.info("dto = "+dto);
+//            return ApiResult.success(expendituresService.expendituresGroupAdd(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.notFound(e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 //
 //    @Operation(summary = "가계부 유저 추가")
 //    @PostMapping("/addAccount")
@@ -94,61 +94,61 @@ public class BudgetController {
         }
     }
 
-    @Operation(summary = "지출 금액 단일 삭제")
-    @PostMapping("/expendituresDeleteOne")
-    public ApiResult<String> expendituresDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.expendituresDeleteOne(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.notFound(e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "지출 금액 단일 삭제")
+//    @PostMapping("/expendituresDeleteOne")
+//    public ApiResult<String> expendituresDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.expendituresDeleteOne(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.notFound(e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
-    @Operation(summary = "공동 지출 금액 단일 삭제")
-    @PostMapping("/expendituresGroupDeleteOne")
-    public ApiResult<String> expendituresGroupDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.expendituresGroupDeleteOne(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.notFound(e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "공동 지출 금액 단일 삭제")
+//    @PostMapping("/expendituresGroupDeleteOne")
+//    public ApiResult<String> expendituresGroupDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.expendituresGroupDeleteOne(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.notFound(e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
-    @Operation(summary = "지출 금액 날짜별 삭제")
-    @PostMapping("/expendituresDeleteDay")
-    public ApiResult<String> expendituresDeleteDay(@RequestBody ExpendituresDeleteDTO.RequestDeleteDay dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.expendituresDeleteDay(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.notFound(e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "지출 금액 날짜별 삭제")
+//    @PostMapping("/expendituresDeleteDay")
+//    public ApiResult<String> expendituresDeleteDay(@RequestBody ExpendituresDeleteDTO.RequestDeleteDay dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.expendituresDeleteDay(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.notFound(e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
-    @Operation(summary = "지출 금액 전체 삭제")
-    @PostMapping("/expendituresDeleteBudget")
-    public ApiResult<String> expendituresDeleteBudget(@RequestBody ExpendituresDeleteDTO.RequestDeleteBudget dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.expendituresDeleteBudget(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.notFound(e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "지출 금액 전체 삭제")
+//    @PostMapping("/expendituresDeleteBudget")
+//    public ApiResult<String> expendituresDeleteBudget(@RequestBody ExpendituresDeleteDTO.RequestDeleteBudget dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.expendituresDeleteBudget(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.notFound(e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
     @Operation(summary = "가계부 조회")
     @PostMapping("/budgetShow")
@@ -163,92 +163,92 @@ public class BudgetController {
             return ApiResult.fail(e.getMessage());
         }
     }
+//
+//    @Operation(summary = "개인 지출 금액 조회")
+//    @PostMapping("/expendituresShow")
+//    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresShow(@RequestBody ExpendituresShowDTO.Request dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.expendituresShow(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.success(null,e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
-    @Operation(summary = "개인 지출 금액 조회")
-    @PostMapping("/expendituresShow")
-    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresShow(@RequestBody ExpendituresShowDTO.Request dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.expendituresShow(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.success(null,e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "공동 지출 금액 전체 조회")
+//    @PostMapping("/expendituresGroupAllShow")
+//    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAllShow(@RequestBody ExpendituresGroupShowDTO.Request dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.expendituresGroupAllShow(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.success(null,e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
-    @Operation(summary = "공동 지출 금액 전체 조회")
-    @PostMapping("/expendituresGroupAllShow")
-    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAllShow(@RequestBody ExpendituresGroupShowDTO.Request dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.expendituresGroupAllShow(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.success(null,e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
-
-    @Operation(summary = "공동 지출 금액 개별 조회")
-    @PostMapping("/expendituresGroupAccountShow")
-    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAccountShow(@RequestBody ExpendituresGroupShowDTO.AccountRequest dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.expendituresGroupAccountShow(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.success(null,e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "공동 지출 금액 개별 조회")
+//    @PostMapping("/expendituresGroupAccountShow")
+//    public ApiResult<List<ExpendituresGroupShowDTO.Response>> expendituresGroupAccountShow(@RequestBody ExpendituresGroupShowDTO.AccountRequest dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.expendituresGroupAccountShow(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.success(null,e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
 
-    @Operation(summary = "가계부 지출(개인) 전체 정산")
-    @PostMapping("/calculate")
-    public ApiResult<BudgetCalculateDTO.Response> expendituresCalculate(@RequestBody BudgetCalculateDTO.Request dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.calculate(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.success(null,e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "가계부 지출(개인) 전체 정산")
+//    @PostMapping("/calculate")
+//    public ApiResult<BudgetCalculateDTO.Response> expendituresCalculate(@RequestBody BudgetCalculateDTO.Request dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.calculate(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.success(null,e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
-    @Operation(summary = "개인 지출 금액 정산")
-    @PostMapping("/expendituresCalculate")
-    public ApiResult<ExpendituresCalculateDTO.Response> expendituresCalculate(@RequestBody ExpendituresCalculateDTO.Request dto){
-        try{
-            log.info("DTO ==== " + dto);
-            return ApiResult.success(expendituresService.expendituresCalculate(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.success(null,e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
+//    @Operation(summary = "개인 지출 금액 정산")
+//    @PostMapping("/expendituresCalculate")
+//    public ApiResult<ExpendituresCalculateDTO.Response> expendituresCalculate(@RequestBody ExpendituresCalculateDTO.Request dto){
+//        try{
+//            log.info("DTO ==== " + dto);
+//            return ApiResult.success(expendituresService.expendituresCalculate(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.success(null,e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
-    @Operation(summary = "공동 지출 금액 정산")
-    @PostMapping("/expendituresGroupCalculate")
-    public ApiResult<List<ExpendituresGroupCalculateDTO.Reponse>> expendituresGroupCalculate(@RequestBody ExpendituresGroupCalculateDTO.Request dto){
-        try{
-            log.info("DTO => " + dto);
-            return ApiResult.success(expendituresService.expendituresGroupCalculate(dto));
-        } catch (NoSuchElementException e){
-            return ApiResult.success(null,e.getMessage());
-        }
-        catch (Exception e){
-            return ApiResult.fail(e.getMessage());
-        }
-    }
-
+//    @Operation(summary = "공동 지출 금액 정산")
+//    @PostMapping("/expendituresGroupCalculate")
+//    public ApiResult<List<ExpendituresGroupCalculateDTO.Reponse>> expendituresGroupCalculate(@RequestBody ExpendituresGroupCalculateDTO.Request dto){
+//        try{
+//            log.info("DTO => " + dto);
+//            return ApiResult.success(expendituresService.expendituresGroupCalculate(dto));
+//        } catch (NoSuchElementException e){
+//            return ApiResult.success(null,e.getMessage());
+//        }
+//        catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
+//
 
 
 
