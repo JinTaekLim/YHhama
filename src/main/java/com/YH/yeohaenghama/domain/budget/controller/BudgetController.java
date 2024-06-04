@@ -163,10 +163,10 @@ public class BudgetController {
             return ApiResult.fail(e.getMessage());
         }
     }
-//
-//    @Operation(summary = "개인 지출 금액 조회")
-//    @PostMapping("/expendituresShow")
-//    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresShow(@RequestBody ExpendituresShowDTO.Request dto){
+
+//    @Operation(summary = "가계부 수정")
+//    @PostMapping("/expendituresUpdate")
+//    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresUpdate(@RequestBody ExpendituresShowDTO.Request dto){
 //        try{
 //            log.info("DTO ==== " + dto);
 //            return ApiResult.success(expendituresService.expendituresShow(dto));

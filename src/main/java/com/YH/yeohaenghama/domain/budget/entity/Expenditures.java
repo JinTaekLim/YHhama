@@ -16,7 +16,7 @@ import java.util.Optional;
 @Getter
 @NoArgsConstructor
 public class Expenditures {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Setter
     private Long id;
 
     @ManyToOne

@@ -21,6 +21,7 @@ public class ExpendituresAddDTO {
 
     @Data @Schema(name = "ExpendituresAddDTO_Request")
     public static class Request{
+        private Long expendituresId;
         private Long budgetId;
         private List<Long> accountId;
         private List<Integer> amount;
