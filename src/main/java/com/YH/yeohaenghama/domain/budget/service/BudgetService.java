@@ -5,7 +5,9 @@ import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.budget.dto.*;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
+import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
 import com.YH.yeohaenghama.domain.budget.repository.BudgetRepository;
+import com.YH.yeohaenghama.domain.budget.repository.ExpendituresGroupRepository;
 import com.YH.yeohaenghama.domain.budget.repository.ExpendituresRepository;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
@@ -25,6 +27,7 @@ import java.util.*;
 public class BudgetService {
     private final BudgetRepository budgetRepository;
     private final ExpendituresRepository expendituresRepository;
+    private final ExpendituresGroupRepository expendituresGroupRepository;
     private final ItineraryRepository itineraryRepository;
     private final AccountRepository accountRepository;
     private final PlaceRepository placeRepository;
@@ -54,9 +57,12 @@ public class BudgetService {
     public BudgetShowDTO.Response budgetShow(BudgetShowDTO.Request dto){
         Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudgetId());
         if(budgetOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 가계부가 존재하지 않습니다. ");
-        Optional<Expenditures> expenditures = expendituresRepository.findById(budgetOpt.get().getId());
 
-        BudgetShowDTO.Response response = BudgetShowDTO.Response.fromEntity(budgetOpt.get(),null);
+        List<Expenditures> expendituresList = expendituresRepository.findByBudgetId(dto.getBudgetId());
+        if(expendituresList.isEmpty()) throw new NoSuchElementException("해당 가계부에 지출이 존재하지 않습니다. ");
+
+
+        BudgetShowDTO.Response response = BudgetShowDTO.Response.fromEntity(dto.getAccountId(),expendituresList);
 
 
 

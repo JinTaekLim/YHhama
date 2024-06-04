@@ -10,12 +10,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 public class ExpendituresShowDTO {
-//    @Data @Schema(name = "ExpendituresShowDTO_Request")
-//    public static class Request{
-//        private Long BudgetId;
-//        private Long accountId;
-//    }
     @Data
     public static class Response{
         private Long id;
@@ -25,8 +22,7 @@ public class ExpendituresShowDTO {
         private String content;
         private String paymentMethod;
         private String category;
-        private String name;
-        private Integer amount;
+        private List<ExpendituresGroupShowDTO.Response> calculate;
 
         public static ExpendituresShowDTO.Response fromEntity(Expenditures expenditures){
             ExpendituresShowDTO.Response response = new ExpendituresShowDTO.Response();
@@ -42,14 +38,17 @@ public class ExpendituresShowDTO {
             response.setPaymentMethod(expenditures.getPaymentMethod());
             response.setCategory(expenditures.getCategory());
 
+
+            response.setCalculate(ExpendituresGroupShowDTO.Response.calculate(expenditures.getExpendituresGroups()));
+
             return response;
         }
 
 
     }
 
-    public static AccountShowDTO.Response accountShow(Account account){
-        AccountShowDTO.Response response = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
-        return response;
-    }
+//    public static AccountShowDTO.Response accountShow(Account account){
+//        AccountShowDTO.Response response = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
+//        return response;
+//    }
 }
