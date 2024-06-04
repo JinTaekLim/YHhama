@@ -120,6 +120,37 @@ public class OpenApiController {
     }
 
 
+
+
+    @Operation(summary = "위치 조회")
+    @PostMapping("/searchLocation")
+    public String searchLocation(@RequestBody OpenApiLocationDTO req) {
+        StringBuffer result = new StringBuffer();
+        try {
+            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
+                    "locationBasedList1?" +
+                    "serviceKey=" + openApiService.getServiceKey() +
+                    "&numOfRows=" + req.getNumOfRows() +
+                    "&pageNo=" + req.getPage() +
+                    "&MobileOS=" + req.getMobileOS() +
+                    "&MobileApp=AppTest" +
+                    "&_type=json" +
+                    "&listYN=Y" +
+                    "&arrange=A" +
+                    "&mapX=" + req.getMapX() +
+                    "&mapY=" + req.getMapY() +
+                    "&radius=" + req.getRadius() +
+                    "&contentTypeId=" + req.getContentTypeId();
+
+
+            String response = openApiService.sendHttpRequest(apiUrl);
+            result.append("<xmp>").append(response).append("</xmp>");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
+
     @Operation(summary = "대중교통")
     @PostMapping("getDirections/transport")
     public String getDirectionsTransporrt(@RequestBody OpenApiDirectionsDTO req) throws IOException {
