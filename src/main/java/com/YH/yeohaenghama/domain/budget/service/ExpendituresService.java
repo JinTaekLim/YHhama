@@ -61,6 +61,16 @@ public class ExpendituresService {
 
         return null;
     }
+
+
+    public String expendituresDeleteOne(ExpendituresDeleteDTO.RequestDeleteOne dto){
+        Optional<Expenditures> expendituresOpt = expendituresRepository.findById(dto.getExpendituresId());
+        if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");
+
+        expendituresRepository.deleteById(dto.getExpendituresId());
+
+        return "삭제 완료";
+    }
 }
 
 //
@@ -203,15 +213,8 @@ public class ExpendituresService {
 //        return response;
 //    }
 //
-//    public String expendituresDeleteOne(ExpendituresDeleteDTO.RequestDeleteOne dto){
-//        Optional<Expenditures> expendituresOpt = expendituresRepository.findById(dto.getId());
-//        if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");
-//
-//        expendituresRepository.deleteById(dto.getId());
-//
-//        return "삭제 완료";
-//    }
-//
+
+
 //    public String expendituresGroupDeleteOne(ExpendituresDeleteDTO.RequestDeleteOne dto){
 //        Optional<ExpendituresGroup> expendituresGroupOpt = expendituresGroupRepository.findById(dto.getId());
 //        if(expendituresGroupOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출 금액이 존재하지 않습니다. ");
