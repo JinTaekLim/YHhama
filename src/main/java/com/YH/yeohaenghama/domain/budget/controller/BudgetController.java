@@ -94,19 +94,19 @@ public class BudgetController {
         }
     }
 
-//    @Operation(summary = "지출 금액 단일 삭제")
-//    @PostMapping("/expendituresDeleteOne")
-//    public ApiResult<String> expendituresDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
-//        try{
-//            log.info("DTO ==== " + dto);
-//            return ApiResult.success(expendituresService.expendituresDeleteOne(dto));
-//        } catch (NoSuchElementException e){
-//            return ApiResult.notFound(e.getMessage());
-//        }
-//        catch (Exception e){
-//            return ApiResult.fail(e.getMessage());
-//        }
-//    }
+    @Operation(summary = "지출 금액 단일 삭제")
+    @PostMapping("/expendituresDeleteOne")
+    public ApiResult<String> expendituresDeleteOne(@RequestBody ExpendituresDeleteDTO.RequestDeleteOne dto){
+        try{
+            log.info("DTO ==== " + dto);
+            return ApiResult.success(expendituresService.expendituresDeleteOne(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.notFound(e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 
 //    @Operation(summary = "공동 지출 금액 단일 삭제")
 //    @PostMapping("/expendituresGroupDeleteOne")
@@ -163,10 +163,10 @@ public class BudgetController {
             return ApiResult.fail(e.getMessage());
         }
     }
-//
-//    @Operation(summary = "개인 지출 금액 조회")
-//    @PostMapping("/expendituresShow")
-//    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresShow(@RequestBody ExpendituresShowDTO.Request dto){
+
+//    @Operation(summary = "가계부 수정")
+//    @PostMapping("/expendituresUpdate")
+//    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresUpdate(@RequestBody ExpendituresShowDTO.Request dto){
 //        try{
 //            log.info("DTO ==== " + dto);
 //            return ApiResult.success(expendituresService.expendituresShow(dto));

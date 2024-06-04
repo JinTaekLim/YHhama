@@ -22,6 +22,7 @@ public class ExpendituresShowDTO {
         private String content;
         private String paymentMethod;
         private String category;
+        private boolean individual;
         private List<ExpendituresGroupShowDTO.Response> calculate;
 
         public static ExpendituresShowDTO.Response fromEntity(Expenditures expenditures){
@@ -33,7 +34,7 @@ public class ExpendituresShowDTO {
                 response.setPlace(PlaceShowExpendituresDTO.Response.fromEntity(expenditures.getPlace()));
                 response.setDay(expenditures.getPlace().getDay());
             }
-
+            response.setIndividual(expenditures.isIndividual());
             response.setContent(expenditures.getContent());
             response.setPaymentMethod(expenditures.getPaymentMethod());
             response.setCategory(expenditures.getCategory());

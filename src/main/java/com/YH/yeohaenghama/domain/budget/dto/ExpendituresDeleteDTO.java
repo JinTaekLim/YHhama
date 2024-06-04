@@ -1,14 +1,14 @@
-//package com.YH.yeohaenghama.domain.budget.dto;
-//
-//import io.swagger.v3.oas.annotations.media.Schema;
-//import lombok.Data;
-//
-//public class ExpendituresDeleteDTO {
-//    @Data @Schema(name ="ExpendituresDeleteDTO_RequestDeleteOne")
-//    public static class RequestDeleteOne{
-//        @Schema(description = "지출 금액 ID")
-//        private Long id;
-//    }
+package com.YH.yeohaenghama.domain.budget.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+public class ExpendituresDeleteDTO {
+    @Data @Schema(name ="ExpendituresDeleteDTO_RequestDeleteOne")
+    public static class RequestDeleteOne{
+        @Schema(description = "지출 금액 ID")
+        private Long expendituresId;
+    }
 //    @Data @Schema(name ="ExpendituresDeleteDTO_RequestDay")
 //    public static class RequestDeleteDay{
 //        @Schema(description = "날짜")
@@ -20,4 +20,4 @@
 //        @Schema(description = "가계부 ID")
 //        private Long BudgetId;
 //    }
-//}
+}
