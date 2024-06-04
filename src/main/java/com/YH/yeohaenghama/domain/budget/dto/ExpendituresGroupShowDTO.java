@@ -8,50 +8,32 @@ import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowExpendituresDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExpendituresGroupShowDTO {
-    @Data
-    @Schema(name = "ExpendituresGroupShowDTO_Request")
-    public static class Request{
-        private Long budgetId;
-    }
-    @Data
-    @Schema(name = "ExpendituresGroupAccountShowDTO_Request")
-    public static class AccountRequest{
-        private Long accountId;
-        private Long itineraryId;
-    }
-    @Data
+    @Data @Schema(name = "ExpendituresGroupShowDTO_Response")
     public static class Response{
         private Long id;
         private AccountShowDTO.Response accountShowDTO;
-        private PlaceShowExpendituresDTO.Response place = null;
-        private Integer day;
-        private String content;
-        private String paymentMethod;
-        private String category;
-        private String name;
         private Integer amount;
 
-        public static ExpendituresGroupShowDTO.Response fromEntity(ExpendituresGroup expendituresGroup){
-            ExpendituresGroupShowDTO.Response response = new ExpendituresGroupShowDTO.Response();
+        public static Response toEntity(ExpendituresGroup expendituresGroup){
+            Response response = new Response();
             response.setId(expendituresGroup.getId());
-
-            Account account = expendituresGroup.getItineraryJoinAccount().getAccount();
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
-            response.setAccountShowDTO(accountShowDTO);
-
-            response.setDay(expendituresGroup.getDay());
-            if(expendituresGroup.getPlace() != null) {
-                response.setPlace(PlaceShowExpendituresDTO.Response.fromEntity(expendituresGroup.getPlace()));
-                response.setDay(expendituresGroup.getPlace().getDay());
-            }
-
-            response.setContent(expendituresGroup.getContent());
-            response.setPaymentMethod(expendituresGroup.getPaymentMethod());
-            response.setCategory(expendituresGroup.getCategory());
-            response.setName(expendituresGroup.getName());
             response.setAmount(expendituresGroup.getAmount());
+            Account account = expendituresGroup.getAccount();
+            response.setAccountShowDTO(new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl(), account.getRole()));
 
+            return response;
+        }
+
+        public static List<Response> calculate(List<ExpendituresGroup> expendituresGroupList){
+            List<Response> response = new ArrayList<>();
+
+            for(ExpendituresGroup expendituresGroup : expendituresGroupList){
+                response.add(toEntity(expendituresGroup));
+            }
             return response;
         }
 
