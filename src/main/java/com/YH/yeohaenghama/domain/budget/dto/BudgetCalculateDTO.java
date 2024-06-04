@@ -21,6 +21,9 @@ public class BudgetCalculateDTO {
     public static class Response{
         private Long budgetId;
         private AccountShowDTO.Response account;
+        private Integer totalIndividualAmount = 0;
+        private Integer totalGroupAmount = 0;
+        private Integer totalAmount = 0;
 
         private List<calculateIndividualDTO.Response> individual;
 
@@ -31,30 +34,35 @@ public class BudgetCalculateDTO {
             response.setAccount(accountDTO(account));
             response.setIndividual(individualDTO(expenditures));
             response.setGroup(GroupDTO(expendituresGroups));
+            response.setTotalIndividualAmount(totalIndividualAmount);
 
             return response;
         }
-    }
 
-    public static AccountShowDTO.Response accountDTO(Account account){
-        return new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
-    }
+        public List<calculateIndividualDTO.Response> individualDTO(List<Expenditures> expenditures){
+            List<calculateIndividualDTO.Response> responses = new ArrayList<>();
+            
+            for(Expenditures expenditure : expenditures){
+                responses.add(calculateIndividualDTO.Response.fromEntity(expenditure));
+                 this.totalIndividualAmount += expenditure.getAmount();
+                System.out.println("오예:"+expenditure.getAmount());
+            }
 
-    public static List<calculateIndividualDTO.Response> individualDTO(List<Expenditures> expenditures){
-        List<calculateIndividualDTO.Response> responses = new ArrayList<>();
-        for(Expenditures expenditure : expenditures){
-            responses.add(calculateIndividualDTO.Response.fromEntity(expenditure));
+            return responses;
         }
 
-        return responses;
-    }
-
-    public static List<calculateGroupDTO.Response> GroupDTO(List<ExpendituresGroup> expendituresGroups){
-        List<calculateGroupDTO.Response> responses = new ArrayList<>();
-        for(ExpendituresGroup expendituresGroup : expendituresGroups){
-            responses.add(calculateGroupDTO.Response.fromEntity(expendituresGroup));
+        public AccountShowDTO.Response accountDTO(Account account){
+            return new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
         }
 
-        return responses;
+
+        public List<calculateGroupDTO.Response> GroupDTO(List<ExpendituresGroup> expendituresGroups){
+            List<calculateGroupDTO.Response> responses = new ArrayList<>();
+            for(ExpendituresGroup expendituresGroup : expendituresGroups){
+                responses.add(calculateGroupDTO.Response.fromEntity(expendituresGroup));
+            }
+
+            return responses;
+        }
     }
 }
