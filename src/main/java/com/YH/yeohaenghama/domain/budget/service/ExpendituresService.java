@@ -6,7 +6,9 @@ import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.budget.dto.*;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
+import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
 import com.YH.yeohaenghama.domain.budget.repository.BudgetRepository;
+import com.YH.yeohaenghama.domain.budget.repository.ExpendituresGroupRepository;
 import com.YH.yeohaenghama.domain.budget.repository.ExpendituresRepository;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.entity.ItineraryJoinAccount;
@@ -29,26 +31,32 @@ import java.util.Optional;
 public class ExpendituresService {
     private final BudgetRepository budgetRepository;
     private final ExpendituresRepository expendituresRepository;
+    private final ExpendituresGroupRepository expendituresGroupRepository;
     private final ItineraryRepository itineraryRepository;
     private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
     private final PlaceRepository placeRepository;
     private final AccountRepository accountRepository;
 
     public ExpendituresAddDTO.Response expendituresAdd(ExpendituresAddDTO.Request dto) {
-        Optional<Budget> budgetOpt = budgetRepository.findById( dto.getBudgetId());
+        Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudgetId());
         if (budgetOpt.isEmpty()) { throw new NoSuchElementException("해당 ID를 가진 가계부가 존재하지 않습니다. "); }
         Optional<Place> placeOpt = null;
         if(dto.getPlace() != null) {
             placeOpt = placeRepository.findById(dto.getPlace());
             if (placeOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 장소가 존재하지 않습니다. ");
         }
-        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
-        if (accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
+
+        List<Account> accountList = accountRepository.findAllById(dto.getAccountId());
+        if (accountList.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
 
 
         ExpendituresAddDTO expendituresAddDTO = new ExpendituresAddDTO(dto);
         if(placeOpt != null) expendituresAddDTO.setPlace(placeOpt.get());
-        Expenditures addExpenditures = expendituresAddDTO.toEntity(accountOpt.get(),budgetOpt.get());
+
+
+        Expenditures addExpenditures = expendituresAddDTO.toEntity(budgetOpt.get(),accountList);
+
+
         expendituresRepository.save(addExpenditures);
 
         return null;

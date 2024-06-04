@@ -54,9 +54,9 @@ public class BudgetService {
     public BudgetShowDTO.Response budgetShow(BudgetShowDTO.Request dto){
         Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudgetId());
         if(budgetOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 가계부가 존재하지 않습니다. ");
-        List<Expenditures> expenditures = expendituresRepository.findByBudgetId(budgetOpt.get().getId());
+        Optional<Expenditures> expenditures = expendituresRepository.findById(budgetOpt.get().getId());
 
-        BudgetShowDTO.Response response = BudgetShowDTO.Response.fromEntity(budgetOpt.get(),expenditures);
+        BudgetShowDTO.Response response = BudgetShowDTO.Response.fromEntity(budgetOpt.get(),null);
 
 
 

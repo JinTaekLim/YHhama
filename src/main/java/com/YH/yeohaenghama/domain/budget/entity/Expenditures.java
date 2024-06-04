@@ -6,7 +6,10 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -17,16 +20,17 @@ public class Expenditures {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
-
-    @ManyToOne
     @JoinColumn(name = "budget_id", referencedColumnName = "id")
     private Budget budget;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "place_id", referencedColumnName = "id")
     private Place place;
+
+
+    @Setter
+    @OneToMany(mappedBy = "expenditures", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<ExpendituresGroup> expendituresGroups  = new ArrayList<>();
 
     private Integer day;
 
@@ -35,8 +39,6 @@ public class Expenditures {
     private String paymentMethod;
 
     private String category;
-
-    private Integer amount;
 
     private boolean individual;
 
@@ -53,15 +55,14 @@ public class Expenditures {
 //    }
 
     @Builder
-    public Expenditures(Account account, Budget budget, Place place, Integer day, String content, String paymentMethod, String category,  Integer amount, boolean individual) {
-        this.account = account;
+    public Expenditures(Budget budget, Place place, List<ExpendituresGroup> expendituresGroups, Integer day, String content, String paymentMethod, String category, boolean individual) {
         this.budget = budget;
         this.place = place;
+        this.expendituresGroups = expendituresGroups;
         this.day = day;
         this.content = content;
         this.paymentMethod = paymentMethod;
         this.category = category;
-        this.amount = amount;
         this.individual = individual;
     }
 
