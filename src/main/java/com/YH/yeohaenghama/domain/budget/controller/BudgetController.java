@@ -207,19 +207,19 @@ public class BudgetController {
 //    }
 
 
-//    @Operation(summary = "가계부 지출(개인) 전체 정산")
-//    @PostMapping("/calculate")
-//    public ApiResult<BudgetCalculateDTO.Response> expendituresCalculate(@RequestBody BudgetCalculateDTO.Request dto){
-//        try{
-//            log.info("DTO ==== " + dto);
-//            return ApiResult.success(expendituresService.calculate(dto));
-//        } catch (NoSuchElementException e){
-//            return ApiResult.success(null,e.getMessage());
-//        }
-//        catch (Exception e){
-//            return ApiResult.fail(e.getMessage());
-//        }
-//    }
+    @Operation(summary = "가계부 정산")
+    @PostMapping("/calculate")
+    public ApiResult<BudgetCalculateDTO.Response> calculate(@RequestBody BudgetCalculateDTO.Request dto){
+        try{
+            log.info("DTO ==== " + dto);
+            return ApiResult.success(expendituresService.calculate(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
 
 //    @Operation(summary = "개인 지출 금액 정산")
 //    @PostMapping("/expendituresCalculate")
