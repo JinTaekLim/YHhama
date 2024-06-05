@@ -10,4 +10,5 @@ public interface ItineraryJoinAccountRepository extends JpaRepository<ItineraryJ
     Optional<ItineraryJoinAccount> findByItineraryIdAndAccountId(Long itineraryId, Long accountId);
     List<ItineraryJoinAccount> findByItineraryId(Long itineraryId);
     List<ItineraryJoinAccount> findByAccountId(Long accountId);
+    List<ItineraryJoinAccount> findByAccountIdAndItineraryId(Long accountId, Long itineraryId);
 }

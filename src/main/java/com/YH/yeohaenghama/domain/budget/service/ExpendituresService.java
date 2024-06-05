@@ -77,6 +77,23 @@ public class ExpendituresService {
 
         return "삭제 완료";
     }
+
+
+    public BudgetCalculateDTO.Response calculate(BudgetCalculateDTO.Request dto) {
+        Optional<Expenditures> expendituresOpt = expendituresRepository.findById(dto.getExpendituresId());
+        if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출이 존재하지 않습니다.");
+        if(itineraryJoinAccountRepository.findByAccountIdAndItineraryId(dto.getPayerId(),expendituresOpt.get().getBudget().getItinerary().getId()).isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다 .");
+
+        Optional<Account> payerOpt = accountRepository.findById(dto.getPayerId());
+        List<Account> accountList = accountRepository.findByIdIn(dto.getAccountId());
+
+        Integer totalAmount = 0;
+        for(ExpendituresGroup expendituresGroup : expendituresOpt.get().getExpendituresGroups()){
+            totalAmount += expendituresGroup.getAmount();
+        }
+
+        return BudgetCalculateDTO.Response.toEntity(payerOpt.get(),totalAmount,accountList,dto.getAmount());
+    }
 }
 
 //

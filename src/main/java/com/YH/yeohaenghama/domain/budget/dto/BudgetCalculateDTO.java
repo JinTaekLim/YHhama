@@ -1,69 +1,41 @@
-//package com.YH.yeohaenghama.domain.budget.dto;
-//
-//import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
-//import com.YH.yeohaenghama.domain.account.entity.Account;
-//import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
-//import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
-//import io.swagger.v3.oas.annotations.media.Schema;
-//import lombok.Data;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//public class BudgetCalculateDTO {
-//    @Schema(name = "BudgetCalculateDTO_Request") @Data
-//    public static class Request{
-//        private Long budgetId;
-//        private Long accountId;
-//    }
-//
-//    @Schema(name = "BudgetCalculateDTO_Response") @Data
-//    public static class Response{
-//        private Long budgetId;
-//        private AccountShowDTO.Response account;
-//        private Integer totalIndividualAmount = 0;
-//        private Integer totalGroupAmount = 0;
-//        private Integer totalAmount = 0;
-//
-//        private List<calculateIndividualDTO.Response> individual;
-//
-//        private List<calculateGroupDTO.Response> group;
-//        public Response fromEntity(Long budgetId, Account account, List<Expenditures> expenditures, List<ExpendituresGroup> expendituresGroups){
-//            BudgetCalculateDTO.Response response = new Response();
-//            response.setBudgetId(budgetId);
-//            response.setAccount(accountDTO(account));
-//            response.setIndividual(individualDTO(expenditures));
-//            response.setGroup(GroupDTO(expendituresGroups));
-//            response.setTotalIndividualAmount(totalIndividualAmount);
-//            response.setTotalGroupAmount(totalGroupAmount);
-//            response.setTotalAmount(totalIndividualAmount+totalGroupAmount);
-//            return response;
-//        }
-//
-//        public List<calculateIndividualDTO.Response> individualDTO(List<Expenditures> expenditures){
-//            List<calculateIndividualDTO.Response> responses = new ArrayList<>();
-//
-//            for(Expenditures expenditure : expenditures){
-//                responses.add(calculateIndividualDTO.Response.fromEntity(expenditure));
-//                 this.totalIndividualAmount += expenditure.getAmount();
-//            }
-//
-//            return responses;
-//        }
-//
-//        public AccountShowDTO.Response accountDTO(Account account){
-//            return new AccountShowDTO.Response(account.getId(), account.getNickname(), account.getPhotoUrl(), account.getRole());
-//        }
-//
-//
-//        public List<calculateGroupDTO.Response> GroupDTO(List<ExpendituresGroup> expendituresGroups){
-//            List<calculateGroupDTO.Response> responses = new ArrayList<>();
-//            for(ExpendituresGroup expendituresGroup : expendituresGroups){
-//                responses.add(calculateGroupDTO.Response.fromEntity(expendituresGroup));
-//                this.totalGroupAmount += expendituresGroup.getAmount();
-//            }
-//
-//            return responses;
-//        }
-//    }
-//}
+package com.YH.yeohaenghama.domain.budget.dto;
+
+import com.YH.yeohaenghama.domain.account.entity.Account;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BudgetCalculateDTO {
+    @Schema(name = "BudgetCalculateDTO_Request") @Data
+    public static class Request{
+        private Long expendituresId;
+        private Long payerId;
+        private List<Long> accountId;
+        private List<Integer> amount;
+    }
+
+    @Schema(name = "BudgetCalculateDTO_Response") @Data
+    public static class Response{
+        private calculateIndividualDTO.Response payer;
+        private List<calculateIndividualDTO.Response> account;
+
+        public static Response toEntity(Account payer, Integer totalAmount, List<Account> accountList, List<Integer> amountList){
+            Response response = new Response();
+
+            List<calculateIndividualDTO.Response> accountCalculate = new ArrayList<>();
+            for(int i =0; i<accountList.size(); i++) {
+                accountCalculate.add(calculateIndividualDTO.Response.fromEntity(accountList.get(i),amountList.get(i)));
+            }
+
+
+            response.setAccount(accountCalculate);
+
+            for(Integer i : amountList){ totalAmount -= i; }
+
+            response.setPayer(calculateIndividualDTO.Response.fromEntity(payer,totalAmount));
+            return response;
+        }
+    }
+}
