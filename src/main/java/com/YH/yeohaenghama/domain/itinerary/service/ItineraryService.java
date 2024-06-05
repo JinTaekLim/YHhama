@@ -268,7 +268,7 @@ public class ItineraryService {
 
         if(itineraryJoinAccountRepository.findByItineraryIdAndAccountId(itineraryOpt.get().getId(),itineraryOpt.get().getAccount().getId()).isEmpty()) {
             itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(itineraryOpt.get().getAccount(), itineraryOpt.get()));
-            chatService.createRoom(roomId);
+            chatService.createChatRomm(roomId);
         }
 
         itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(accountOpt.get(),itineraryOpt.get()));

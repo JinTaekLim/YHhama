@@ -1,5 +1,7 @@
 package com.YH.yeohaenghama.domain.chat.controller;
 
+import com.YH.yeohaenghama.domain.chat.DTO.ChatLogDTO;
+import com.YH.yeohaenghama.domain.chat.model.ChatLog;
 import com.YH.yeohaenghama.domain.chat.model.ChatRoom;
 import com.YH.yeohaenghama.domain.chat.repo.ChatRoomRepository;
 import com.YH.yeohaenghama.domain.chat.service.ChatService;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -42,12 +45,25 @@ public class ChatRoomController {
         return chatRoomRepository.findRoomByItineraryId(itineraryId);
     }
 
+    @PostMapping("/chatLog")
+    @ResponseBody
+    public ChatLog chatLog(@RequestParam String roomId) {
+        return chatService.findChatLog(roomId);
+    }
+
+    @PostMapping("/addChatLog")
+    @ResponseBody
+    public ChatLog addChatLog(@RequestBody ChatLogDTO.Request dto) {
+        return chatService.addChatLog(dto);
+    }
+
     @PostMapping("/room")
     @ResponseBody
     public ChatRoom createRoom(@RequestParam String itineraryId) {
         log.info("log " + itineraryId);
-        return chatService.createRoom(itineraryId);
+        return chatService.createChatRomm(itineraryId);
     }
+
 
     @PostMapping("/addUsers")
     @ResponseBody
