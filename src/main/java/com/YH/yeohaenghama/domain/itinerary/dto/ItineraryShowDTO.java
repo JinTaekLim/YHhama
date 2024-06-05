@@ -33,8 +33,8 @@ public class ItineraryShowDTO {
     private LocalDate startDate;
     @Schema(description = "종료 일시")
     private LocalDate endDate;
-    @Schema(description = "경비")
-    private String expense;
+    @Schema(description = "가계부 ID")
+    private Long budgetId;
     @Schema(description = "일정을 제작한 회원 정보")
     private AccountShowDTO.Response account;
     @Schema(description = "일정의 여행지 정보")
@@ -49,7 +49,6 @@ public class ItineraryShowDTO {
         this.area = itinerary.getArea();
         this.startDate = itinerary.getStartDate();
         this.endDate = itinerary.getEndDate();
-//        this.expense = itinerary.getExpense();
 
         Account account = itinerary.getAccount();
         AccountShowDTO.Response accountDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(),account.getPhotoUrl(),account.getRole());
