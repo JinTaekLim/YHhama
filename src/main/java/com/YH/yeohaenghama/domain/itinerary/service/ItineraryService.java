@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
+import com.YH.yeohaenghama.domain.budget.repository.BudgetRepository;
 import com.YH.yeohaenghama.domain.chat.service.ChatService;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryItineraryShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
@@ -48,6 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ItineraryService {
     private final ItineraryRepository itineraryRepository;
     private final AccountRepository accountRepository;
+    private final BudgetRepository budgetRepository;
     private final DiaryRepository diaryRepository;
     private final DiaryService diaryService;
     private final OpenApiService openApiService;
@@ -101,7 +103,11 @@ public class ItineraryService {
         Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
         if (!optionalItinerary.isPresent())    throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
         Itinerary itinerary = optionalItinerary.get();
-        return new ItineraryShowDTO(itinerary);
+        ItineraryShowDTO itineraryShowDTO = new ItineraryShowDTO(itinerary);
+
+        List<Budget> budgetList = budgetRepository.findByItineraryId(itineraryId);
+        if(!budgetList.isEmpty()) itineraryShowDTO.setBudgetId(budgetList.get(0).getId());
+        return itineraryShowDTO;
     }
 
 

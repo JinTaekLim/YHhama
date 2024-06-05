@@ -115,12 +115,11 @@ public class ItineraryController {
 
     @Operation(summary = "제작된 일정 확인")
     @GetMapping("/{itineraryId}")
-    public ApiResult getItineraryInfo(@PathVariable Long itineraryId) {
+    public ApiResult<ItineraryShowDTO> getItineraryInfo(@PathVariable Long itineraryId) {
         try {
-            ItineraryShowDTO itineraryInfo = itineraryService.getItineraryInfo(itineraryId);
-            return ApiResult.success(itineraryInfo);
+            return ApiResult.success(itineraryService.getItineraryInfo(itineraryId));
         } catch (NoSuchElementException e) {
-            return ApiResult.success(e.getMessage());
+            return ApiResult.success(null,e.getMessage());
         } catch (Exception e){
             return ApiResult.fail(e.getMessage());
         }
