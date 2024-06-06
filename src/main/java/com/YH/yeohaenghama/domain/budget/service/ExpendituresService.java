@@ -46,9 +46,9 @@ public class ExpendituresService {
             if (placeOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 장소가 존재하지 않습니다. ");
         }
 
-        List<Account> payerList = accountRepository.findAllById(dto.getPayerId());
+        Optional<Account> payerOpt = accountRepository.findById(dto.getPayerId());
         List<Account> accountList = accountRepository.findAllById(dto.getAccountId());
-        if (payerList.isEmpty() || accountList.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
+        if (payerOpt.isEmpty() || accountList.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
 
 
         if(dto.getExpendituresId() != null && !expendituresRepository.findById(dto.getExpendituresId()).isEmpty()) {
@@ -60,7 +60,7 @@ public class ExpendituresService {
         if(placeOpt != null) expendituresAddDTO.setPlace(placeOpt.get());
 
 
-        Expenditures addExpenditures = expendituresAddDTO.toEntity(budgetOpt.get(),payerList,accountList);
+        Expenditures addExpenditures = expendituresAddDTO.toEntity(budgetOpt.get(),payerOpt.get(),accountList);
 
 
 

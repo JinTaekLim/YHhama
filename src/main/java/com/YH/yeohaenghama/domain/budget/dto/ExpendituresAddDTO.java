@@ -5,7 +5,6 @@ import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
-import com.YH.yeohaenghama.domain.budget.entity.ExpendituresSharedAccount;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowExpendituresDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,9 +23,10 @@ public class ExpendituresAddDTO {
     public static class Request{
         private Long expendituresId;
         private Long budgetId;
-        private List<Long> payerId;
-        private List<Integer> amount;
+        private Integer totalAmount;
+        private Long payerId;
         private List<Long> accountId;
+        private List<Integer> amount;
         private Long place = null;
         private Integer day = null;
         private String paymentMethod;
@@ -88,9 +88,11 @@ public class ExpendituresAddDTO {
 //    }
 
 
-    public Expenditures toEntity(Budget budget,List<Account> payerList,List<Account> accountList) {
+    public Expenditures toEntity(Budget budget,Account payer,List<Account> accountList) {
         Expenditures.ExpendituresBuilder expendituresBuilder = Expenditures.builder()
                 .budget(budget)
+                .payer(payer)
+                .totalAmount(request.getTotalAmount())
                 .day(request.getDay())
                 .paymentMethod(request.getPaymentMethod())
                 .content(request.getContent())
@@ -105,10 +107,10 @@ public class ExpendituresAddDTO {
 
         Expenditures expenditures = expendituresBuilder.build();
 
-        List<ExpendituresGroup> expendituresGroups = toEntityExpendituresGroup(payerList, expenditures);
+        List<ExpendituresGroup> expendituresGroups = toEntityExpendituresGroup(accountList, expenditures);
         expenditures.setExpendituresGroups(expendituresGroups);
-        List<ExpendituresSharedAccount> expendituresSharedAccounts = toEntityExpendituresSharedAccount(accountList, expenditures);
-        expenditures.setExpendituresSharedAccounts(expendituresSharedAccounts);
+//        List<ExpendituresSharedAccount> expendituresSharedAccounts = toEntityExpendituresSharedAccount(accountList, expenditures);
+//        expenditures.setExpendituresSharedAccounts(expendituresSharedAccounts);
 
         return expenditures;
     }
@@ -127,20 +129,20 @@ public class ExpendituresAddDTO {
         return response;
     }
 
-    public List<ExpendituresSharedAccount> toEntityExpendituresSharedAccount(List<Account> sharedAccountList,Expenditures expenditures){
-        List<ExpendituresSharedAccount> response = new ArrayList<>();
-
-        for(Account account : sharedAccountList){
-            ExpendituresSharedAccount expendituresSharedAccount = ExpendituresSharedAccount.builder()
-                    .account(account)
-                    .expenditures(expenditures)
-                    .build();
-
-            response.add(expendituresSharedAccount);
-        }
-
-        return response;
-    }
+//    public List<ExpendituresSharedAccount> toEntityExpendituresSharedAccount(List<Account> sharedAccountList,Expenditures expenditures){
+//        List<ExpendituresSharedAccount> response = new ArrayList<>();
+//
+//        for(Account account : sharedAccountList){
+//            ExpendituresSharedAccount expendituresSharedAccount = ExpendituresSharedAccount.builder()
+//                    .account(account)
+//                    .expenditures(expenditures)
+//                    .build();
+//
+//            response.add(expendituresSharedAccount);
+//        }
+//
+//        return response;
+//    }
 
 
 
