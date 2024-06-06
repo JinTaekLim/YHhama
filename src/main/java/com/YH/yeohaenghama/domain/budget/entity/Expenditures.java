@@ -32,6 +32,10 @@ public class Expenditures {
     @OneToMany(mappedBy = "expenditures", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ExpendituresGroup> expendituresGroups  = new ArrayList<>();
 
+    @Setter
+    @OneToMany(mappedBy = "expenditures", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<ExpendituresSharedAccount> expendituresSharedAccounts  = new ArrayList<>();
+
     private Integer day;
 
     private String content;

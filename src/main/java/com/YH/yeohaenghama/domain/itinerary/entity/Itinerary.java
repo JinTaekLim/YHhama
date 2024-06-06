@@ -53,6 +53,10 @@ public class Itinerary {
     @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
     private List<Place> places;
 
+    @OneToMany
+    @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
+    private List<ItineraryJoinAccount> joinAccount;
+
     public void update(ItineraryJoinDTO.Request reqDTO) {
 
         this.name = reqDTO.getName();

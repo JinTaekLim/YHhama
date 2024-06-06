@@ -23,7 +23,7 @@ public class ItineraryJoinAccount {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "itineraryId", referencedColumnName = "id")
+    @JoinColumn(name = "itinerary_Id", referencedColumnName = "id")
     private Itinerary itinerary;
 
     @ManyToOne
