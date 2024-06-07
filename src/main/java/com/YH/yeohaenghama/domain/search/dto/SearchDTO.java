@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.search.dto;
 
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
+import com.YH.yeohaenghama.domain.openApi.dto.SearchAreaDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -23,13 +24,13 @@ public class SearchDTO {
         private SearchDiaryDTO.Response searchDiaryPlace;
         private SearchDiaryDTO.Response searchDiaryArea;
 
-        private List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace;
+        private SearchAreaDTO.Response searchPlace;
 
         public static Response setSearch(SearchDiaryDTO.Response searchDiaryTitle,
                                          SearchDiaryDTO.Response searchDiaryContent,
                                          SearchDiaryDTO.Response searchDiaryPlace,
                                          SearchDiaryDTO.Response searchDiaryArea ,
-                                         List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace){
+                                         SearchAreaDTO.Response searchPlace){
             Response response = new Response();
             response.searchDiaryTitle = searchDiaryTitle;
             response.searchDiaryContent = searchDiaryContent;
