@@ -6,12 +6,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -35,7 +36,82 @@ public class OpenApiController {
             @ApiResponse(responseCode = "500", description = "서버 에러")
     })
 
-    @Operation(summary = "관광지/음식점 키워드 검색")
+
+
+
+    @Operation(summary = "키워드 검색")
+    @PostMapping("/searchKeyword")
+    public List<SearchKeywordDTO.Response> searchKeyword(@RequestBody SearchKeywordDTO.Request req) {
+        log.info("dto == " + req);
+        return openApiService.searchKeyword(req);
+    }
+
+
+
+    @Operation(summary = "test")
+    @PostMapping("/test")
+    public String test(@RequestParam String keyword) {
+        StringBuilder result = new StringBuilder();
+        try {
+            String encodedKeyword = URLEncoder.encode(keyword, "UTF-8");
+            String apiUrl = "https://openapi.naver.com/v1/search/local?query=" + encodedKeyword;
+
+            URL url = new URL(apiUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("X-Naver-Client-Id", "4pjC9KmLm4IbrASEY5oD");
+            con.setRequestProperty("X-Naver-Client-Secret", "ld8a0fZx70");
+
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if (responseCode == 200) {
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } else {
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+
+            String inputLine;
+            while ((inputLine = br.readLine()) != null) {
+                result.append(inputLine.trim());
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.append("Exception occurred: ").append(e.getMessage());
+        }
+        return result.toString();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Operation(summary = "(구)관광지/음식점 키워드 검색")
     @PostMapping("/searchArea")
     public String searchArea(@RequestBody OpenApiAreaDTO req) {
         StringBuffer result = new StringBuffer();
@@ -64,7 +140,7 @@ public class OpenApiController {
     }
 
 
-    @Operation(summary = "관광지/음식점 상세 조회 ")
+    @Operation(summary = "(구)관광지/음식점 상세 조회 ")
     @PostMapping("/searchDetail")
     public String searchDetail(@RequestBody OpenApiDetailDTO req) {
         StringBuffer result = new StringBuffer();
@@ -95,7 +171,7 @@ public class OpenApiController {
         return result.toString();
     }
 
-    @Operation(summary = "관광지/음식점 사진 조회")
+    @Operation(summary = "(구)관광지/음식점 사진 조회")
     @PostMapping("/searchImage")
     public String searchImage(@RequestBody OpenApiImageDTO req) {
         StringBuffer result = new StringBuffer();

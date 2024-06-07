@@ -59,7 +59,7 @@ public class BudgetService {
         if(budgetOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 가계부가 존재하지 않습니다. ");
 
         List<Expenditures> expendituresList = expendituresRepository.findByBudgetId(dto.getBudgetId());
-        if(expendituresList.isEmpty()) throw new NoSuchElementException("해당 가계부에 지출이 존재하지 않습니다. ");
+        if(expendituresList.isEmpty()) return BudgetShowDTO.Response.fromEntity(budgetOpt.get());
 
 
         BudgetShowDTO.Response response = BudgetShowDTO.Response.fromEntity(dto.getAccountId(),expendituresList);

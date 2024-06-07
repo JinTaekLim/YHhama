@@ -229,6 +229,7 @@ public class ItineraryController {
     @PostMapping("/addAccount")
     public ApiResult<String> addAccount(ItineraryJoinAccountDTO.Request dto){
         try{
+            log.info("DTO = " + dto);
             return ApiResult.success(itineraryService.itineraryJoinAccount(dto));
         } catch (NoSuchElementException e){
             return ApiResult.notFound(e.getMessage());
