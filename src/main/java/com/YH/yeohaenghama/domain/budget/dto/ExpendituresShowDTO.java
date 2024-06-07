@@ -12,11 +12,13 @@ import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class ExpendituresShowDTO {
     @Data
     public static class Response{
         private Long id;
 //        private AccountShowDTO.Response account;
+        private Integer expendituresTotalAmount;
         private PlaceShowExpendituresDTO.Response place = null;
         private Integer day;
         private String content;
@@ -41,6 +43,7 @@ public class ExpendituresShowDTO {
 
 
             response.setCalculate(ExpendituresGroupShowDTO.Response.calculate(expenditures.getExpendituresGroups()));
+            response.setExpendituresTotalAmount(ExpendituresGroupShowDTO.totalAmount);
 
             return response;
         }
