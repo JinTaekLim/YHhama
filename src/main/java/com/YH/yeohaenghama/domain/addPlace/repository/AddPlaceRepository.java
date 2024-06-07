@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface AddPlaceRepository extends JpaRepository<AddPlace, Long> {
     AddPlace findByTitleAndAdd1(String title,String add1);
-
 }

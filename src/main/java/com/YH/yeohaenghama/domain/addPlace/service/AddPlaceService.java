@@ -23,12 +23,13 @@ public class AddPlaceService {
     }
     
     public AddPlace getAddPlace(String title,String add1, String add2, String tel, String mapX, String mapY){
-        log.info("등장");
         AddPlace addPlace = addPlaceRepository.findByTitleAndAdd1(title,add1);
         if (addPlace == null) addPlace = addPlaceRepository.save(new SaveAddPlaceDTO(SaveAddPlaceDTO.Request.getRequest(title,add1,add2,tel,mapX,mapY)).toEntity());
 
         return addPlace;
     }
+
+
 
 
 }

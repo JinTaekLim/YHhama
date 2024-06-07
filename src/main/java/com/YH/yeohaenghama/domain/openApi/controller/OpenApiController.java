@@ -7,6 +7,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.osgeo.proj4j.BasicCoordinateTransform;
+import org.osgeo.proj4j.CoordinateReferenceSystem;
+import org.osgeo.proj4j.CoordinateTransform;
+import org.osgeo.proj4j.ProjCoordinate;
+import org.osgeo.proj4j.proj.Projection;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
