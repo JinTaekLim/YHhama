@@ -37,6 +37,7 @@ public class BudgetShowDTO {
             response.setItineraryId(budget.getItinerary().getId());
             response.setExpenditures(BudgetShowDTO.getExpenditures(accountId, expendituresList));
             response.setTotalAmount(BudgetShowDTO.totalAmount);
+            BudgetShowDTO.totalAmount = 0;
             return response;
         }
 

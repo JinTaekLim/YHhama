@@ -10,9 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.osgeo.proj4j.CRSFactory;
-import org.osgeo.proj4j.CoordinateReferenceSystem;
-import org.osgeo.proj4j.ProjCoordinate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
