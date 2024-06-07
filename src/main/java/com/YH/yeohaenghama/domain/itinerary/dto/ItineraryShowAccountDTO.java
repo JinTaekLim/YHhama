@@ -17,6 +17,7 @@ public class ItineraryShowAccountDTO {
         private LocalDate startDate;
         private LocalDate endDate;
         private Integer placeLength;
+        private Integer sharedAccount;
         private boolean diary;
 
 
@@ -28,6 +29,8 @@ public class ItineraryShowAccountDTO {
             response.setStartDate(itinerary.getStartDate());
             response.setEndDate(itinerary.getEndDate());
             response.setPlaceLength(itinerary.getPlaces().size());
+            response.setSharedAccount(itinerary.getJoinAccount().size() - 1);
+            if(itinerary.getJoinAccount().size() == 0) response.setSharedAccount(0);
             response.setDiary(diary);
             return response;
         }
