@@ -1,15 +1,13 @@
 package com.YH.yeohaenghama.domain.openApi.service;
 
-import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
-import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDetailDTO;
-import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDirectionsDTO;
-import com.YH.yeohaenghama.domain.openApi.dto.OpenApiGetXY;
+import com.YH.yeohaenghama.domain.openApi.dto.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +22,30 @@ import java.util.List;
 @Slf4j
 public class OpenApiService {
 
+
+    private final String GOOGLE_MAPS_API_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
+
     private String serviceKey = "%2B1I%2BbTxxqsKlIjXBgNQX38e6gZOJnlCyPLnkFQUQFrpoCl9tEcII2L%2BvUeJuiaAFf3bN1wly8A6VzOw%2FGz9v7w%3D%3D";
+    private String serviceKeyG = "AIzaSyD8A9MmFwyaBmobDOumV8YYckzkxZnaTzk";
+
+
+
+    public List<SearchKeywordDTO.Response> searchKeyword(SearchKeywordDTO.Request req){
+        String url = String.format("%s?query=%s&language=ko&key=%s", GOOGLE_MAPS_API_URL, req.getKeyword(), serviceKeyG);
+
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject(url, String.class);
+
+        log.info(response);
+
+        return null;
+    }
+
+
+
+
+
+
 
 
 
