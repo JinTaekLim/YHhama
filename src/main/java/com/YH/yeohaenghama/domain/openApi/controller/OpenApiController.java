@@ -7,6 +7,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.osgeo.proj4j.BasicCoordinateTransform;
+import org.osgeo.proj4j.CoordinateReferenceSystem;
+import org.osgeo.proj4j.CoordinateTransform;
+import org.osgeo.proj4j.ProjCoordinate;
+import org.osgeo.proj4j.proj.Projection;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -20,6 +26,7 @@ import java.util.List;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,6 +56,11 @@ public class OpenApiController {
 
 
 
+    @Operation(summary = "tt")
+    @PostMapping("/tt")
+    public void tt(@RequestBody SearchAreaDTO.Reqeust req) {
+
+    }
 
     @Operation(summary = "test")
     @PostMapping("/test")

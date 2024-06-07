@@ -1,11 +1,18 @@
 package com.YH.yeohaenghama.domain.openApi.service;
 
+import com.YH.yeohaenghama.domain.addPlace.entity.AddPlace;
+import com.YH.yeohaenghama.domain.addPlace.service.AddPlaceService;
 import com.YH.yeohaenghama.domain.openApi.dto.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.osgeo.proj4j.CRSFactory;
+import org.osgeo.proj4j.CoordinateReferenceSystem;
+import org.osgeo.proj4j.ProjCoordinate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,10 +23,13 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class OpenApiService {
+    private final AddPlaceService addPlaceService;
 
 
     private final String GOOGLE_MAPS_API_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
@@ -29,6 +39,7 @@ public class OpenApiService {
 
     private String naverClient = "4pjC9KmLm4IbrASEY5oD";
     private String naverSecret = "ld8a0fZx70";
+
 
 
 
@@ -81,6 +92,7 @@ public class OpenApiService {
         String encodedKeyword = URLEncoder.encode(req.getKeyword(), "UTF-8");
         String apiUrl = "https://openapi.naver.com/v1/search/local?query=" + encodedKeyword;
 
+        log.info("뭐지");
         URL url = new URL(apiUrl);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
@@ -101,6 +113,7 @@ public class OpenApiService {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(result.toString());
 
+
             response = new SearchAreaDTO.Response();
             response.setNumOfRows(rootNode.path("total").asInt());
             response.setPageNo(rootNode.path("start").asInt());
@@ -110,12 +123,27 @@ public class OpenApiService {
             List<SearchAreaDTO.info> infoList = new ArrayList<>();
             SearchAreaDTO.info info = new SearchAreaDTO.info();
             if (itemsNode != null) {
-                info.setTitle(itemsNode.path("title").asText());
-                info.setTel(itemsNode.path("telephone").asText());
-                info.setAddr1(itemsNode.path("address").asText());
-                info.setAddr2(itemsNode.path("roadAddress").asText());
-                info.setMapx(itemsNode.path("mapx").asText());
-                info.setMapy(itemsNode.path("mapy").asText());
+                String title = Jsoup.parse(itemsNode.path("title").asText()).text();
+                String add1 = itemsNode.path("address").asText();
+                String add2 = itemsNode.path("roadAddress").asText();
+                String tel = itemsNode.path("telephone").asText();
+
+                String mapx = itemsNode.path("mapx").asText();
+                String mapy = itemsNode.path("mapy").asText();
+
+
+
+                AddPlace addPlace = addPlaceService.getAddPlace(title, add1 ,add2 , tel ,mapx , mapy);
+
+
+                info.setContentid(String.valueOf(addPlace.getId()));
+                info.setContenttypeid("80");
+                info.setTitle(addPlace.getTitle());
+                info.setTel(addPlace.getTel());
+                info.setAddr1(addPlace.getAdd1());
+                info.setAddr2(addPlace.getAdd2());
+                info.setMapx(addPlace.getMapX());
+                info.setMapy(addPlace.getMapY());
                 infoList.add(info);
             }
             response.setPlace(infoList);
