@@ -4,6 +4,7 @@ package com.YH.yeohaenghama.domain.search.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
+import com.YH.yeohaenghama.domain.openApi.dto.SearchAreaDTO;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.search.dto.SearchDTO;
 import com.YH.yeohaenghama.domain.search.dto.SearchDiaryDTO;
@@ -45,8 +46,8 @@ public class SearchController {
 
     @Operation(summary = "관광지/음식점 키워드 검색")
     @PostMapping("/area")
-    public List<OpenApiAreaDTO.Response.Body.Items.Item> test(@RequestBody OpenApiAreaDTO req) throws Exception {
-        return openApiService.searchAreaAndGetResponse(req);
+    public SearchAreaDTO.Response test(@RequestBody SearchAreaDTO.Reqeust req) throws Exception {
+        return openApiService.searchArea(req);
     }
 
     @Operation(summary = "일기 제목 검색")
