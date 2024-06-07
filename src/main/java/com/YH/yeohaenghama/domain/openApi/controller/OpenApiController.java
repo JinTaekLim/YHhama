@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.openApi.controller;
 
+import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.openApi.dto.*;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +40,7 @@ public class OpenApiController {
 
 
 
-    @Operation(summary = "키워드 검색")
+    @Operation(summary = "구글 키워드 검색")
     @PostMapping("/searchKeyword")
     public List<SearchKeywordDTO.Response> searchKeyword(@RequestBody SearchKeywordDTO.Request req) {
         log.info("dto == " + req);
@@ -48,130 +49,42 @@ public class OpenApiController {
 
 
 
+
     @Operation(summary = "test")
     @PostMapping("/test")
-    public String test(@RequestParam String keyword) {
-        StringBuilder result = new StringBuilder();
+    public ApiResult<SearchAreaDTO.Response> test(@RequestBody SearchAreaDTO.Reqeust req) {
         try {
-            String encodedKeyword = URLEncoder.encode(keyword, "UTF-8");
-            String apiUrl = "https://openapi.naver.com/v1/search/local?query=" + encodedKeyword;
-
-            URL url = new URL(apiUrl);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("X-Naver-Client-Id", "4pjC9KmLm4IbrASEY5oD");
-            con.setRequestProperty("X-Naver-Client-Secret", "ld8a0fZx70");
-
-            int responseCode = con.getResponseCode();
-            BufferedReader br;
-            if (responseCode == 200) {
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            } else {
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-            }
-
-            String inputLine;
-            while ((inputLine = br.readLine()) != null) {
-                result.append(inputLine.trim());
-            }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.append("Exception occurred: ").append(e.getMessage());
+            return ApiResult.success(openApiService.searchAreaNaver(req));
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
         }
-        return result.toString();
     }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Operation(summary = "(구)관광지/음식점 키워드 검색")
+    @Operation(summary = "관광지/음식점 키워드 검색")
     @PostMapping("/searchArea")
-    public String searchArea(@RequestBody OpenApiAreaDTO req) {
-        StringBuffer result = new StringBuffer();
+    public ApiResult<SearchAreaDTO.Response> searchArea(@RequestBody SearchAreaDTO.Reqeust req) {
         try {
-            String encodedKeyword = URLEncoder.encode(req.getKeyword(), "UTF-8");
-            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
-                    "searchKeyword1?" +
-                    "serviceKey=" + openApiService.getServiceKey() +
-                    "&numOfRows=" + req.getNumOfRows() +
-                    "&pageNo=" + req.getPage() +
-                    "&MobileOS=" + req.getMobileOS() +
-                    "&MobileApp=AppTest" +
-                    "&_type=json" +
-                    "&listYN=Y" +
-                    "&arrange=A" +
-                    "&keyword=" + encodedKeyword +
-                    "&contentTypeId=" + req.getContentTypeId();
-
-
-            String response = openApiService.sendHttpRequest(apiUrl);
-            result.append("<xmp>").append(response).append("</xmp>");
-        } catch (Exception e) {
-            e.printStackTrace();
+            return ApiResult.success(openApiService.searchArea(req));
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
         }
-        return result.toString();
     }
 
 
-    @Operation(summary = "(구)관광지/음식점 상세 조회 ")
+
+    @Operation(summary = "관광지/음식점 상세 조회 ")
     @PostMapping("/searchDetail")
-    public String searchDetail(@RequestBody OpenApiDetailDTO req) {
-        StringBuffer result = new StringBuffer();
+    public ApiResult<SearchDetailDTO.Response> searchDetail(@RequestBody OpenApiDetailDTO req) {
         try {
-            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/detailCommon1?" +
-                    "serviceKey=" + openApiService.getServiceKey() +
-                    "&MobileOS=" + req.getMobileOS() +
-                    "&MobileApp=AppTest" +
-                    "&_type=json" +
-                    "&contentId=" + req.getContentId() +
-                    "&contentTypeId=" + req.getContentTypeId() +
-                    "&defaultYN=Y" +
-                    "&firstImageYN=Y" +
-                    "&areacodeYN=Y" +
-                    "&catcodeYN=Y" +
-                    "&addrinfoYN=Y" +
-                    "&mapinfoYN=Y" +
-                    "&overviewYN=Y" +
-                    "&numOfRows=" + req.getNumOfRows() +
-                    "&pageNo=" + req.getPageNo();
-
-
-            String response = openApiService.sendHttpRequest(apiUrl);
-            result.append("<xmp>").append(response).append("</xmp>");
-        } catch (Exception e) {
-            e.printStackTrace();
+            return ApiResult.success(openApiService.searchDetail(req));
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
         }
-        return result.toString();
     }
 
-    @Operation(summary = "(구)관광지/음식점 사진 조회")
+    @Operation(summary = "관광지/음식점 사진 조회")
     @PostMapping("/searchImage")
     public String searchImage(@RequestBody OpenApiImageDTO req) {
         StringBuffer result = new StringBuffer();

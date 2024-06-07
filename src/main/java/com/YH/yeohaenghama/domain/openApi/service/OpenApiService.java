@@ -12,9 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +26,9 @@ public class OpenApiService {
 
     private String serviceKey = "%2B1I%2BbTxxqsKlIjXBgNQX38e6gZOJnlCyPLnkFQUQFrpoCl9tEcII2L%2BvUeJuiaAFf3bN1wly8A6VzOw%2FGz9v7w%3D%3D";
     private String serviceKeyG = "AIzaSyD8A9MmFwyaBmobDOumV8YYckzkxZnaTzk";
+
+    private String naverClient = "4pjC9KmLm4IbrASEY5oD";
+    private String naverSecret = "ld8a0fZx70";
 
 
 
@@ -43,54 +45,82 @@ public class OpenApiService {
 
 
 
+    public SearchAreaDTO.Response searchArea(SearchAreaDTO.Reqeust req) throws Exception {
+        String encodedKeyword = URLEncoder.encode(req.getKeyword(), StandardCharsets.UTF_8.name());
+        String apiUrl = String.format(
+                "https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=%s&numOfRows=%s&pageNo=%s&MobileOS=%s&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&keyword=%s&contentTypeId=%s",
+                serviceKey, req.getNumOfRows(), req.getPage(), req.getMobileOS(), encodedKeyword, req.getContentTypeId()
+        );
+
+        String url = sendHttpRequest(apiUrl);
+
+        SearchAreaDTO.Response response = SearchAreaDTO.Response.parsing(url);
+
+        if(response.getPlace().isEmpty()) {
+            response = searchAreaNaver(req);
+        }
+        return response;
+    }
+
+
+    public SearchDetailDTO.Response searchDetail(OpenApiDetailDTO req) throws Exception {
+        String apiUrl = "https://apis.data.go.kr/B551011/KorService1/detailCommon1?" + "serviceKey=" + serviceKey + "&MobileOS=" + req.getMobileOS() + "&MobileApp=AppTest" + "&_type=json" + "&contentId=" + req.getContentId() + "&contentTypeId=" + req.getContentTypeId() + "&defaultYN=Y" + "&firstImageYN=Y" + "&areacodeYN=Y" + "&catcodeYN=Y" + "&addrinfoYN=Y" + "&mapinfoYN=Y" + "&overviewYN=Y" + "&numOfRows=" + req.getNumOfRows() + "&pageNo=" + req.getPageNo();
+
+        String url = sendHttpRequest(apiUrl);
+
+        log.info(url);
+        SearchDetailDTO.Response response = SearchDetailDTO.Response.parse(url);
+        return response;
+    }
 
 
 
 
+    public SearchAreaDTO.Response searchAreaNaver(SearchAreaDTO.Reqeust req) throws Exception {
+        SearchAreaDTO.Response response = null;
+        String encodedKeyword = URLEncoder.encode(req.getKeyword(), "UTF-8");
+        String apiUrl = "https://openapi.naver.com/v1/search/local?query=" + encodedKeyword;
 
+        URL url = new URL(apiUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("X-Naver-Client-Id", naverClient);
+        con.setRequestProperty("X-Naver-Client-Secret", naverSecret);
 
+        int responseCode = con.getResponseCode();
 
-        public List<OpenApiAreaDTO.Response.Body.Items.Item> searchAreaAndGetResponse(OpenApiAreaDTO dto) throws Exception {
-            try {
-                String encodedKeyword = URLEncoder.encode(dto.getKeyword(), "UTF-8");
-
-                String apiUrl = "https://apis.data.go.kr/B551011/KorService1/" +
-                        "searchKeyword1?" +
-                        "serviceKey=" + serviceKey +
-                        "&numOfRows=" + dto.getNumOfRows() +
-                        "&pageNo=" + dto.getPage() +
-                        "&MobileOS=" + dto.getMobileOS() +
-                        "&MobileApp=AppTest" +
-                        "&_type=json" +
-                        "&listYN=Y" +
-                        "&arrange=A" +
-                        "&keyword=" + encodedKeyword +
-                        "&contentTypeId=" + dto.getContentTypeId();
-
-                String responseJson = sendHttpRequest(apiUrl);
-                List<OpenApiAreaDTO.Response.Body.Items.Item> responseList = new ArrayList<>();
-
-
-                JSONObject jsonResponse = new JSONObject(responseJson);
-                JSONObject responseBody = jsonResponse.getJSONObject("response").getJSONObject("body");
-                JSONObject items = responseBody.getJSONObject("items");
-                JSONArray itemList = items.getJSONArray("item");
-
-                for (int i = 0; i < itemList.length(); i++) {
-                    JSONObject item = itemList.getJSONObject(i);
-                    String title = item.getString("title");
-                    String firstImage = item.optString("firstimage", "");
-                    String contentId = item.getString("contentid");
-                    String contentTypeId = item.getString("contenttypeid");
-
-                    OpenApiAreaDTO.Response.Body.Items.Item reponse = new OpenApiAreaDTO.Response.Body.Items.Item(title,firstImage,contentId,contentTypeId);
-                    responseList.add(reponse);
+        if (responseCode == 200) {
+            StringBuilder result = new StringBuilder();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                String inputLine;
+                while ((inputLine = br.readLine()) != null) {
+                    result.append(inputLine.trim());
                 }
-                return responseList;
-            }catch (Exception e){
-                return new ArrayList<>();
             }
 
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(result.toString());
+
+            response = new SearchAreaDTO.Response();
+            response.setNumOfRows(rootNode.path("total").asInt());
+            response.setPageNo(rootNode.path("start").asInt());
+            response.setTotalCount(rootNode.path("display").asInt());
+
+            JsonNode itemsNode = rootNode.path("items").get(0);
+            List<SearchAreaDTO.info> infoList = new ArrayList<>();
+            SearchAreaDTO.info info = new SearchAreaDTO.info();
+            if (itemsNode != null) {
+                info.setTitle(itemsNode.path("title").asText());
+                info.setTel(itemsNode.path("telephone").asText());
+                info.setAddr1(itemsNode.path("address").asText());
+                info.setAddr2(itemsNode.path("roadAddress").asText());
+                info.setMapx(itemsNode.path("mapx").asText());
+                info.setMapy(itemsNode.path("mapy").asText());
+                infoList.add(info);
+            }
+            response.setPlace(infoList);
+        }
+        return response;
     }
 
 

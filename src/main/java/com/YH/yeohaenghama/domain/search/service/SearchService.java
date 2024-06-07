@@ -8,6 +8,7 @@ import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
+import com.YH.yeohaenghama.domain.openApi.dto.SearchAreaDTO;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.search.dto.SearchDTO;
 import com.YH.yeohaenghama.domain.search.dto.SearchDiaryDTO;
@@ -35,23 +36,23 @@ public class SearchService {
 
     public SearchDTO.Response federated(SearchDTO.Request dto) throws Exception {
 
-        OpenApiAreaDTO openApiAreaDTO = new OpenApiAreaDTO();
-        openApiAreaDTO.setPage(String.valueOf(dto.getPage()));
-        openApiAreaDTO.setKeyword(dto.getKeyWord());
-        openApiAreaDTO.setMobileOS("ETC");
-        openApiAreaDTO.setContentTypeId("12");
-        openApiAreaDTO.setNumOfRows(String.valueOf(dto.getNumOfRows()));
+        SearchAreaDTO.Reqeust searchArea = new SearchAreaDTO.Reqeust();
+        searchArea.setPage(String.valueOf(dto.getPage()));
+        searchArea.setKeyword(dto.getKeyWord());
+        searchArea.setMobileOS("ETC");
+        searchArea.setContentTypeId("12");
+        searchArea.setNumOfRows(String.valueOf(dto.getNumOfRows()));
 
 
-        List<OpenApiAreaDTO.Response.Body.Items.Item> searchPlace =
-                openApiService.searchAreaAndGetResponse(openApiAreaDTO);
+        SearchAreaDTO.Response searchPlace =
+                openApiService.searchArea(searchArea);
 
         return SearchDTO.Response.setSearch(
                 searchTitle(dto),
                 searchContent(dto),
                 serachPlace(dto),
                 searchArea(dto),
-                searchPlace != null? searchPlace : new ArrayList<>()
+                searchPlace
         );
     }
 
