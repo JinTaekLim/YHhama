@@ -21,7 +21,7 @@ public class AddPlaceService {
         addPlaceRepository.save(addPlace);
         return dto;
     }
-
+    
     public AddPlace getAddPlace(String title,String add1, String add2, String tel, String mapX, String mapY){
         log.info("등장");
         AddPlace addPlace = addPlaceRepository.findByTitleAndAdd1(title,add1);
@@ -29,7 +29,6 @@ public class AddPlaceService {
 
         return addPlace;
     }
-
 
 
 }

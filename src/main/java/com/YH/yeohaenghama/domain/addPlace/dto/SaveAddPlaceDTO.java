@@ -29,6 +29,7 @@ public class SaveAddPlaceDTO {
             request.setMapY(mapY);
             return request;
         }
+
     }
     private SaveAddPlaceDTO.Request request;
 
