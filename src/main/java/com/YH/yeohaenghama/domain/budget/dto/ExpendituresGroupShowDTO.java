@@ -11,7 +11,9 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class ExpendituresGroupShowDTO {
+    public static Integer totalAmount;
     @Data @Schema(name = "ExpendituresGroupShowDTO_Response")
     public static class Response{
         private Long id;
@@ -30,9 +32,10 @@ public class ExpendituresGroupShowDTO {
 
         public static List<Response> calculate(List<ExpendituresGroup> expendituresGroupList){
             List<Response> response = new ArrayList<>();
-
+            totalAmount = 0;
             for(ExpendituresGroup expendituresGroup : expendituresGroupList){
                 response.add(toEntity(expendituresGroup));
+                totalAmount += expendituresGroup.getAmount();
             }
             return response;
         }
