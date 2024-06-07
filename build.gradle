@@ -59,6 +59,9 @@ dependencies {
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
 
+
+	implementation 'org.jsoup:jsoup:1.14.3'
+
 //
 //	implementation 'mysql:mysql-connector-java'
 

@@ -18,6 +18,17 @@ public class SaveAddPlaceDTO {
         private String add2;
         private String mapX;
         private String mapY;
+
+        public static Request getRequest(String title,String add1, String add2, String tel, String mapX, String mapY){
+            SaveAddPlaceDTO.Request request = new Request();
+            request.setTitle(title);
+            request.setAdd1(add1);
+            request.setAdd2(add2);
+            request.setTel(tel);
+            request.setMapX(mapX);
+            request.setMapY(mapY);
+            return request;
+        }
     }
     private SaveAddPlaceDTO.Request request;
 
