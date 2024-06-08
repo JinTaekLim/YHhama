@@ -21,6 +21,7 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -75,15 +76,21 @@ public class OpenApiService {
 
 
     public SearchDetailDTO.Response searchDetail(OpenApiDetailDTO req) throws Exception {
+        if(req.getContentTypeId().equals("80")) { return addPlaceDetail(req.getContentId()); }
+
         String apiUrl = "https://apis.data.go.kr/B551011/KorService1/detailCommon1?" + "serviceKey=" + serviceKey + "&MobileOS=" + req.getMobileOS() + "&MobileApp=AppTest" + "&_type=json" + "&contentId=" + req.getContentId() + "&contentTypeId=" + req.getContentTypeId() + "&defaultYN=Y" + "&firstImageYN=Y" + "&areacodeYN=Y" + "&catcodeYN=Y" + "&addrinfoYN=Y" + "&mapinfoYN=Y" + "&overviewYN=Y" + "&numOfRows=" + req.getNumOfRows() + "&pageNo=" + req.getPageNo();
 
         String url = sendHttpRequest(apiUrl);
 
-        log.info(url);
         SearchDetailDTO.Response response = SearchDetailDTO.Response.parse(url);
         return response;
     }
 
+    public SearchDetailDTO.Response addPlaceDetail(String contentId){
+        AddPlace addPlace = addPlaceService.getAddPlaceInfo(contentId);
+        SearchDetailDTO.Response response = SearchDetailDTO.Response.parse(addPlace);
+        return response;
+    }
 
 
 

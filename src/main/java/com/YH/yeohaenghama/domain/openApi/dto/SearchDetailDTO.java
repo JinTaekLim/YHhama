@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.openApi.dto;
 
+import com.YH.yeohaenghama.domain.addPlace.entity.AddPlace;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -63,7 +64,6 @@ public class SearchDetailDTO {
         @JsonProperty("overview")
         private String overview;
 
-
         public static SearchDetailDTO.Response parse(String jsonResponse) throws Exception {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -84,6 +84,18 @@ public class SearchDetailDTO {
                 response.setMapy(itemNode.path("mapy").asText());
                 response.setOverview(itemNode.path("overview").asText());
             }
+            return response;
+        }
+
+        public static SearchDetailDTO.Response parse(AddPlace addPlace){
+            SearchDetailDTO.Response response = new SearchDetailDTO.Response();
+            response.setContentId(String.valueOf(addPlace.getId()));
+            response.setContentTypeId("80");
+            response.setTitle(addPlace.getTitle());
+            response.setAddr1(addPlace.getAdd1());
+            response.setAddr2(addPlace.getAdd2());
+            response.setMapx(addPlace.getMapX());
+            response.setMapy(addPlace.getMapY());
             return response;
         }
     }
