@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
@@ -42,7 +44,7 @@ public class OpenApiController {
 
 
     @Operation(summary = "구글 키워드 검색")
-    @PostMapping("/searchKeyword")
+    @PostMapping("/googleSearchKeyword")
     public List<SearchKeywordDTO.Response> searchKeyword(@RequestBody SearchKeywordDTO.Request req) {
         log.info("dto == " + req);
         return openApiService.searchKeyword(req);
@@ -50,15 +52,9 @@ public class OpenApiController {
 
 
 
-    @Operation(summary = "tt")
-    @PostMapping("/tt")
-    public void tt(@RequestBody SearchAreaDTO.Reqeust req) {
 
-
-    }
-
-    @Operation(summary = "test")
-    @PostMapping("/test")
+    @Operation(summary = "네이버 키워드 검색")
+    @PostMapping("/naverSearchKeyword")
     public ApiResult<SearchAreaDTO.Response> test(@RequestBody SearchAreaDTO.Reqeust req) {
         try {
             return ApiResult.success(openApiService.searchAreaNaver(req));
