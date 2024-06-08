@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
@@ -52,7 +54,38 @@ public class OpenApiController {
 
     @Operation(summary = "tt")
     @PostMapping("/tt")
-    public void tt(@RequestBody SearchAreaDTO.Reqeust req) {
+    public void tt(@RequestBody SearchAreaDTO.Reqeust req) throws Exception {
+
+        String GEOCODE_URL = "https://dapi.kakao.com/v2/local/search/address.json";
+        String REST_API_KEY = "a9d1711e66ed62d5be76957294ab0a9f"; // Kakao REST API 키
+
+        String query = URLEncoder.encode("인천광역시 중구 북성동2가 14", "UTF-8");
+        String urlString = GEOCODE_URL + "?query=" + query;
+        URL url = new URL(urlString);
+
+        // HTTP 연결 설정
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Authorization", "KakaoAK " + REST_API_KEY);
+
+        // 응답 읽기
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        // JSON 파싱
+        String json = response.toString();
+        int xIndex = json.indexOf("\"x\":\"") + 5;
+        int yIndex = json.indexOf("\"y\":\"") + 5;
+        String x = json.substring(xIndex, json.indexOf("\"", xIndex));
+        String y = json.substring(yIndex, json.indexOf("\"", yIndex));
+
+        // 결과 출력
+        System.out.println("x: " + x + ", y: " + y);
 
 
     }

@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class OpenApiService {
     private String naverClient = "4pjC9KmLm4IbrASEY5oD";
     private String naverSecret = "ld8a0fZx70";
 
+    String KAKAO_GEOCODE_URL = "https://dapi.kakao.com/v2/local/search/address.json";
+    String KAKAO_REST_API_KEY = "a9d1711e66ed62d5be76957294ab0a9f"; // Kakao REST API 키
 
 
 
@@ -125,12 +128,18 @@ public class OpenApiService {
                 String add2 = itemsNode.path("roadAddress").asText();
                 String tel = itemsNode.path("telephone").asText();
 
-                String mapx = itemsNode.path("mapx").asText();
-                String mapy = itemsNode.path("mapy").asText();
+//                String mapx = itemsNode.path("mapx").asText();
+//                String mapy = itemsNode.path("mapy").asText();
 
 
+                String coordinate = changeXY(add1);
 
-                AddPlace addPlace = addPlaceService.getAddPlace(title, add1 ,add2 , tel ,mapx , mapy);
+                int xIndex = coordinate.indexOf("\"x\":\"") + 5;
+                int yIndex = coordinate.indexOf("\"y\":\"") + 5;
+                String x = coordinate.substring(xIndex, coordinate.indexOf("\"", xIndex));
+                String y = coordinate.substring(yIndex, coordinate.indexOf("\"", yIndex));
+
+                AddPlace addPlace = addPlaceService.getAddPlace(title, add1 ,add2 , tel ,x , y);
 
 
                 info.setContentid(String.valueOf(addPlace.getId()));
@@ -148,6 +157,38 @@ public class OpenApiService {
         return response;
     }
 
+
+    public String changeXY(String add) throws Exception {
+        add = "인천광역시 중구 북성동2가 14";
+        String query = URLEncoder.encode(add, "UTF-8");
+        String urlString = KAKAO_GEOCODE_URL + "?query=" + query;
+        URL url = new URL(urlString);
+
+        // HTTP 연결 설정
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Authorization", "KakaoAK " + KAKAO_REST_API_KEY);
+
+        // 응답 읽기
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        // JSON 파싱
+        String json = response.toString();
+//        int xIndex = json.indexOf("\"x\":\"") + 5;
+//        int yIndex = json.indexOf("\"y\":\"") + 5;
+//        String x = json.substring(xIndex, json.indexOf("\"", xIndex));
+//        String y = json.substring(yIndex, json.indexOf("\"", yIndex));
+
+        // 결과 출력
+//        System.out.println("x: " + x + ", y: " + y);
+        return json;
+    }
 
 
     public String getServiceKey(){
