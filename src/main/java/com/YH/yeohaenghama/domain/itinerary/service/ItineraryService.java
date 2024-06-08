@@ -20,6 +20,7 @@ import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryJoinAccountRepos
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 //import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryTypeRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
+import com.YH.yeohaenghama.domain.notification.service.NotificationService;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiDirectionsDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiGetXY;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
@@ -56,6 +57,7 @@ public class ItineraryService {
     private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
     private final ReviewRepository reviewRepository;
     private final ChatService chatService;
+    private final NotificationService notificationService;
 
     public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO, Long accountId) {
 
@@ -254,7 +256,7 @@ public class ItineraryService {
 
 
     @Transactional
-    public String itineraryJoinAccount(ItineraryJoinAccountDTO.Request dto){
+    public String itineraryJoinAccount(ItineraryJoinAccountDTO.Request dto) throws Exception {
         ItineraryJoinAccountDTO itineraryJoinAccountDTO = new ItineraryJoinAccountDTO();
 
         Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
@@ -273,6 +275,8 @@ public class ItineraryService {
 
         itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(accountOpt.get(),itineraryOpt.get()));
         chatService.addUserToChatRoom(roomId, String.valueOf(accountOpt.get().getId()));
+
+        notificationService.sendToClient(dto.getAccountId(), "[" + itineraryOpt.get().getName() + "] Sharing the itinerary ", "itineraryId : " + itineraryOpt.get().getId());
         return "추가 성공";
     }
 
