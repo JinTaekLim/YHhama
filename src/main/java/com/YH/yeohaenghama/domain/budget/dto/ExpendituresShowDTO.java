@@ -19,6 +19,7 @@ public class ExpendituresShowDTO {
         private Long id;
 //        private AccountShowDTO.Response account;
         private Integer expendituresTotalAmount;
+        private boolean divided;
         private PlaceShowExpendituresDTO.Response place = null;
         private Integer day;
         private String content;
@@ -30,6 +31,7 @@ public class ExpendituresShowDTO {
         public static ExpendituresShowDTO.Response fromEntity(Expenditures expenditures){
             ExpendituresShowDTO.Response response = new ExpendituresShowDTO.Response();
             response.setId(expenditures.getId());
+            response.setDivided(expenditures.isDivided());
 //            response.setAccount(accountShow(expenditures.getAccount()));
             response.setDay(expenditures.getDay());
             if(expenditures.getPlace() != null) {
