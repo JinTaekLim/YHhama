@@ -77,6 +77,16 @@ public class ChatService {
             for(MultipartFile file : image){
                 String url = gcsService.uploadPhoto(file, LocalDateTime.now().toString(), "Chat/"+roomId + "/" + sender);
                 chatMessage.setMessage(url);
+
+
+
+                ChatLogDTO.Request request = new ChatLogDTO.Request();
+                request.setType(chatMessage.getType());
+                request.setMessage(chatMessage.getMessage());
+                request.setSender(chatMessage.getSender());
+                request.setRoomId(chatMessage.getRoomId());
+                chatLogRepository.addChatLog(request);
+
                 chatRoomRepository.enterChatRoom(chatMessage.getRoomId());
                 chatMessage.setMessage(chatMessage.getMessage());
                 redisPublisher.publish(chatRoomRepository.getTopic(chatMessage.getRoomId()), chatMessage);
