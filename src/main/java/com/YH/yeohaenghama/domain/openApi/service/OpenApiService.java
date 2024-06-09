@@ -99,7 +99,6 @@ public class OpenApiService {
         String encodedKeyword = URLEncoder.encode(req.getKeyword(), "UTF-8");
         String apiUrl = "https://openapi.naver.com/v1/search/local?query=" + encodedKeyword;
 
-        log.info("뭐지");
         URL url = new URL(apiUrl);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
@@ -166,7 +165,6 @@ public class OpenApiService {
 
 
     public String changeXY(String add) throws Exception {
-        add = "인천광역시 중구 북성동2가 14";
         String query = URLEncoder.encode(add, "UTF-8");
         String urlString = KAKAO_GEOCODE_URL + "?query=" + query;
         URL url = new URL(urlString);
