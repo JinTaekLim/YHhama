@@ -25,6 +25,7 @@ public class ExpendituresAddDTO {
         private Long budgetId;
         private Integer totalAmount;
         private Long payerId;
+        private boolean divided;
         private List<Long> accountId;
         private List<Integer> amount;
         private Long place = null;
@@ -94,6 +95,7 @@ public class ExpendituresAddDTO {
                 .payer(payer)
                 .totalAmount(request.getTotalAmount())
                 .day(request.getDay())
+                .divided(request.isDivided())
                 .paymentMethod(request.getPaymentMethod())
                 .content(request.getContent())
                 .category(request.getCategory())

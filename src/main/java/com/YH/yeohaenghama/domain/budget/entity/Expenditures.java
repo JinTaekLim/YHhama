@@ -31,6 +31,9 @@ public class Expenditures {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account payer;
 
+
+    private boolean divided;
+
     private Integer totalAmount;
 
 
@@ -65,11 +68,12 @@ public class Expenditures {
 //    }
 
     @Builder
-    public Expenditures(Budget budget, Place place, Account payer, Integer totalAmount, List<ExpendituresGroup> expendituresGroups, Integer day, String content, String paymentMethod, String category, boolean individual) {
+    public Expenditures(Budget budget, Place place, Account payer, Integer totalAmount, boolean divided , List<ExpendituresGroup> expendituresGroups, Integer day, String content, String paymentMethod, String category, boolean individual) {
         this.budget = budget;
         this.place = place;
         this.payer  = payer;
         this.totalAmount = totalAmount;
+        this.divided = divided;
         this.expendituresGroups = expendituresGroups;
         this.day = day;
         this.content = content;
