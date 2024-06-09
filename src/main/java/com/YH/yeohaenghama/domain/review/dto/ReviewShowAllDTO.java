@@ -76,14 +76,17 @@ public class ReviewShowAllDTO {
             JsonObject jsonObject = gson.fromJson(result.toString(), JsonObject.class);
             JsonArray items = jsonObject.getAsJsonArray("items");
 
+            System.out.println(result);
             for (int i = 0; i < items.size(); i++) {
                 ReviewShowAllDTO.Response reviewShow = new Response();
 
                 JsonObject item = items.get(i).getAsJsonObject();
 //                String title = item.get("title").getAsString();
+                String blogName = item.get("bloggername").getAsString();
                 String description = item.get("description").getAsString();
                 description = Jsoup.parse(description).text();
 
+                reviewShow.setAccount(new AccountShowDTO.Response(null,blogName,null,null));
                 reviewShow.setContentTypeId(80L);
                 reviewShow.setContent(description);
 
