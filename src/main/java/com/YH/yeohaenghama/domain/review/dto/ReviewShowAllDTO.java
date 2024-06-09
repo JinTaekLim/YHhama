@@ -3,11 +3,16 @@ package com.YH.yeohaenghama.domain.review.dto;
 
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.addPlace.entity.AddPlace;
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +65,33 @@ public class ReviewShowAllDTO {
             }
             response.setReviewPhotoURLList(photoURLs);
 
+
+
+            return response;
+        }
+
+        public static List<ReviewShowAllDTO.Response> pasing(String result) {
+            List<ReviewShowAllDTO.Response> response = new ArrayList<>();
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(result.toString(), JsonObject.class);
+            JsonArray items = jsonObject.getAsJsonArray("items");
+
+            System.out.println(result);
+            for (int i = 0; i < items.size(); i++) {
+                ReviewShowAllDTO.Response reviewShow = new Response();
+
+                JsonObject item = items.get(i).getAsJsonObject();
+//                String title = item.get("title").getAsString();
+                String blogName = item.get("bloggername").getAsString();
+                String description = item.get("description").getAsString();
+                description = Jsoup.parse(description).text();
+
+                reviewShow.setAccount(new AccountShowDTO.Response(null,blogName,null,null));
+                reviewShow.setContentTypeId(80L);
+                reviewShow.setContent(description);
+
+                response.add(reviewShow);
+            }
 
 
             return response;

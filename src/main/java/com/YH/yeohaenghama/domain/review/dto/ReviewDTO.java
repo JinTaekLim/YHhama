@@ -1,8 +1,12 @@
 package com.YH.yeohaenghama.domain.review.dto;
 
+import com.YH.yeohaenghama.domain.addPlace.entity.AddPlace;
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,6 +91,7 @@ public class ReviewDTO {
 
             return response;
         }
+
     }
 
     private Request request;

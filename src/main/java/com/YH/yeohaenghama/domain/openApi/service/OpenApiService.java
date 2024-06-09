@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.openApi.service;
 import com.YH.yeohaenghama.domain.addPlace.entity.AddPlace;
 import com.YH.yeohaenghama.domain.addPlace.service.AddPlaceService;
 import com.YH.yeohaenghama.domain.openApi.dto.*;
+import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -163,6 +164,31 @@ public class OpenApiService {
         return response;
     }
 
+    public String searchReview(String title) throws Exception {
+        String encodedKeyword = URLEncoder.encode(title, "UTF-8");
+        String apiUrl = "https://openapi.naver.com/v1/search/blog?query=" + encodedKeyword;
+
+        URL url = new URL(apiUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("X-Naver-Client-Id", naverClient);
+        con.setRequestProperty("X-Naver-Client-Secret", naverSecret);
+
+        int responseCode = con.getResponseCode();
+
+        StringBuilder result = new StringBuilder();
+
+        if (responseCode == 200) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                String inputLine;
+                while ((inputLine = br.readLine()) != null) {
+                    result.append(inputLine.trim());
+                }
+            }
+        }
+
+        return result.toString();
+    }
 
     public String changeXY(String add) throws Exception {
         String query = URLEncoder.encode(add, "UTF-8");
