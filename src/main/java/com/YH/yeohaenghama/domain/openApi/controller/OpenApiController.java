@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.openApi.controller;
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.openApi.dto.*;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
+import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,16 @@ public class OpenApiController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+//    @Operation(summary = "네이버 리뷰 검색")
+//    @PostMapping("/naverSearchReview")
+//    public ApiResult<String> testReview(@RequestBody String keyword) {
+//        try {
+//            return ApiResult.success(openApiService.searchReview(keyword));
+//        }catch (Exception e){
+//            return ApiResult.fail(e.getMessage());
+//        }
+//    }
 
 
 

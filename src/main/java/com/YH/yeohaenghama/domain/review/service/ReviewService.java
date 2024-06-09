@@ -3,6 +3,11 @@ package com.YH.yeohaenghama.domain.review.service;
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
+import com.YH.yeohaenghama.domain.addPlace.entity.AddPlace;
+import com.YH.yeohaenghama.domain.addPlace.service.AddPlaceService;
+import com.YH.yeohaenghama.domain.itinerary.entity.Place;
+import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
+import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.review.dto.*;
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.entity.ReviewPhotoURL;
@@ -27,6 +32,9 @@ public class ReviewService {
     private final ReviewPhotoURLRepository reviewPhotoURLRepository;
     private final AccountRepository accountRepository;
     private final GCSService gcsService;
+    private final OpenApiService openApiService;
+    private final AddPlaceService addPlaceService;
+    private final PlaceRepository placeRepository;
 
     public ReviewDTO.Response join(ReviewDTO.Request dto){
         if(accountRepository.findById(Long.valueOf(dto.getAccountId())).isEmpty()){
@@ -80,13 +88,12 @@ public class ReviewService {
 
 
 
-    public ReviewDTO.Response reviewShow(ReviewDTO.Show dto) {
+    public ReviewDTO.Response reviewShow(ReviewDTO.Show dto){
         log.info("DTO = " + dto);
 
         List<Review> reviews = reviewRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId());
-        if (reviews.isEmpty()) {
-            throw new NoSuchElementException("해당 유저가 작성한 장소의 저장된 평점이 존재하지 않습니다. : " + dto);
-        }
+        if (reviews.isEmpty()) throw new NoSuchElementException("해당 유저가 작성한 장소의 저장된 평점이 존재하지 않습니다. : " + dto);
+
 
         ReviewDTO.Response response = ReviewDTO.Response.fromEntity(reviews.get(0));
 
@@ -94,16 +101,27 @@ public class ReviewService {
         return response;
     }
 
-    public List<ReviewShowAllDTO.Response> reviewShowAll(ReviewShowAllDTO.Request dto) {
+    public List<ReviewShowAllDTO.Response> reviewShowAll(ReviewShowAllDTO.Request dto) throws Exception {
 
         List<Review> reviewList = reviewRepository.findByContentTypeIdAndContentId(dto.getContentTypeId(),dto.getContentId());
+        List<ReviewShowAllDTO.Response> responseList = new ArrayList<>();
 
         if(reviewList.isEmpty()){
-            throw new NoSuchElementException("해당 장소의 저장된 리뷰가 존재하지 않습니다. ");
+            String keyword = "";
+            if(dto.getContentTypeId() == 80){
+                AddPlace addPlace = addPlaceService.getAddPlaceInfo(String.valueOf(dto.getContentId()));
+                keyword = addPlace.getTitle();
+            } else {
+                List<Place> placeList = placeRepository.findByPlaceNumAndPlaceType(String.valueOf(dto.getContentId()),String.valueOf(dto.getContentTypeId()));
+                if(placeList.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 Place가 존재하지 않습니다.");
+                keyword = placeList.get(0).getPlaceName();
+            }
+            String naverReview = openApiService.searchReview(keyword);
+
+            return ReviewShowAllDTO.Response.pasing(naverReview);
         }
 
 
-        List<ReviewShowAllDTO.Response> responseList = new ArrayList<>();
 
         for( Review review : reviewList){
             Optional<Account> accountOptional = accountRepository.findById(review.getAccountId());
