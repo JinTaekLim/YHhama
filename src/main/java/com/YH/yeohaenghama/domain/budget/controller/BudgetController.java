@@ -164,6 +164,21 @@ public class BudgetController {
         }
     }
 
+
+    @Operation(summary = "가계부 통계 조회")
+    @PostMapping("/statistics")
+    public ApiResult<BudgetStatisticsDTO.Response> budgetStatistics(@RequestBody BudgetStatisticsDTO.Request dto){
+        try{
+            log.info("DTO ==== " + dto);
+            return ApiResult.success(budgetService.budgetStatistics(dto));
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
 //    @Operation(summary = "가계부 수정")
 //    @PostMapping("/expendituresUpdate")
 //    public ApiResult<List<ExpendituresShowDTO.Response>> expendituresUpdate(@RequestBody ExpendituresShowDTO.Request dto){

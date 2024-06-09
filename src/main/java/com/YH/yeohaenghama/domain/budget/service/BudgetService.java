@@ -69,4 +69,13 @@ public class BudgetService {
 
         return response;
     }
+
+    public BudgetStatisticsDTO.Response budgetStatistics(BudgetStatisticsDTO.Request dto){
+        Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudgetId());
+        if(budgetOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 가계부가 존재하지 않습니다. ");
+        Optional<Account> accountOpt = accountRepository.findById(dto.getAccountId());
+        if(accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다. ");
+
+        return BudgetStatisticsDTO.Response.toEntity(budgetOpt.get().getExpenditures(),accountOpt.get());
+    }
 }
