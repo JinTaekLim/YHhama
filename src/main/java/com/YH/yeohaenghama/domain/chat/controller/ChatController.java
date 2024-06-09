@@ -5,9 +5,13 @@ import com.YH.yeohaenghama.domain.chat.model.ChatMessage;
 import com.YH.yeohaenghama.domain.chat.pubsub.RedisPublisher;
 import com.YH.yeohaenghama.domain.chat.repo.ChatLogRepository;
 import com.YH.yeohaenghama.domain.chat.repo.ChatRoomRepository;
+import com.YH.yeohaenghama.domain.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -27,13 +31,16 @@ public class ChatController {
             message.setMessage(message.getSender() + "님이 입장하셨습니다.");
         } else if (ChatMessage.MessageType.TALK.equals(message.getType())) {
             ChatLogDTO.Request request = new ChatLogDTO.Request();
+            request.setType(message.getType());
             request.setMessage(message.getMessage());
             request.setSender(message.getSender());
             request.setRoomId(message.getRoomId());
             chatLogRepository.addChatLog(request);
+//        } else if (ChatMessage.MessageType.IMAGE.equals(message.getType())){
+//            chatRoomRepository.enterChatRoom(message.getRoomId());
+//            System.out.println(message.getMessage());
+//            message.setMessage(message.getSender() + "님이 사진을 보냈습니다.");
         }
-
         redisPublisher.publish(chatRoomRepository.getTopic(message.getRoomId()), message);
     }
-
 }

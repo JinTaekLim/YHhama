@@ -2,14 +2,17 @@ package com.YH.yeohaenghama.domain.chat.controller;
 
 import com.YH.yeohaenghama.domain.chat.DTO.ChatLogDTO;
 import com.YH.yeohaenghama.domain.chat.model.ChatLog;
+import com.YH.yeohaenghama.domain.chat.model.ChatMessage;
 import com.YH.yeohaenghama.domain.chat.model.ChatRoom;
 import com.YH.yeohaenghama.domain.chat.repo.ChatRoomRepository;
 import com.YH.yeohaenghama.domain.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +21,7 @@ import java.util.Map;
 @Controller
 @Slf4j
 @RequestMapping("/chat")
-public class ChatRoomController {
+public class  ChatRoomController {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatService chatService;
@@ -94,4 +97,12 @@ public class ChatRoomController {
     public ChatRoom roomInfo(@PathVariable String roomId) {
         return chatRoomRepository.findRoomById(roomId);
     }
+
+
+    @PostMapping("/sendImage")
+    @ResponseBody
+    public ChatMessage sendImage(@RequestParam String roomId, @RequestParam String sender , @RequestParam List<MultipartFile> image){
+        return chatService.sendImage(roomId,sender,image);
+    }
+
 }

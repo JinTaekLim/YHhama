@@ -41,6 +41,7 @@ public class ChatLogRepository {
 
         ChatLogDTO.Response newMessage = new ChatLogDTO.Response();
         newMessage.setMessage(dto.getMessage());
+        newMessage.setType(dto.getType());
         newMessage.setSender(dto.getSender());
         newMessage.setDateTime(LocalDateTime.now());
         messages.add(newMessage);
