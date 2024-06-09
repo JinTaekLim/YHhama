@@ -1,8 +1,12 @@
 package com.YH.yeohaenghama.domain.chat.service;
 
+import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import com.YH.yeohaenghama.domain.chat.DTO.ChatLogDTO;
+import com.YH.yeohaenghama.domain.chat.controller.ChatController;
 import com.YH.yeohaenghama.domain.chat.model.ChatLog;
+import com.YH.yeohaenghama.domain.chat.model.ChatMessage;
 import com.YH.yeohaenghama.domain.chat.model.ChatRoom;
+import com.YH.yeohaenghama.domain.chat.pubsub.RedisPublisher;
 import com.YH.yeohaenghama.domain.chat.repo.ChatLogRepository;
 import com.YH.yeohaenghama.domain.chat.repo.ChatRoomRepository;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
@@ -10,7 +14,10 @@ import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +29,10 @@ import java.util.Optional;
 public class ChatService {
     private final ItineraryRepository itineraryRepository;
     private final ChatRoomRepository chatRoomRepository;
-    private final ChatLogRepository chatLogRepository; // ChatLogRepository 추가
+    private final ChatLogRepository chatLogRepository;
+    private final RedisPublisher redisPublisher;
+    private final GCSService gcsService;
+
 
 
     public ChatRoom createChatRomm(String itineraryId){
@@ -53,5 +63,28 @@ public class ChatService {
 
     public ChatLog findChatLog(String roomId){
         return chatLogRepository.findRoomById(roomId);
+    }
+
+
+
+    public ChatMessage sendImage(String roomId, String sender , List<MultipartFile> image){
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setRoomId(roomId);
+        chatMessage.setSender(sender);
+        chatMessage.setType(ChatMessage.MessageType.IMAGE);
+
+        try {
+            for(MultipartFile file : image){
+                String url = gcsService.uploadPhoto(file, LocalDateTime.now().toString(), "Chat/"+roomId + "/" + sender);
+                chatMessage.setMessage(url);
+                chatRoomRepository.enterChatRoom(chatMessage.getRoomId());
+                chatMessage.setMessage(chatMessage.getMessage());
+                redisPublisher.publish(chatRoomRepository.getTopic(chatMessage.getRoomId()), chatMessage);
+            }
+        }catch (Exception e){
+            log.info(e.getMessage());
+        }
+
+        return chatMessage;
     }
 }

@@ -18,12 +18,14 @@ public class ChatLogDTO {
     public static class Request {
         private String roomId;
         private String sender;
+        private ChatMessage.MessageType type;
         private String message;
     }
 
     @Data @Schema(name = "ChatLogDTO_Response")
     public static class Response implements Serializable {
         private String sender;
+        private ChatMessage.MessageType type;
         private String message;
         private LocalDateTime dateTime;
 
