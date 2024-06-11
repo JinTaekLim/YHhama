@@ -13,4 +13,5 @@ public interface AccountSavePlaceRepository extends JpaRepository<AccountSavePla
 
 
     List<AccountSavePlace> findByAccountId(Long accountId);
+    List<AccountSavePlace> findByAccountIdAndItineraryId(Long accountId, Long itineraryId);
 }
