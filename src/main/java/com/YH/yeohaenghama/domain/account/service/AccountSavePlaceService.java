@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.account.service;
 
 import com.YH.yeohaenghama.domain.account.dto.AccountSavePlaceDTO;
+import com.YH.yeohaenghama.domain.account.dto.AccountViewSavePlaceDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.entity.AccountSavePlace;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -45,12 +47,18 @@ public class AccountSavePlaceService {
     }
 
 
-    public List<AccountSavePlaceDTO> ViewSavePlace(Long accountId){
+    public List<AccountSavePlaceDTO> ViewSavePlace(Long accountId, AccountViewSavePlaceDTO dto){
         findAccountById(accountId);
 
         log.info("[ViewSavePlace] 유저 조회 성공");
 
-        List<AccountSavePlace> accountData = accountSavePlaceRepository.findByAccountId(accountId);
+        List<AccountSavePlace> accountData;
+
+        if(dto.getItineraryId() != null) {
+            accountData = accountSavePlaceRepository.findByAccountIdAndItineraryId(accountId, dto.getItineraryId());
+        } else {
+            accountData = accountSavePlaceRepository.findByAccountId(accountId);
+        }
 
 
         List<AccountSavePlaceDTO> filteredAccountData = accountData.stream()
@@ -105,6 +113,7 @@ public class AccountSavePlaceService {
         AccountSavePlaceDTO dto = new AccountSavePlaceDTO();
         dto.setPlaceNum(place.getPlaceNum());
         dto.setContentTypeId(place.getContentTypeId());
+        dto.setItineraryId(place.getItineraryId());
         return dto;
     }
 

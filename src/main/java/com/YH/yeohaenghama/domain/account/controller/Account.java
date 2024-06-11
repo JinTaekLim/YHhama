@@ -188,10 +188,11 @@ public class Account {
     }
 
     @Operation(summary = "저장한 장소 조회")
-    @GetMapping("/{accountId}")
-    public ApiResult<List<AccountSavePlaceDTO>> viewSavePlaces(@PathVariable Long accountId) {
+    @PostMapping("/{accountId}")
+    public ApiResult<List<AccountSavePlaceDTO>> viewSavePlaces(@PathVariable Long accountId, @RequestBody AccountViewSavePlaceDTO dto) {
         try{
-            return ApiResult.success(accountSavePlaceService.ViewSavePlace(accountId));
+            log.info("DTO = " + dto);
+            return ApiResult.success(accountSavePlaceService.ViewSavePlace(accountId,dto));
         }
         catch (IllegalArgumentException e){
             return ApiResult.success(null,e.getMessage());
