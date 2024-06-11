@@ -106,8 +106,18 @@ public class ReviewService {
         List<Review> reviewList = reviewRepository.findByContentTypeIdAndContentId(dto.getContentTypeId(),dto.getContentId());
         List<ReviewShowAllDTO.Response> responseList = new ArrayList<>();
 
-        if(reviewList.isEmpty()){
-            String keyword = "";
+        if(!reviewList.isEmpty()){
+
+            for( Review review : reviewList){
+                Optional<Account> accountOptional = accountRepository.findById(review.getAccountId());
+                Account account = accountOptional.get();
+                AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl(), account.getRole());
+                ReviewShowAllDTO.Response response = new ReviewShowAllDTO.Response().fromEntity(review,accountShowDTO);
+                responseList.add(response);
+            }
+        }
+
+        String keyword = "";
             if(dto.getContentTypeId() == 80){
                 AddPlace addPlace = addPlaceService.getAddPlaceInfo(String.valueOf(dto.getContentId()));
                 keyword = addPlace.getTitle();
@@ -118,18 +128,11 @@ public class ReviewService {
             }
             String naverReview = openApiService.searchReview(keyword);
 
-            return ReviewShowAllDTO.Response.pasing(naverReview);
-        }
+            for(ReviewShowAllDTO.Response reivewShow : ReviewShowAllDTO.Response.pasing(naverReview)){
+                responseList.add(reivewShow);
+            }
 
 
-
-        for( Review review : reviewList){
-            Optional<Account> accountOptional = accountRepository.findById(review.getAccountId());
-            Account account = accountOptional.get();
-            AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl(), account.getRole());
-            ReviewShowAllDTO.Response response = new ReviewShowAllDTO.Response().fromEntity(review,accountShowDTO);
-            responseList.add(response);
-        }
 
         return responseList;
     }
