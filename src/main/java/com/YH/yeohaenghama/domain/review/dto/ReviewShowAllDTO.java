@@ -41,6 +41,8 @@ public class ReviewShowAllDTO {
         private String content; // 리뷰 내용
         @Schema(description = "사진 URL")
         private List<String> reviewPhotoURLList;    // 리뷰 사진 URL
+        @Schema(description = "blog URL")
+        private String blogURL;    // 리뷰 사진 URL
         @Schema(description = "유저 정보")
         private AccountShowDTO.Response account;
 
@@ -84,11 +86,13 @@ public class ReviewShowAllDTO {
 //                String title = item.get("title").getAsString();
                 String blogName = item.get("bloggername").getAsString();
                 String description = item.get("description").getAsString();
+                String blogURL = item.get("link").getAsString();
                 description = Jsoup.parse(description).text();
 
                 reviewShow.setAccount(new AccountShowDTO.Response(null,blogName,null,null));
                 reviewShow.setContentTypeId(80L);
                 reviewShow.setContent(description);
+                reviewShow.setBlogURL(blogURL);
 
                 response.add(reviewShow);
             }
