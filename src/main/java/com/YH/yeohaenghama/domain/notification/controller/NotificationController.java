@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.notification.controller;
 
+import com.YH.yeohaenghama.domain.notification.dto.NotificationShowDTO;
 import com.YH.yeohaenghama.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -15,6 +16,11 @@ public class NotificationController {
     @GetMapping(value = "/subscribe/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(@PathVariable Long id) throws Exception {
         return notificationService.subscribe(id);
+    }
+
+    @PostMapping("/subscribe/json")
+    public NotificationShowDTO.Response sendData(@RequestParam Long accountId) throws Exception {
+        return notificationService.subscribeJson(accountId);
     }
 
     @PostMapping("/send-data/{id}")

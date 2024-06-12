@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.notification.service;
 
+import com.YH.yeohaenghama.domain.notification.dto.NotificationShowDTO;
 import com.YH.yeohaenghama.domain.notification.entity.Notification;
 import com.YH.yeohaenghama.domain.notification.repository.EmitterRepository;
 import com.YH.yeohaenghama.domain.notification.repository.NotificationRepository;
@@ -12,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,6 +41,11 @@ public class NotificationService {
         return emitter;
     }
 
+    public NotificationShowDTO.Response subscribeJson(Long accountId){
+        List<Notification> notificationsList = notificationRepository.findByAccountId(accountId);
+        if(notificationsList.isEmpty()) throw new NoSuchElementException("알람이 존재하지 않습니다.");
+        return NotificationShowDTO.Response.toEntity(notificationsList);
+    }
 
 
     public void sendToClient(Long accountId, String event, String data) throws Exception {
