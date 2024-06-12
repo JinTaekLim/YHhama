@@ -108,11 +108,12 @@ public class ReviewService {
 
         if(!reviewList.isEmpty()){
 
-            for( Review review : reviewList){
-                Optional<Account> accountOptional = accountRepository.findById(review.getAccountId());
+            for(int i = reviewList.size() - 1; i >= 0; i--) {
+
+                Optional<Account> accountOptional = accountRepository.findById(reviewList.get(i).getAccountId());
                 Account account = accountOptional.get();
                 AccountShowDTO.Response accountShowDTO = new AccountShowDTO.Response(account.getId(),account.getNickname(), account.getPhotoUrl(), account.getRole());
-                ReviewShowAllDTO.Response response = new ReviewShowAllDTO.Response().fromEntity(review,accountShowDTO);
+                ReviewShowAllDTO.Response response = new ReviewShowAllDTO.Response().fromEntity(reviewList.get(i),accountShowDTO);
                 responseList.add(response);
             }
         }
