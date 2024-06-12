@@ -1,5 +1,7 @@
 package com.YH.yeohaenghama.domain.budget.dto;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
 import com.YH.yeohaenghama.domain.budget.entity.ExpendituresGroup;
@@ -35,7 +37,7 @@ public class BudgetShowDTO {
             Budget budget = expendituresList.get(0).getBudget();
             response.setBudgetId(budget.getId());
             response.setItineraryId(budget.getItinerary().getId());
-            response.setExpenditures(BudgetShowDTO.getExpenditures(accountId, expendituresList));
+            response.setExpenditures(BudgetShowDTO.getExpenditures(accountId, budget.getExpenditures()));
             response.setTotalAmount(BudgetShowDTO.totalAmount);
             BudgetShowDTO.totalAmount = 0;
             return response;

@@ -20,6 +20,7 @@ public class ExpendituresShowDTO {
 //        private AccountShowDTO.Response account;
         private Integer expendituresTotalAmount;
         private boolean divided;
+        private AccountShowDTO.Response payerId;
         private PlaceShowExpendituresDTO.Response place = null;
         private Integer day;
         private String content;
@@ -32,6 +33,8 @@ public class ExpendituresShowDTO {
             ExpendituresShowDTO.Response response = new ExpendituresShowDTO.Response();
             response.setId(expenditures.getId());
             response.setDivided(expenditures.isDivided());
+            Account account = expenditures.getPayer();
+            response.setPayerId(new AccountShowDTO.Response(account.getId(),account.getNickname(),account.getPhotoUrl(),account.getRole()));
 //            response.setAccount(accountShow(expenditures.getAccount()));
             response.setDay(expenditures.getDay());
             if(expenditures.getPlace() != null) {
