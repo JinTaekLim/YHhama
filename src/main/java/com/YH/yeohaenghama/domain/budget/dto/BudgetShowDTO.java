@@ -28,6 +28,7 @@ public class BudgetShowDTO {
     @Data @Schema(name = "BudgetShowDTO_Response")
     public static class Response{
         private Long budgetId;
+        private Integer budgetTotalAmount;
         private Integer totalAmount;
         private Long itineraryId;
 //        private List<ExpendituresShowDTO.Response> expenditures;
@@ -36,6 +37,7 @@ public class BudgetShowDTO {
             BudgetShowDTO.Response response = new Response();
             Budget budget = expendituresList.get(0).getBudget();
             response.setBudgetId(budget.getId());
+            response.setBudgetTotalAmount(getBudgetTotalAmount(budget));
             response.setItineraryId(budget.getItinerary().getId());
             response.setExpenditures(BudgetShowDTO.getExpenditures(accountId, budget.getExpenditures()));
             response.setTotalAmount(BudgetShowDTO.totalAmount);
@@ -49,6 +51,16 @@ public class BudgetShowDTO {
             response.setItineraryId(budget.getItinerary().getId());
             response.setExpenditures(getDayResponse(budget.getItinerary(),new ArrayList<>()));
             response.setTotalAmount(BudgetShowDTO.totalAmount);
+            return response;
+        }
+
+        public static Integer getBudgetTotalAmount(Budget budget){
+            int response = 0;
+
+            for(Expenditures expenditures : budget.getExpenditures()){
+                response += expenditures.getTotalAmount();
+            }
+
             return response;
         }
     }
