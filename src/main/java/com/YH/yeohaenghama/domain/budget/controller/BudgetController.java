@@ -165,6 +165,20 @@ public class BudgetController {
     }
 
 
+    @Operation(summary = "특정 지출 조회")
+    @PostMapping("/expendituresShow")
+    public ApiResult<ExpendituresAddDTO.getRequest> expendituresShow(@RequestParam Long expenditureId){
+        try{
+            return ApiResult.success(expendituresService.expendituresShow(expenditureId));
+        } catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }
+        catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
     @Operation(summary = "가계부 통계 조회")
     @PostMapping("/statistics")
     public ApiResult<BudgetStatisticsDTO.Response> budgetStatistics(@RequestBody BudgetStatisticsDTO.Request dto){

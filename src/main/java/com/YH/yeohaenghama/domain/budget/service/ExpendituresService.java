@@ -97,6 +97,12 @@ public class ExpendituresService {
 
         return BudgetCalculateDTO.Response.toEntity(payerOpt.get(),totalAmount,accountList,dto.getAmount());
     }
+
+    public ExpendituresAddDTO.getRequest expendituresShow(Long expenditureId){
+        Optional<Expenditures> expendituresOpt = expendituresRepository.findById(expenditureId);
+        if(expendituresOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 지출이 없습니다.");
+        return ExpendituresAddDTO.getRequest.getExpendituresRequest(expendituresOpt.get());
+    }
 }
 
 //

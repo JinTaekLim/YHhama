@@ -35,6 +35,48 @@ public class ExpendituresAddDTO {
         private String category;
         private boolean individual;
     }
+
+    @Data
+    public static class getRequest{
+        private Long expendituresId;
+        private Long budgetId;
+        private Integer totalAmount;
+        private AccountShowDTO.Response payerId;
+        private boolean divided;
+        private List<AccountShowDTO.Response> accountId;
+        private List<Integer> amount;
+        private PlaceShowExpendituresDTO.Response place = null;
+        private Integer day;
+        private String paymentMethod;
+        private String content;
+        private String category;
+        private boolean individual;
+
+        public static getRequest getExpendituresRequest(Expenditures expenditures){
+            ExpendituresAddDTO.getRequest request = new getRequest();
+            request.setExpendituresId(expenditures.getId());
+            request.setBudgetId(expenditures.getBudget().getId());
+            request.setTotalAmount(expenditures.getTotalAmount());
+            request.setPayerId(accountShow(expenditures.getPayer()));
+            request.setDivided(expenditures.isDivided());
+
+            List<AccountShowDTO.Response> accountList = new ArrayList<>();
+            List<Integer> amountList = new ArrayList<>();
+            for(ExpendituresGroup expendituresGroup : expenditures.getExpendituresGroups()){
+                accountList.add(accountShow(expendituresGroup.getAccount()));
+                amountList.add(expendituresGroup.getAmount());
+            }
+            request.setAccountId(accountList);
+            request.setAmount(amountList);
+            request.setPlace(PlaceShowExpendituresDTO.Response.fromEntity(expenditures.getPlace()));
+            request.setDay(expenditures.getDay());
+            request.setPaymentMethod(expenditures.getPaymentMethod());
+            request.setContent(expenditures.getContent());
+            request.setCategory(expenditures.getCategory());
+            request.setIndividual(expenditures.isIndividual());
+            return request;
+        }
+    }
     @Data @Schema(name = "ExpendituresAddDTO_Response")
     public static class Response{
         private Long id;
