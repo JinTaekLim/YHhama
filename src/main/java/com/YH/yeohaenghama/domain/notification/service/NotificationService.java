@@ -49,9 +49,10 @@ public class NotificationService {
 
 
     public void sendToClient(Long accountId, String event, String data) throws Exception {
+        Notification notification = saveNotification(accountId,event,data);
         SseEmitter emitter = emitterRepository.get(accountId);
         if (emitter != null) {
-            emitter.send(SseEmitter.event().id(String.valueOf(saveNotification(accountId,event,data).getId())).name(event).data(data));
+            emitter.send(SseEmitter.event().id(String.valueOf(notification.getId())).name(event).data(data));
         }
     }
 

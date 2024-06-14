@@ -5,7 +5,7 @@ COPY ${JAR_FILE} docker-springboot.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/docker-springboot.jar"]
 
 
-ENV MYSQLSERVER 118.67.132.49
+ENV MYSQLSERVER 34.64.150.255
 ENV MYSQLUSERNAME root
 ENV MYSQLPASSWORD yhhama
 ENV REDISSERVER 118.67.132.49
