@@ -276,7 +276,7 @@ public class ItineraryService {
         itineraryJoinAccountRepository.save(itineraryJoinAccountDTO.add(accountOpt.get(),itineraryOpt.get()));
         chatService.addUserToChatRoom(roomId, String.valueOf(accountOpt.get().getId()));
 
-        notificationService.sendToClient(dto.getAccountId(), "[" + itineraryOpt.get().getName() + "] Sharing the itinerary ", "itineraryId : " + itineraryOpt.get().getId());
+        notificationService.sendToClient(dto.getAccountId(), "01", "itineraryId : " + itineraryOpt.get().getId());
         return "추가 성공";
     }
 

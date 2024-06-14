@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.addPlace.service;
 
 import com.YH.yeohaenghama.domain.addPlace.dto.SaveAddPlaceDTO;
+import com.YH.yeohaenghama.domain.addPlace.dto.UpdateAddPlaceDTO;
 import com.YH.yeohaenghama.domain.addPlace.entity.AddPlace;
 import com.YH.yeohaenghama.domain.addPlace.repository.AddPlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,16 @@ public class AddPlaceService {
         addPlaceRepository.save(addPlace);
         return dto;
     }
+
+    public UpdateAddPlaceDTO.Request update(UpdateAddPlaceDTO.Request dto){
+        Optional<AddPlace> addPlaceOpt = addPlaceRepository.findById(dto.getAddPlaceId());
+        if(addPlaceOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 장소가 존재하지 않습니다.");
+
+        AddPlace addPlace = new UpdateAddPlaceDTO(dto).toEntity();
+
+        addPlaceRepository.save(addPlace);
+        return dto;
+    }
     
     public AddPlace getAddPlace(String title,String add1, String add2, String tel, String mapX, String mapY){
         AddPlace addPlace = addPlaceRepository.findByTitleAndAdd1(title,add1);
@@ -35,7 +46,6 @@ public class AddPlaceService {
         if (addPlaceOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 장소가 존재하지 않습니다.");
         return addPlaceOpt.get();
     }
-
 
 
 
