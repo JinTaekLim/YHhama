@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -22,9 +23,11 @@ public class AddPlace {
     private String add2;
     private String mapX;
     private String mapY;
+    @Setter
+    private String imageUrl;
 
     @Builder
-    public AddPlace(Long id, String title, String tel, String add1, String add2, String mapX, String mapY) {
+    public AddPlace(Long id, String title, String tel, String add1, String add2, String mapX, String mapY, String imageUrl) {
         this.id = id;
         this.title = title;
         this.tel = tel;
@@ -32,5 +35,6 @@ public class AddPlace {
         this.add2 = add2;
         this.mapX = mapX;
         this.mapY = mapY;
+        this.imageUrl = imageUrl;
     }
 }

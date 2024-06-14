@@ -255,5 +255,10 @@ public class ReviewService {
         return !reviewRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId()).isEmpty();
     }
 
+    public List<Review> getReview(Long contentId,Long typeId){
+        List<Review> reviewList = reviewRepository.findByContentTypeIdAndContentId(typeId,contentId);
+        return reviewList;
+    }
+
 
 }

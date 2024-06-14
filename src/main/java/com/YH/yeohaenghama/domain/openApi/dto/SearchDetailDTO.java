@@ -96,6 +96,7 @@ public class SearchDetailDTO {
             response.setAddr2(addPlace.getAdd2());
             response.setMapx(addPlace.getMapX());
             response.setMapy(addPlace.getMapY());
+            response.setFirstImage(addPlace.getImageUrl());
             return response;
         }
     }

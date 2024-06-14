@@ -18,8 +18,9 @@ public class SaveAddPlaceDTO {
         private String add2;
         private String mapX;
         private String mapY;
+        private String imageUrl;
 
-        public static Request getRequest(String title,String add1, String add2, String tel, String mapX, String mapY){
+        public static Request getRequest(String title,String add1, String add2, String tel, String mapX, String mapY, String imageUrl){
             SaveAddPlaceDTO.Request request = new Request();
             request.setTitle(title);
             request.setAdd1(add1);
@@ -27,6 +28,7 @@ public class SaveAddPlaceDTO {
             request.setTel(tel);
             request.setMapX(mapX);
             request.setMapY(mapY);
+            request.setImageUrl(imageUrl);
             return request;
         }
 
@@ -45,6 +47,7 @@ public class SaveAddPlaceDTO {
                 .add2(request.getAdd2())
                 .mapX(request.getMapX())
                 .mapY(request.getMapY())
+                .imageUrl(request.getImageUrl())
                 .build();
         return addPlace;
 

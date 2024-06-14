@@ -4,6 +4,9 @@ import com.YH.yeohaenghama.domain.addPlace.entity.AddPlace;
 import com.YH.yeohaenghama.domain.addPlace.service.AddPlaceService;
 import com.YH.yeohaenghama.domain.openApi.dto.*;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
+import com.YH.yeohaenghama.domain.review.entity.Review;
+import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
+import com.YH.yeohaenghama.domain.review.service.ReviewService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +33,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OpenApiService {
     private final AddPlaceService addPlaceService;
-
+    private final ReviewRepository reviewRepository;
 
     private final String GOOGLE_MAPS_API_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
 
@@ -89,6 +92,13 @@ public class OpenApiService {
 
     public SearchDetailDTO.Response addPlaceDetail(String contentId){
         AddPlace addPlace = addPlaceService.getAddPlaceInfo(contentId);
+
+        List<Review> reviewList = reviewRepository.findByContentTypeIdAndContentId(80L,Long.valueOf(contentId));
+        if(!reviewList.isEmpty()){
+            if (!reviewList.get(0).getReviewPhotoURLS().isEmpty()){
+                addPlace.setImageUrl(reviewList.get(0).getReviewPhotoURLS().get(0).getPhotoUrl());
+            }
+        }
         SearchDetailDTO.Response response = SearchDetailDTO.Response.parse(addPlace);
         return response;
     }
