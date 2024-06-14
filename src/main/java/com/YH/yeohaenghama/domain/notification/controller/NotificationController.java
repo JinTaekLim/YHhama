@@ -20,7 +20,11 @@ public class NotificationController {
 
     @PostMapping("/subscribe/json")
     public NotificationShowDTO.Response sendData(@RequestParam Long accountId) throws Exception {
-        return notificationService.subscribeJson(accountId);
+        try {
+            return notificationService.subscribeJson(accountId);
+        } catch (Exception e){
+            return null;
+        }
     }
 
     @PostMapping("/send-data/{id}")
