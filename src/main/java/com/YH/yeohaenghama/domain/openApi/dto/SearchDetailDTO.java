@@ -87,7 +87,7 @@ public class SearchDetailDTO {
             return response;
         }
 
-        public static SearchDetailDTO.Response parse(AddPlace addPlace){
+        public static SearchDetailDTO.Response parse(AddPlace addPlace,String photoUrl){
             SearchDetailDTO.Response response = new SearchDetailDTO.Response();
             response.setContentId(String.valueOf(addPlace.getId()));
             response.setContentTypeId("80");
@@ -96,6 +96,7 @@ public class SearchDetailDTO {
             response.setAddr2(addPlace.getAdd2());
             response.setMapx(addPlace.getMapX());
             response.setMapy(addPlace.getMapY());
+            if(!photoUrl.equals("")) response.setFirstImage(photoUrl);
             return response;
         }
     }

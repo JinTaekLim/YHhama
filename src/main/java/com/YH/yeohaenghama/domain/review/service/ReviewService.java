@@ -78,6 +78,7 @@ public class ReviewService {
         }
 
 
+
         ReviewDTO.Response response = ReviewDTO.Response.fromEntity(review);
         response.setReviewPhotoURLList(photoUrlList);
 
@@ -252,6 +253,11 @@ public class ReviewService {
 
     public boolean check(ReviewDTO.Show dto) {
         return !reviewRepository.findByContentTypeIdAndContentIdAndAccountId(dto.getContentTypeId(), dto.getContentId(), dto.getAccountId()).isEmpty();
+    }
+
+    public List<Review> getReview(Long contentId,Long typeId){
+        List<Review> reviewList = reviewRepository.findByContentTypeIdAndContentId(typeId,contentId);
+        return reviewList;
     }
 
 

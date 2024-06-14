@@ -9,9 +9,10 @@ import lombok.Data;
 
 import java.util.Objects;
 
-public class SaveAddPlaceDTO {
-    @Schema(name = "saveAddPlaceDTO_Request") @Data
+public class UpdateAddPlaceDTO {
+    @Schema(name = "UpdatePlaceDTO_Request") @Data
     public static class Request{
+        private Long addPlaceId;
         private String title;
         private String tel;
         private String add1;
@@ -20,8 +21,9 @@ public class SaveAddPlaceDTO {
         private String mapY;
         private String imageUrl;
 
-        public static Request getRequest(String title,String add1, String add2, String tel, String mapX, String mapY, String imageUrl){
-            SaveAddPlaceDTO.Request request = new Request();
+        public static Request getRequest(Long addPlaceId, String title,String add1, String add2, String tel, String mapX, String mapY, String imageUrl){
+            UpdateAddPlaceDTO.Request request = new Request();
+            request.setAddPlaceId(addPlaceId);
             request.setTitle(title);
             request.setAdd1(add1);
             request.setAdd2(add2);
@@ -33,14 +35,15 @@ public class SaveAddPlaceDTO {
         }
 
     }
-    private SaveAddPlaceDTO.Request request;
+    private UpdateAddPlaceDTO.Request request;
 
-    public SaveAddPlaceDTO(SaveAddPlaceDTO.Request request) {
+    public UpdateAddPlaceDTO(UpdateAddPlaceDTO.Request request) {
         this.request = request;
     }
 
     public AddPlace toEntity() {
         AddPlace addPlace = AddPlace.builder()
+                .id(request.getAddPlaceId())
                 .title(request.getTitle())
                 .tel(request.getTel())
                 .add1(request.getAdd1())
