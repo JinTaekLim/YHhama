@@ -23,8 +23,6 @@ public class AddPlace {
     private String add2;
     private String mapX;
     private String mapY;
-    @Setter
-    private String imageUrl;
 
     @Builder
     public AddPlace(Long id, String title, String tel, String add1, String add2, String mapX, String mapY, String imageUrl) {
@@ -35,6 +33,5 @@ public class AddPlace {
         this.add2 = add2;
         this.mapX = mapX;
         this.mapY = mapY;
-        this.imageUrl = imageUrl;
     }
 }

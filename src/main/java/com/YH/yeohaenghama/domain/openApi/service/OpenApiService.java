@@ -94,12 +94,14 @@ public class OpenApiService {
         AddPlace addPlace = addPlaceService.getAddPlaceInfo(contentId);
 
         List<Review> reviewList = reviewRepository.findByContentTypeIdAndContentId(80L,Long.valueOf(contentId));
+
+        String photoUrl = "";
         if(!reviewList.isEmpty()){
             if (!reviewList.get(0).getReviewPhotoURLS().isEmpty()){
-                addPlace.setImageUrl(reviewList.get(0).getReviewPhotoURLS().get(0).getPhotoUrl());
+                photoUrl = (reviewList.get(0).getReviewPhotoURLS().get(0).getPhotoUrl());
             }
         }
-        SearchDetailDTO.Response response = SearchDetailDTO.Response.parse(addPlace);
+        SearchDetailDTO.Response response = SearchDetailDTO.Response.parse(addPlace,photoUrl);
         return response;
     }
 
