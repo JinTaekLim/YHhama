@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.itinerary.service;
 
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryDeletePlaceDTO;
+import com.YH.yeohaenghama.domain.itinerary.dto.PlaceCheckInItineraryDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
@@ -162,5 +163,11 @@ public class PlaceService {
 
 
         return itineraryNum;
+    }
+
+    public Boolean checkItineraryInPlace(PlaceCheckInItineraryDTO dto){
+        List<Place> placeList = placeRepository.findByItineraryIdAndPlaceNumAndPlaceType(dto.getItineraryId(),dto.getPlaceNum(),dto.getPlaceType());
+
+        return !placeList.isEmpty();
     }
 }
