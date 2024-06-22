@@ -265,5 +265,16 @@ public class ItineraryController {
         }
     }
 
+    @Operation(summary = "일정에 포함된 장소 확인")
+    @PostMapping("/checkItineraryInPlace")
+    public ApiResult<Boolean> checkItineraryInPlace(PlaceCheckInItineraryDTO dto){
+        try{
+            return ApiResult.success(placeService.checkItineraryInPlace(dto));
+        } catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
 
 }
