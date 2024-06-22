@@ -1,5 +1,6 @@
 package com.YH.yeohaenghama.domain.account.dto;
 
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,12 +32,24 @@ public class AccountShowDTO {
         @Schema(description = "계정 권한")
         private AccountRole accountRole;
 
+        public Response(){
+
+        }
 
         public Response(Long id, String nickname, String photoUrl,AccountRole accountRole) {
             this.id = id;
             this.nickname = nickname;
             this.photoUrl = photoUrl;
             this.accountRole = accountRole;
+        }
+
+        public Response toEntity(Account account){
+            Response response = new Response();
+            response.setId(account.getId());
+            response.setNickname(account.getNickname());
+            response.setPhotoUrl(account.getPhotoUrl());
+            response.setAccountRole(account.getRole());
+            return response;
         }
     }
 

@@ -14,5 +14,7 @@ public interface AccountRepository extends JpaRepository<Account,Long> {
     Optional<Account> findByPw(String pw);
     Optional<Account> findByexternalId(String externalId);
 
-    List<Account> findByIdIn(List<Long> accountList); // 올바른 메서드 정의
+    List<Account> findByIdIn(List<Long> accountList);
+
+    List<Account> findByNickname(String nickName);
 }

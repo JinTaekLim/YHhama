@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.search.controller;
 
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.openApi.dto.OpenApiAreaDTO;
 import com.YH.yeohaenghama.domain.openApi.dto.SearchAreaDTO;
@@ -97,6 +98,19 @@ public class SearchController {
             return ApiResult.fail(e.getMessage());
         }
     }
+
+    @Operation(summary = "유저 검색")
+    @PostMapping("/account")
+    public ApiResult<List<AccountShowDTO.Response>> account(@RequestBody SearchDTO.Request dto) {
+        try {
+            return ApiResult.success(searchService.searchAccount(dto));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
 
     @Operation(summary = "테스트")
     @PostMapping("/test")

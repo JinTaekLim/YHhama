@@ -1,5 +1,8 @@
 package com.YH.yeohaenghama.domain.search.service;
 
+import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
+import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.diary.service.DiaryService;
@@ -33,6 +36,7 @@ public class SearchService {
     private final ItineraryRepository itineraryRepository;
     private final PlaceRepository placeRepository;
     private final DiaryService diaryService;
+    private final AccountRepository accountRepository;
 
     public SearchDTO.Response federated(SearchDTO.Request dto) throws Exception {
 
@@ -180,5 +184,17 @@ public class SearchService {
         searchDiaryDTO.setSearchDiaryDTOS(searchDiaryDTOList);
 
         return searchDiaryDTO;
+    }
+
+    public List<AccountShowDTO.Response> searchAccount(SearchDTO.Request req){
+        List<AccountShowDTO.Response> response = new ArrayList<>();
+        Optional<Account> email = accountRepository.findByEmail(req.getKeyWord());
+        if(!email.isEmpty()) response.add(new AccountShowDTO.Response().toEntity(email.get()));
+
+        List<Account> nickName = accountRepository.findByNickname(req.getKeyWord());
+
+        for(Account account : nickName) response.add(new AccountShowDTO.Response().toEntity(account));
+
+        return response;
     }
 }
