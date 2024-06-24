@@ -122,12 +122,10 @@ public class ItineraryService {
 
         log.info("account = " + account.getId());
 
-
         ItineraryCopyDTO.itinerary copyItinerary = ItineraryCopyDTO.itinerary.fromEntity(itinerary,account);
 
 
         Itinerary newItinerary = ItineraryCopyDTO.toEntity(copyItinerary);
-
 
         itineraryRepository.save(newItinerary);
 

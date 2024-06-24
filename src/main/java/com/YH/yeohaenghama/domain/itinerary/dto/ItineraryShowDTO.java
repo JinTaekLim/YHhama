@@ -53,9 +53,12 @@ public class ItineraryShowDTO {
         this.endDate = itinerary.getEndDate();
 
         List<AccountShowDTO.Response> sharedList = new ArrayList<>();
-        for(ItineraryJoinAccount join : itinerary.getJoinAccount()){
-            Account joinAccount = join.getAccount();
-            sharedList.add(new AccountShowDTO.Response(joinAccount.getId(),joinAccount.getNickname(),joinAccount.getPhotoUrl(),joinAccount.getRole())); }
+        if(itinerary.getJoinAccount() !=null) {
+            for (ItineraryJoinAccount join : itinerary.getJoinAccount()) {
+                Account joinAccount = join.getAccount();
+                sharedList.add(new AccountShowDTO.Response(joinAccount.getId(), joinAccount.getNickname(), joinAccount.getPhotoUrl(), joinAccount.getRole()));
+            }
+        }
         this.sharedAccount = sharedList;
 
         Account account = itinerary.getAccount();
