@@ -301,7 +301,6 @@ public class OpenApiService {
 
             String response = sendHttpRequest(apiUrl);
 
-            log.info("리스폰 = " + response);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response);
             JsonNode resultNode = rootNode.get("result");
@@ -309,7 +308,6 @@ public class OpenApiService {
                 JsonNode pathNode = resultNode.get("path");
                 if (pathNode != null && pathNode.isArray() && pathNode.size() > 0) {
                     int totalTime = pathNode.get(0).get("info").get("totalTime").asInt();
-                    log.info(String.valueOf(totalTime));
                     return String.valueOf(totalTime);
                 }
             }

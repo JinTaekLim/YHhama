@@ -206,7 +206,6 @@ public class OpenApiController {
                 .bodyToMono(String.class)
                 .block();
 
-        System.out.println(" response : " + response);
         return response;
     }
 
