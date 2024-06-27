@@ -6,6 +6,7 @@ import com.YH.yeohaenghama.domain.account.entity.AccountRole;
 import com.YH.yeohaenghama.domain.account.repository.AccountRepository;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.repository.BudgetRepository;
+import com.YH.yeohaenghama.domain.budget.service.BudgetService;
 import com.YH.yeohaenghama.domain.chat.service.ChatService;
 import com.YH.yeohaenghama.domain.diary.dto.DiaryItineraryShowDTO;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
@@ -57,6 +58,7 @@ public class ItineraryService {
     private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
     private final ReviewRepository reviewRepository;
     private final ChatService chatService;
+    private final BudgetService budgetService;
     private final NotificationService notificationService;
 
     public ItineraryJoinDTO.Response save(ItineraryJoinDTO.Request reqDTO, Long accountId) {
@@ -169,21 +171,13 @@ public class ItineraryService {
             throw new NoSuchElementException("해당 일정을 작성한 유저가 아닙니다.");
         }
 
-        if (optionalItinerary.isPresent()) {
-            log.info(String.valueOf("deleteItinerary : " + itineraryId));
 
+        Optional<Diary> diaryOptional = diaryRepository.findByItinerary(itineraryId);
+        if (diaryOptional.isPresent()) diaryService.delete(diaryOptional.get().getId());
 
-            Optional<Diary> diaryOptional = diaryRepository.findByItinerary(itineraryId);
-            if (diaryOptional.isPresent()) {
-                diaryService.delete(itineraryId);
-                log.info("일기 삭제 완");
-            }
+        budgetService.itineraryIdCheckToDelete(itineraryId);
 
-            log.info("일정 삭제 완");
-            itineraryRepository.deleteById(itineraryId);
-        } else {
-            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
-        }
+        itineraryRepository.deleteById(itineraryId);
     }
 
     public List<ItineraryShowAccountDTO.Response> showAccount(Long accountId) {

@@ -54,6 +54,13 @@ public class BudgetService {
         return "삭제 완료";
     }
 
+    public void itineraryIdCheckToDelete(Long itineraryId){
+        List<Budget> budgetList = budgetRepository.findByItineraryId(itineraryId);
+        if(!budgetList.isEmpty()){
+            budgetRepository.deleteAll(budgetList);
+        }
+    }
+
     public BudgetShowDTO.Response budgetShow(BudgetShowDTO.Request dto){
         Optional<Budget> budgetOpt = budgetRepository.findById(dto.getBudgetId());
         if(budgetOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 가계부가 존재하지 않습니다. ");
