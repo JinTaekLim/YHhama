@@ -215,4 +215,11 @@ public class AccountService {
         return calendar.getTime();
     }
 
+    public Account getAccount(Long accountId){
+        Optional<Account> accountOpt = accountRepository.findById(accountId);
+        if(accountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 존재하지 않습니다.");
+
+        return accountOpt.get();
+    }
+
 }
