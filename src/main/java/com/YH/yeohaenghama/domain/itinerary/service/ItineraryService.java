@@ -114,6 +114,12 @@ public class ItineraryService {
         return itineraryShowDTO;
     }
 
+    public Itinerary getItinerary(Long itineraryId){
+        Optional<Itinerary> itineraryOpt = itineraryRepository.findById(itineraryId);
+        if(itineraryOpt.isEmpty()) throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+        return itineraryOpt.get();
+    }
+
 
     public ItineraryShowDTO copy(ItineraryCopyDTO.Request dto){
         Optional<Itinerary> itineraryOpt = itineraryRepository.findById(dto.getItineraryId());

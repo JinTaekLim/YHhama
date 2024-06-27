@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/shorts")
 @RequiredArgsConstructor
 public class ShortsController {
-    private  final ShortsService shortsService;
+    private final ShortsService shortsService;
 
     @Operation(summary = "쇼츠 등록")
     @PostMapping("/uploadShorts")
