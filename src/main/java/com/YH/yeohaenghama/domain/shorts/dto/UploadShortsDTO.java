@@ -2,6 +2,8 @@ package com.YH.yeohaenghama.domain.shorts.dto;
 
 import com.YH.yeohaenghama.domain.account.dto.AccountShowDTO;
 import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryShowDTO;
+import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.shorts.entity.Shorts;
 import com.YH.yeohaenghama.domain.shorts.entity.ShortsInItinerary;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,6 +29,7 @@ public class UploadShortsDTO {
         private String videoUrl;
         private String title;
         private String content;
+        private ItineraryShowDTO.Response itinerary;
 
         public static Response toEntity(Shorts shorts){
             Response response = new Response();
@@ -34,6 +37,10 @@ public class UploadShortsDTO {
             response.setContent(shorts.getContent());
             response.setVideoUrl(shorts.getVideoUrl());
             response.setAccount(UploadShortsDTO.getAccount(shorts.getAccount()));
+
+
+            if(shorts.getShortsInItinerary() != null) response.setItinerary(ItineraryShowDTO.Response.toEntity(shorts.getShortsInItinerary().get(0).getItinerary()));
+
             return response;
         }
     }
