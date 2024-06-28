@@ -30,8 +30,11 @@ public class Shorts {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToMany(mappedBy = "shorts", cascade = CascadeType.ALL)
-    private List<ShortsInItinerary> shortsInItinerary = new ArrayList<>();
+//    @OneToMany(mappedBy = "shorts", cascade = CascadeType.ALL)
+//    private List<ShortsInItinerary> shortsInItinerary = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "itinerary_id")
+    private Itinerary itinerary;
 
     @OneToMany(mappedBy = "shorts", cascade = CascadeType.REMOVE)
     private List<ShortsComment> shortsComments = new ArrayList<>();
@@ -43,12 +46,12 @@ public class Shorts {
 
 
     @Builder
-    public Shorts(Long id, String videoUrl, String title, String content, Account account,List<ShortsInItinerary> shortsInItinerary) {
+    public Shorts(Long id, String videoUrl, String title, String content, Account account,Itinerary itinerary) {
         this.id = id;
         this.videoUrl = videoUrl;
         this.title = title;
         this.content = content;
         this.account = account;
-        this.shortsInItinerary = shortsInItinerary;
+        this.itinerary = itinerary;
     }
 }
