@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.shorts.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
+import com.YH.yeohaenghama.domain.shorts.dto.UpdateShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.dto.UploadShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.service.ShortsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +24,19 @@ public class ShortsController {
         try{
             log.info("DTO ==  " + req);
             return ApiResult.success(shortsService.uploadShorts(req));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "쇼츠 수정")
+    @PostMapping("/updateShorts")
+    public ApiResult<UploadShortsDTO.Response> uploadShorts(@ModelAttribute UpdateShortsDTO.Request req, @RequestParam("shortsId") Long shortsId){
+        try{
+            log.info("DTO ==  " + req);
+            return ApiResult.success(shortsService.updateShorts(req,shortsId));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }catch (Exception e){

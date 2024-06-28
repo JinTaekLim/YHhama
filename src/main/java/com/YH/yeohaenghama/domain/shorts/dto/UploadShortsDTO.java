@@ -5,7 +5,7 @@ import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryShowDTO;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.shorts.entity.Shorts;
-import com.YH.yeohaenghama.domain.shorts.entity.ShortsInItinerary;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,21 +39,23 @@ public class UploadShortsDTO {
             response.setAccount(UploadShortsDTO.getAccount(shorts.getAccount()));
 
 
-            if(shorts.getShortsInItinerary() != null) response.setItinerary(ItineraryShowDTO.Response.toEntity(shorts.getShortsInItinerary().get(0).getItinerary()));
+//            if(shorts.getShortsInItinerary() != null) response.setItinerary(ItineraryShowDTO.Response.toEntity(shorts.getShortsInItinerary().get(0).getItinerary()));
 
             return response;
         }
     }
 
-    public static Shorts toShorts(Shorts shorts, Account account, String videoUrl, Request req, List<ShortsInItinerary> shortsInItinerary){
+    public static Shorts toShorts(Shorts shorts, Account account, String videoUrl, Request req,Itinerary itinerary){
         Shorts response = Shorts.builder()
                 .id(shorts.getId())
                 .videoUrl(videoUrl)
                 .title(req.getTitle())
                 .account(account)
                 .content(req.getContent())
-                .shortsInItinerary(shortsInItinerary)
+                .itinerary(itinerary)
                 .build();
+
+//        if(itinerary != null) Shorts.builder().itinerary(itinerary);
 
         return response;
     }

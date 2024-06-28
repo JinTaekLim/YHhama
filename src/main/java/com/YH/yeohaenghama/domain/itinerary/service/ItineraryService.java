@@ -115,6 +115,7 @@ public class ItineraryService {
     }
 
     public Itinerary getItinerary(Long itineraryId){
+        if (itineraryId == null) return null;
         Optional<Itinerary> itineraryOpt = itineraryRepository.findById(itineraryId);
         if(itineraryOpt.isEmpty()) throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
         return itineraryOpt.get();
