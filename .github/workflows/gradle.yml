@@ -57,7 +57,7 @@ jobs:
 
       # Docker 이미지 빌드
       - name: Docker Image Build
-        if: github.ref == 'refs/heads/server'
+        if: github.ref == 'refs/heads/main'
         run: |
           docker build --platform linux/amd64 -t jintaeklim/yhhamaback .
         # 에러 발생 시 작업 중지
@@ -65,7 +65,7 @@ jobs:
 
       # Docker 로그인
       - name: Docker Hub Login
-        if: github.ref == 'refs/heads/server'
+        if: github.ref == 'refs/heads/main'
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -73,7 +73,7 @@ jobs:
 
       # Docker Hub 이미지 푸시
       - name: Docker Hub Push
-        if: github.ref == 'refs/heads/server'
+        if: github.ref == 'refs/heads/main'
         run: |
           docker push jintaeklim/yhhamaback
         # 에러 발생 시 작업 중지
@@ -86,7 +86,7 @@ jobs:
   run-docker-image-on-server:
     # build-docker-image (위)과정이 완료되어야 실행됩니다.
     needs: build-and-deploy
-    if: github.ref == 'refs/heads/server'
+    if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
 
     steps:
