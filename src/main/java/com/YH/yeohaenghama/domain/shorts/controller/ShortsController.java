@@ -58,6 +58,20 @@ public class ShortsController {
         }
     }
 
+    @Operation(summary = "쇼츠 좋아요", description = "description = \"state 값 0은 해당 쇼츠에 해당 유저가 좋아요를 클릭했는지 확인, 이 외의값(null,공백 허용) 좋아요 등록/취소\"" +
+            "<p>좋아요 추가/삭제 한 번에 확인 가능. 만약 해당 쇼츠에 좋아요가 존재한다면 Enable값이 true로 반환, 아니라면 false반환</p>")
+    @PostMapping("/likes")
+    public ApiResult<LikesDTO.Response> likes(@RequestBody LikesDTO.Request req){
+        try{
+            return ApiResult.success(shortsService.likes(req));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+
     @Operation(summary = "쇼츠 조회")
     @GetMapping("/readShorts")
     public ApiResult<ReadShortsDTO.AllResponse> readShorts(@RequestParam(name = "numOfRows") Integer numOfRows,

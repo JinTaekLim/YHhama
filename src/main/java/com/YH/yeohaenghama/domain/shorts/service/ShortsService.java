@@ -1,14 +1,14 @@
 package com.YH.yeohaenghama.domain.shorts.service;
 
 import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
+import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
-import com.YH.yeohaenghama.domain.shorts.dto.CreateCommentDTO;
-import com.YH.yeohaenghama.domain.shorts.dto.ReadShortsDTO;
-import com.YH.yeohaenghama.domain.shorts.dto.UpdateShortsDTO;
-import com.YH.yeohaenghama.domain.shorts.dto.UploadShortsDTO;
+import com.YH.yeohaenghama.domain.shorts.dto.*;
 import com.YH.yeohaenghama.domain.shorts.entity.Shorts;
+import com.YH.yeohaenghama.domain.shorts.entity.ShortsLike;
+import com.YH.yeohaenghama.domain.shorts.repository.ShortsLikeRepository;
 import com.YH.yeohaenghama.domain.shorts.repository.ShortsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +30,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShortsService {
 
+    private final ShortsRepository shortsRepository;
+    private final ShortsLikeRepository shortsLikeRepository;
     private final GCSService gcsService;
     private final AccountService accountService;
-    private final ShortsRepository shortsRepository;
     private final ItineraryService itineraryService;
 
     public void test(){}
@@ -84,5 +85,17 @@ public class ShortsService {
         shortsRepository.deleteById(shortsId);
         gcsService.delete("Shorts/" + shortsId);
         return "쇼츠 삭제 성공";
+    }
+
+    public LikesDTO.Response likes(LikesDTO.Request req){
+        Shorts shorts = verificationShorts(req.getShortsId());
+        Account account = accountService.getAccount(req.getAccountId());
+        Optional<ShortsLike> shortsLike = shortsLikeRepository.findByShortsIdAndAccountId(req.getShortsId(),req.getAccountId());
+
+        if (req.getState().equals(0)) return LikesDTO.Response.toEntity(shorts,shortsLike.isPresent());
+
+        shortsLike.ifPresentOrElse(shortsLikeRepository::delete, ()->{shortsLikeRepository.save(LikesDTO.fromEntity(shorts,account));});
+
+        return LikesDTO.Response.toEntity(shorts,shortsLike.isEmpty());
     }
 }
