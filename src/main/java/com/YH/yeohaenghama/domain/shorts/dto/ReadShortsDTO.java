@@ -46,6 +46,7 @@ public class ReadShortsDTO {
         private String content;
         private LocalDateTime date;
         private Integer likes;
+        private Integer commentNum;
         private AccountShowDTO.Response account;
         private ItineraryShowDTO.Response itinerary;
 
@@ -59,6 +60,7 @@ public class ReadShortsDTO {
             response.setLikes(shorts.getShortsLikes().size());
             response.setAccount(new AccountShowDTO.Response().toEntity(shorts.getAccount()));
             response.setItinerary(shorts.getItinerary() != null ? ItineraryShowDTO.Response.toEntity(shorts.getItinerary()) : null);
+            response.setCommentNum(shorts.getShortsComments().size());
             return response;
         }
     }
