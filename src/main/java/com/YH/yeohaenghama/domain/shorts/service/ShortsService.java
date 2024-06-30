@@ -4,6 +4,7 @@ import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
+import com.YH.yeohaenghama.domain.shorts.dto.CreateCommentDTO;
 import com.YH.yeohaenghama.domain.shorts.dto.ReadShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.dto.UpdateShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.dto.UploadShortsDTO;
@@ -36,6 +37,10 @@ public class ShortsService {
 
     public void test(){}
 
+    public Shorts verificationShorts(Long shortsId){
+        return shortsRepository.findById(shortsId).orElseThrow(() -> new NoSuchElementException("해당 ID를 가진 쇼츠가 존재하지 않습니다."));
+    }
+
     @Transactional
     public UploadShortsDTO.Response uploadShorts(UploadShortsDTO.Request req) throws Exception {
         Shorts shorts = shortsRepository.save(new Shorts());
@@ -53,8 +58,7 @@ public class ShortsService {
     }
 
     public UploadShortsDTO.Response updateShorts(UpdateShortsDTO.Request req,Long shortsId) throws Exception{
-        Shorts shorts = shortsRepository.findById(shortsId)
-                .orElseThrow(() -> new NoSuchElementException("해당 ID를 가진 쇼츠가 존재하지 않습니다."));
+        Shorts shorts = verificationShorts(shortsId);
 
 
         UpdateShortsDTO.Update update = new UpdateShortsDTO.Update(shorts,req);
@@ -67,20 +71,9 @@ public class ShortsService {
     }
 
     public ReadShortsDTO.AllResponse readShorts(ReadShortsDTO.AllRequest req) throws Exception {
-        log.info("1");
         Pageable pageable = PageRequest.of(req.getPage(),req.getNumOfRows(), Sort.by("id").ascending());
-        log.info("2");
         List<Shorts> shortsList = shortsRepository.findAll(pageable).getContent();
         if(shortsList.isEmpty()) throw new NoSuchObjectException("쇼츠 정보가 존재하지 않습니다.");
-        log.info("3");
         return new ReadShortsDTO.AllResponse(shortsList);
     }
-
-
-//    public List<ShortsInItinerary> getShortsInItinerary(Shorts shorts, Long itineraryId){
-//        List<ShortsInItinerary> response = new ArrayList<>();
-//        if(itineraryId == null) return null;
-//        response.add(ShortsInItineraryDTO.toEntity(shorts, itineraryService.getItinerary(itineraryId)));
-//        return response;
-//    }
 }
