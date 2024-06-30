@@ -32,11 +32,18 @@ public class ShortsCommentService {
         return CreateCommentDTO.Response.toEntity(shortsComment);
     }
 
-    public ReadCommentDTO.AllResponse readComment(ReadCommentDTO.Request req){
-        List<ShortsComment> shortsCommentList = shortsCommentRepository.findByShortsId(req.getShortsId());
+    public ReadCommentDTO.AllResponse readComment(Long shortsId){
+        List<ShortsComment> shortsCommentList = shortsCommentRepository.findByShortsId(shortsId);
         if(shortsCommentList.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 쇼츠에 댓글이 존재하지 않습니다.");
 
-
         return new ReadCommentDTO.AllResponse(shortsCommentList);
+    }
+
+    public String deleteComment(Long commentId, Long accountId){
+        ShortsComment shortsComment = shortsCommentRepository.findById(commentId)
+                .orElseThrow(() -> new NoSuchElementException("해당 ID를 가진 댓글이 존재하지 않습니다."));
+        if(!shortsComment.getAccount().getId().equals(accountId)) throw new NoSuchElementException("해당 댓글을 삭제할 권한을 보유하고 있지 않습니다.");
+        shortsCommentRepository.deleteById(commentId);
+        return "쇼츠 댓글 삭제 성공";
     }
 }

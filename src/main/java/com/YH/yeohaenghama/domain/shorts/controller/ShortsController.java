@@ -34,7 +34,7 @@ public class ShortsController {
     }
 
     @Operation(summary = "쇼츠 수정")
-    @PostMapping("/updateShorts")
+    @PutMapping("/updateShorts")
     public ApiResult<UploadShortsDTO.Response> uploadShorts(@ModelAttribute UpdateShortsDTO.Request req, @RequestParam("shortsId") Long shortsId){
         try{
             log.info("DTO ==  " + req);
@@ -46,12 +46,24 @@ public class ShortsController {
         }
     }
 
-    @Operation(summary = "쇼츠 조회")
-    @PostMapping("/readShorts")
-    public ApiResult<ReadShortsDTO.AllResponse> readShorts(ReadShortsDTO.AllRequest req){
+    @Operation(summary = "쇼츠 삭제")
+    @DeleteMapping("/deleteShorts")
+    public ApiResult<String> deleteShorts(@RequestParam("shortsId") Long shortsId,@RequestParam("accountId") Long accountId){
         try{
-            log.info("DTO ==  " + req);
-            return ApiResult.success(shortsService.readShorts(req));
+            return ApiResult.success(shortsService.deleteShorts(shortsId,accountId));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "쇼츠 조회")
+    @GetMapping("/readShorts")
+    public ApiResult<ReadShortsDTO.AllResponse> readShorts(@RequestParam(name = "numOfRows") Integer numOfRows,
+                                                           @RequestParam(name = "page") Integer page){
+        try{
+            return ApiResult.success(shortsService.readShorts(numOfRows,page));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }catch (Exception e){
@@ -61,7 +73,7 @@ public class ShortsController {
 
     @Operation(summary = "쇼츠 댓글 작성")
     @PostMapping("/createComment")
-    public ApiResult<CreateCommentDTO.Response> createComment(CreateCommentDTO.Request req){
+    public ApiResult<CreateCommentDTO.Response> createComment(@RequestBody CreateCommentDTO.Request req){
         try{
             log.info("DTO ==  " + req);
             return ApiResult.success(shortsCommentService.createComment(req));
@@ -73,11 +85,22 @@ public class ShortsController {
     }
 
     @Operation(summary = "쇼츠 댓글 조회")
-    @PostMapping("/readComment")
-    public ApiResult<ReadCommentDTO.AllResponse> readShorts(ReadCommentDTO.Request req){
+    @GetMapping("/readComment")
+    public ApiResult<ReadCommentDTO.AllResponse> readShorts(@RequestParam(name = "shortsId") Long shortsId){
         try{
-            log.info("DTO ==  " + req);
-            return ApiResult.success(shortsCommentService.readComment(req));
+            return ApiResult.success(shortsCommentService.readComment(shortsId));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "쇼츠 댓글 삭제")
+    @DeleteMapping("/deleteComment")
+    public ApiResult<String> readShorts(@RequestParam("commentId") Long commentId,@RequestParam("accountId") Long accountId){
+        try{
+            return ApiResult.success(shortsCommentService.deleteComment(commentId,accountId));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }catch (Exception e){

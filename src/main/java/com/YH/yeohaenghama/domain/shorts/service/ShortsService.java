@@ -44,7 +44,7 @@ public class ShortsService {
     @Transactional
     public UploadShortsDTO.Response uploadShorts(UploadShortsDTO.Request req) throws Exception {
         Shorts shorts = shortsRepository.save(new Shorts());
-        String videoUrl = gcsService.uploadPhoto(req.getVideo(), String.valueOf(shorts.getId()),"Shorts/");
+        String videoUrl = gcsService.uploadPhoto(req.getVideo(), String.valueOf(shorts.getId()),"Shorts/"+shorts.getId());
 
 
         shortsRepository.save(UploadShortsDTO.toShorts(
@@ -70,10 +70,19 @@ public class ShortsService {
         return UploadShortsDTO.Response.toEntity(shorts);
     }
 
-    public ReadShortsDTO.AllResponse readShorts(ReadShortsDTO.AllRequest req) throws Exception {
-        Pageable pageable = PageRequest.of(req.getPage(),req.getNumOfRows(), Sort.by("id").ascending());
+    public ReadShortsDTO.AllResponse readShorts(Integer numOfRows, Integer page) throws Exception {
+        Pageable pageable = PageRequest.of(page,numOfRows, Sort.by("id").ascending());
         List<Shorts> shortsList = shortsRepository.findAll(pageable).getContent();
         if(shortsList.isEmpty()) throw new NoSuchObjectException("쇼츠 정보가 존재하지 않습니다.");
         return new ReadShortsDTO.AllResponse(shortsList);
+    }
+
+    public String deleteShorts(Long shortsId,Long accountId) throws IOException {
+        Shorts shorts = shortsRepository.findById(shortsId)
+                .orElseThrow(()-> new NoSuchElementException("해당 ID를 가진 쇼츠가 존재하지 않습니다."));
+        if(!shorts.getAccount().getId().equals(accountId)) throw new NoSuchElementException("해당 쇼츠를 삭제할 권한을 보유하고 있지 않습니다.");
+        shortsRepository.deleteById(shortsId);
+        gcsService.delete("Shorts/" + shortsId);
+        return "쇼츠 삭제 성공";
     }
 }

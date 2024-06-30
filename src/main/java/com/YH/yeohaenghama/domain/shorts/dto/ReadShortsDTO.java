@@ -20,11 +20,11 @@ public class ReadShortsDTO {
         private Long shortsId;
     }
 
-    @Data @Schema(name = "ReadShortsDTO_AllRequest")
-    public static class AllRequest{
-        private Integer numOfRows;
-        private Integer page;
-    }
+//    @Data @Schema(name = "ReadShortsDTO_AllRequest")
+//    public static class AllRequest{
+//        private Integer numOfRows;
+//        private Integer page;
+//    }
 
 
     @Data @Schema(name = "ReadShortsDTO_AllResponse")
