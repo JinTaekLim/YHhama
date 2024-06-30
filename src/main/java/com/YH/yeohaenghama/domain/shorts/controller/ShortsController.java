@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.shorts.controller;
 
 import com.YH.yeohaenghama.common.apiResult.ApiResult;
+import com.YH.yeohaenghama.domain.shorts.dto.ReadShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.dto.UpdateShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.dto.UploadShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.service.ShortsService;
@@ -37,6 +38,19 @@ public class ShortsController {
         try{
             log.info("DTO ==  " + req);
             return ApiResult.success(shortsService.updateShorts(req,shortsId));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "쇼츠 조회")
+    @PostMapping("/readShorts")
+    public ApiResult<ReadShortsDTO.AllResponse> readShorts(ReadShortsDTO.AllRequest req){
+        try{
+            log.info("DTO ==  " + req);
+            return ApiResult.success(shortsService.readShorts(req));
         }catch (NoSuchElementException e){
             return ApiResult.success(null,e.getMessage());
         }catch (Exception e){

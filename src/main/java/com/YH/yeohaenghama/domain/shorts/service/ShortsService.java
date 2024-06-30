@@ -4,6 +4,7 @@ import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import com.YH.yeohaenghama.domain.account.service.AccountService;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
 import com.YH.yeohaenghama.domain.itinerary.service.ItineraryService;
+import com.YH.yeohaenghama.domain.shorts.dto.ReadShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.dto.UpdateShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.dto.UploadShortsDTO;
 import com.YH.yeohaenghama.domain.shorts.entity.Shorts;
@@ -11,9 +12,13 @@ import com.YH.yeohaenghama.domain.shorts.repository.ShortsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -59,6 +64,16 @@ public class ShortsService {
         shortsRepository.save(shorts);
 
         return UploadShortsDTO.Response.toEntity(shorts);
+    }
+
+    public ReadShortsDTO.AllResponse readShorts(ReadShortsDTO.AllRequest req) throws Exception {
+        log.info("1");
+        Pageable pageable = PageRequest.of(req.getPage(),req.getNumOfRows(), Sort.by("id").ascending());
+        log.info("2");
+        List<Shorts> shortsList = shortsRepository.findAll(pageable).getContent();
+        if(shortsList.isEmpty()) throw new NoSuchObjectException("쇼츠 정보가 존재하지 않습니다.");
+        log.info("3");
+        return new ReadShortsDTO.AllResponse(shortsList);
     }
 
 
