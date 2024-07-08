@@ -3,6 +3,7 @@ package com.YH.yeohaenghama.domain.itinerary.entity;
 import com.YH.yeohaenghama.domain.account.entity.Account;
 import com.YH.yeohaenghama.domain.budget.entity.Budget;
 import com.YH.yeohaenghama.domain.budget.entity.Expenditures;
+import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryJoinDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,6 +53,10 @@ public class Itinerary {
     @OneToMany
     @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
     private List<Place> places;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "itinerary_id", referencedColumnName = "id")
+    private Diary diary;
 
     @OneToMany
     @JoinColumn(name = "itinerary_id", referencedColumnName = "id")

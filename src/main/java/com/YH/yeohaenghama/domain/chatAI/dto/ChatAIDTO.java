@@ -29,10 +29,18 @@ public class ChatAIDTO {
             return response;
         }
 
-        public void setTypeAndResult(String type,Object result){
-            this.setAnswer("해당 정보를 찾는 것이 맞으신가요?");
+        public void setTypeAndResult(String type,Object result,String keyword){
+            if(result == null){
+                this.setAnswer("해당 정보를 찾을 수 없습니다");
+            } else {
+                this.setAnswer("해당 정보를 찾는 것이 맞으신가요? : " + keyword);
+            }
             this.setType(type);
             this.setResult(result);
+        }
+
+        public void fail(){
+            this.answer = "다시 한 번 질문해주세요.";
         }
     }
 

@@ -1,6 +1,9 @@
 package com.YH.yeohaenghama.domain.chatAI.service;
 
 
+import com.YH.yeohaenghama.domain.search.dto.SearchDTO;
+import com.YH.yeohaenghama.domain.search.dto.SearchDiaryDTO;
+import com.YH.yeohaenghama.domain.search.service.SearchService;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
@@ -26,12 +29,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ChatAIService {
     private final ChatAIRepository chatAIRepository;
-    private final DiaryService diaryService;
+    private final ChatAIInfo chatAIInfo;
 
     public ChatAIDTO.Response ask(String question) throws Exception {
 
         List<ChatAI> questionList = chatAIRepository.findAll().entrySet().stream()
-                .filter(entry -> entry.getValue() != null) // 값이 null이 아닌 항목만 필터링
+                .filter(entry -> entry.getValue() != null && !entry.getValue().equals("fail")) // 값이 null이 아닌 항목만 필터링
                 .map(entry -> new ChatAI(entry.getKey(), entry.getValue())) // ChatAI 객체로 매핑
                 .collect(Collectors.toList());
 
@@ -50,17 +53,30 @@ public class ChatAIService {
         System.out.println("Answer : " + answer);
 
 
-
+        String keyword = "";
 
          ChatAIDTO.Response response = ChatAIDTO.Response.toResponse(question, answer, sortedList);
+
+
          if (answer.equals("showDiaryAll")) {
-             response.setTypeAndResult(answer,diaryService.findAll());
-         } else if (answer.equals("showDiaryTitle")){
-
-             selectKeyword(question);
-
-             response.setTypeAndResult(answer,null);
+             response.setTypeAndResult(answer,chatAIInfo.showDiaryAll(),"전체 일기 조회");
          }
+         else if (answer.equals("showDiaryTitle")){
+             keyword = selectKeyword(question);
+             System.out.println("Keyword : " +keyword);
+             response.setTypeAndResult(answer,chatAIInfo.showDiaryTitle(keyword),"["+ keyword + "] 제목이 포함된 일기 검색");
+         }
+         else if (answer.equals("showDiaryPlace")){
+             keyword = selectKeyword(question);
+             response.setTypeAndResult(answer,chatAIInfo.showDiaryPlace(keyword),"[" + keyword + "] 장소가 포함된 일기 검색");
+         }
+         else if (answer.equals("fail")){
+             response.fail();
+         }
+
+
+
+
 
         if(chatAIRepository.findAnswer(question) == null) insertQuestion(question,answer);
 
