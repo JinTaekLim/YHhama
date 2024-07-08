@@ -14,6 +14,14 @@ public class SearchDTO {
         private String keyWord;
         private Integer numOfRows;
         private Integer page;
+
+        public Request(){}
+
+        public Request(String keyWord,Integer numOfRows,Integer page){
+            this.keyWord = keyWord;
+            this.numOfRows = numOfRows;
+            this.page = page;
+        }
     }
 
     @Data

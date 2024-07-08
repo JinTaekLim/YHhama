@@ -12,11 +12,13 @@ java {
 }
 
 jar {
-	enabled = false
+//	enabled = false
 }
 
 repositories {
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
+
 }
 
 dependencies {
@@ -61,6 +63,24 @@ dependencies {
 
 
 	implementation 'org.jsoup:jsoup:1.14.3'
+
+//	implementation 'cn.easyproject:easyocr:3.0.4-RELEASE'
+
+	implementation 'net.sourceforge.tess4j:tess4j:4.5.4'
+
+
+
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
+	implementation 'nz.ac.waikato.cms.weka:weka-stable:3.8.5'
+	implementation 'org.apache.commons:commons-text:1.9'
+
+
+	implementation 'org.apache.lucene:lucene-core:8.11.1'
+	implementation 'org.apache.lucene:lucene-analyzers-nori:8.11.1'
+
+
+	implementation 'com.github.shin285:KOMORAN:3.3.9'
 
 
 

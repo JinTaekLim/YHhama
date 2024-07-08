@@ -1,0 +1,8 @@
+question,result
+"일기 목록",DiaryList
+"서울 관련 일기를 보여줘",searchDiaryPlace
+"인천 관련 일기를 보여줘",searchDiaryPlace
+"서울이라는 제목을 갖고 있는 일기를 보여줘",searchDiaryTitle
+"인천 이라는 제목을 갖고 있는 일기를 보여줘",searchDiaryTitle
+"인천이라는 제목을 갖고 있는 일정을 보여줘",searchItinerary
+"서울 장소를 보여줘",searchPlace

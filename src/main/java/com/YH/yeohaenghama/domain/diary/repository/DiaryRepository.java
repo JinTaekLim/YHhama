@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface DiaryRepository extends JpaRepository<Diary,Long> {
     Optional<Diary> findByItinerary(Long itineraryId);
+
+    List<Diary> findByTitleContaining(String keyWord);
     Page<Diary> findByTitleContaining(String keyWord,Pageable pageable);
     Page<Diary> findByContentContaining(String keyWord, Pageable pageable);
 }
