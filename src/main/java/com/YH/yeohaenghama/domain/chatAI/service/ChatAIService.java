@@ -89,6 +89,17 @@ public class ChatAIService {
         return question;
     }
 
+    public String similartiyInsert(String question1,String question2) throws BadRequestException {
+        String answer = chatAIRepository.findAnswer(question2);
+        if (answer == null) chatAIRepository.save(question2,null);
+        else {
+            chatAIRepository.save(question1,answer);
+            chatAIRepository.saveSimilarity(question1,question2);
+        }
+
+        return answer;
+    }
+
     public String updateQuestion(String question, String answer){
         String ChatAI = chatAIRepository.findAnswer(question);
         if(ChatAI.isEmpty()) throw new NoSuchElementException("해당 질문은 존재하지 않습니다.");
@@ -104,6 +115,10 @@ public class ChatAIService {
 
     public Map<String, String> readAll(){
         return chatAIRepository.findAll();
+    }
+
+    public Map<String,Map<String,String>> readSimilartiyAll(){
+        return chatAIRepository.findSimilarytiyAll();
     }
 
     public void delete(String question){

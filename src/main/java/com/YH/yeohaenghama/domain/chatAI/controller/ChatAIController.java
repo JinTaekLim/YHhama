@@ -4,7 +4,6 @@ import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
 import com.YH.yeohaenghama.domain.chatAI.service.ChatAIService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,15 +29,27 @@ public class ChatAIController {
         return chatAIService.insertQuestion(question,answer);
     }
 
-    @Operation(summary = "읽기")
+    @Operation(summary = "유사 질문 등록")
+    @PostMapping("/similarityInsert")
+    public String similarityInsert(String question,String question2) throws Exception {
+        return chatAIService.similartiyInsert(question,question2);
+    }
+
+    @Operation(summary = "조회")
     @PostMapping("/read")
     public Object read(String question){
         return chatAIService.read(question);
     }
-    @Operation(summary = "전체 읽기")
+    @Operation(summary = "전체 조회")
     @PostMapping("/readAll")
     public Map<String, String> readAll(){
         return chatAIService.readAll();
+    }
+
+    @Operation(summary = "유사 질문 전체 조회")
+    @PostMapping("/similarityReadAll")
+    public Map<String, Map<String, String>> similarityReadAll(){
+        return chatAIService.readSimilartiyAll();
     }
 
     @PostMapping("/delete")
