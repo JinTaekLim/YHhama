@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ChatAIService {
+public class ChatAIService{
     private final ChatAIRepository chatAIRepository;
     private final ChatAIInfo chatAIInfo;
 
@@ -52,31 +52,7 @@ public class ChatAIService {
         System.out.println("Qeust : " + question);
         System.out.println("Answer : " + answer);
 
-
-        String keyword = "";
-
-         ChatAIDTO.Response response = ChatAIDTO.Response.toResponse(question, answer, sortedList);
-
-
-         if (answer.equals("showDiaryAll")) {
-             response.setTypeAndResult(answer,chatAIInfo.showDiaryAll(),"전체 일기 조회");
-         }
-         else if (answer.equals("showDiaryTitle")){
-             keyword = selectKeyword(question);
-             System.out.println("Keyword : " +keyword);
-             response.setTypeAndResult(answer,chatAIInfo.showDiaryTitle(keyword),"["+ keyword + "] 제목이 포함된 일기 검색");
-         }
-         else if (answer.equals("showDiaryPlace")){
-             keyword = selectKeyword(question);
-             response.setTypeAndResult(answer,chatAIInfo.showDiaryPlace(keyword),"[" + keyword + "] 장소가 포함된 일기 검색");
-         }
-         else if (answer.equals("fail")){
-             response.fail();
-         }
-
-
-
-
+         ChatAIDTO.Response response = chatAIInfo.check(question,answer,sortedList);
 
         if(chatAIRepository.findAnswer(question) == null) insertQuestion(question,answer);
 
@@ -84,7 +60,7 @@ public class ChatAIService {
     }
 
 
-    public String insertQuestion(String question,String answer) throws BadRequestException {
+    public String insertQuestion(String question,String answer) {
         chatAIRepository.save(question,answer);
         return question;
     }
@@ -143,22 +119,6 @@ public class ChatAIService {
 
 
 
-    public String selectKeyword(String question){
-
-        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
-        KomoranResult analyzeResultList = komoran.analyze(question);
-        List<Token> tokenList = analyzeResultList.getTokenList();
-
-        String keyword = "";
-        for (Token token : tokenList) {
-            if (token.getPos().equals("NNP")) {
-                System.out.format(token.getMorph());
-                keyword = token.getMorph();
-            }
-        }
-
-        return keyword;
-    }
 
     private String findBestMatch(String question, List<ChatAI> questionList) {
         CosineSimilarity cosineSimilarity = new CosineSimilarity();
