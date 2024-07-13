@@ -10,10 +10,12 @@ public class ChatAI {
 
     private String question;
     private String answer;
+    private String type;
 
     @Builder
-    public ChatAI(String question, String answer) {
+    public ChatAI(String question, String answer, String type) {
         this.question = question;
         this.answer = answer;
+        this.type = type;
     }
 }

@@ -1,19 +1,9 @@
 package com.YH.yeohaenghama.domain.chatAI.service;
 
 
-import com.YH.yeohaenghama.domain.search.dto.SearchDTO;
-import com.YH.yeohaenghama.domain.search.dto.SearchDiaryDTO;
-import com.YH.yeohaenghama.domain.search.service.SearchService;
-import kr.co.shineware.nlp.komoran.core.Komoran;
-import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
-import kr.co.shineware.nlp.komoran.core.Komoran;
-import kr.co.shineware.nlp.komoran.model.KomoranResult;
-import kr.co.shineware.nlp.komoran.model.Token;
-
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatAI;
 import com.YH.yeohaenghama.domain.chatAI.repository.ChatAIRepository;
-import com.YH.yeohaenghama.domain.diary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
@@ -34,8 +24,11 @@ public class ChatAIService{
     public ChatAIDTO.Response ask(String question) throws Exception {
 
         List<ChatAI> questionList = chatAIRepository.findAll().entrySet().stream()
-                .filter(entry -> entry.getValue() != null && !entry.getValue().equals("fail")) // 값이 null이 아닌 항목만 필터링
-                .map(entry -> new ChatAI(entry.getKey(), entry.getValue())) // ChatAI 객체로 매핑
+                .filter(entry -> entry.getValue() != null)
+                .map(entry -> {
+                    Map.Entry<String,String> map = entry.getValue().entrySet().iterator().next();
+                    return new ChatAI(entry.getKey(), map.getKey(),map.getValue());
+                }) // ChatAI 객체로 매핑
                 .collect(Collectors.toList());
 
         // 코사인 유사도 계산
@@ -47,49 +40,52 @@ public class ChatAIService{
         if (bestMatch == null) throw new NoSuchElementException("No similar question found.");
 
         // 찾은 가장 유사한 질문에 대한 답변 가져오기
-        String answer = findAnswerByBestMatch(bestMatch, questionList);
+        ChatAI chatAI = findChatAIByBestMatch(bestMatch, questionList);
 
         System.out.println("Qeust : " + question);
-        System.out.println("Answer : " + answer);
+        System.out.println("Answer : " + chatAI.getAnswer());
+        System.out.println("Type : " + chatAI.getType());
 
-         ChatAIDTO.Response response = chatAIInfo.check(question,answer,sortedList);
 
-        if(chatAIRepository.findAnswer(question) == null) insertQuestion(question,answer);
+        ChatAIDTO.Response response = chatAIInfo.check(question,chatAI.getAnswer(), chatAI.getType(),sortedList);
+
+        if(chatAIRepository.findAnswer(question) == null) insertQuestion(new ChatAIDTO.insertRequest(question,chatAI.getAnswer(),chatAI.getType()));
 
         return response;
     }
 
 
-    public String insertQuestion(String question,String answer) {
-        chatAIRepository.save(question,answer);
-        return question;
+    public String insertQuestion(ChatAIDTO.insertRequest req) {
+        chatAIRepository.save(req.getQuestion(),req.getAnswer(),req.getType());
+        return req.getQuestion();
     }
 
-    public String similartiyInsert(String question1,String question2) throws BadRequestException {
-        String answer = chatAIRepository.findAnswer(question2);
-        if (answer == null) chatAIRepository.save(question2,null);
+    public Map<String, String> similartiyInsert(String question1, String question2) throws BadRequestException {
+        Map<String,String> answer = chatAIRepository.findAnswer(question2);
+        if (answer == null) chatAIRepository.save(question2,null,null);
         else {
-            chatAIRepository.save(question1,answer);
+            Map.Entry<String,String> map = answer.entrySet().iterator().next();
+            chatAIRepository.save(question1,map.getKey(),map.getValue());
             chatAIRepository.saveSimilarity(question1,question2);
         }
 
         return answer;
     }
 
-    public String updateQuestion(String question, String answer){
-        String ChatAI = chatAIRepository.findAnswer(question);
+    public String updateQuestion(String question, String answer, String type){
+        Map<String,String> ChatAI = chatAIRepository.findAnswer(question);
         if(ChatAI.isEmpty()) throw new NoSuchElementException("해당 질문은 존재하지 않습니다.");
-        chatAIRepository.save(question,answer);
+        chatAIRepository.save(question,answer,type);
         return question;
     }
 
     public Object read(String question){
-        String a = chatAIRepository.findAnswer(question);
+        Map<String,String> a = chatAIRepository.findAnswer(question);
         System.out.println(question + " : " + a);
         return chatAIRepository.findAnswer(question);
     }
 
-    public Map<String, String> readAll(){
+    public Map<String, Map<String, String>> readAll(){
         return chatAIRepository.findAll();
     }
 
@@ -159,13 +155,13 @@ public class ChatAIService{
         return sortedList;
     }
 
-    private String findAnswerByBestMatch(String bestMatch, List<ChatAI> questionList) {
+    private ChatAI findChatAIByBestMatch(String bestMatch, List<ChatAI> questionList) {
         return questionList.stream()
                 .filter(chatAI -> chatAI.getQuestion().equals(bestMatch))
                 .findFirst()
-                .map(ChatAI::getAnswer)
-                .orElse("No answer found.");
+                .orElse(null);
     }
+
 
     // 문자열을 벡터로 변환하는 도우미 함수
     private Map<CharSequence, Integer> vectorize(String text) {

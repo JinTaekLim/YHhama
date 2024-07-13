@@ -25,13 +25,15 @@ public class ChatAIController {
 
 
     @PostMapping("/insert")
-    public String insert(String question,String answer) throws Exception {
-        return chatAIService.insertQuestion(question,answer);
+    public String insert(ChatAIDTO.insertRequest req) throws Exception {
+        return chatAIService.insertQuestion(req);
     }
+
+
 
     @Operation(summary = "유사 질문 등록")
     @PostMapping("/similarityInsert")
-    public String similarityInsert(String question,String question2) throws Exception {
+    public Map<String, String> similarityInsert(String question, String question2) throws Exception {
         return chatAIService.similartiyInsert(question,question2);
     }
 
@@ -42,7 +44,7 @@ public class ChatAIController {
     }
     @Operation(summary = "전체 조회")
     @PostMapping("/readAll")
-    public Map<String, String> readAll(){
+    public Map<String, Map<String, String>> readAll(){
         return chatAIService.readAll();
     }
 
