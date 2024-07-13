@@ -13,6 +13,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                         "http://localhost:3000",
                         "https://web-yeohaenghama-frontend-dc9c2nlsmwen6i.sel5.cloudtype.app",
+                        "https://web-yeohaenghama-chatai-dc9c2nlsmwen6i.sel5.cloudtype.app/",
                         "http://127.0.0.1",
                         "http://localhost:8080",
                         "http://10.0.2.2",
