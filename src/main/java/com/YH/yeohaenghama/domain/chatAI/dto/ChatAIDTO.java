@@ -26,6 +26,17 @@ public class ChatAIDTO {
         }
     }
 
+    @Schema(name = "ChatAIDTO_updateRequest") @Data
+    public static class updateRequest{
+        private String question;
+        private String answer;
+
+        public updateRequest(String question, String answer){
+            this.question = question;
+            this.answer = answer;
+        }
+    }
+
     @Schema(name = "ChatAIDTO_Response") @Data
     public static class Response{
         private String question;
