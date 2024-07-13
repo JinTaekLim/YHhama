@@ -14,6 +14,7 @@ import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;
 import kr.co.shineware.nlp.komoran.model.Token;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,6 @@ public class ChatAIInfo {
         ChatAIDTO.Response response = ChatAIDTO.Response.toResponse(question, answer, type, sortedList);
         String keyword = "";
 
-
         if(type == null){}
         else if (type.equals("showDiaryAll")) {
             response.setResult(showDiaryAll());
@@ -47,11 +47,12 @@ public class ChatAIInfo {
         }
         else if (type.equals("showDiaryPlace")){
             keyword = selectKeyword(question);
-            response.setResult(showDiaryPlace(keyword));
-        }
-        else if (type.equals("showDiaryArea")){
-            keyword = selectKeyword(question);
-            response.setResult(showDiaryArea(keyword));
+            String area = validateArea(keyword);
+            if(area == null){
+                response.setResult(showDiaryPlace(keyword));
+            }else {
+                response.setResult(showDiaryArea(keyword));
+            }
         }
         else if (type.equals("showPopularArea")){
             response.setResult(showPopularArea());
@@ -130,4 +131,43 @@ public class ChatAIInfo {
 
         return keyword;
     }
+
+    public String validateArea(String keyword) {
+
+        final double THRESHOLD = 0.85;
+        String response = null;
+
+
+        List<String> area = Arrays.asList(
+                "서울특별시", "서울",
+                "부산광역시", "부산",
+                "대구광역시", "대구",
+                "인천광역시", "인천",
+                "광주광역시", "광주",
+                "대전광역시", "대전",
+                "울산광역시", "울산",
+                "경기도", "경기",
+                "강원도", "강원",
+                "충청북도", "충북",
+                "충청남도", "충남",
+                "전라북도", "전북",
+                "전라남도", "전남",
+                "경상북도", "경북",
+                "경상남도", "경남",
+                "제주도", "제주"
+        );
+
+        if (area.contains(keyword)) return keyword;
+
+        JaroWinklerSimilarity jaroWinkler = new JaroWinklerSimilarity();
+        for (String areaName : area) {
+            double similarity = jaroWinkler.apply(keyword, areaName);
+            if (similarity >= THRESHOLD) {
+                response = areaName;
+            }
+        }
+
+        return response;
+    }
+
 }

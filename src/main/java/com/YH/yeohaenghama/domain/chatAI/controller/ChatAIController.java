@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.chatAI.controller;
 
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
+import com.YH.yeohaenghama.domain.chatAI.service.ChatAIInfo;
 import com.YH.yeohaenghama.domain.chatAI.service.ChatAIService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class ChatAIController {
 
     private final ChatAIService chatAIService;
+    private final ChatAIInfo chatAIInfo;
 
 
     @PostMapping("/ask")
@@ -42,6 +44,12 @@ public class ChatAIController {
     public Object read(String question){
         return chatAIService.read(question);
     }
+
+    @Operation(summary = "답변 미등록 질문 조회")
+    @PostMapping("/getUnansweredQuestions")
+    public Map<String,Map<String,String>> getUnansweredQuestions(){
+        return chatAIService.getUnansweredQuestions();
+    }
     @Operation(summary = "전체 조회")
     @PostMapping("/readAll")
     public Map<String, Map<String, String>> readAll(){
@@ -60,4 +68,8 @@ public class ChatAIController {
     }
 
 
+    @PostMapping("/test")
+    public String test(String test){
+        return chatAIInfo.validateArea(test);
+    }
 }
