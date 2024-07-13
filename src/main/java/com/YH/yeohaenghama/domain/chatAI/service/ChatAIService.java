@@ -37,7 +37,14 @@ public class ChatAIService{
         // 유사도가 높은 순으로 정렬 후 상위 3개의 질문 선택
         List<Map.Entry<String, Double>> sortedList = calculateSimilarityAndSort(question, bestMatch, questionList);
 
-        if (bestMatch == null) throw new NoSuchElementException("No similar question found.");
+        ChatAIDTO.Response response;
+
+        if (bestMatch == null) {
+            response = ChatAIDTO.Response.toResponse(question,
+                    "죄송합니다. 해당 질문 관련 데이터가 아직 등록되어있지 않습니다. ","fail",null);
+            insertQuestion(new ChatAIDTO.insertRequest(question,"fail",null));
+            return response;
+        }
 
         // 찾은 가장 유사한 질문에 대한 답변 가져오기
         ChatAI chatAI = findChatAIByBestMatch(bestMatch, questionList);
@@ -47,7 +54,7 @@ public class ChatAIService{
         System.out.println("Type : " + chatAI.getType());
 
 
-        ChatAIDTO.Response response = chatAIInfo.check(question,chatAI.getAnswer(), chatAI.getType(),sortedList);
+        response = chatAIInfo.check(question,chatAI.getAnswer(), chatAI.getType(),sortedList);
 
         if(chatAIRepository.findAnswer(question) == null) insertQuestion(new ChatAIDTO.insertRequest(question,chatAI.getAnswer(),chatAI.getType()));
 
@@ -89,6 +96,13 @@ public class ChatAIService{
         return chatAIRepository.findAll();
     }
 
+    public Map<String,Map<String,String>> getUnansweredQuestions(){
+        Map<String,Map<String,String>> response = chatAIRepository.findAll();
+        return response.entrySet().stream()
+                .filter(entry -> entry.getValue() != null && entry.getValue().containsKey("fail"))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
     public Map<String,Map<String,String>> readSimilartiyAll(){
         return chatAIRepository.findSimilarytiyAll();
     }
@@ -119,13 +133,14 @@ public class ChatAIService{
     private String findBestMatch(String question, List<ChatAI> questionList) {
         CosineSimilarity cosineSimilarity = new CosineSimilarity();
         String bestMatch = null;
-        double highestSimilarity = -1;
+        double highestSimilarity = 0.5;
 
         for (ChatAI chatAI : questionList) {
+
             String storedQuestion = chatAI.getQuestion();
             double similarity = cosineSimilarity.cosineSimilarity(
                     vectorize(question), vectorize(storedQuestion));
-            if (similarity > highestSimilarity) {
+            if (similarity > highestSimilarity && !chatAI.getAnswer().equals("fail")) {
                 highestSimilarity = similarity;
                 bestMatch = storedQuestion;
             }
