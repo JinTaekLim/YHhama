@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.chatAI.service.ChatAIInfo;
 import com.YH.yeohaenghama.domain.chatAI.service.ChatAIService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/chatAI")
 @RequiredArgsConstructor
+@Slf4j
 public class ChatAIController {
 
     private final ChatAIService chatAIService;
@@ -28,7 +30,14 @@ public class ChatAIController {
 
     @PostMapping("/insert")
     public String insert(ChatAIDTO.insertRequest req) throws Exception {
+        log.info("req = " + req);
         return chatAIService.insertQuestion(req);
+    }
+
+    @PostMapping("/update")
+    public String update(ChatAIDTO.updateRequest req) throws Exception {
+        log.info("req = " + req);
+        return chatAIService.updateQuestion(req);
     }
 
 

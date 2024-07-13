@@ -31,6 +31,18 @@ public class ChatAIRepository {
         mapValue.put(answer, type);
         hashOperations.put(KEY, question,mapValue);
     }
+
+    public void update(String question, String answer){
+        Map<String, String> existingMap = hashOperations.get(KEY, question);
+
+        if (existingMap == null) {
+            existingMap = new HashMap<>();
+        }
+
+        existingMap.put(answer, "fail");
+
+        hashOperations.put(KEY, question, existingMap);
+    }
     public void saveSimilarity(String question1, String question2) {
         String generatedKey = generateUniqueKey();
         Map<String, String> mapValue = new HashMap<>();

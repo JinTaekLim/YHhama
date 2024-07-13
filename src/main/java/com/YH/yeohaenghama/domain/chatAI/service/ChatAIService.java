@@ -26,10 +26,22 @@ public class ChatAIService{
         List<ChatAI> questionList = chatAIRepository.findAll().entrySet().stream()
                 .filter(entry -> entry.getValue() != null)
                 .map(entry -> {
-                    Map.Entry<String,String> map = entry.getValue().entrySet().iterator().next();
-                    return new ChatAI(entry.getKey(), map.getKey(),map.getValue());
-                }) // ChatAI 객체로 매핑
+                    Map.Entry<String, String> map = entry.getValue().entrySet().iterator().next();
+
+                    if (entry.getValue().size() > 1) {
+                        for (Map.Entry<String, String> entryValue : entry.getValue().entrySet()) {
+                            String value = entryValue.getValue();
+                            if (value != null && !value.equals("fail")) {
+                                map = entryValue;
+                                break;
+                            }
+                        }
+                    }
+
+                    return new ChatAI(entry.getKey(), map.getKey(), map.getValue());
+                })
                 .collect(Collectors.toList());
+
 
         // 코사인 유사도 계산
         String bestMatch = findBestMatch(question, questionList);
@@ -79,11 +91,9 @@ public class ChatAIService{
         return answer;
     }
 
-    public String updateQuestion(String question, String answer, String type){
-        Map<String,String> ChatAI = chatAIRepository.findAnswer(question);
-        if(ChatAI.isEmpty()) throw new NoSuchElementException("해당 질문은 존재하지 않습니다.");
-        chatAIRepository.save(question,answer,type);
-        return question;
+    public String updateQuestion(ChatAIDTO.updateRequest req){
+        chatAIRepository.update(req.getQuestion(),req.getAnswer());
+        return req.getQuestion();
     }
 
     public Object read(String question){
