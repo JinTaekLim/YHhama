@@ -13,6 +13,19 @@ public class ChatAIDTO {
         private String question;
     }
 
+    @Schema(name = "ChatAIDTO_insertRequest") @Data
+    public static class insertRequest{
+        private String question;
+        private String answer;
+        private String type;
+
+        public insertRequest(String question, String answer, String tye){
+            this.question = question;
+            this.answer = answer;
+            this.type = tye;
+        }
+    }
+
     @Schema(name = "ChatAIDTO_Response") @Data
     public static class Response{
         private String question;
@@ -21,22 +34,13 @@ public class ChatAIDTO {
         private Object result;
         private List<Map.Entry<String, Double>> other;
 
-        public static Response toResponse(String question, String answer,List<Map.Entry<String, Double>> other){
+        public static Response toResponse(String question, String answer, String type, List<Map.Entry<String, Double>> other){
             Response response = new Response();
             response.setQuestion(question);
             response.setAnswer(answer);
+            response.setType(type);
             response.setOther(other);
             return response;
-        }
-
-        public void setTypeAndResult(String type,Object result,String keyword){
-            if(result == null){
-                this.setAnswer("해당 정보를 찾을 수 없습니다");
-            } else {
-                this.setAnswer("해당 정보를 찾는 것이 맞으신가요? : " + keyword);
-            }
-            this.setType(type);
-            this.setResult(result);
         }
 
         public void fail(){

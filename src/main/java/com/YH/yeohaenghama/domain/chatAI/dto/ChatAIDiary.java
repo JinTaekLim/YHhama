@@ -11,15 +11,17 @@ public class ChatAIDiary {
 
     @Schema(name = "ChatAIDiary_Response") @Data
     public static class Response{
+        private String keyword;
         private List<DiaryShow> diary;
 
-        public static Response toEntity(List<Diary> diaryList){
+        public static Response toEntity(List<Diary> diaryList,String keyword){
             List<DiaryShow> responseDiary = new ArrayList<>();
             for(Diary diary : diaryList){
                 responseDiary.add(DiaryShow.toEntity(diary));
             }
             Response response = new Response();
             response.setDiary(responseDiary);
+            response.setKeyword(keyword);
             return response;
         }
     }
