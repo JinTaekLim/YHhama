@@ -133,7 +133,7 @@ public class ChatAIService{
     private String findBestMatch(String question, List<ChatAI> questionList) {
         CosineSimilarity cosineSimilarity = new CosineSimilarity();
         String bestMatch = null;
-        double highestSimilarity = 0.5;
+        double highestSimilarity = 0.1;
 
         for (ChatAI chatAI : questionList) {
 
