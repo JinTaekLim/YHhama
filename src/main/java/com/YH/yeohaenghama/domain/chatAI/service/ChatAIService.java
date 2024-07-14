@@ -31,7 +31,7 @@ public class ChatAIService{
                     if (entry.getValue().size() > 1) {
                         for (Map.Entry<String, String> entryValue : entry.getValue().entrySet()) {
                             String value = entryValue.getValue();
-                            if (value != null && !value.equals("fail")) {
+                            if (value != null && !value.equals("fail") && !value.equals("classifying")) {
                                 map = entryValue;
                                 break;
                             }
@@ -53,8 +53,8 @@ public class ChatAIService{
 
         if (bestMatch == null) {
             response = ChatAIDTO.Response.toResponse(question,
-                    "죄송합니다. 해당 질문 관련 데이터가 아직 등록되어있지 않습니다. ","fail",null);
-            insertQuestion(new ChatAIDTO.insertRequest(question,"fail",null));
+                    "죄송합니다. 해당 질문 관련 데이터가 아직 등록되어있지 않습니다. ","classifying",null);
+            insertQuestion(new ChatAIDTO.insertRequest(question,"classifying",null));
             return response;
         }
 
@@ -75,26 +75,26 @@ public class ChatAIService{
 
 
     public String insertQuestion(ChatAIDTO.insertRequest req) {
-        chatAIRepository.save(req.getQuestion(),req.getAnswer(),req.getType());
+        chatAIRepository.update(req.getQuestion(),req.getAnswer(),req.getType());
         return req.getQuestion();
     }
 
     public Map<String, String> similartiyInsert(String question1, String question2) throws BadRequestException {
         Map<String,String> answer = chatAIRepository.findAnswer(question2);
-        if (answer == null) chatAIRepository.save(question2,null,null);
+        if (answer == null) chatAIRepository.update(question2,null,null);
         else {
             Map.Entry<String,String> map = answer.entrySet().iterator().next();
-            chatAIRepository.save(question1,map.getKey(),map.getValue());
+            chatAIRepository.update(question1,map.getKey(),map.getValue());
             chatAIRepository.saveSimilarity(question1,question2);
         }
 
         return answer;
     }
 
-    public String updateQuestion(ChatAIDTO.updateRequest req){
-        chatAIRepository.update(req.getQuestion(),req.getAnswer());
-        return req.getQuestion();
-    }
+//    public String updateQuestion(ChatAIDTO.updateRequest req){
+//        chatAIRepository.update(req.getQuestion(),req.getAnswer(),req.getType());
+//        return req.getQuestion();
+//    }
 
     public Object read(String question){
         Map<String,String> a = chatAIRepository.findAnswer(question);
@@ -106,11 +106,24 @@ public class ChatAIService{
         return chatAIRepository.findAll();
     }
 
-    public Map<String,Map<String,String>> getUnansweredQuestions(){
+    public Map<String,Map<String,String>> getFailQuestions(){
         Map<String,Map<String,String>> response = chatAIRepository.findAll();
         return response.entrySet().stream()
                 .filter(entry -> entry.getValue() != null && entry.getValue().containsKey("fail"))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public Map<String, Map<String, String>> getUnansweredQuestions() {
+        Map<String, Map<String, String>> response = chatAIRepository.findAll();
+
+        return response.entrySet().stream()
+                .filter(entry -> entry.getValue() != null && entry.getValue().containsValue("classifying"))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().entrySet().stream()
+                                .filter(innerEntry -> "classifying".equals(innerEntry.getValue()))
+                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                ));
     }
 
     public Map<String,Map<String,String>> readSimilartiyAll(){
@@ -119,6 +132,10 @@ public class ChatAIService{
 
     public void delete(String question){
         chatAIRepository.delete(question);
+    }
+
+    public void deleteAnsewr(String qeustion, String answer) {
+        chatAIRepository.deleteAnswer(qeustion,answer);
     }
 
 
