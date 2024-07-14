@@ -39,6 +39,7 @@ public class ChatAIRepository {
         if (existingMap == null) {
             existingMap = new HashMap<>();
         }
+        existingMap.remove("fail");
 
         existingMap.put(answer, type);
 
