@@ -22,24 +22,24 @@ public class ChatAIService{
     private final ChatAIInfo chatAIInfo;
 
     public ChatAIDTO.Response ask(String question) throws Exception {
+        Random random = new Random();
 
         List<ChatAI> questionList = chatAIRepository.findAll().entrySet().stream()
                 .filter(entry -> entry.getValue() != null)
                 .map(entry -> {
-                    Map.Entry<String, String> map = entry.getValue().entrySet().iterator().next();
+                    List<Map.Entry<String, String>> validEntries = entry.getValue().entrySet().stream()
+                            .filter(innerEntry -> {
+                                String value = innerEntry.getValue();
+                                return value != null && !value.equals("fail") && !value.equals("classifying");
+                            })
+                            .toList();
 
-                    if (entry.getValue().size() > 1) {
-                        for (Map.Entry<String, String> entryValue : entry.getValue().entrySet()) {
-                            String value = entryValue.getValue();
-                            if (value != null && !value.equals("fail") && !value.equals("classifying")) {
-                                map = entryValue;
-                                break;
-                            }
-                        }
-                    }
+                    if (validEntries.isEmpty()) {return null;}
 
-                    return new ChatAI(entry.getKey(), map.getKey(), map.getValue());
+                    Map.Entry<String, String> selectedEntry = validEntries.get(random.nextInt(validEntries.size()));
+                    return new ChatAI(entry.getKey(), selectedEntry.getKey(), selectedEntry.getValue());
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
 
