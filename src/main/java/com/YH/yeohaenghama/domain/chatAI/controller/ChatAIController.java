@@ -34,11 +34,11 @@ public class ChatAIController {
         return chatAIService.insertQuestion(req);
     }
 
-    @PostMapping("/update")
-    public String update(ChatAIDTO.updateRequest req) throws Exception {
-        log.info("req = " + req);
-        return chatAIService.updateQuestion(req);
-    }
+//    @PostMapping("/update")
+//    public String update(ChatAIDTO.updateRequest req) throws Exception {
+//        log.info("req = " + req);
+//        return chatAIService.updateQuestion(req);
+//    }
 
 
 
@@ -56,8 +56,12 @@ public class ChatAIController {
 
     @Operation(summary = "답변 미등록 질문 조회")
     @PostMapping("/getUnansweredQuestions")
-    public Map<String,Map<String,String>> getUnansweredQuestions(){
-        return chatAIService.getUnansweredQuestions();
+    public Map<String,Map<String,String>> getUnansweredQuestions(){return chatAIService.getUnansweredQuestions();}
+
+    @Operation(summary = "Fail 질문 조회")
+    @PostMapping("/getFailQuestions")
+    public Map<String,Map<String,String>> getFailQuestions(){
+        return chatAIService.getFailQuestions();
     }
     @Operation(summary = "전체 조회")
     @PostMapping("/readAll")
@@ -71,9 +75,16 @@ public class ChatAIController {
         return chatAIService.readSimilartiyAll();
     }
 
+    @Operation(summary = "질문 삭제")
     @PostMapping("/delete")
-    public void insert(String question) {
+    public void delete(String question) {
         chatAIService.delete(question);
+    }
+
+    @Operation(summary = "답변 삭제")
+    @PostMapping("/deleteAnswer")
+    public void deleteAnswer(String question,String answer) {
+        chatAIService.deleteAnsewr(question,answer);
     }
 
 

@@ -30,10 +30,12 @@ public class ChatAIDTO {
     public static class updateRequest{
         private String question;
         private String answer;
+        private String type;
 
-        public updateRequest(String question, String answer){
+        public updateRequest(String question, String answer,String type){
             this.question = question;
             this.answer = answer;
+            this.type = type;
         }
     }
 

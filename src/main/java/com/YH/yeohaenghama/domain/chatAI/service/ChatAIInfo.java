@@ -57,7 +57,7 @@ public class ChatAIInfo {
         else if (type.equals("showPopularArea")){
             response.setResult(showPopularArea());
         }
-        else if (type.equals("fail")){
+        else if (type.equals("fail") || type.equals("classifying")){
             response.fail();
         }
 

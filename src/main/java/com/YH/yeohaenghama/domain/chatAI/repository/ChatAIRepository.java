@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,24 +26,41 @@ public class ChatAIRepository {
         this.hashOperations = redisTemplate.opsForHash();
         this.redisTemplate = redisTemplate;
     }
+//
+//    public void save(String question, String answer, String type) {
+//        Map<String, String> mapValue = new HashMap<>();
+//        mapValue.put(answer, type);
+//        hashOperations.put(KEY, question,mapValue);
+//    }
 
-    public void save(String question, String answer, String type) {
-        Map<String, String> mapValue = new HashMap<>();
-        mapValue.put(answer, type);
-        hashOperations.put(KEY, question,mapValue);
-    }
-
-    public void update(String question, String answer){
+    public void update(String question, String answer,String type){
         Map<String, String> existingMap = hashOperations.get(KEY, question);
 
         if (existingMap == null) {
             existingMap = new HashMap<>();
         }
 
-        existingMap.put(answer, "fail");
+        existingMap.put(answer, type);
 
         hashOperations.put(KEY, question, existingMap);
     }
+
+
+    public void deleteAnswer(String question, String answer) {
+        Map<String, String> existingMap = hashOperations.get(KEY, question);
+
+        if (existingMap != null && existingMap.containsKey(answer)) {
+            existingMap.remove(answer);
+            if (existingMap.isEmpty()) {
+                hashOperations.delete(KEY, question);
+            } else {
+                hashOperations.put(KEY, question, existingMap);
+            }
+        }
+    }
+
+
+
     public void saveSimilarity(String question1, String question2) {
         String generatedKey = generateUniqueKey();
         Map<String, String> mapValue = new HashMap<>();
