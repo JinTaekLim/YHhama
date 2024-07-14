@@ -53,7 +53,7 @@ public class ChatAIService{
 
         if (bestMatch == null) {
             response = ChatAIDTO.Response.toResponse(question,
-                    "죄송합니다. 해당 질문 관련 데이터가 아직 등록되어있지 않습니다. ","classifying",null);
+                    "죄송합니다. 해당 질문을 이해하지 못 했습니다. 다시 한 번 질문해주세요 . ","classifying",null);
             insertQuestion(new ChatAIDTO.insertRequest(question,"classifying",null));
             return response;
         }
