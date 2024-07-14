@@ -117,7 +117,7 @@ public class ChatAIService{
         Map<String, Map<String, String>> response = chatAIRepository.findAll();
 
         return response.entrySet().stream()
-                .filter(entry -> entry.getValue() != null && entry.getValue().containsValue("classifying"))
+                .filter(entry -> entry.getValue() != null && entry.getValue().containsKey("classifying") ||entry.getValue().containsValue("classifying"))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         entry -> entry.getValue().entrySet().stream()
