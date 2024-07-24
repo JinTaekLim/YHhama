@@ -74,7 +74,7 @@ public class ShortsService {
     public ReadShortsDTO.AllResponse readShorts(Integer numOfRows, Integer page) throws Exception {
         Pageable pageable = PageRequest.of(page,numOfRows, Sort.by("id").ascending());
         List<Shorts> shortsList = shortsRepository.findAll(pageable).getContent();
-        if(shortsList.isEmpty()) throw new NoSuchObjectException("쇼츠 정보가 존재하지 않습니다.");
+
         return new ReadShortsDTO.AllResponse(shortsList);
     }
 
