@@ -45,7 +45,7 @@ public class ShortsService {
     @Transactional
     public UploadShortsDTO.Response uploadShorts(UploadShortsDTO.Request req) throws Exception {
         Shorts shorts = shortsRepository.save(new Shorts());
-        String videoUrl = gcsService.uploadPhoto(req.getVideo(), String.valueOf(shorts.getId()),"Shorts/"+shorts.getId());
+        String videoUrl = gcsService.uploadVideo(req.getVideo(), String.valueOf(shorts.getId()),"Shorts/"+shorts.getId());
 
 
         shortsRepository.save(UploadShortsDTO.toShorts(

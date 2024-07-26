@@ -53,6 +53,33 @@ public class GCSService {
         return publicUrl;
     }
 
+    public String uploadVideo(MultipartFile file, String fileName, String folder) throws IOException {
+        if (file == null || file.isEmpty()) {
+            log.error("사진 데이터를 전달 받지 못 했습니다.");
+            return null;
+        }
+
+        log.info("파일명 : {}, Content-Type: {}", fileName, file.getContentType());
+
+        String filePath = folder + "/" + fileName;
+
+        Storage storage = StorageOptions.newBuilder()
+                .setCredentials(credentials)
+                .build()
+                .getService();
+
+        BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, filePath)
+                .setContentType("video/mp4")
+                .build();
+
+        storage.create(blobInfo, file.getInputStream());
+
+        String publicUrl = "https://storage.googleapis.com/" + bucketName + "/" + filePath;
+        log.info("파일 업로드 성공 : " + publicUrl);
+        return publicUrl;
+    }
+
+
     public void delete(String folderName) throws IOException {
         String projectId = "yhhama";
 
