@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +25,7 @@ public class Shorts {
     private String videoUrl;
     private String title;
     private String content;
-    private LocalDateTime date = LocalDateTime.now();
+    private LocalDateTime date;
 
 
     @ManyToOne
@@ -53,5 +55,6 @@ public class Shorts {
         this.content = content;
         this.account = account;
         this.itinerary = itinerary;
+        this.date = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
     }
 }
