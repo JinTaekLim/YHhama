@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -35,6 +37,6 @@ public class ShortsComment {
         this.shorts = shorts;
         this.account = account;
         this.comment = comment;
-        this.date = LocalDateTime.now();
+        this.date = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
     }
 }
