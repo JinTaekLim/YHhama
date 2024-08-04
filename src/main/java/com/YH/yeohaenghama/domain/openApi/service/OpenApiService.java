@@ -289,7 +289,7 @@ public class OpenApiService {
     public String getDirectionsTransport(OpenApiDirectionsDTO req) {
         StringBuffer result = new StringBuffer();
         try {
-            String apiKey = "/l8EmJ0xgdxUdyZT74sfz8sg9y9K9f3Yy8r3SbZYtFc";
+            String apiKey = "0EchlDm2VRlFPt9ByoEyN9GrkK1MMR6khTBPBYPTM4E";
 
             String apiUrl = "https://api.odsay.com/v1/api/searchPubTransPathT?" +
                     "SX=" + req.getSx() +
