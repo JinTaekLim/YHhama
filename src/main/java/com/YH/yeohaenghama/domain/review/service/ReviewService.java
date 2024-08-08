@@ -107,6 +107,10 @@ public class ReviewService {
         List<Review> reviewList = reviewRepository.findByContentTypeIdAndContentId(dto.getContentTypeId(),dto.getContentId());
         List<ReviewShowAllDTO.Response> responseList = new ArrayList<>();
 
+        for(Review r : reviewList){
+            log.info("Reivew - : " + r.getId());
+        }
+
         if(!reviewList.isEmpty()){
 
             for(int i = reviewList.size() - 1; i >= 0; i--) {
@@ -125,13 +129,18 @@ public class ReviewService {
                 keyword = addPlace.getTitle();
             } else {
                 List<Place> placeList = placeRepository.findByPlaceNumAndPlaceType(String.valueOf(dto.getContentId()),String.valueOf(dto.getContentTypeId()));
-                if(placeList.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 Place가 존재하지 않습니다.");
-                keyword = placeList.get(0).getPlaceName();
+//                if(placeList.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 Place가 존재하지 않습니다.");
+                if(!placeList.isEmpty()){
+                    keyword = placeList.get(0).getPlaceName();
+                }
             }
-            String naverReview = openApiService.searchReview(keyword);
 
-            for(ReviewShowAllDTO.Response reivewShow : ReviewShowAllDTO.Response.pasing(naverReview)){
-                responseList.add(reivewShow);
+            if(!keyword.equals("")){
+                String naverReview = openApiService.searchReview(keyword);
+
+                for(ReviewShowAllDTO.Response reivewShow : ReviewShowAllDTO.Response.pasing(naverReview)){
+                    responseList.add(reivewShow);
+                }
             }
 
 
