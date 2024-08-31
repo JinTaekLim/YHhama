@@ -11,6 +11,7 @@ import com.YH.yeohaenghama.domain.shorts.entity.ShortsLike;
 import com.YH.yeohaenghama.domain.shorts.repository.ShortsLikeRepository;
 import com.YH.yeohaenghama.domain.shorts.repository.ShortsRepository;
 import jakarta.transaction.Transactional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -85,6 +86,17 @@ public class ShortsService {
         shortsRepository.deleteById(shortsId);
         gcsService.delete("Shorts/" + shortsId);
         return "쇼츠 삭제 성공";
+    }
+
+    public ReadShortsDTO.AllResponse search(String area){
+
+        List<Shorts> shortsList = shortsRepository.findAll();
+
+        List<Shorts> filteredList = shortsList.stream()
+            .filter(shorts -> area.equals(shorts.getItinerary().getArea()))
+            .collect(Collectors.toList());
+
+        return new ReadShortsDTO.AllResponse(filteredList);
     }
 
     public LikesDTO.Response likes(LikesDTO.Request req){

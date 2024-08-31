@@ -85,6 +85,18 @@ public class ShortsController {
         }
     }
 
+    @Operation(summary = "쇼츠 검색")
+    @GetMapping("/search")
+    public ApiResult<ReadShortsDTO.AllResponse> searchShorts(@RequestParam(name = "area") String area){
+        try{
+            return ApiResult.success(shortsService.search(area));
+        }catch (NoSuchElementException e){
+            return ApiResult.success(null,e.getMessage());
+        }catch (Exception e){
+            return ApiResult.fail(e.getMessage());
+        }
+    }
+
     @Operation(summary = "쇼츠 댓글 작성")
     @PostMapping("/createComment")
     public ApiResult<CreateCommentDTO.Response> createComment(@RequestBody CreateCommentDTO.Request req){
