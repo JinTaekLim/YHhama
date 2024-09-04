@@ -43,22 +43,26 @@ public class ChatAIService{
                 .collect(Collectors.toList());
 
 
-        // 코사인 유사도 계산
         String bestMatch = findBestMatch(question, questionList);
 
-        // 유사도가 높은 순으로 정렬 후 상위 3개의 질문 선택
         List<Map.Entry<String, Double>> sortedList = calculateSimilarityAndSort(question, bestMatch, questionList);
 
         ChatAIDTO.Response response;
 
+        System.out.println("-----------");
+        for( Map.Entry<String, Double> a : sortedList ){
+            System.out.println(a.getValue() + " : " + a.getKey());
+        }
+        System.out.println("-----------");
+
         if (bestMatch == null) {
             response = ChatAIDTO.Response.toResponse(question,
-                    "죄송합니다. 해당 질문을 이해하지 못 했습니다. 다시 한 번 질문해주세요 . ","classifying",null);
+                    "죄송합니다. 해당 질문을 이해하지 못 했습니다. 다시 한 번 질문해주세요 . ","classifying",sortedList);
             insertQuestion(new ChatAIDTO.insertRequest(question,"classifying",null));
             return response;
         }
 
-        // 찾은 가장 유사한 질문에 대한 답변 가져오기
+
         ChatAI chatAI = findChatAIByBestMatch(bestMatch, questionList);
 
         System.out.println("Qeust : " + question);
@@ -187,7 +191,6 @@ public class ChatAIService{
             similarityMap.put(storedQuestion, similarity);
         }
 
-        // 유사도가 높은 순으로 정렬
         List<Map.Entry<String, Double>> sortedList = similarityMap.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue((v1, v2) -> v2.compareTo(v1)))
@@ -205,7 +208,6 @@ public class ChatAIService{
     }
 
 
-    // 문자열을 벡터로 변환하는 도우미 함수
     private Map<CharSequence, Integer> vectorize(String text) {
         Map<CharSequence, Integer> vector = new HashMap<>();
         for (String token : tokenize(text)) {

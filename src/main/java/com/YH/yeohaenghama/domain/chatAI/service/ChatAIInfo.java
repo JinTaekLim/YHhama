@@ -2,6 +2,8 @@ package com.YH.yeohaenghama.domain.chatAI.service;
 
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDiary;
+import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIItinerary;
+import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIItinerary.ItineraryShow;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIPopularArea;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
@@ -28,7 +30,7 @@ public class ChatAIInfo {
     private final PlaceRepository placeRepository;
 
     LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
-    int maxDistance = 3; // 허용할 최대 Levenshtein 거리
+    int maxDistance = 3;
 
 
 
@@ -56,6 +58,13 @@ public class ChatAIInfo {
         }
         else if (type.equals("showPopularArea")){
             response.setResult(showPopularArea());
+        }
+        else if (type.equals("showItineraryAll")){
+            response.setResult(showItineraryAll());
+        }
+        else if (type.equals("showItineraryArea")){
+            keyword = selectKeyword(question);
+            response.setResult(showItineraryArea(keyword));
         }
         else if (type.equals("fail") || type.equals("classifying")){
             response.fail();
@@ -108,6 +117,18 @@ public class ChatAIInfo {
     public ChatAIPopularArea.Response showPopularArea(){
         List<Itinerary> itineraryList = itineraryRepository.findAll();
         return ChatAIPopularArea.Response.ranking(itineraryList);
+    }
+
+    public ChatAIItinerary.Response showItineraryAll(){
+        List<Itinerary> itineraryList = itineraryRepository.findAll();
+        return ChatAIItinerary.Response.toEntity(itineraryList,"일정 전체 조회");
+    }
+    public ChatAIItinerary.Response showItineraryArea(String keyword){
+        List<Itinerary> itineraryList = itineraryRepository.findAll();
+        for (Itinerary itinerary : itineraryList) {
+            if (keyword.equals(itinerary.getArea())) itineraryList.remove(itinerary);
+        }
+        return ChatAIItinerary.Response.toEntity(itineraryList,keyword);
     }
 
 
