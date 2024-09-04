@@ -27,6 +27,7 @@ import com.YH.yeohaenghama.domain.openApi.dto.OpenApiGetXY;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.review.entity.Review;
 import com.YH.yeohaenghama.domain.review.repository.ReviewRepository;
+import com.YH.yeohaenghama.domain.shorts.repository.ShortsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -57,6 +58,7 @@ public class ItineraryService {
     private final OpenApiService openApiService;
     private final ItineraryJoinAccountRepository itineraryJoinAccountRepository;
     private final ReviewRepository reviewRepository;
+    private final ShortsRepository shortsRepository;
     private final ChatService chatService;
     private final BudgetService budgetService;
     private final NotificationService notificationService;
@@ -167,6 +169,7 @@ public class ItineraryService {
 
 
 
+    @Transactional
     public void deleteItinerary(Long itineraryId,Long accountId) throws IOException {
         Optional<Itinerary> optionalItinerary = itineraryRepository.findById(itineraryId);
 
@@ -183,6 +186,8 @@ public class ItineraryService {
         if (diaryOptional.isPresent()) diaryService.delete(diaryOptional.get().getId());
 
         budgetService.itineraryIdCheckToDelete(itineraryId);
+
+        shortsRepository.deleteByItineraryId(itineraryId);
 
         itineraryRepository.deleteById(itineraryId);
     }
@@ -279,6 +284,7 @@ public class ItineraryService {
         return "추가 성공";
     }
 
+    @Transactional
     public String itineraryDeleteAccount(ItineraryJoinAccountDTO.Request dto){
         Optional<ItineraryJoinAccount> itineraryJoinAccountOpt = itineraryJoinAccountRepository.findByItineraryIdAndAccountId(dto.getItineraryId(),dto.getAccountId());
         if(itineraryJoinAccountOpt.isEmpty()) throw new NoSuchElementException("해당 ID를 가진 유저가 일정에 존재하지 않습니다. ");
