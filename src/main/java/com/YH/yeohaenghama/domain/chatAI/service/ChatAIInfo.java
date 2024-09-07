@@ -5,6 +5,7 @@ import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDiary;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIItinerary;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIItinerary.ItineraryShow;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIPopularArea;
+import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIPopularPlace;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
@@ -66,6 +67,9 @@ public class ChatAIInfo {
             keyword = selectKeyword(question);
             response.setResult(showItineraryArea(keyword));
         }
+        else if (type.equals("showPopularPlace")){
+            response.setResult(showPopularPlace());
+        }
         else if (type.equals("directions")){
             keyword = selectKeyword(question);
             response.setResult(keyword);
@@ -123,6 +127,11 @@ public class ChatAIInfo {
     public ChatAIPopularArea.Response showPopularArea(){
         List<Itinerary> itineraryList = itineraryRepository.findAll();
         return ChatAIPopularArea.Response.ranking(itineraryList);
+    }
+
+    public ChatAIPopularPlace.Response showPopularPlace(){
+        List<Place> placeList = placeRepository.findAll();
+        return ChatAIPopularPlace.Response.recommend(placeList);
     }
 
     public ChatAIItinerary.Response showItineraryAll(){
