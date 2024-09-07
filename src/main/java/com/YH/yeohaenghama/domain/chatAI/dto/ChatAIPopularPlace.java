@@ -37,12 +37,14 @@ public class ChatAIPopularPlace {
         private String name;
         private String placeType;
         private String placeNum;
+        private String addr;
 
         static getPlace of(Place place){
             getPlace response = new getPlace();
             response.setName(place.getPlaceName());
             response.setPlaceType(place.getPlaceType());
             response.setPlaceNum(place.getPlaceNum());
+            response.setAddr(place.getAddr1());
             return response;
         }
     }
