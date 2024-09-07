@@ -66,6 +66,12 @@ public class ChatAIInfo {
             keyword = selectKeyword(question);
             response.setResult(showItineraryArea(keyword));
         }
+        else if (type.equals("directions")){
+            keyword = selectKeyword(question);
+            response.setResult(keyword);
+            response.setType("directions");
+
+        }
         else if (type.equals("fail") || type.equals("classifying")){
             response.fail();
         }
