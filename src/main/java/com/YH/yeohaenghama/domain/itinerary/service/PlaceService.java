@@ -66,6 +66,7 @@ public class PlaceService {
             place.setPlaceNum(placeDTO.getPlaceNum());
             place.setMemo(placeDTO.getMemo());
             place.setItinerary(itinerary);
+            place.setImage(placeDTO.getImage());
             placeRepository.save(place);
         }
         log.info("새로운 장소 추가 성공");
@@ -93,7 +94,7 @@ public class PlaceService {
         place.setMapy(placeDTO.getMapy());
         place.setMemo(placeDTO.getMemo());
         place.setItinerary(itinerary);
-
+        place.setImage(place.getImage());
         placeRepository.save(place);
 
 

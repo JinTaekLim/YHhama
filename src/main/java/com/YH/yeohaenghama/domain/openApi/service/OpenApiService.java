@@ -78,6 +78,22 @@ public class OpenApiService {
         return response;
     }
 
+    public SearchAreaDTO.Response searchArea(String keyword) {
+        try {
+            String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8.name());
+            String apiUrl = String.format(
+                "https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=%s&numOfRows=%s&pageNo=%s&MobileOS=%s&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&keyword=%s&contentTypeId=%s",
+                serviceKey, 10, 0, "ETC", encodedKeyword, 12
+            );
+
+            String url = sendHttpRequest(apiUrl);
+
+            return SearchAreaDTO.Response.parsing(url);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
 
     public SearchDetailDTO.Response searchDetail(OpenApiDetailDTO req) throws Exception {
         if(req.getContentTypeId().equals("80")) { return addPlaceDetail(req.getContentId()); }

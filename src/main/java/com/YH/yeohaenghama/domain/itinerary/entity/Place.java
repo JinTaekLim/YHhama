@@ -24,6 +24,7 @@ public class Place {
     private String addr1;
     private double mapx;
     private double mapy;
+    private String image;
     private String memo = null;
 
     @ManyToOne(fetch = FetchType.LAZY)

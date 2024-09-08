@@ -25,6 +25,7 @@ public class PlaceJoinDTO {
     private double mapx;
     @Schema(description = "Y　좌표")
     private double mapy;
+    private String image;
     @Data
     public static class Request {
         private Integer day;
@@ -37,5 +38,6 @@ public class PlaceJoinDTO {
         private String memo;
         private double mapx;
         private double mapy;
+        private String image;
     }
 }
