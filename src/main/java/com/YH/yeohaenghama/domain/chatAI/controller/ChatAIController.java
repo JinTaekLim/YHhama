@@ -1,6 +1,7 @@
 package com.YH.yeohaenghama.domain.chatAI.controller;
 
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
+import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIQuestionDTO;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAnswerDTO;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatAnswer;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatType;
@@ -53,7 +54,7 @@ public class ChatAIController {
 
     @Operation(summary = "질문/답장/타입 전체 조회")
     @PostMapping("/readAll")
-    public Map<String, String> readAll(){
+    public List<ChatAIQuestionDTO> readAll(){
         return chatAIService.readAll();
     }
 

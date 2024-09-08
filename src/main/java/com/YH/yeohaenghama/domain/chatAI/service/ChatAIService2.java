@@ -238,8 +238,21 @@ public class ChatAIService2 {
     chatAIRepository.update(question, answerId);;
   }
 
-  public Map<String, String> readAll(){
-    return chatAIRepository.findAll();
+  public List<ChatAIQuestionDTO> readAll(){
+    List<ChatAIQuestionDTO> response = new ArrayList<>();
+
+    Map<String,String> list = chatAIRepository.findAll();
+
+    for (Map.Entry<String, String> entry : list.entrySet()) {
+
+      ChatAIQuestionDTO dto = new ChatAIQuestionDTO();
+      dto.setQuestion(entry.getKey());
+      ChatAnswer answer = chatAnswerRepository.findById(Long.valueOf(entry.getValue()))
+          .orElse(null);
+      dto.setAnswerId(answer.getAnswer());
+      response.add(dto);
+    }
+    return response;
   }
 
   public void delete(String question){
