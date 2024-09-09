@@ -46,7 +46,7 @@ public class ChatAIService2 {
   private final ChatAIInfo2 chatAIInfo2;
 
   Random random = new Random();
-  double similarity = 0.9;
+  double similarity = 0.6;
 
 
 /*
@@ -238,18 +238,30 @@ public class ChatAIService2 {
     chatAIRepository.update(question, answerId);;
   }
 
-  public List<ChatAIQuestionDTO> readAll(){
+  public List<ChatAIQuestionDTO> readAll() {
     List<ChatAIQuestionDTO> response = new ArrayList<>();
 
-    Map<String,String> list = chatAIRepository.findAll();
+    Map<String, String> list = chatAIRepository.findAll();
+
+    List<Long> answerIds = list.values().stream()
+        .map(Long::valueOf)
+        .collect(Collectors.toList());
+
+    List<ChatAnswer> answers = chatAnswerRepository.findAllById(answerIds);
+
+    Map<Long, ChatAnswer> answerMap = answers.stream()
+        .collect(Collectors.toMap(ChatAnswer::getId, answer -> answer));
 
     for (Map.Entry<String, String> entry : list.entrySet()) {
-
       ChatAIQuestionDTO dto = new ChatAIQuestionDTO();
       dto.setQuestion(entry.getKey());
-      ChatAnswer answer = chatAnswerRepository.findById(Long.valueOf(entry.getValue()))
-          .orElse(null);
-      dto.setAnswerId(answer.getAnswer());
+
+      Long answerId = Long.valueOf(entry.getValue());
+      ChatAnswer answer = answerMap.get(answerId);
+      if (answer != null) {
+        dto.setAnswerId(answer.getAnswer());
+      }
+
       response.add(dto);
     }
     return response;
