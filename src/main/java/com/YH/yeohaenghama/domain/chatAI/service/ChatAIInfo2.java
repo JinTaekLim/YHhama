@@ -36,6 +36,10 @@ import kr.co.shineware.nlp.komoran.model.KomoranResult;
 import kr.co.shineware.nlp.komoran.model.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -53,6 +57,12 @@ public class ChatAIInfo2 {
   private final PlaceRepository placeRepository;
   private final DiaryRepository diaryRepository;
   private final OpenApiService openApiService;
+  private final OpenAiChatModel chatModel;
+  private final ChatAnswerService chatAnswerService;
+  private final ChatTypeService chatTypeService;
+
+  private final String plus = "너는 대한민국 국내 여행지를 다른 사람들에게 보여주고 일정을 계획하거나 공유할 수 있는 [여행하마] 라는 서비스의 직원이야. "
+      + "다만 해당 서비스를 이용하는 사람들은 서론을 제외하고 본론만을 간략하게 이야기해주기를 좋아해. 이점을 기억하고 친구처럼 친근하게 하되 존댓말로 답장을 해줘. : ";
 
   private static final double SIMILARITY_THRESHOLD = 0.5;
 
@@ -98,8 +108,9 @@ public class ChatAIInfo2 {
 
   @Transactional
   public ChatAIDTO.Response fail(String question){
-    ChatType chatType = getFailType(failType);
-    ChatAnswer chatAnswer = getFailAnswer(chatType);
+    ChatType chatType = chatTypeService.getType("gpt");
+    String answer = chatGpt(question);
+    ChatAnswer chatAnswer = chatAnswerService.getAnswer(answer, chatType);
     saveQuestionAndAnswer(question,chatAnswer);
 
     return Response.builder()
@@ -114,24 +125,25 @@ public class ChatAIInfo2 {
     chatAIRepository.update(question, answerId);
   }
 
-  public ChatType getFailType(String fail){
+//  public ChatType getFailType(String fail){
+//
+//    return chatTypeRepository.findByType(fail).orElseGet(() -> {
+//      ChatType newChatType = new ChatType(fail);
+//      chatTypeRepository.save(newChatType);
+//      return newChatType;
+//    });
+//  }
 
-    return chatTypeRepository.findByType(fail).orElseGet(() -> {
-      ChatType newChatType = new ChatType(fail);
-      chatTypeRepository.save(newChatType);
-      return newChatType;
-    });
-  }
+//  public ChatAnswer getFailAnswer(ChatType chatType){
+//    return chatAnswerRepository.findByType(chatType).orElseGet(() -> {
+//      ChatAnswer newChatAnswer = new ChatAnswer();
+//      newChatAnswer.setAnswer(failAnswer);
+//      newChatAnswer.setType(chatType);
+//      chatAnswerRepository.save(newChatAnswer);
+//      return newChatAnswer;
+//    });
+//  }
 
-  public ChatAnswer getFailAnswer(ChatType chatType){
-    return chatAnswerRepository.findByType(chatType).orElseGet(() -> {
-      ChatAnswer newChatAnswer = new ChatAnswer();
-      newChatAnswer.setAnswer(failAnswer);
-      newChatAnswer.setType(chatType);
-      chatAnswerRepository.save(newChatAnswer);
-      return newChatAnswer;
-    });
-  }
 
   public String getKeyword(String question) {
 
@@ -310,5 +322,20 @@ public class ChatAIInfo2 {
     int randomId = random.nextInt(0,diaryList.size());
     return ChatAIShowDTO.DiaryResponse.of(diaryList.get(randomId));
 
+  }
+
+  public String chatGpt(String question) {
+    Prompt prompt = new Prompt(
+        plus + question,
+        OpenAiChatOptions.builder()
+            .withModel("gpt-3.5-turbo")
+            .withTemperature(0.4F)
+            .withMaxTokens(500)
+            .build()
+    );
+
+    ChatResponse response = chatModel.call(prompt);
+
+    return response.getResult().getOutput().getContent();
   }
 }

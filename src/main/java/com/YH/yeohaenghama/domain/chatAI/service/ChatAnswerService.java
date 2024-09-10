@@ -53,4 +53,14 @@ public class ChatAnswerService {
     return String.valueOf(chatAnswer.getId());
   }
 
+  public ChatAnswer getAnswer(String answer,ChatType chatType){
+    return chatAnswerRepository.findByType(chatType).orElseGet(() -> {
+      ChatAnswer newChatAnswer = new ChatAnswer();
+      newChatAnswer.setAnswer(answer);
+      newChatAnswer.setType(chatType);
+      chatAnswerRepository.save(newChatAnswer);
+      return newChatAnswer;
+    });
+  }
+
 }
