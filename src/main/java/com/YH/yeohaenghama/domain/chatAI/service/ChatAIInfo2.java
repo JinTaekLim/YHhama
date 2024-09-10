@@ -279,7 +279,8 @@ public class ChatAIInfo2 {
 
   public ChatAIShowDTO.AreaResponse randomArea(){
     int randomIndex = random.nextInt(0,AREA_LIST.size());
-    return new ChatAIShowDTO.AreaResponse(AREA_LIST.get(randomIndex));
+    String area = AREA_LIST.get(randomIndex);
+    return new ChatAIShowDTO.AreaResponse(area);
   }
 
   public ChatAIShowDTO.PlaceResponse randomPlace(){
