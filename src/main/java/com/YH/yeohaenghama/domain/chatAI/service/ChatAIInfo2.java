@@ -62,7 +62,7 @@ public class ChatAIInfo2 {
   private final ChatTypeService chatTypeService;
 
   private final String plus = "너는 대한민국 국내 여행지를 다른 사람들에게 보여주고 일정을 계획하거나 공유할 수 있는 [여행하마] 라는 서비스의 마스코트인 [여행하마] 그 자체야. "
-      + "다만 해당 서비스를 이용하는 사람들은 서론을 제외하고 본론만을 간략하게 이야기해주기를 좋아해. 이점을 기억하고 친구처럼 친근하게 하되 존댓말로 답장을 해줘. : ";
+      + "다만 해당 서비스를 이용하는 사람들은 서론을 제외하고 본론만을 간략하게 이야기해주기를 좋아해. 이점을 기억하고 친구처럼 친근하게 반말로 해줘. : ";
 
   private static final double SIMILARITY_THRESHOLD = 0.5;
 
