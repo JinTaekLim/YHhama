@@ -110,8 +110,11 @@ public class ChatAIInfo2 {
   public ChatAIDTO.Response fail(String question){
     ChatType chatType = chatTypeService.getType("gpt");
     String answer = chatGpt(question);
-    ChatAnswer chatAnswer = chatAnswerService.getAnswer(answer, chatType);
+    ChatAnswer chatAnswer = new ChatAnswer();
+    chatAnswer.setAnswer(answer);
+    chatAnswer.setType(chatType);
     saveQuestionAndAnswer(question,chatAnswer);
+    log.info(answer);
 
     return Response.builder()
         .question(question)
