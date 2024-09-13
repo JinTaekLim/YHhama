@@ -8,12 +8,20 @@ import com.YH.yeohaenghama.domain.chatAI.entity.ChatType;
 import com.YH.yeohaenghama.domain.chatAI.service.ChatAIService2;
 import com.YH.yeohaenghama.domain.chatAI.service.ChatAnswerService;
 import com.YH.yeohaenghama.domain.chatAI.service.ChatTypeService;
+import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
+import com.google.api.client.util.Value;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.api.OpenAiApi.ChatCompletionRequest;
+import org.springframework.data.redis.connection.Message;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,10 +42,8 @@ public class ChatAIController {
     private final ChatAnswerService chatAnswerService;
 //    private final ChatAIInfo chatAIInfo;
 
-
-
     @PostMapping("/ask")
-    public ChatAIDTO.Response askQuestion(String question) throws IOException {
+    public ChatAIDTO.Response askQuestion(String question){
         return chatAIService.ask(question);
     }
 
