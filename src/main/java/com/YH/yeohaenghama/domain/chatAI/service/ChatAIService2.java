@@ -56,23 +56,23 @@ public class ChatAIService2 {
 4. 해당 Type에 대한 답장을 전달한다.
  */
 
-  public ChatAIDTO.Response ask(String question){
+  public ChatAIDTO.Response ask(String question) {
+    List<ChatAIQuestionDTO> similarityQuestion = SimilarityAnalysis(question);
 
-    List<ChatAIQuestionDTO> similarityQuestion = SimilarityAnalysis(question); // 유사한 모든 질문 반환
-
-    if (similarityQuestion.isEmpty()) return chatAIInfo2.fail(question); // 유사한 질문이 없을때
-
-    ChatAnswer chatAnswer = getAnswer(similarityQuestion);  // 이후 하나의 답장 반환
-
-    return chatAIInfo2.success(question,chatAnswer,similarityQuestion);
+    if (similarityQuestion == null || similarityQuestion.isEmpty()) {
+      return chatAIInfo2.fail(question);
+    } else {
+      ChatAnswer chatAnswer = getAnswer(similarityQuestion);
+      return chatAIInfo2.success(question, chatAnswer, similarityQuestion);
+    }
   }
 
 
 
-  private List<ChatAIQuestionDTO> SimilarityAnalysis(String question){
-
-    Map<String,String> questionList = chatAIRepository.findAll();
-    Map<String,String> response = new HashMap<>();
+  private List<ChatAIQuestionDTO> SimilarityAnalysis(String question) {
+    Map<String, String> questionList = chatAIRepository.findAll();
+    if (questionList == null || questionList.isEmpty()) return new ArrayList<>();
+    Map<String, String> response = new HashMap<>();
 
     // 질문 유사도 판별
     questionList.forEach((comparative, value) -> {
@@ -81,15 +81,15 @@ public class ChatAIService2 {
       }
     });
 
-
     return ChatAIQuestionDTO.ofList(response);
   }
 
 
 
-  private ChatAnswer getAnswer(List<ChatAIQuestionDTO> questionList){
-
-    if(questionList.isEmpty()) throw new NoSuchElementException();
+  private ChatAnswer getAnswer(List<ChatAIQuestionDTO> questionList) {
+    if (questionList == null || questionList.isEmpty()) {
+      throw new NoSuchElementException("No questions found.");
+    }
 
     int randomIndex = random.nextInt(questionList.size());
 
@@ -98,6 +98,8 @@ public class ChatAIService2 {
     return chatAnswerRepository.findById(questionId)
         .orElseThrow(() -> new NoSuchElementException("No ChatAnswer found for ID: " + questionId));
   }
+
+
 
   private String getType(ChatAnswer question){
     return null;
@@ -244,6 +246,7 @@ public class ChatAIService2 {
     Map<String, String> list = chatAIRepository.findAll();
 
     List<Long> answerIds = list.values().stream()
+        .filter(value -> value != null && !value.equals("null"))
         .map(Long::valueOf)
         .collect(Collectors.toList());
 
