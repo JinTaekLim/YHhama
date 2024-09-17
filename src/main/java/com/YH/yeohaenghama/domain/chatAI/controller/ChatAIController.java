@@ -6,8 +6,6 @@ import com.YH.yeohaenghama.domain.chatAI.dto.ChatAnswerDTO;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatAnswer;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatType;
 import com.YH.yeohaenghama.domain.chatAI.service.ChatAIService2;
-import com.YH.yeohaenghama.domain.chatAI.service.ChatAnswerService;
-import com.YH.yeohaenghama.domain.chatAI.service.ChatTypeService;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.google.api.client.util.Value;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,8 +36,7 @@ import java.util.Map;
 public class ChatAIController {
 
     private final ChatAIService2 chatAIService;
-    private final ChatTypeService chatTypeService;
-    private final ChatAnswerService chatAnswerService;
+
 //    private final ChatAIInfo chatAIInfo;
 
     @PostMapping("/ask")
@@ -52,15 +49,13 @@ public class ChatAIController {
     @PostMapping("/insert")
     public void insert(@RequestBody ChatAIDTO.insertRequest req) {
         log.info("req = " + req);
-        ChatType type = chatTypeService.getType(req.getType());
-        String answerId = chatAnswerService.getAnswerId(req.getAnswer(), type);
 
-        chatAIService.insertQuestion(req.getQuestion(), answerId);
+        chatAIService.insertQuestion(req.getQuestion(), req.getAnswer(), req.getType());
     }
 
     @Operation(summary = "질문/답장/타입 전체 조회")
     @PostMapping("/readAll")
-    public List<ChatAIQuestionDTO> readAll(){
+    public Map<String, Map<String, String>> readAll(){
         return chatAIService.readAll();
     }
 

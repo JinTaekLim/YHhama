@@ -16,7 +16,7 @@ public class ChatAIRepository {
     private static final String KEY = "chatAI";
     private static final String SimilarityKey = "SimilarityKey";
 
-    private final HashOperations<String, String, String> hashOperations;
+    private final HashOperations<String, String, Map<String, String>> hashOperations;
     private final RedisTemplate<String, Object> redisTemplate;
 
 
@@ -27,16 +27,19 @@ public class ChatAIRepository {
         this.redisTemplate = redisTemplate;
     }
 
-    public void update(String question, String answer){
+    public void update(String question, String answer, String type){
 
-        hashOperations.put(KEY, question, answer);
+        Map<String, String> map = new HashMap<>();
+        map.put(answer, type);
+
+        hashOperations.put(KEY, question, map);
     }
 
 
-    public String findAnswer(String question) {
+    public Map<String, String> findAnswer(String question) {
         return hashOperations.get(KEY, question);
     }
-    public Map<String, String> findAll() {
+    public Map<String, Map<String, String>> findAll() {
         return hashOperations.entries(KEY);
     }
 

@@ -2,8 +2,7 @@ package com.YH.yeohaenghama.domain.test;
 
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatType;
 import com.YH.yeohaenghama.domain.chatAI.service.ChatAIService2;
-import com.YH.yeohaenghama.domain.chatAI.service.ChatAnswerService;
-import com.YH.yeohaenghama.domain.chatAI.service.ChatTypeService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,8 +32,8 @@ import java.util.Map;
 public class TestController {
 
   private final ChatAIService2 chatAIService2;
-  private final ChatAnswerService chatAnswerService;
-  private final ChatTypeService chatTypeService;
+//  private final ChatAnswerService chatAnswerService;
+//  private final ChatTypeService chatTypeService;
 
 
 
@@ -54,10 +53,8 @@ public class TestController {
         System.out.println("Type: " + type);
         System.out.println();
 
-        ChatType chatType = chatTypeService.getType(type);
-        String answerId = chatAnswerService.getAnswerId(answer, chatType);
 
-        chatAIService2.insertQuestion(question, answerId);
+        chatAIService2.insertQuestion(question, answer, type);
       }
     } catch (IOException e) {
       e.printStackTrace();
