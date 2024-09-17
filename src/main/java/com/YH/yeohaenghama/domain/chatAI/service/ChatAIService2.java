@@ -8,9 +8,9 @@ import com.YH.yeohaenghama.domain.chatAI.entity.ChatAI;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatAnswer;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatType;
 import com.YH.yeohaenghama.domain.chatAI.repository.ChatAIRepository;
-import com.YH.yeohaenghama.domain.chatAI.repository.ChatAnswerRepository;
-import com.YH.yeohaenghama.domain.chatAI.repository.ChatTypeRepository;
 import java.io.IOException;
+//import com.YH.yeohaenghama.domain.chatAI.repository.ChatAnswerRepository;
+//import com.YH.yeohaenghama.domain.chatAI.repository.ChatTypeRepository;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ import org.springframework.stereotype.Service;
 public class ChatAIService2 {
 
   private final ChatAIRepository chatAIRepository;
-  private final ChatAnswerRepository chatAnswerRepository;
+//  private final ChatAnswerRepository chatAnswerRepository;
   private final ChatAIInfo2 chatAIInfo2;
 
   Random random = new Random();
@@ -59,20 +59,21 @@ public class ChatAIService2 {
   public ChatAIDTO.Response ask(String question) {
     List<ChatAIQuestionDTO> similarityQuestion = SimilarityAnalysis(question);
 
-    if (similarityQuestion == null || similarityQuestion.isEmpty()) {
+    if (similarityQuestion.isEmpty()) {
       return chatAIInfo2.fail(question);
     } else {
-      ChatAnswer chatAnswer = getAnswer(similarityQuestion);
-      return chatAIInfo2.success(question, chatAnswer, similarityQuestion);
+//      ChatAnswer chatAnswer = getAnswer(similarityQuestion);
+      return chatAIInfo2.success(question, similarityQuestion);
     }
   }
 
 
 
   private List<ChatAIQuestionDTO> SimilarityAnalysis(String question) {
-    Map<String, String> questionList = chatAIRepository.findAll();
+    Map<String, Map<String, String>> questionList = chatAIRepository.findAll();
+
     if (questionList == null || questionList.isEmpty()) return new ArrayList<>();
-    Map<String, String> response = new HashMap<>();
+    Map<String, Map<String, String>> response = new HashMap<>();
 
     // 질문 유사도 판별
     questionList.forEach((comparative, value) -> {
@@ -86,19 +87,19 @@ public class ChatAIService2 {
 
 
 
-  private ChatAnswer getAnswer(List<ChatAIQuestionDTO> questionList) {
-    if (questionList == null || questionList.isEmpty()) {
-      throw new NoSuchElementException("No questions found.");
-    }
-
-    int randomIndex = random.nextInt(questionList.size());
-
-    ChatAIQuestionDTO question = questionList.get(randomIndex);
-    Long questionId = Long.valueOf(question.getAnswerId());
-    return chatAnswerRepository.findById(questionId)
-        .orElseThrow(() -> new NoSuchElementException("No ChatAnswer found for ID: " + questionId));
-  }
-
+//  private ChatAnswer getAnswer(List<ChatAIQuestionDTO> questionList) {
+//    if (questionList == null || questionList.isEmpty()) {
+//      throw new NoSuchElementException("No questions found.");
+//    }
+//
+//    int randomIndex = random.nextInt(questionList.size());
+//
+//    ChatAIQuestionDTO question = questionList.get(randomIndex);
+//    Long questionId = Long.valueOf(question.getAnswerId());
+//    return chatAnswerRepository.findById(questionId)
+//        .orElseThrow(() -> new NoSuchElementException("No ChatAnswer found for ID: " + questionId));
+//  }
+//
 
 
   private String getType(ChatAnswer question){
@@ -235,39 +236,13 @@ public class ChatAIService2 {
 
 
 
-  public void insertQuestion(String question, String answerId) {
+  public void insertQuestion(String question, String answer, String type) {
 
-    chatAIRepository.update(question, answerId);;
+    chatAIRepository.update(question, answer, type);
   }
 
-  public List<ChatAIQuestionDTO> readAll() {
-    List<ChatAIQuestionDTO> response = new ArrayList<>();
-
-    Map<String, String> list = chatAIRepository.findAll();
-
-    List<Long> answerIds = list.values().stream()
-        .filter(value -> value != null && !value.equals("null"))
-        .map(Long::valueOf)
-        .collect(Collectors.toList());
-
-    List<ChatAnswer> answers = chatAnswerRepository.findAllById(answerIds);
-
-    Map<Long, ChatAnswer> answerMap = answers.stream()
-        .collect(Collectors.toMap(ChatAnswer::getId, answer -> answer));
-
-    for (Map.Entry<String, String> entry : list.entrySet()) {
-      ChatAIQuestionDTO dto = new ChatAIQuestionDTO();
-      dto.setQuestion(entry.getKey());
-
-      Long answerId = Long.valueOf(entry.getValue());
-      ChatAnswer answer = answerMap.get(answerId);
-      if (answer != null) {
-        dto.setAnswerId(answer.getAnswer());
-      }
-
-      response.add(dto);
-    }
-    return response;
+  public Map<String, Map<String, String>> readAll() {
+    return chatAIRepository.findAll();
   }
 
   public void delete(String question){

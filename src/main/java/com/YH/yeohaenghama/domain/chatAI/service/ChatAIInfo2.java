@@ -10,8 +10,6 @@ import com.YH.yeohaenghama.domain.chatAI.dto.ChatAnswerDTO;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatAnswer;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatType;
 import com.YH.yeohaenghama.domain.chatAI.repository.ChatAIRepository;
-import com.YH.yeohaenghama.domain.chatAI.repository.ChatAnswerRepository;
-import com.YH.yeohaenghama.domain.chatAI.repository.ChatTypeRepository;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
 import com.YH.yeohaenghama.domain.itinerary.entity.Itinerary;
@@ -28,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -50,8 +49,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ChatAIInfo2 {
 
-  private final ChatTypeRepository chatTypeRepository;
-  private final ChatAnswerRepository chatAnswerRepository;
   private final ChatAIRepository chatAIRepository;
   private final ItineraryRepository itineraryRepository;
   private final ShortsRepository shortsRepository;
@@ -59,8 +56,6 @@ public class ChatAIInfo2 {
   private final DiaryRepository diaryRepository;
   private final OpenApiService openApiService;
   private final OpenAiChatModel chatModel;
-  private final ChatAnswerService chatAnswerService;
-  private final ChatTypeService chatTypeService;
 
   private final String plus = "너는 대한민국 국내 여행지를 다른 사람들에게 보여주고 일정을 계획하거나 공유할 수 있는 [여행하마] 라는 서비스의 마스코트인 [여행하마] 그 자체야. "
       + "다만 해당 서비스를 이용하는 사람들은 서론을 제외하고 본론만을 간략하게 이야기해주기를 좋아해. 이점을 기억하고 친구처럼 친근하게 반말로 해줘. : ";
@@ -93,19 +88,31 @@ public class ChatAIInfo2 {
 
 
   @Transactional
-  public ChatAIDTO.Response success(String question, ChatAnswer chatAnswer, List<ChatAIQuestionDTO> answerList) {
+  public ChatAIDTO.Response success(String question, List<ChatAIQuestionDTO> answerList) {
 
-    saveQuestionAndAnswer(question, chatAnswer);
+    ChatAIQuestionDTO chatAnswer = getAnswer(answerList);
 
     Response response = Response.builder()
         .question(question)
         .answer(chatAnswer.getAnswer())
-        .type(chatAnswer.getType().getType())
+        .type(chatAnswer.getType())
         .other(answerList)
         .build();
 
     return getResult(response);
   }
+
+
+  private ChatAIQuestionDTO getAnswer(List<ChatAIQuestionDTO> questionList) {
+    if (questionList == null || questionList.isEmpty()) {
+      throw new NoSuchElementException("No questions found.");
+    }
+
+    int randomIndex = random.nextInt(questionList.size());
+
+    return questionList.get(randomIndex);
+  }
+
 
   public ChatAIDTO.Response fail(String question){
 //    ChatType chatType = chatTypeService.getType("gpt");
@@ -115,6 +122,7 @@ public class ChatAIInfo2 {
 //    chatAnswer.setType(chatType);
 //    saveQuestionAndAnswer(question,chatAnswer);
     log.info(answer);
+    saveQuestionAndAnswer(question, answer, "gpt");
 
     return Response.builder()
         .question(question)
@@ -123,9 +131,8 @@ public class ChatAIInfo2 {
         .build();
   }
 
-  public void saveQuestionAndAnswer(String question, ChatAnswer chatAnswer){
-    String answerId = String.valueOf(chatAnswer.getId());
-    chatAIRepository.update(question, answerId);
+  public void saveQuestionAndAnswer(String question, String answer, String type){
+    chatAIRepository.update(question, answer, type);
   }
 
 //  public ChatType getFailType(String fail){
