@@ -277,7 +277,6 @@ public class ChatAIInfo2 {
 
     List<Itinerary> itineraryAreaList = new ArrayList<>();
     List<Itinerary> itineraryNameList = new ArrayList<>();
-
     return ChatAIShowDTO.ItineraryResponse.ofList(itineraryAreaList, itineraryNameList);
   }
 
@@ -335,7 +334,7 @@ public class ChatAIInfo2 {
         plus + question,
         OpenAiChatOptions.builder()
             .withModel("gpt-3.5-turbo")
-            .withTemperature(0.4F)
+//            .withTemperature(0.4F)
             .withMaxTokens(500)
             .build()
     );
