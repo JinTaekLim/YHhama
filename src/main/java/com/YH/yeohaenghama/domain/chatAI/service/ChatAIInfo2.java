@@ -331,7 +331,7 @@ public class ChatAIInfo2 {
         plus + question,
         OpenAiChatOptions.builder()
             .withModel("gpt-3.5-turbo")
-            .withTemperature(0.4F)
+            .withTemperature((float) 0.4)
             .withMaxTokens(500)
             .build()
     );
