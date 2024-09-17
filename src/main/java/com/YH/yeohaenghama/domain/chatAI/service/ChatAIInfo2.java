@@ -24,6 +24,7 @@ import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.shorts.entity.Shorts;
 import com.YH.yeohaenghama.domain.shorts.repository.ShortsRepository;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -271,8 +272,11 @@ public class ChatAIInfo2 {
   public List<ChatAIShowDTO.ItineraryResponse> searchItinerary(String keyword) {
     Pageable limit = PageRequest.of(0, 10);
 
-    List<Itinerary> itineraryAreaList = itineraryRepository.findByAreaLimit(keyword, limit);
-    List<Itinerary> itineraryNameList = itineraryRepository.findByNameLimit(keyword, limit);
+//    List<Itinerary> itineraryAreaList = itineraryRepository.findByAreaLimit(keyword, limit);
+//    List<Itinerary> itineraryNameList = itineraryRepository.findByNameLimit(keyword, limit);
+
+    List<Itinerary> itineraryAreaList = new ArrayList<>();
+    List<Itinerary> itineraryNameList = new ArrayList<>();
 
     return ChatAIShowDTO.ItineraryResponse.ofList(itineraryAreaList, itineraryNameList);
   }
