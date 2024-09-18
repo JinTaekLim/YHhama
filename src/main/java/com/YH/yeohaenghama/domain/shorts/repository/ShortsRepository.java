@@ -14,12 +14,14 @@ public interface ShortsRepository extends JpaRepository<Shorts,Long> {
     Page<Shorts> findAll(Pageable pageable);
     void deleteByItineraryId(Long itineraryId);
 
-    @Query("SELECT s FROM Shorts s WHERE s.title LIKE %:title%")
-    List<Shorts> findByTitle(@Param("title") String title, Pageable pageable);
+//    @Query("SELECT s FROM Shorts s WHERE s.title LIKE %:title%")
+//    List<Shorts> findByTitle(@Param("title") String title, Pageable pageable);
 
-    @Query("SELECT s FROM Shorts s WHERE s.content LIKE %:title%")
-    List<Shorts> findByContent(@Param("title") String title, Pageable pageable);
+//    @Query("SELECT s FROM Shorts s WHERE s.content LIKE %:title%")
+//    List<Shorts> findByContent(@Param("title") String title, Pageable pageable);
 
+    List<Shorts> findByContent(String title);
+    List<Shorts> findByTitle(String title);
 
     List<Shorts> findByItineraryId(Long itineraryId);
 }

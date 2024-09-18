@@ -18,8 +18,8 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     List<Place> findByItineraryIdAndPlaceNumAndPlaceType(Long itineraryId, String placeNum,String placeType);
 
     List<Place> findByPlaceNameContaining(String placeName);
-    @Query("SELECT p FROM Place p WHERE p.placeName LIKE %:placeName%")
-    List<Place> findByPlaceNameContainingLimit(@Param("placeName") String placeName, Pageable pageable);
+//    @Query("SELECT p FROM Place p WHERE p.placeName LIKE %:placeName%")
+//    List<Place> findByPlaceNameContainingLimit(@Param("placeName") String placeName, Pageable pageable);
 
     Page<Place> findByPlaceNameContaining(String placeName, Pageable pageable);
 }

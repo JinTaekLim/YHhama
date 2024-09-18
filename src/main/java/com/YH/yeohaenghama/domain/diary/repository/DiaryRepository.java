@@ -14,8 +14,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface DiaryRepository extends JpaRepository<Diary,Long> {
     Optional<Diary> findByItinerary(Long itineraryId);
 
-    @Query("SELECT d FROM Diary d WHERE d.title LIKE %:keyWord%")
-    List<Diary> findByTitleContainingLimit(@Param("keyWord") String keyWord, Pageable pageable);
+//    @Query("SELECT d FROM Diary d WHERE d.title LIKE %:keyWord%")
+//    List<Diary> findByTitleContainingLimit(@Param("keyWord") String keyWord, Pageable pageable);
 
     List<Diary> findByTitleContaining(String keyWord);
     Page<Diary> findByTitleContaining(String keyWord,Pageable pageable);
