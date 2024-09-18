@@ -1,8 +1,6 @@
 package com.YH.yeohaenghama.domain.chatAI.service;
 
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
-import com.YH.yeohaenghama.domain.chatAI.entity.ChatAnswer;
-import com.YH.yeohaenghama.domain.chatAI.entity.ChatType;
 import com.YH.yeohaenghama.domain.chatAI.repository.ChatAIRepository;
 import java.util.Arrays;
 import java.util.HashMap;
