@@ -4,11 +4,7 @@ import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO.Response;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIPopularArea;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIPopularPlace;
-import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIQuestionDTO;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIShowDTO;
-import com.YH.yeohaenghama.domain.chatAI.dto.ChatAnswerDTO;
-import com.YH.yeohaenghama.domain.chatAI.entity.ChatAnswer;
-import com.YH.yeohaenghama.domain.chatAI.entity.ChatType;
 import com.YH.yeohaenghama.domain.chatAI.repository.ChatAIRepository;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
 import com.YH.yeohaenghama.domain.diary.repository.DiaryRepository;
@@ -17,16 +13,14 @@ import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import com.YH.yeohaenghama.domain.itinerary.repository.ItineraryRepository;
 import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
 import com.YH.yeohaenghama.domain.openApi.dto.SearchAreaDTO;
-import com.YH.yeohaenghama.domain.openApi.dto.SearchAreaDTO.Reqeust;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.shorts.entity.Shorts;
 import com.YH.yeohaenghama.domain.shorts.repository.ShortsRepository;
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -40,8 +34,7 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -62,10 +55,8 @@ public class ChatAIInfo2 {
 
   private static final double SIMILARITY_THRESHOLD = 0.5;
 
-  private final String failType = "fail";
-  private final String failAnswer = "죄송합니다. 다시 한 번 말씀해주시겠어요?";
-
   Random random = new Random();
+  Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 
   private static final List<String> AREA_LIST = Arrays.asList(
       "서울특별시", "서울",
@@ -88,14 +79,14 @@ public class ChatAIInfo2 {
 
 
   @Transactional
-  public ChatAIDTO.Response success(String question, List<ChatAIQuestionDTO> answerList) {
+  public ChatAIDTO.Response success(String question, Map<String, Map<String, String>> answerList) {
 
-    ChatAIQuestionDTO chatAnswer = getAnswer(answerList);
+    Map.Entry<String, Map<String, String>> firstEntry = answerList.entrySet().iterator().next();
 
     Response response = Response.builder()
         .question(question)
-        .answer(chatAnswer.getAnswer())
-        .type(chatAnswer.getType())
+        .answer(firstEntry.getKey())
+        .type(firstEntry.getValue().toString())
         .other(answerList)
         .build();
 
@@ -103,24 +94,8 @@ public class ChatAIInfo2 {
   }
 
 
-  private ChatAIQuestionDTO getAnswer(List<ChatAIQuestionDTO> questionList) {
-    if (questionList == null || questionList.isEmpty()) {
-      throw new NoSuchElementException("No questions found.");
-    }
-
-    int randomIndex = random.nextInt(questionList.size());
-
-    return questionList.get(randomIndex);
-  }
-
-
   public ChatAIDTO.Response fail(String question){
-//    ChatType chatType = chatTypeService.getType("gpt");
     String answer = chatGpt(question);
-//    ChatAnswer chatAnswer = new ChatAnswer();
-//    chatAnswer.setAnswer(answer);
-//    chatAnswer.setType(chatType);
-//    saveQuestionAndAnswer(question,chatAnswer);
     log.info(answer);
     saveQuestionAndAnswer(question, answer, "gpt");
 
@@ -135,29 +110,10 @@ public class ChatAIInfo2 {
     chatAIRepository.update(question, answer, type);
   }
 
-//  public ChatType getFailType(String fail){
-//
-//    return chatTypeRepository.findByType(fail).orElseGet(() -> {
-//      ChatType newChatType = new ChatType(fail);
-//      chatTypeRepository.save(newChatType);
-//      return newChatType;
-//    });
-//  }
-
-//  public ChatAnswer getFailAnswer(ChatType chatType){
-//    return chatAnswerRepository.findByType(chatType).orElseGet(() -> {
-//      ChatAnswer newChatAnswer = new ChatAnswer();
-//      newChatAnswer.setAnswer(failAnswer);
-//      newChatAnswer.setType(chatType);
-//      chatAnswerRepository.save(newChatAnswer);
-//      return newChatAnswer;
-//    });
-//  }
 
 
   public String getKeyword(String question) {
 
-    Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
     KomoranResult analyzeResultList = komoran.analyze(question);
     List<Token> tokenList = analyzeResultList.getTokenList();
 
@@ -255,28 +211,18 @@ public class ChatAIInfo2 {
   }
 
   public SearchAreaDTO.Response searchKeyword(String keyword) {
-//    Pageable limit = PageRequest.of(0, 10);
-//
-//    List<Place> placeList = placeRepository.findByPlaceNameContainingLimit(keyword, limit);
-//    List<Itinerary> itineraryAreaList = itineraryRepository.findByAreaLimit(keyword, limit);
-//    List<Itinerary> itineraryNameList = itineraryRepository.findByNameLimit(keyword,limit);
-//    List<Diary> diaryList = diaryRepository.findByTitleContainingLimit(keyword, limit);
-//    List<Shorts> shortsContentList = shortsRepository.findByContent(keyword, limit);
-//    List<Shorts> shortsTitleLIst = shortsRepository.findByTitle(keyword, limit);
 
     return openApiService.searchArea(keyword);
   }
 
   public List<ChatAIShowDTO.ShortsResponse> searchShorts(String keyword){
     List<Shorts> shortsContentList = shortsRepository.findByContent(keyword);
-    List<Shorts> shortsTitleLIst = shortsRepository.findByTitle(keyword);
-    return ChatAIShowDTO.ShortsResponse.ofList(shortsContentList, shortsTitleLIst);
+    return ChatAIShowDTO.ShortsResponse.ofList(shortsContentList, null);
   }
 
   public List<ChatAIShowDTO.ItineraryResponse> searchItinerary(String keyword) {
     List<Itinerary> itineraryAreaList = itineraryRepository.findByArea(keyword);
-    List<Itinerary> itineraryNameList = itineraryRepository.findByName(keyword);
-    return ChatAIShowDTO.ItineraryResponse.ofList(itineraryAreaList, itineraryNameList);
+    return ChatAIShowDTO.ItineraryResponse.ofList(itineraryAreaList, null);
   }
 
   public List<ChatAIShowDTO.DiaryResponse> searchDiary(String keyword) {
@@ -285,9 +231,7 @@ public class ChatAIInfo2 {
   }
 
   public List<ChatAIShowDTO.PlaceResponse> searchPlace(String keyword) {
-    Pageable limit = PageRequest.of(0, 10);
     List<Place> placeList = placeRepository.findByPlaceNameContaining(keyword);
-
     return ChatAIShowDTO.PlaceResponse.ofList(placeList);
   }
 

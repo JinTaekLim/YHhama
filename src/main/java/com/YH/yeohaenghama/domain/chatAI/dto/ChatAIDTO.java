@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
 import java.util.Map;
 
 public class ChatAIDTO {
@@ -46,7 +45,7 @@ public class ChatAIDTO {
         private String answer;
         private String type;
         private Object result;
-        private List<ChatAIQuestionDTO> other;
+        private Map<String, Map<String, String>> other;
 
         public void fail(){
             this.answer = "다시 한 번 질문해주세요.";
