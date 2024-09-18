@@ -3,7 +3,6 @@ package com.YH.yeohaenghama.domain.chatAI.service;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDiary;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIItinerary;
-import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIItinerary.ItineraryShow;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIPopularArea;
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIPopularPlace;
 import com.YH.yeohaenghama.domain.diary.entity.Diary;
@@ -29,6 +28,8 @@ public class ChatAIInfo {
     private final DiaryRepository diaryRepository;
     private final ItineraryRepository itineraryRepository;
     private final PlaceRepository placeRepository;
+
+
 
     LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
     int maxDistance = 3;
@@ -205,5 +206,8 @@ public class ChatAIInfo {
 
         return response;
     }
+
+
+
 
 }

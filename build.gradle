@@ -83,7 +83,11 @@ dependencies {
 
 
 	implementation 'com.github.shin285:KOMORAN:3.3.9'
-//	implementation 'org.apache.commons:commons-csv:1.10.0'
+
+	// springAI
+	implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
+	implementation 'org.springframework.ai:spring-ai-openai'
+	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
 
 
 
