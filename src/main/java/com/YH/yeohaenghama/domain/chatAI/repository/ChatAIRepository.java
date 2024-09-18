@@ -26,70 +26,67 @@ public class ChatAIRepository {
         this.hashOperations = redisTemplate.opsForHash();
         this.redisTemplate = redisTemplate;
     }
+//
+//    public void save(String question, String answer, String type) {
+//        Map<String, String> mapValue = new HashMap<>();
+//        mapValue.put(answer, type);
+//        hashOperations.put(KEY, question,mapValue);
+//    }
 
-    public void update(String question, String answer, String type){
+    public void update(String question, String answer,String type){
+        Map<String, String> existingMap = hashOperations.get(KEY, question);
 
-        Map<String, String> map = new HashMap<>();
-        map.put(answer, type);
+        if (existingMap == null) {
+            existingMap = new HashMap<>();
+        }
+        existingMap.remove("fail");
 
-        hashOperations.put(KEY, question, map);
+        existingMap.put(answer, type);
+
+        hashOperations.put(KEY, question, existingMap);
     }
 
+
+    public void deleteAnswer(String question, String answer) {
+        Map<String, String> existingMap = hashOperations.get(KEY, question);
+
+        if (existingMap != null && existingMap.containsKey(answer)) {
+            existingMap.remove(answer);
+            if (existingMap.isEmpty()) {
+                hashOperations.delete(KEY, question);
+            } else {
+                hashOperations.put(KEY, question, existingMap);
+            }
+        }
+    }
+
+
+
+    public void saveSimilarity(String question1, String question2) {
+        String generatedKey = generateUniqueKey();
+        Map<String, String> mapValue = new HashMap<>();
+        mapValue.put(question1, question2);
+        hashOperations.put(SimilarityKey, generatedKey, mapValue);
+    }
 
     public Map<String, String> findAnswer(String question) {
         return hashOperations.get(KEY, question);
     }
+
     public Map<String, Map<String, String>> findAll() {
         return hashOperations.entries(KEY);
     }
 
-    public void deleteQuestion(String question) {
+    public Map<String,Map<String,String>> findSimilarytiyAll(){
+        return hashOperations.entries(SimilarityKey);
+    }
+
+    public void delete(String question) {
         hashOperations.delete(KEY, question);
     }
 
-
-
-//    public void deleteAnswer(String question, String answer) {
-//        Map<String, String> existingMap = hashOperations.get(KEY, question);
-//
-//        if (existingMap != null && existingMap.containsKey(answer)) {
-//            existingMap.remove(answer);
-//            if (existingMap.isEmpty()) {
-//                hashOperations.delete(KEY, question);
-//            } else {
-//                hashOperations.put(KEY, question, existingMap);
-//            }
-//        }
-//    }
-//
-//
-//
-//    public void saveSimilarity(String question1, String question2) {
-//        String generatedKey = generateUniqueKey();
-//        Map<String, String> mapValue = new HashMap<>();
-//        mapValue.put(question1, question2);
-//        hashOperations.put(SimilarityKey, generatedKey, mapValue);
-//    }
-//
-//    public Map<String, String> findAnswer(String question) {
-//        return hashOperations.get(KEY, question);
-//    }
-//
-//    public Map<String, Map<String, String>> findAll() {
-//        return hashOperations.entries(KEY);
-//    }
-//
-//    public Map<String,Map<String,String>> findSimilarytiyAll(){
-//        return hashOperations.entries(SimilarityKey);
-//    }
-//
-//    public void delete(String question) {
-//        hashOperations.delete(KEY, question);
-//    }
-//
-//
-//    private String generateUniqueKey() {
-//        Long uniqueKey = redisTemplate.opsForValue().increment(KEY + ":counter", 1);
-//        return String.valueOf(uniqueKey);
-//    }
+    private String generateUniqueKey() {
+        Long uniqueKey = redisTemplate.opsForValue().increment(KEY + ":counter", 1);
+        return String.valueOf(uniqueKey);
+    }
 }
