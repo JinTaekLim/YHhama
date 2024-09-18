@@ -268,35 +268,25 @@ public class ChatAIInfo2 {
   }
 
   public List<ChatAIShowDTO.ShortsResponse> searchShorts(String keyword){
-    Pageable limit = PageRequest.of(0, 10);
-
-    List<Shorts> shortsContentList = shortsRepository.findByContent(keyword, limit);
-    List<Shorts> shortsTitleLIst = shortsRepository.findByTitle(keyword, limit);
-
+    List<Shorts> shortsContentList = shortsRepository.findByContent(keyword);
+    List<Shorts> shortsTitleLIst = shortsRepository.findByTitle(keyword);
     return ChatAIShowDTO.ShortsResponse.ofList(shortsContentList, shortsTitleLIst);
   }
 
   public List<ChatAIShowDTO.ItineraryResponse> searchItinerary(String keyword) {
-    Pageable limit = PageRequest.of(0, 10);
-
-//    List<Itinerary> itineraryAreaList = itineraryRepository.findByAreaLimit(keyword, limit);
-//    List<Itinerary> itineraryNameList = itineraryRepository.findByNameLimit(keyword, limit);
-
-    List<Itinerary> itineraryAreaList = new ArrayList<>();
-    List<Itinerary> itineraryNameList = new ArrayList<>();
+    List<Itinerary> itineraryAreaList = itineraryRepository.findByArea(keyword);
+    List<Itinerary> itineraryNameList = itineraryRepository.findByName(keyword);
     return ChatAIShowDTO.ItineraryResponse.ofList(itineraryAreaList, itineraryNameList);
   }
 
   public List<ChatAIShowDTO.DiaryResponse> searchDiary(String keyword) {
-    Pageable limit = PageRequest.of(0, 10);
-    List<Diary> diaryList = diaryRepository.findByTitleContainingLimit(keyword, limit);
-
+    List<Diary> diaryList = diaryRepository.findByTitleContaining(keyword);
     return ChatAIShowDTO.DiaryResponse.ofList(diaryList);
   }
 
   public List<ChatAIShowDTO.PlaceResponse> searchPlace(String keyword) {
     Pageable limit = PageRequest.of(0, 10);
-    List<Place> placeList = placeRepository.findByPlaceNameContainingLimit(keyword, limit);
+    List<Place> placeList = placeRepository.findByPlaceNameContaining(keyword);
 
     return ChatAIShowDTO.PlaceResponse.ofList(placeList);
   }

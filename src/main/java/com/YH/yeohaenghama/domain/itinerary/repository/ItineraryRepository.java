@@ -21,11 +21,14 @@ public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
     List<Itinerary> findByAccountId(Long accountId);
 
 
-    @Query("SELECT i FROM Itinerary i WHERE i.area LIKE %:area%")
-    List<Itinerary> findByAreaLimit(@Param("area") String area, Pageable pageable);
+//    @Query("SELECT i FROM Itinerary i WHERE i.area LIKE %:area%")
+//    List<Itinerary> findByAreaLimit(@Param("area") String area, Pageable pageable);
 
-    @Query("SELECT i FROM Itinerary i WHERE i.name LIKE %:name%")
-    List<Itinerary> findByNameLimit(@Param("name") String name, Pageable pageable);
+    List<Itinerary> findByArea(String area);
+    List<Itinerary> findByName(String name);
+
+//    @Query("SELECT i FROM Itinerary i WHERE i.name LIKE %:name%")
+//    List<Itinerary> findByNameLimit(@Param("name") String name, Pageable pageable);
 
     Page<Itinerary> findByArea(String area,Pageable pageable);
 
