@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ChatAIDTO {
-    @Schema(name = "ChatAIDTO_Request") @Data
-    public static class Request{
-        private String question;
-    }
 
     @Schema(name = "ChatAIDTO_insertRequest") @Data
     public static class insertRequest{
@@ -23,19 +19,6 @@ public class ChatAIDTO {
             this.question = question;
             this.answer = answer;
             this.type = tye;
-        }
-    }
-
-    @Schema(name = "ChatAIDTO_updateRequest") @Data
-    public static class updateRequest{
-        private String question;
-        private String answer;
-        private String type;
-
-        public updateRequest(String question, String answer,String type){
-            this.question = question;
-            this.answer = answer;
-            this.type = type;
         }
     }
 

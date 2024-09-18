@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.chatAI.service;
 
 
 import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO;
+import com.YH.yeohaenghama.domain.chatAI.dto.ChatAIDTO.insertRequest;
 import com.YH.yeohaenghama.domain.chatAI.entity.ChatAI;
 import com.YH.yeohaenghama.domain.chatAI.repository.ChatAIRepository;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +60,9 @@ public class ChatAIService{
         if (bestMatch == null) {
             response = ChatAIDTO.Response.toResponse(question,
                     chatGpt(question),"gpt",sortedList);
+
+            ChatAIDTO.insertRequest request = new insertRequest(response.getQuestion(), response.getAnswer(), response.getType());
+            insertQuestion(request);
             return response;
         }
 
