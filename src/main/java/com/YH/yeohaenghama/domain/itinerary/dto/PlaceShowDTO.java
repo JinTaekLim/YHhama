@@ -3,6 +3,8 @@ package com.YH.yeohaenghama.domain.itinerary.dto;
 import com.YH.yeohaenghama.domain.diary.entity.Comment;
 import com.YH.yeohaenghama.domain.itinerary.entity.Place;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class PlaceShowDTO {
+    @Schema(description = "장소 번호")
+    private Long placeOrder;
     @Schema(description = "지정 날짜")
     private Integer day;
     @Schema(description = "장소 ID")
@@ -33,6 +37,16 @@ public class PlaceShowDTO {
     private double mapy;
     @Schema(description = "메모")
     private String memo;
+
+    public static List<PlaceShowDTO> listToDto(List<Place> places) {
+        List<PlaceShowDTO> response = new ArrayList<>();
+
+        for (Place place : places) {
+            response.add(fromEntity(place));
+        }
+
+        return response;
+    }
 
     public static PlaceShowDTO fromEntity(Place place) {
         PlaceShowDTO dto = new PlaceShowDTO();

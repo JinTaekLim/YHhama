@@ -32,16 +32,7 @@ public class PlaceService {
     @Transactional
     public void createPlaces(List<PlaceJoinDTO> placeDTOs, Long itineraryId) {
         Itinerary itinerary = itineraryRepository.findById(itineraryId)
-                .orElse(null);
-
-        if (itinerary == null) {
-            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
-        }
-
-
-        log.info("조회 성공");
-        log.info(placeDTOs.toString());
-
+            .orElseThrow(() -> new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId));
 
 
         List<Place> placesToDelete = placeRepository.findByItineraryId(itineraryId);
@@ -50,63 +41,60 @@ public class PlaceService {
             log.info("해당 id 값을 가진 일정에 속한 장소들이 모두 삭제되었습니다.");
         }
 
-        log.info(String.valueOf(placeDTOs));
-
 
         for (PlaceJoinDTO placeDTO : placeDTOs) {
-            Place place = new Place();
-            place.setDay(placeDTO.getDay());
-            place.setStartTime(placeDTO.getStartTime());
-            place.setEndTime(placeDTO.getEndTime());
-            place.setPlaceType(placeDTO.getPlaceType());
-            place.setPlaceName(placeDTO.getPlaceName());
-            place.setAddr1(placeDTO.getAddr1());
-            place.setMapx(placeDTO.getMapx());
-            place.setMapy(placeDTO.getMapy());
-            place.setPlaceNum(placeDTO.getPlaceNum());
-            place.setMemo(placeDTO.getMemo());
-            place.setItinerary(itinerary);
-            place.setImage(placeDTO.getImage());
+            Place place = dtoToEntity(placeDTO, itinerary);
             placeRepository.save(place);
         }
-        log.info("새로운 장소 추가 성공");
     }
 
 
     public List<PlaceShowDTO> createPlace(PlaceJoinDTO placeDTO, Long itineraryId) {
 
         Itinerary itinerary = itineraryRepository.findById(itineraryId)
-                .orElse(null);
+            .orElseThrow(
+                () -> new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId));
 
-        if (itinerary == null) {
-            throw new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId);
+
+        List<Place> itineraryPlaces = itinerary.getPlaces();
+
+
+        if (placeDTO.getPlaceOrder() > itineraryPlaces.size()) {
+            Place place = dtoToEntity(placeDTO, itinerary);
+            placeRepository.save(place);
+
+        } else {
+            List<Place> newItineraryPlaces = new ArrayList<>(itineraryPlaces);
+
+            if (!itineraryPlaces.isEmpty()) {
+                placeRepository.deleteAll(itineraryPlaces);
+            }
+
+            Place place = dtoToEntity(placeDTO, itinerary);
+
+            int index = Math.max(0, Math.min(placeDTO.getPlaceOrder(), newItineraryPlaces.size()));
+            newItineraryPlaces.add(index, place);
+
+            placeRepository.saveAll(newItineraryPlaces);
         }
 
-        Place place = new Place();
-        place.setDay(placeDTO.getDay());
-        place.setStartTime(placeDTO.getStartTime());
-        place.setEndTime(placeDTO.getEndTime());
-        place.setPlaceType(placeDTO.getPlaceType());
-        place.setPlaceName(placeDTO.getPlaceName());
-        place.setPlaceNum(placeDTO.getPlaceNum());
-        place.setAddr1(placeDTO.getAddr1());
-        place.setMapx(placeDTO.getMapx());
-        place.setMapy(placeDTO.getMapy());
-        place.setMemo(placeDTO.getMemo());
-        place.setItinerary(itinerary);
-        place.setImage(place.getImage());
-        placeRepository.save(place);
+        return PlaceShowDTO.listToDto(itinerary.getPlaces());
+    }
 
-
-        List<Place> places = placeRepository.findByItineraryId(itineraryId);
-        List<PlaceShowDTO> placeDTOs = new ArrayList<>();
-
-        for(Place p : places){
-            placeDTOs.add(PlaceShowDTO.fromEntity(p));
-        }
-
-        return placeDTOs;
-
+    public Place dtoToEntity (PlaceJoinDTO placeDTO, Itinerary itinerary) {
+        return Place.builder()
+            .day(placeDTO.getDay())
+            .startTime(placeDTO.getStartTime())
+            .endTime(placeDTO.getEndTime())
+            .placeType(placeDTO.getPlaceType())
+            .placeName(placeDTO.getPlaceName())
+            .addr1(placeDTO.getAddr1())
+            .mapx(placeDTO.getMapx())
+            .mapy(placeDTO.getMapy())
+            .placeNum(placeDTO.getPlaceNum())
+            .itinerary(itinerary)
+            .image(placeDTO.getImage())
+            .build();
 
     }
 
