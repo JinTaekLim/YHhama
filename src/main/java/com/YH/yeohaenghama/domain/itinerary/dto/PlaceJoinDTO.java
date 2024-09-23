@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class PlaceJoinDTO {
+    @Schema(description = "장소 번호")
+    private int placeOrder;
     @Schema(description = "지정 날짜")
     private Integer day;
     @Schema(description = "시작 시간")

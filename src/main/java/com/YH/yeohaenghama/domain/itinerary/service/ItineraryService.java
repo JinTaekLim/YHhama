@@ -144,18 +144,19 @@ public class ItineraryService {
         List<Place> placeList = new ArrayList<>();
 
         for(Place place : itinerary.getPlaces()){
-            Place newPlace = new Place();
-            newPlace.setItinerary(newItinerary);
-            newPlace.setDay(place.getDay());
-            newPlace.setStartTime(place.getStartTime());
-            newPlace.setEndTime(place.getEndTime());
-            newPlace.setPlaceType(place.getPlaceType());
-            newPlace.setPlaceNum(place.getPlaceNum());
-            newPlace.setPlaceName(place.getPlaceName());
-            newPlace.setAddr1(place.getAddr1());
-            newPlace.setMapx(place.getMapx());
-            newPlace.setMapy(place.getMapy());
-            newPlace.setMemo(place.getMemo());
+            Place newPlace = Place.builder()
+                .day(place.getDay())
+                .startTime(place.getStartTime())
+                .endTime(place.getEndTime())
+                .placeType(place.getPlaceType())
+                .placeName(place.getPlaceName())
+                .addr1(place.getAddr1())
+                .mapx(place.getMapx())
+                .mapy(place.getMapy())
+                .placeNum(place.getPlaceNum())
+                .itinerary(itinerary)
+                .image(place.getImage())
+                .build();
 
             placeRepository.save(newPlace);
             placeList.add(newPlace);
