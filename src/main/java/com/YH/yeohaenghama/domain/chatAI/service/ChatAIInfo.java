@@ -51,12 +51,12 @@ public class ChatAIInfo {
             response.setResult(popularArea());
         } else if ("popularPlace".equals(type)) {
             response.setResult(popularPlace());
-        } else if ("searchShorts".equals(type)) {
-            response.setResult(searchShorts(getKeyword(question)));
-        } else if ("searchItinerary".equals(type)) {
-            response.setResult(searchItinerary(getKeyword(question)));
-        } else if ("searchDiary".equals(type)) {
-            response.setResult(searchDiary(getKeyword(question)));
+//        } else if ("searchShorts".equals(type)) {
+//            response.setResult(searchShorts(getKeyword(question)));
+//        } else if ("searchItinerary".equals(type)) {
+//            response.setResult(searchItinerary(getKeyword(question)));
+//        } else if ("searchDiary".equals(type)) {
+//            response.setResult(searchDiary(getKeyword(question)));
         } else if ("searchPlace".equals(type)) {
             response.setResult(searchPlace(getKeyword(question)));
         } else if ("randomPlace".equals(type)) {
@@ -85,25 +85,25 @@ public class ChatAIInfo {
         return ChatAIPopularPlace.Response.recommend(placeList);
     }
 
-    public List<ChatAIShowDTO.ShortsResponse> searchShorts(String keyword){
-        List<Shorts> shortsContentList = shortsRepository.findByContent(keyword);
-        List<Shorts> shortsTitleLIst = shortsRepository.findByTitle(keyword);
-        if( shortsContentList.isEmpty() && shortsTitleLIst.isEmpty()) return null;
-        return ChatAIShowDTO.ShortsResponse.ofList(shortsContentList, shortsTitleLIst);
-    }
+//    public List<ChatAIShowDTO.ShortsResponse> searchShorts(String keyword){
+//        List<Shorts> shortsContentList = shortsRepository.findByContent(keyword);
+//        List<Shorts> shortsTitleLIst = shortsRepository.findByTitle(keyword);
+//        if( shortsContentList.isEmpty() && shortsTitleLIst.isEmpty()) return null;
+//        return ChatAIShowDTO.ShortsResponse.ofList(shortsContentList, shortsTitleLIst);
+//    }
+////
+//    public List<ChatAIShowDTO.ItineraryResponse> searchItinerary(String keyword) {
+////        List<Itinerary> itineraryAreaList = itineraryRepository.findByArea(keyword);
+//        List<Itinerary> itineraryNameList = itineraryRepository.findByName(keyword);
+//        if (itineraryNameList.isEmpty()) return null;
+//        return ChatAIShowDTO.ItineraryResponse.ofList(itineraryNameList);
+//    }
 //
-    public List<ChatAIShowDTO.ItineraryResponse> searchItinerary(String keyword) {
-//        List<Itinerary> itineraryAreaList = itineraryRepository.findByArea(keyword);
-        List<Itinerary> itineraryNameList = itineraryRepository.findByName(keyword);
-        if (itineraryNameList.isEmpty()) return null;
-        return ChatAIShowDTO.ItineraryResponse.ofList(itineraryNameList);
-    }
-
-    public List<ChatAIShowDTO.DiaryResponse> searchDiary(String keyword) {
-        List<Diary> diaryList = diaryRepository.findByTitleContaining(keyword);
-        if (diaryList.isEmpty()) return null;
-        return ChatAIShowDTO.DiaryResponse.ofList(diaryList);
-    }
+//    public List<ChatAIShowDTO.DiaryResponse> searchDiary(String keyword) {
+//        List<Diary> diaryList = diaryRepository.findByTitleContaining(keyword);
+//        if (diaryList.isEmpty()) return null;
+//        return ChatAIShowDTO.DiaryResponse.ofList(diaryList);
+//    }
 
     public List<ChatAIShowDTO.PlaceResponse> searchPlace(String keyword) {
         List<Place> placeList = placeRepository.findByPlaceNameContaining(keyword);
