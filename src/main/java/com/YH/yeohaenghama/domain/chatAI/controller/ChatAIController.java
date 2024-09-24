@@ -23,13 +23,13 @@ public class ChatAIController {
 
 
     @PostMapping("/ask")
-    public ChatAIDTO.Response askQuestion(String question) throws Exception {
+    public ChatAIDTO.Response askQuestion(String question) {
         return chatAIService.ask(question);
     }
 
 
     @PostMapping("/insert")
-    public String insert(ChatAIDTO.insertRequest req) throws Exception {
+    public String insert(ChatAIDTO.insertRequest req) {
         log.info("req = " + req);
         return chatAIService.insertQuestion(req);
     }
