@@ -64,8 +64,8 @@ public class ItineraryController {
     }
 
     @Operation(summary = "일정의 장소 개별 추가")
-    @PostMapping("/joinPlace/{itineraryId}")
-    public ApiResult<List<PlaceShowDTO>> createPlaces(@RequestBody PlaceJoinDTO placeDTO, @PathVariable Long itineraryId) {
+        @PostMapping("/joinPlace/{itineraryId}")
+    public ApiResult<List<PlaceShowDTO>> createPlaces(@ModelAttribute PlaceJoinDTO placeDTO, @PathVariable Long itineraryId) {
         try {
             if (placeDTO.getDay() == null ||
                     placeDTO.getStartTime() == null ||

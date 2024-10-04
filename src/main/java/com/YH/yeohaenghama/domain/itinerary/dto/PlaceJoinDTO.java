@@ -2,6 +2,7 @@ package com.YH.yeohaenghama.domain.itinerary.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class PlaceJoinDTO {
@@ -27,7 +28,7 @@ public class PlaceJoinDTO {
     private double mapx;
     @Schema(description = "Y　좌표")
     private double mapy;
-    private String image;
+    private MultipartFile image;
     @Data
     public static class Request {
         private Integer day;

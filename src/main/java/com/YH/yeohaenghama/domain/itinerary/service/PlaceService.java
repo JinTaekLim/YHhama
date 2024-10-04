@@ -1,6 +1,6 @@
 package com.YH.yeohaenghama.domain.itinerary.service;
 
-import com.YH.yeohaenghama.domain.account.entity.Account;
+import com.YH.yeohaenghama.domain.GCDImage.service.GCSService;
 import com.YH.yeohaenghama.domain.itinerary.dto.ItineraryDeletePlaceDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceCheckInItineraryDTO;
 import com.YH.yeohaenghama.domain.itinerary.dto.PlaceJoinDTO;
@@ -12,11 +12,9 @@ import com.YH.yeohaenghama.domain.itinerary.repository.PlaceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -27,6 +25,7 @@ public class PlaceService {
 
     private final PlaceRepository placeRepository;
     private final ItineraryRepository itineraryRepository;
+    private final GCSService gcsService;
 
 
     @Transactional
@@ -57,14 +56,13 @@ public class PlaceService {
 
 
         List<Place> itineraryPlaces = itinerary.getPlaces();
-
+        List<Place> newItineraryPlaces = new ArrayList<>(itineraryPlaces);
 
         if (placeDTO.getPlaceOrder() > itineraryPlaces.size()) {
             Place place = dtoToEntity(placeDTO, itinerary);
-            placeRepository.save(place);
+            newItineraryPlaces.add(placeRepository.save(place));
 
         } else {
-            List<Place> newItineraryPlaces = new ArrayList<>(itineraryPlaces);
 
             if (!itineraryPlaces.isEmpty()) {
                 placeRepository.deleteAll(itineraryPlaces);
@@ -75,13 +73,23 @@ public class PlaceService {
             int index = Math.max(0, Math.min(placeDTO.getPlaceOrder(), newItineraryPlaces.size()));
             newItineraryPlaces.add(index, place);
 
-            placeRepository.saveAll(newItineraryPlaces);
+            newItineraryPlaces = placeRepository.saveAll(newItineraryPlaces);
         }
 
-        return PlaceShowDTO.listToDto(itinerary.getPlaces());
+
+        return PlaceShowDTO.listToDto(newItineraryPlaces);
     }
 
     public Place dtoToEntity (PlaceJoinDTO placeDTO, Itinerary itinerary) {
+        String photoUrl = "";
+        try {
+            photoUrl = gcsService.uploadPhoto(
+                placeDTO.getImage(),
+                String.valueOf(UUID.randomUUID()),
+                "place/image/");
+        } catch (Exception ignored){
+        }
+
         return Place.builder()
             .day(placeDTO.getDay())
             .startTime(placeDTO.getStartTime())
@@ -93,7 +101,7 @@ public class PlaceService {
             .mapy(placeDTO.getMapy())
             .placeNum(placeDTO.getPlaceNum())
             .itinerary(itinerary)
-            .image(placeDTO.getImage())
+            .image(photoUrl)
             .build();
 
     }
