@@ -4,10 +4,16 @@ import com.YH.yeohaenghama.common.apiResult.ApiResult;
 import com.YH.yeohaenghama.domain.openApi.dto.*;
 import com.YH.yeohaenghama.domain.openApi.service.OpenApiService;
 import com.YH.yeohaenghama.domain.review.dto.ReviewDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -98,28 +104,38 @@ public class OpenApiController {
         }
     }
 
-    @Operation(summary = "관광지/음식점 사진 조회")
-    @PostMapping("/searchImage")
-    public String searchImage(@RequestBody OpenApiImageDTO req) {
-        StringBuffer result = new StringBuffer();
-        try {
-            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/detailImage1?" +
-                    "serviceKey=" + openApiService.getServiceKey() +
-                    "&MobileOS=" + req.getMobileOS() +
-                    "&MobileApp=AppTest" +
-                    "&_type=json" +
-                    "&contentId=" + req.getContentId() +
-                    "&imageYN=Y" +
-                    "&subImageYN=Y" +
-                    "&numOfRows=" + req.getNumOfRows() +
-                    "&pageNo=" + req.getPageNo();
+//    @Operation(summary = "관광지/음식점 사진 조회")
+//    @PostMapping("/searchImage")
+//    public String searchImage(@RequestBody OpenApiImageDTO req) {
+//        StringBuffer result = new StringBuffer();
+//        try {
+//            String apiUrl = "https://apis.data.go.kr/B551011/KorService1/detailImage1?" +
+//                    "serviceKey=" + openApiService.getServiceKey() +
+//                    "&MobileOS=" + req.getMobileOS() +
+//                    "&MobileApp=AppTest" +
+//                    "&_type=json" +
+//                    "&contentId=" + req.getContentId() +
+//                    "&imageYN=Y" +
+//                    "&subImageYN=Y" +
+//                    "&numOfRows=" + req.getNumOfRows() +
+//                    "&pageNo=" + req.getPageNo();
+//
+//            String response = openApiService.sendHttpRequest(apiUrl);
+//            result.append("<xmp>").append(response).append("</xmp>");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return result.toString();
+//    }
+//
 
-            String response = openApiService.sendHttpRequest(apiUrl);
-            result.append("<xmp>").append(response).append("</xmp>");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result.toString();
+    @PostMapping(value = "/searchImage", produces = "application/json;charset=UTF-8")
+    public String searchImage(@RequestBody OpenApiImageDTO req) {
+        // JSON 데이터 생성 (한 줄로 작성)
+        String json = "{\"response\":{\"header\":{\"resultCode\":\"0000\",\"resultMsg\":\"OK\"},\"body\":{\"items\":[{\"item\":{\"originalUrl\":\"sample_image_url.jpg\"}}],\"numOfRows\":1,\"pageNo\":1,\"totalCount\":1}}}";
+
+        // JSON 문자열을 <xmp>로 감싸 반환
+        return "<xmp>" + json + "</xmp>";
     }
 
 
