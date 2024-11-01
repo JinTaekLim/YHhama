@@ -54,33 +54,13 @@ public class PlaceService {
             .orElseThrow(
                 () -> new NoSuchElementException("해당 id 값을 가진 일정이 존재하지 않습니다. : " + itineraryId));
 
+        Place place = dtoToEntity(placeDTO, itinerary);
+        placeRepository.save(place);
 
-        List<Place> itineraryPlaces = itinerary.getPlaces();
-        List<Place> newItineraryPlaces = new ArrayList<>(itineraryPlaces);
-
-        if (placeDTO.getPlaceOrder() > itineraryPlaces.size()) {
-            Place place = dtoToEntity(placeDTO, itinerary);
-            newItineraryPlaces.add(placeRepository.save(place));
-
-        } else {
-
-            if (!itineraryPlaces.isEmpty()) {
-                placeRepository.deleteAll(itineraryPlaces);
-            }
-
-            Place place = dtoToEntity(placeDTO, itinerary);
-
-            int index = Math.max(0, Math.min(placeDTO.getPlaceOrder(), newItineraryPlaces.size()));
-            newItineraryPlaces.add(index, place);
-
-            newItineraryPlaces = placeRepository.saveAll(newItineraryPlaces);
-        }
-
-
-        return PlaceShowDTO.listToDto(newItineraryPlaces);
+        return PlaceShowDTO.listToDto(itinerary.getPlaces());
     }
 
-    public Place dtoToEntity (PlaceJoinDTO placeDTO, Itinerary itinerary) {
+        public Place dtoToEntity (PlaceJoinDTO placeDTO, Itinerary itinerary) {
         String photoUrl = "";
         try {
             photoUrl = gcsService.uploadPhoto(
