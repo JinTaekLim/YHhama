@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -23,9 +24,12 @@ import java.util.Optional;
 @Slf4j
 public class KakaoService {
 
+    @Value("${kakao.clientId}")
+    private String client_id;
+
     private final AccountRepository accountRepository;
 
-    public String getAccessTokenFromKakao(String client_id, String code) throws IOException {
+    public String getAccessTokenFromKakao(String code) throws IOException {
 
         String reqURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=" + client_id + "&code=" + code;
         URL url = new URL(reqURL);

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,17 +37,20 @@ public class OpenApiService {
     private final ReviewRepository reviewRepository;
 
     private final String GOOGLE_MAPS_API_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
+    private final String KAKAO_GEOCODE_URL = "https://dapi.kakao.com/v2/local/search/address.json";
 
-    private String serviceKey = "%2B1I%2BbTxxqsKlIjXBgNQX38e6gZOJnlCyPLnkFQUQFrpoCl9tEcII2L%2BvUeJuiaAFf3bN1wly8A6VzOw%2FGz9v7w%3D%3D";
-    private String serviceKeyG = "AIzaSyD8A9MmFwyaBmobDOumV8YYckzkxZnaTzk";
-
-    private String naverClient = "4pjC9KmLm4IbrASEY5oD";
-    private String naverSecret = "ld8a0fZx70";
-
-    String KAKAO_GEOCODE_URL = "https://dapi.kakao.com/v2/local/search/address.json";
-    String KAKAO_REST_API_KEY = "a9d1711e66ed62d5be76957294ab0a9f"; // Kakao REST API 키
-
-
+    @Value("${AreaKey}")
+    private String serviceKey;
+    @Value("${googleMapKey}")
+    private String serviceKeyG;
+    @Value("${naver.clientId}")
+    private String naverClient;
+    @Value("${naver.secret}")
+    private String naverSecret;
+    @Value("${naver.restKey}")
+    String KAKAO_REST_API_KEY;
+    @Value("${transportKey}")
+    String transportKey;
 
     public List<SearchKeywordDTO.Response> searchKeyword(SearchKeywordDTO.Request req){
         String url = String.format("%s?query=%s&language=ko&key=%s", GOOGLE_MAPS_API_URL, req.getKeyword(), serviceKeyG);
@@ -301,11 +305,9 @@ public class OpenApiService {
         return null;
     }
 
-
     public String getDirectionsTransport(OpenApiDirectionsDTO req) {
         StringBuffer result = new StringBuffer();
         try {
-            String apiKey = "0EchlDm2VRlFPt9ByoEyN9GrkK1MMR6khTBPBYPTM4E";
 
             String apiUrl = "https://api.odsay.com/v1/api/searchPubTransPathT?" +
                     "SX=" + req.getSx() +
@@ -313,7 +315,7 @@ public class OpenApiService {
                     "&EX=" + req.getEx() +
                     "&EY=" + req.getEy() +
                     "&SearchPathType=" + req.getSearchPathType() +
-                    "&apiKey=" + URLEncoder.encode(apiKey, "UTF-8");
+                    "&apiKey=" + URLEncoder.encode(transportKey, "UTF-8");
 
             String response = sendHttpRequest(apiUrl);
 
@@ -336,6 +338,8 @@ public class OpenApiService {
 
 
     public String sendHttpRequest(String apiUrl) throws Exception {
+        apiUrl += "&apiKey=" + URLEncoder.encode(transportKey, "UTF-8");
+
         URL url = new URL(apiUrl);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestMethod("GET");

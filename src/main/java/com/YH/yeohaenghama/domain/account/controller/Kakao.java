@@ -19,7 +19,6 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("api/kakao")
 public class Kakao {
-    private String client_id = "a9d1711e66ed62d5be76957294ab0a9f";
 
     @Autowired
     private KakaoService kakaoService;
@@ -28,7 +27,7 @@ public class Kakao {
     public ApiResult<AccountShowDTO.Response> callback(@RequestParam("code") String code){
         try {
             log.info("code == " + code);
-            String accessToken = kakaoService.getAccessTokenFromKakao(client_id, code);
+            String accessToken = kakaoService.getAccessTokenFromKakao(code);
             return ApiResult.success(kakaoService.getUserInfo(accessToken));
         }catch (Exception e){
             return ApiResult.fail(e.getMessage());
